@@ -15,6 +15,8 @@ CHANNEL_HANDLES = [
 BACKFILL_DAYS = 305
 
 HEADER = ["quero_postar", "obra", "canal", "data_postado", "viewers", "duracao", "link"]
+DATE_FMT = "%d/%m/%Y %H:%M"
+BRT = timezone(timedelta(hours=-3))
 
 
 def parse_duration(iso):
@@ -35,13 +37,78 @@ def chunk(lst, n):
         yield lst[i:i + n]
 
 
+def parse_legacy_date_to_brt(s):
+    if not s:
+        return None
+    try:
+        return datetime.strptime(s, "%d/%m/%Y %H:%M").replace(tzinfo=BRT)
+    except ValueError:
+        pass
+    try:
+        return datetime.strptime(s, "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc).astimezone(BRT)
+    except ValueError:
+        pass
+    return None
+
+
+def setup_formatting(spreadsheet, sheet):
+    sheet_id = sheet.id
+    md = spreadsheet.fetch_sheet_metadata()
+    has_filter = False
+    for s in md.get("sheets", []):
+        if s.get("properties", {}).get("sheetId") == sheet_id:
+            has_filter = "basicFilter" in s
+            break
+
+    requests = [
+        {
+            "updateSheetProperties": {
+                "properties": {"sheetId": sheet_id, "gridProperties": {"frozenRowCount": 1}},
+                "fields": "gridProperties.frozenRowCount",
+            }
+        },
+        {
+            "setDataValidation": {
+                "range": {"sheetId": sheet_id, "startRowIndex": 1, "startColumnIndex": 0, "endColumnIndex": 1},
+                "rule": {"condition": {"type": "BOOLEAN"}, "strict": True},
+            }
+        },
+        {
+            "repeatCell": {
+                "range": {"sheetId": sheet_id, "startRowIndex": 1, "startColumnIndex": 3, "endColumnIndex": 4},
+                "cell": {"userEnteredFormat": {"numberFormat": {"type": "DATE_TIME", "pattern": 'dd/mm/yyyy" - "HH:mm'}}},
+                "fields": "userEnteredFormat.numberFormat",
+            }
+        },
+        {
+            "repeatCell": {
+                "range": {"sheetId": sheet_id, "startRowIndex": 1, "startColumnIndex": 4, "endColumnIndex": 5},
+                "cell": {"userEnteredFormat": {"numberFormat": {"type": "NUMBER", "pattern": "#,##0"}}},
+                "fields": "userEnteredFormat.numberFormat",
+            }
+        },
+    ]
+    if not has_filter:
+        requests.append({
+            "setBasicFilter": {
+                "filter": {
+                    "range": {"sheetId": sheet_id, "startRowIndex": 0, "startColumnIndex": 0, "endColumnIndex": 7},
+                }
+            }
+        })
+    spreadsheet.batch_update({"requests": requests})
+
+
 def main():
     yt = build("youtube", "v3", developerKey=os.environ["YOUTUBE_API_KEY"])
     creds = Credentials.from_service_account_info(
         json.loads(os.environ["GOOGLE_CREDENTIALS_JSON"]),
         scopes=["https://www.googleapis.com/auth/spreadsheets"],
     )
-    sheet = gspread.authorize(creds).open_by_key(SHEET_ID).worksheet(SHEET_TAB)
+    spreadsheet = gspread.authorize(creds).open_by_key(SHEET_ID)
+    sheet = spreadsheet.worksheet(SHEET_TAB)
+
+    setup_formatting(spreadsheet, sheet)
 
     rows = sheet.get_all_values()
     if not rows or rows[0] != HEADER:
@@ -49,11 +116,19 @@ def main():
         rows = sheet.get_all_values()
 
     existing_by_id = {}
+    date_migrations = []
     for i, row in enumerate(rows[1:], start=2):
         if len(row) >= 7:
             vid = extract_video_id(row[6])
             if vid:
                 existing_by_id[vid] = i
+            if len(row) >= 4 and row[3] and "/" not in row[3]:
+                dt = parse_legacy_date_to_brt(row[3])
+                if dt:
+                    date_migrations.append({"range": f"D{i}", "values": [[dt.strftime(DATE_FMT)]]})
+
+    if date_migrations:
+        sheet.batch_update(date_migrations, value_input_option="USER_ENTERED")
 
     cutoff = datetime.now(timezone.utc) - timedelta(days=BACKFILL_DAYS)
     new_videos = []
@@ -105,7 +180,7 @@ def main():
         s = stats.get(v["id"], {"views": 0, "duration": ""})
         new_rows.append([
             False, "", v["channel"],
-            v["published"].strftime("%Y-%m-%d %H:%M"),
+            v["published"].astimezone(BRT).strftime(DATE_FMT),
             s["views"], s["duration"],
             f"https://youtu.be/{v['id']}",
         ])
@@ -119,7 +194,7 @@ def main():
     if updates:
         sheet.batch_update(updates)
 
-    print(f"added {len(new_rows)} new, updated {len(updates)} viewer counts")
+    print(f"added {len(new_rows)} new, updated {len(updates)} viewer counts, migrated {len(date_migrations)} legacy dates")
 
 
 if __name__ == "__main__":
