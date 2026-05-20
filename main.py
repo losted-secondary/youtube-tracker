@@ -53,13 +53,6 @@ def parse_legacy_date_to_brt(s):
 
 def setup_formatting(spreadsheet, sheet):
     sheet_id = sheet.id
-    md = spreadsheet.fetch_sheet_metadata()
-    has_filter = False
-    for s in md.get("sheets", []):
-        if s.get("properties", {}).get("sheetId") == sheet_id:
-            has_filter = "basicFilter" in s
-            break
-
     requests = [
         {
             "updateSheetProperties": {
@@ -70,7 +63,7 @@ def setup_formatting(spreadsheet, sheet):
         {
             "setDataValidation": {
                 "range": {"sheetId": sheet_id, "startRowIndex": 1, "startColumnIndex": 0, "endColumnIndex": 1},
-                "rule": {"condition": {"type": "BOOLEAN"}, "strict": True},
+                "rule": {"condition": {"type": "BOOLEAN"}, "strict": False},
             }
         },
         {
@@ -87,16 +80,27 @@ def setup_formatting(spreadsheet, sheet):
                 "fields": "userEnteredFormat.numberFormat",
             }
         },
-    ]
-    if not has_filter:
-        requests.append({
+        {"clearBasicFilter": {"sheetId": sheet_id}},
+        {
             "setBasicFilter": {
                 "filter": {
                     "range": {"sheetId": sheet_id, "startRowIndex": 0, "startColumnIndex": 0, "endColumnIndex": 7},
                 }
             }
-        })
+        },
+    ]
     spreadsheet.batch_update({"requests": requests})
+
+
+def migrate_column_a_booleans(sheet):
+    col_a = sheet.col_values(1)
+    updates = []
+    for i, val in enumerate(col_a[1:], start=2):
+        if isinstance(val, str) and val.strip().upper() in ("FALSE", "TRUE"):
+            updates.append({"range": f"A{i}", "values": [[val.strip().upper() == "TRUE"]]})
+    if updates:
+        sheet.batch_update(updates, value_input_option="USER_ENTERED")
+    return len(updates)
 
 
 def main():
@@ -109,6 +113,7 @@ def main():
     sheet = spreadsheet.worksheet(SHEET_TAB)
 
     setup_formatting(spreadsheet, sheet)
+    n_a_migrated = migrate_column_a_booleans(sheet)
 
     rows = sheet.get_all_values()
     if not rows or rows[0] != HEADER:
@@ -194,7 +199,7 @@ def main():
     if updates:
         sheet.batch_update(updates)
 
-    print(f"added {len(new_rows)} new, updated {len(updates)} viewer counts, migrated {len(date_migrations)} legacy dates")
+    print(f"added {len(new_rows)} new, updated {len(updates)} viewer counts, migrated {len(date_migrations)} legacy dates, {n_a_migrated} checkboxes")
 
 
 if __name__ == "__main__":
