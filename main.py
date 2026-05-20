@@ -53,6 +53,13 @@ def parse_legacy_date_to_brt(s):
 
 def setup_formatting(spreadsheet, sheet):
     sheet_id = sheet.id
+    md = spreadsheet.fetch_sheet_metadata()
+    has_filter = False
+    for s in md.get("sheets", []):
+        if s.get("properties", {}).get("sheetId") == sheet_id:
+            has_filter = "basicFilter" in s
+            break
+
     requests = [
         {
             "updateSheetProperties": {
@@ -80,15 +87,15 @@ def setup_formatting(spreadsheet, sheet):
                 "fields": "userEnteredFormat.numberFormat",
             }
         },
-        {"clearBasicFilter": {"sheetId": sheet_id}},
-        {
+    ]
+    if not has_filter:
+        requests.append({
             "setBasicFilter": {
                 "filter": {
                     "range": {"sheetId": sheet_id, "startRowIndex": 0, "startColumnIndex": 0, "endColumnIndex": 7},
                 }
             }
-        },
-    ]
+        })
     spreadsheet.batch_update({"requests": requests})
 
 
