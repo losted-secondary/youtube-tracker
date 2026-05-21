@@ -3,6 +3,7 @@ import json
 import re
 from datetime import datetime, timezone, timedelta
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -102,12 +103,20 @@ def setup_formatting(spreadsheet, sheet):
     spreadsheet.batch_update({"requests": requests})
 
 
-def migrate_column_a_booleans(sheet):
-    col_a = sheet.col_values(1)
+def migrate_column_a_booleans(spreadsheet, sheet):
+    last_row = sheet.row_count
+    data = spreadsheet.values_get(
+        f"'{sheet.title}'!A2:A{last_row}",
+        params={"valueRenderOption": "UNFORMATTED_VALUE"},
+    )
+    values = data.get("values", [])
     updates = []
-    for i, val in enumerate(col_a[1:], start=2):
-        if isinstance(val, str) and val.strip().upper() in ("FALSE", "TRUE"):
-            updates.append({"range": f"A{i}", "values": [[val.strip().upper() == "TRUE"]]})
+    for i, row in enumerate(values, start=2):
+        if not row:
+            continue
+        v = row[0]
+        if isinstance(v, str) and v.strip().upper() in ("FALSE", "TRUE"):
+            updates.append({"range": f"A{i}", "values": [[v.strip().upper() == "TRUE"]]})
     if updates:
         sheet.batch_update(updates, value_input_option="USER_ENTERED")
     return len(updates)
@@ -123,7 +132,7 @@ def main():
     sheet = spreadsheet.worksheet(SHEET_TAB)
 
     setup_formatting(spreadsheet, sheet)
-    n_a_migrated = migrate_column_a_booleans(sheet)
+    n_a_migrated = migrate_column_a_booleans(spreadsheet, sheet)
 
     rows = sheet.get_all_values()
     if not rows or rows[0] != HEADER:
@@ -160,10 +169,17 @@ def main():
         page_token = None
         stop = False
         while not stop:
-            r = yt.playlistItems().list(
-                part="contentDetails", playlistId=uploads,
-                maxResults=50, pageToken=page_token,
-            ).execute()
+            try:
+                r = yt.playlistItems().list(
+                    part="contentDetails", playlistId=uploads,
+                    maxResults=50, pageToken=page_token,
+                ).execute()
+            except HttpError as e:
+                if e.resp.status == 404:
+                    print(f"uploads playlist not accessible for @{handle} ({uploads}) — skipping")
+                else:
+                    print(f"error fetching @{handle}: {e}")
+                break
             for it in r["items"]:
                 pub_str = it["contentDetails"].get("videoPublishedAt")
                 if not pub_str:
