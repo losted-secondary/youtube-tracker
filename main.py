@@ -1,6 +1,7 @@
 import os
 import json
 import re
+import unicodedata
 from datetime import datetime, timezone, timedelta
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
@@ -41,8 +42,9 @@ def chunk(lst, n):
         yield lst[i:i + n]
 
 
+# prefixos mais especificos primeiro (alternancia do regex casa da esquerda p/ direita)
 OBRA_PATTERN = re.compile(
-    r"^\s*[^\w]*\s*(name|manhwa name|title|original title|manhwa)\s*[:\-]\s*(.+?)\s*$",
+    r"^\s*[^\w]*\s*(manhwa name|manhwa title|original name|original title|name|title|manhwa)\s*[:\-]\s*(.+?)\s*$",
     re.IGNORECASE | re.MULTILINE,
 )
 OBRA_BLACKLIST = re.compile(r"in the comments?|pinned|below|see below", re.IGNORECASE)
@@ -51,10 +53,16 @@ OBRA_BLACKLIST = re.compile(r"in the comments?|pinned|below|see below", re.IGNOR
 def extract_obra_from_text(text):
     if not text:
         return None
+    # NFKC: converte letras unicode "chique" (ex: 𝖳𝗂𝗍𝗅𝖾 -> Title) para ASCII
+    text = unicodedata.normalize("NFKC", text)
     m = OBRA_PATTERN.search(text)
     if not m:
         return None
     name = m.group(2).strip().rstrip(",")
+    # tira sufixo de capitulos colado no titulo: "1~265", "1-47 chaps", "___45_chaps"
+    name = re.sub(r"[\s_]*\d+\s*[-~]\s*\d+\s*(?:chap(?:ter)?s?\.?)?\s*$", "", name, flags=re.I)
+    name = re.sub(r"_+\d+_?chaps?\.?\s*$", "", name, flags=re.I)
+    name = name.strip(" _\t-")
     if not (2 < len(name) < 200):
         return None
     if name.lower().startswith(("http", "manhwa recap", "the manhwa")):
@@ -65,16 +73,25 @@ def extract_obra_from_text(text):
 
 
 def fetch_owner_comment(yt, video_id, channel_id):
-    try:
-        r = yt.commentThreads().list(
-            part="snippet", videoId=video_id, maxResults=5, order="relevance"
-        ).execute()
-    except HttpError:
-        return None
-    for item in r.get("items", []):
-        tc = item["snippet"]["topLevelComment"]["snippet"]
-        if tc.get("authorChannelId", {}).get("value") == channel_id:
-            return tc["textOriginal"]
+    # varre ate ~200 comentarios (2 paginas de 100); o comentario do dono com o
+    # nome da obra raramente esta no top-5, entao paginamos. maxResults nao custa
+    # cota extra (commentThreads = 1 unidade por chamada).
+    token = None
+    for _ in range(2):
+        try:
+            r = yt.commentThreads().list(
+                part="snippet", videoId=video_id, maxResults=100,
+                order="relevance", pageToken=token,
+            ).execute()
+        except HttpError:
+            return None
+        for item in r.get("items", []):
+            tc = item["snippet"]["topLevelComment"]["snippet"]
+            if tc.get("authorChannelId", {}).get("value") == channel_id:
+                return tc["textOriginal"]
+        token = r.get("nextPageToken")
+        if not token:
+            break
     return None
 
 
