@@ -57,13 +57,6 @@ def parse_legacy_date_to_brt(s):
 
 def setup_formatting(spreadsheet, sheet):
     sheet_id = sheet.id
-    md = spreadsheet.fetch_sheet_metadata()
-    has_filter = False
-    for s in md.get("sheets", []):
-        if s.get("properties", {}).get("sheetId") == sheet_id:
-            has_filter = "basicFilter" in s
-            break
-
     requests = [
         {
             "updateSheetProperties": {
@@ -92,14 +85,38 @@ def setup_formatting(spreadsheet, sheet):
             }
         },
     ]
-    if not has_filter:
-        requests.append({
-            "setBasicFilter": {
-                "filter": {
-                    "range": {"sheetId": sheet_id, "startRowIndex": 0, "startColumnIndex": 0, "endColumnIndex": 7},
-                }
-            }
-        })
+    spreadsheet.batch_update({"requests": requests})
+
+
+def ensure_filter_covers_data(spreadsheet, sheet, data_row_count):
+    md = spreadsheet.fetch_sheet_metadata()
+    bf = None
+    for s in md.get("sheets", []):
+        if s.get("properties", {}).get("sheetId") == sheet.id:
+            bf = s.get("basicFilter")
+            break
+
+    current_end = bf.get("range", {}).get("endRowIndex", 0) if bf else 0
+    if current_end >= data_row_count:
+        return
+
+    new_filter = {
+        "range": {
+            "sheetId": sheet.id,
+            "startRowIndex": 0,
+            "endRowIndex": data_row_count,
+            "startColumnIndex": 0,
+            "endColumnIndex": 7,
+        }
+    }
+    if bf:
+        for key in ("sortSpecs", "criteria", "filterSpecs"):
+            if bf.get(key):
+                new_filter[key] = bf[key]
+    requests = []
+    if bf:
+        requests.append({"clearBasicFilter": {"sheetId": sheet.id}})
+    requests.append({"setBasicFilter": {"filter": new_filter}})
     spreadsheet.batch_update({"requests": requests})
 
 
@@ -224,6 +241,9 @@ def main():
             updates.append({"range": f"E{row_num}", "values": [[stats[vid]["views"]]]})
     if updates:
         sheet.batch_update(updates)
+
+    total_data_rows = 1 + len(existing_by_id) + len(new_rows)
+    ensure_filter_covers_data(spreadsheet, sheet, total_data_rows)
 
     print(f"added {len(new_rows)} new, updated {len(updates)} viewer counts, migrated {len(date_migrations)} legacy dates, {n_a_migrated} checkboxes")
 
