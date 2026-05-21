@@ -11,6 +11,9 @@ SHEET_TAB = "todos"
 CHANNEL_HANDLES = [
     "FrierenManhwa1", "Manhwa_Fresh", "Manhwa_Teller1",
     "Magical_ManhwaRecaps", "MamoruManhwa", "TobsManhwa",
+    "ManhwaVoidd", "Gave-k8y", "kawaiikotoYT", "manhwaexplorer5310",
+    "John.Manhwa", "FuriosToon", "manhwadealer", "ManhwaRecapZone",
+    "MrManhwas01", "Dazai_manhwa", "MobManhwa",
 ]
 BACKFILL_DAYS = 305
 
