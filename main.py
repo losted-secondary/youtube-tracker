@@ -41,6 +41,51 @@ def chunk(lst, n):
         yield lst[i:i + n]
 
 
+OBRA_PATTERN = re.compile(
+    r"^\s*[^\w]*\s*(name|manhwa name|title|original title|manhwa)\s*[:\-]\s*(.+?)\s*$",
+    re.IGNORECASE | re.MULTILINE,
+)
+OBRA_BLACKLIST = re.compile(r"in the comments?|pinned|below|see below", re.IGNORECASE)
+
+
+def extract_obra_from_text(text):
+    if not text:
+        return None
+    m = OBRA_PATTERN.search(text)
+    if not m:
+        return None
+    name = m.group(2).strip().rstrip(",")
+    if not (2 < len(name) < 200):
+        return None
+    if name.lower().startswith(("http", "manhwa recap", "the manhwa")):
+        return None
+    if OBRA_BLACKLIST.search(name):
+        return None
+    return name
+
+
+def fetch_owner_comment(yt, video_id, channel_id):
+    try:
+        r = yt.commentThreads().list(
+            part="snippet", videoId=video_id, maxResults=5, order="relevance"
+        ).execute()
+    except HttpError:
+        return None
+    for item in r.get("items", []):
+        tc = item["snippet"]["topLevelComment"]["snippet"]
+        if tc.get("authorChannelId", {}).get("value") == channel_id:
+            return tc["textOriginal"]
+    return None
+
+
+def extract_obra(yt, video_id, channel_id, description):
+    obra = extract_obra_from_text(description)
+    if obra:
+        return obra
+    comment = fetch_owner_comment(yt, video_id, channel_id)
+    return extract_obra_from_text(comment)
+
+
 def parse_legacy_date_to_brt(s):
     if not s:
         return None
@@ -216,18 +261,21 @@ def main():
     all_ids = [v["id"] for v in new_videos] + list(existing_by_id.keys())
     stats = {}
     for batch in chunk(all_ids, 50):
-        r = yt.videos().list(part="statistics,contentDetails", id=",".join(batch)).execute()
+        r = yt.videos().list(part="snippet,statistics,contentDetails", id=",".join(batch)).execute()
         for it in r["items"]:
             stats[it["id"]] = {
                 "views": int(it["statistics"].get("viewCount", 0)),
                 "duration": parse_duration(it["contentDetails"]["duration"]),
+                "description": it["snippet"].get("description", ""),
+                "channelId": it["snippet"].get("channelId"),
             }
 
     new_rows = []
     for v in new_videos:
-        s = stats.get(v["id"], {"views": 0, "duration": ""})
+        s = stats.get(v["id"], {"views": 0, "duration": "", "description": "", "channelId": None})
+        obra = extract_obra(yt, v["id"], s.get("channelId"), s.get("description", "")) or ""
         new_rows.append([
-            False, "", v["channel"],
+            False, obra, v["channel"],
             v["published"].astimezone(BRT).strftime(DATE_FMT),
             s["views"], s["duration"],
             f"https://youtu.be/{v['id']}",
