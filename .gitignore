@@ -1,0 +1,11 @@
+# local-only scripts with hardcoded secrets (API key / creds path)
+inspect_sheet.py
+fix_sheet.py
+backfill_obras.py
+
+# local handoff doc
+CLAUDE.md
+
+# any credential files
+*.json
+!package.json

@@ -2,7 +2,10 @@ name: sync
 
 on:
   schedule:
-    - cron: "5 * * * *"
+    # 2 tentativas/hora em minutos quebrados (o GitHub dropa mais no :00).
+    # o sync ja atualiza os viewers de todos, entao nao ha job separado.
+    - cron: "17 * * * *"
+    - cron: "47 * * * *"
   workflow_dispatch:
 
 jobs:
