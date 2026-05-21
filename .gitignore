@@ -9,3 +9,7 @@ CLAUDE.md
 # any credential files
 *.json
 !package.json
+
+# python bytecode
+__pycache__/
+*.pyc
