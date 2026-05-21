@@ -133,6 +133,13 @@ def setup_formatting(spreadsheet, sheet):
             }
         },
         {
+            # autodefesa: checkbox so vale na coluna A. Remove qualquer validacao
+            # que apareca em B:G (ex: caixa colada por engano na coluna da obra).
+            "setDataValidation": {
+                "range": {"sheetId": sheet_id, "startRowIndex": 1, "startColumnIndex": 1, "endColumnIndex": 7},
+            }
+        },
+        {
             "repeatCell": {
                 "range": {"sheetId": sheet_id, "startRowIndex": 1, "startColumnIndex": 3, "endColumnIndex": 4},
                 "cell": {"userEnteredFormat": {"numberFormat": {"type": "DATE_TIME", "pattern": 'dd/mm/yyyy" - "HH:mm'}}},
