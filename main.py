@@ -189,6 +189,29 @@ def ensure_filter_covers_data(spreadsheet, sheet, data_row_count):
     spreadsheet.batch_update({"requests": requests})
 
 
+def sort_by_filter_order(spreadsheet, sheet, data_row_count):
+    """Reordena as linhas de dados pela MESMA ordenacao salva no filtro (data desc
+    por padrao). Sem isso, video novo entra via append no fim da planilha em vez de
+    subir pro topo. Linhas vazias vao pro fim naturalmente."""
+    md = spreadsheet.fetch_sheet_metadata()
+    specs = None
+    for s in md.get("sheets", []):
+        if s.get("properties", {}).get("sheetId") == sheet.id:
+            specs = (s.get("basicFilter") or {}).get("sortSpecs")
+            break
+    if not specs:
+        specs = [{"dimensionIndex": 3, "sortOrder": "DESCENDING"}]  # coluna D = data
+    spreadsheet.batch_update({"requests": [{
+        "sortRange": {
+            "range": {
+                "sheetId": sheet.id, "startRowIndex": 1, "endRowIndex": data_row_count,
+                "startColumnIndex": 0, "endColumnIndex": 7,
+            },
+            "sortSpecs": specs,
+        }
+    }]})
+
+
 def migrate_column_a_booleans(spreadsheet, sheet):
     last_row = sheet.row_count
     data = spreadsheet.values_get(
@@ -316,6 +339,8 @@ def main():
 
     total_data_rows = 1 + len(existing_by_id) + len(new_rows)
     ensure_filter_covers_data(spreadsheet, sheet, total_data_rows)
+    if new_rows:
+        sort_by_filter_order(spreadsheet, sheet, total_data_rows)
 
     print(f"added {len(new_rows)} new, updated {len(updates)} viewer counts, migrated {len(date_migrations)} legacy dates, {n_a_migrated} checkboxes")
 
