@@ -24,12 +24,15 @@ DATE_FMT = "%d/%m/%Y %H:%M"
 BRT = timezone(timedelta(hours=-3))
 
 
-def parse_duration(iso):
+def duration_fraction(iso):
+    # devolve a duracao como FRACAO DO DIA (numero), nao string. Gravar string tipo
+    # "11:40" fazia o Sheets ler como HH:MM (11h40) em vez de 11min40s; gravando o
+    # numero direto nao ha parse ambiguo. A coluna F tem formato hh:mm:ss fixado.
     m = re.match(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", iso or "")
     if not m:
         return ""
     h, mi, s = (int(x) if x else 0 for x in m.groups())
-    return f"{h}:{mi:02d}:{s:02d}" if h else f"{mi}:{s:02d}"
+    return (h * 3600 + mi * 60 + s) / 86400.0
 
 
 def extract_video_id(url):
@@ -150,6 +153,15 @@ def setup_formatting(spreadsheet, sheet):
             "repeatCell": {
                 "range": {"sheetId": sheet_id, "startRowIndex": 1, "startColumnIndex": 4, "endColumnIndex": 5},
                 "cell": {"userEnteredFormat": {"numberFormat": {"type": "NUMBER", "pattern": "#,##0"}}},
+                "fields": "userEnteredFormat.numberFormat",
+            }
+        },
+        {
+            # coluna F (duracao) = sempre hh:mm:ss. Sem isso o Sheets auto-formatava
+            # cada celula de um jeito (hh:mm escondia os segundos).
+            "repeatCell": {
+                "range": {"sheetId": sheet_id, "startRowIndex": 1, "startColumnIndex": 5, "endColumnIndex": 6},
+                "cell": {"userEnteredFormat": {"numberFormat": {"type": "TIME", "pattern": "hh:mm:ss"}}},
                 "fields": "userEnteredFormat.numberFormat",
             }
         },
@@ -312,7 +324,7 @@ def main():
         for it in r["items"]:
             stats[it["id"]] = {
                 "views": int(it["statistics"].get("viewCount", 0)),
-                "duration": parse_duration(it["contentDetails"]["duration"]),
+                "duration": duration_fraction(it["contentDetails"]["duration"]),
                 "description": it["snippet"].get("description", ""),
                 "channelId": it["snippet"].get("channelId"),
             }
