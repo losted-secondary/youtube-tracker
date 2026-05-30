@@ -202,17 +202,12 @@ def ensure_filter_covers_data(spreadsheet, sheet, data_row_count):
 
 
 def sort_by_filter_order(spreadsheet, sheet, data_row_count):
-    """Reordena as linhas de dados pela MESMA ordenacao salva no filtro (data desc
-    por padrao). Sem isso, video novo entra via append no fim da planilha em vez de
-    subir pro topo. Linhas vazias vao pro fim naturalmente."""
-    md = spreadsheet.fetch_sheet_metadata()
-    specs = None
-    for s in md.get("sheets", []):
-        if s.get("properties", {}).get("sheetId") == sheet.id:
-            specs = (s.get("basicFilter") or {}).get("sortSpecs")
-            break
-    if not specs:
-        specs = [{"dimensionIndex": 3, "sortOrder": "DESCENDING"}]  # coluna D = data
+    """Reordena as linhas de dados SEMPRE por data (coluna D) descendente, pra video
+    novo subir pro topo. NAO usar o sortSpecs salvo no filtro: se o usuario clica um
+    cabecalho na UI (ex: ordenar por duracao), esse spec fica salvo e o script passava
+    a reordenar TODA a planilha por aquele criterio a cada rodada, embaralhando tudo.
+    O sort da UI e so pra visualizar; a ordem fisica fica fixa por data."""
+    specs = [{"dimensionIndex": 3, "sortOrder": "DESCENDING"}]  # coluna D = data
     spreadsheet.batch_update({"requests": [{
         "sortRange": {
             "range": {
