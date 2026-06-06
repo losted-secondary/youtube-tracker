@@ -344,7 +344,10 @@ def main():
     if updates:
         sheet.batch_update(updates)
 
-    total_data_rows = 1 + len(existing_by_id) + len(new_rows)
+    # contar linhas FISICAS reais (cabecalho + todas as linhas preenchidas) + as novas.
+    # NAO usar len(existing_by_id): ele ignora linhas sem link e funde IDs duplicados,
+    # subcontando o total e deixando as ultimas linhas fora do filtro/sort.
+    total_data_rows = len(rows) + len(new_rows)
     ensure_filter_covers_data(spreadsheet, sheet, total_data_rows)
     if new_rows:
         sort_by_filter_order(spreadsheet, sheet, total_data_rows)
