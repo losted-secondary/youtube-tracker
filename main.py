@@ -16,6 +16,8 @@ CHANNEL_HANDLES = [
     "ManhwaVoidd", "Gave-k8y", "kawaiikotoYT", "manhwaexplorer5310",
     "John.Manhwa", "FuriosToon", "manhwadealer", "ManhwaRecapZone",
     "MrManhwas01", "Dazai_manhwa", "MobManhwa",
+    "Manhwachatter", "Villainscan", "Tyler_Manhwa", "AniRayManhwa",
+    "Manhwa_First", "ManhwaRecapsOfficial", "Manga_Explained", "ManhwaOutpost",
 ]
 BACKFILL_DAYS = 305
 
