@@ -8,6 +8,8 @@ from googleapiclient.errors import HttpError
 import gspread
 from google.oauth2.service_account import Credentials
 
+from comick import fill_names
+
 SHEET_ID = "1ordgWcnAmJpxAVD8qXy0dXjhgqu5Y_g2LkJFnzxA9f0"
 SHEET_TAB = "todos"
 CHANNEL_HANDLES = [
@@ -21,7 +23,11 @@ CHANNEL_HANDLES = [
 ]
 BACKFILL_DAYS = 305
 
-HEADER = ["quero_postar", "obra", "canal", "data_postado", "viewers", "duracao", "link"]
+HEADER = ["quero_postar", "obra", "canal", "data_postado", "viewers", "duracao", "link", "nomes_variantes"]
+NCOLS = len(HEADER)
+# teto de buscas no comick por rodada (cada uma ~0.5s). O backfill inicial foi feito
+# rodando `python comick.py` na mao; no dia a dia entram poucos videos por rodada.
+COMICK_MAX_LOOKUPS = 60
 DATE_FMT = "%d/%m/%Y %H:%M"
 BRT = timezone(timedelta(hours=-3))
 
@@ -139,9 +145,9 @@ def setup_formatting(spreadsheet, sheet):
         },
         {
             # autodefesa: checkbox so vale na coluna A. Remove qualquer validacao
-            # que apareca em B:G (ex: caixa colada por engano na coluna da obra).
+            # que apareca em B:H (ex: caixa colada por engano na coluna da obra).
             "setDataValidation": {
-                "range": {"sheetId": sheet_id, "startRowIndex": 1, "startColumnIndex": 1, "endColumnIndex": 7},
+                "range": {"sheetId": sheet_id, "startRowIndex": 1, "startColumnIndex": 1, "endColumnIndex": NCOLS},
             }
         },
         {
@@ -167,6 +173,14 @@ def setup_formatting(spreadsheet, sheet):
                 "fields": "userEnteredFormat.numberFormat",
             }
         },
+        {
+            # coluna H (nomes_variantes) e longa: CLIP pra nao esticar a altura da linha.
+            "repeatCell": {
+                "range": {"sheetId": sheet_id, "startRowIndex": 1, "startColumnIndex": 7, "endColumnIndex": 8},
+                "cell": {"userEnteredFormat": {"wrapStrategy": "CLIP"}},
+                "fields": "userEnteredFormat.wrapStrategy",
+            }
+        },
     ]
     spreadsheet.batch_update({"requests": requests})
 
@@ -180,16 +194,19 @@ def ensure_filter_covers_data(spreadsheet, sheet, data_row_count):
             break
 
     current_end = bf.get("range", {}).get("endRowIndex", 0) if bf else 0
-    if current_end >= data_row_count:
+    # tambem refaz o filtro se ele nao cobre todas as COLUNAS (ex: ficou em A:G depois
+    # que a coluna H entrou) — senao ele so seria corrigido quando entrasse linha nova.
+    current_cols = bf.get("range", {}).get("endColumnIndex", 0) if bf else 0
+    if current_end >= data_row_count and current_cols >= NCOLS:
         return
 
     new_filter = {
         "range": {
             "sheetId": sheet.id,
             "startRowIndex": 0,
-            "endRowIndex": data_row_count,
+            "endRowIndex": max(current_end, data_row_count),  # nunca encolher o range
             "startColumnIndex": 0,
-            "endColumnIndex": 7,
+            "endColumnIndex": NCOLS,
         }
     }
     if bf:
@@ -214,7 +231,7 @@ def sort_by_filter_order(spreadsheet, sheet, data_row_count):
         "sortRange": {
             "range": {
                 "sheetId": sheet.id, "startRowIndex": 1, "endRowIndex": data_row_count,
-                "startColumnIndex": 0, "endColumnIndex": 7,
+                "startColumnIndex": 0, "endColumnIndex": NCOLS,
             },
             "sortSpecs": specs,
         }
@@ -254,7 +271,7 @@ def main():
 
     rows = sheet.get_all_values()
     if not rows or rows[0] != HEADER:
-        sheet.update([HEADER], "A1:G1")
+        sheet.update([HEADER], "A1:H1")
         rows = sheet.get_all_values()
 
     existing_by_id = {}
@@ -335,6 +352,7 @@ def main():
             v["published"].astimezone(BRT).strftime(DATE_FMT),
             s["views"], s["duration"],
             f"https://youtu.be/{v['id']}",
+            "",  # nomes_variantes: preenchido logo abaixo pelo comick
         ])
     if new_rows:
         sheet.append_rows(new_rows, value_input_option="USER_ENTERED")
@@ -346,6 +364,13 @@ def main():
     if updates:
         sheet.batch_update(updates)
 
+    # nomes alternativos (comick): so mexe em linha com obra preenchida e coluna H vazia.
+    # As linhas novas ja entram nessa conta — append_rows coloca elas logo apos `rows`,
+    # entao a numeracao de rows + new_rows bate com a da planilha (mesma premissa do sort).
+    n_found, n_missing = fill_names(
+        sheet, rows + [[str(c) for c in r] for r in new_rows], max_lookups=COMICK_MAX_LOOKUPS
+    )
+
     # contar linhas FISICAS reais (cabecalho + todas as linhas preenchidas) + as novas.
     # NAO usar len(existing_by_id): ele ignora linhas sem link e funde IDs duplicados,
     # subcontando o total e deixando as ultimas linhas fora do filtro/sort.
@@ -354,7 +379,7 @@ def main():
     if new_rows:
         sort_by_filter_order(spreadsheet, sheet, total_data_rows)
 
-    print(f"added {len(new_rows)} new, updated {len(updates)} viewer counts, migrated {len(date_migrations)} legacy dates, {n_a_migrated} checkboxes")
+    print(f"added {len(new_rows)} new, updated {len(updates)} viewer counts, migrated {len(date_migrations)} legacy dates, {n_a_migrated} checkboxes, comick: {n_found} nomes / {n_missing} nao encontrados")
 
 
 if __name__ == "__main__":

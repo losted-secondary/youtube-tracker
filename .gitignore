@@ -10,6 +10,9 @@ CLAUDE.md
 *.json
 !package.json
 
+# logs de backfill local
+backfill_log.txt
+
 # python bytecode
 __pycache__/
 *.pyc
