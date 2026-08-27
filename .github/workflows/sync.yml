@@ -7,6 +7,8 @@ on:
     # completa de viewers; as outras 5 so mexem nos videos recentes (cota da YouTube).
     - cron: "3,13,23,33,43,53 * * * *"
   workflow_dispatch:
+  # commit tocando este arquivo re-arma o agendamento quando o GitHub
+  # para de disparar o cron (acontece depois de disable/enable, e em repo novo).
 
 jobs:
   sync:
