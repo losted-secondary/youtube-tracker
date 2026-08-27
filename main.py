@@ -9,6 +9,7 @@ import gspread
 from google.oauth2.service_account import Credentials
 
 from comick import fill_names
+import intro
 
 SHEET_ID = "1ordgWcnAmJpxAVD8qXy0dXjhgqu5Y_g2LkJFnzxA9f0"
 SHEET_TAB = "todos"
@@ -185,7 +186,7 @@ def setup_formatting(spreadsheet, sheet):
     spreadsheet.batch_update({"requests": requests})
 
 
-def ensure_filter_covers_data(spreadsheet, sheet, data_row_count):
+def ensure_filter_covers_data(spreadsheet, sheet, data_row_count, ncols=NCOLS):
     md = spreadsheet.fetch_sheet_metadata()
     bf = None
     for s in md.get("sheets", []):
@@ -197,7 +198,7 @@ def ensure_filter_covers_data(spreadsheet, sheet, data_row_count):
     # tambem refaz o filtro se ele nao cobre todas as COLUNAS (ex: ficou em A:G depois
     # que a coluna H entrou) — senao ele so seria corrigido quando entrasse linha nova.
     current_cols = bf.get("range", {}).get("endColumnIndex", 0) if bf else 0
-    if current_end >= data_row_count and current_cols >= NCOLS:
+    if current_end >= data_row_count and current_cols >= ncols:
         return
 
     new_filter = {
@@ -206,7 +207,7 @@ def ensure_filter_covers_data(spreadsheet, sheet, data_row_count):
             "startRowIndex": 0,
             "endRowIndex": max(current_end, data_row_count),  # nunca encolher o range
             "startColumnIndex": 0,
-            "endColumnIndex": NCOLS,
+            "endColumnIndex": ncols,
         }
     }
     if bf:
@@ -220,18 +221,18 @@ def ensure_filter_covers_data(spreadsheet, sheet, data_row_count):
     spreadsheet.batch_update({"requests": requests})
 
 
-def sort_by_filter_order(spreadsheet, sheet, data_row_count):
+def sort_by_filter_order(spreadsheet, sheet, data_row_count, ncols=NCOLS, date_col=3):
     """Reordena as linhas de dados SEMPRE por data (coluna D) descendente, pra video
     novo subir pro topo. NAO usar o sortSpecs salvo no filtro: se o usuario clica um
     cabecalho na UI (ex: ordenar por duracao), esse spec fica salvo e o script passava
     a reordenar TODA a planilha por aquele criterio a cada rodada, embaralhando tudo.
     O sort da UI e so pra visualizar; a ordem fisica fica fixa por data."""
-    specs = [{"dimensionIndex": 3, "sortOrder": "DESCENDING"}]  # coluna D = data
+    specs = [{"dimensionIndex": date_col, "sortOrder": "DESCENDING"}]
     spreadsheet.batch_update({"requests": [{
         "sortRange": {
             "range": {
                 "sheetId": sheet.id, "startRowIndex": 1, "endRowIndex": data_row_count,
-                "startColumnIndex": 0, "endColumnIndex": NCOLS,
+                "startColumnIndex": 0, "endColumnIndex": ncols,
             },
             "sortSpecs": specs,
         }
@@ -378,6 +379,10 @@ def main():
     ensure_filter_covers_data(spreadsheet, sheet, total_data_rows)
     if new_rows:
         sort_by_filter_order(spreadsheet, sheet, total_data_rows)
+
+    # aba `intro` (Manhwa Void + Tobs Manhwa). Por ultimo, pra ja pegar os videos novos
+    # e os nomes do comick desta rodada; ela rele as duas abas por conta propria.
+    intro.sync(spreadsheet)
 
     print(f"added {len(new_rows)} new, updated {len(updates)} viewer counts, migrated {len(date_migrations)} legacy dates, {n_a_migrated} checkboxes, comick: {n_found} nomes / {n_missing} nao encontrados")
 
