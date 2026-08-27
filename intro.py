@@ -1,31 +1,32 @@
 """Aba `intro`: subconjunto do `todos` com so os videos do Manhwa Void e do Tobs Manhwa,
-mais 4 checkboxes de controle (feito_por_mim / 150k / 500k / 1M).
+mais 5 checkboxes de controle (minha intro / Paguei? / 150k / 500k / 1M).
 
 Alimentada a cada sync pelo main.py. A coluna `obra` e ACORRENTADA nos dois sentidos:
 preencheu no principal, aparece aqui; preencheu aqui, aparece no principal.
 
-Como o sentido e decidido (coluna oculta L, `_obra_sync` = ultimo valor sincronizado):
+Como o sentido e decidido (coluna oculta M, `_obra_sync` = ultimo valor sincronizado):
   - um lado vazio, outro preenchido -> o preenchido ganha;
   - os dois preenchidos e diferentes -> ganha o lado que mudou desde o ultimo sync
     (se os dois mudaram, o `intro` ganha).
 As outras colunas (canal, data, viewers, duracao, link, nomes) sao espelho do principal:
-o `todos` manda, editar aqui nao adianta. Os 4 checkboxes existem so aqui e nunca sao
+o `todos` manda, editar aqui nao adianta. Os 5 checkboxes existem so aqui e nunca sao
 tocados depois que a linha entra.
 """
 import re
 
 INTRO_TAB = "intro"
 INTRO_HEADER = [
-    "feito_por_mim", "150k", "500k", "1M",
+    "minha intro", "Paguei?", "150k", "500k", "1M",
     "obra", "canal", "data_postado", "viewers", "duracao", "link", "nomes_variantes",
     "_obra_sync",   # coluna oculta: ultimo valor de obra sincronizado (resolve conflito)
 ]
-NINTRO = len(INTRO_HEADER)          # 12, contando a oculta
-NINTRO_VISIBLE = NINTRO - 1         # 11, o que o filtro do cabecalho cobre
-N_CHECKS = 4
+NINTRO = len(INTRO_HEADER)          # 13, contando a oculta
+NINTRO_VISIBLE = NINTRO - 1         # 12, o que o filtro do cabecalho cobre
+LAST_COL = "M"
+N_CHECKS = 5                        # A:E = os 5 checkboxes de controle
 
 # indices no `intro`
-I_OBRA, I_CANAL, I_DATA, I_VIEWS, I_DUR, I_LINK, I_NOMES, I_SHADOW = 4, 5, 6, 7, 8, 9, 10, 11
+I_OBRA, I_CANAL, I_DATA, I_VIEWS, I_DUR, I_LINK, I_NOMES, I_SHADOW = 5, 6, 7, 8, 9, 10, 11, 12
 # indices no `todos`
 T_OBRA, T_CANAL, T_DATA, T_VIEWS, T_DUR, T_LINK, T_NOMES = 1, 2, 3, 4, 5, 6, 7
 
@@ -82,7 +83,7 @@ def setup_formatting(spreadsheet, sheet):
             "properties": {"sheetId": sid, "gridProperties": {"frozenRowCount": 1}},
             "fields": "gridProperties.frozenRowCount",
         }},
-        # os 4 controles = checkbox
+        # os 5 controles = checkbox
         {"setDataValidation": {
             "range": {"sheetId": sid, "startRowIndex": 1, "startColumnIndex": 0, "endColumnIndex": N_CHECKS},
             "rule": {"condition": {"type": "BOOLEAN"}, "strict": False},
@@ -137,13 +138,13 @@ def sync(spreadsheet, verbose=True):
     # numero de linha, entao a janela entre ler e gravar tem que ser de segundos
     # (mesmo cuidado do comick.write_names).
     main_rows = _read(spreadsheet, m.SHEET_TAB, m.NCOLS, "H", content_from=T_OBRA)
-    intro_rows = _read(spreadsheet, INTRO_TAB, NINTRO, "L", content_from=N_CHECKS)
+    intro_rows = _read(spreadsheet, INTRO_TAB, NINTRO, LAST_COL, content_from=N_CHECKS)
 
     if not intro_rows:
         intro_rows = [list(INTRO_HEADER)]
-        sheet.update([INTRO_HEADER], "A1:L1")
+        sheet.update([INTRO_HEADER], "A1:{}1".format(LAST_COL))
     elif [str(c) for c in intro_rows[0]] != INTRO_HEADER:
-        sheet.update([INTRO_HEADER], "A1:L1")
+        sheet.update([INTRO_HEADER], "A1:{}1".format(LAST_COL))
         intro_rows[0] = list(INTRO_HEADER)
 
     intro_by_id = {}
@@ -200,7 +201,7 @@ def sync(spreadsheet, verbose=True):
         )
     # 2) intro: matriz inteira numa escrita so (nada de mexer linha a linha)
     if intro_rows[1:] != before[1:]:
-        sheet.update(intro_rows[1:], "A2:L{}".format(len(intro_rows)),
+        sheet.update(intro_rows[1:], "A2:{}{}".format(LAST_COL, len(intro_rows)),
                      value_input_option="USER_ENTERED")
     if new_rows:
         sheet.append_rows(new_rows, value_input_option="USER_ENTERED")
