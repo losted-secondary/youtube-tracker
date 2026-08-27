@@ -2,10 +2,10 @@ name: sync
 
 on:
   schedule:
-    # 2 tentativas/hora em minutos quebrados (o GitHub dropa mais no :00).
-    # o sync ja atualiza os viewers de todos, entao nao ha job separado.
-    - cron: "17 * * * *"
-    - cron: "47 * * * *"
+    # 6 tentativas/hora em minutos quebrados (o GitHub dropa mais no :00).
+    # A rodada do :03 e a unica com minuto < 10, entao e ela que faz a varredura
+    # completa de viewers; as outras 5 so mexem nos videos recentes (cota da YouTube).
+    - cron: "3,13,23,33,43,53 * * * *"
   workflow_dispatch:
 
 jobs:

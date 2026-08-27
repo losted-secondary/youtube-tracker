@@ -23,6 +23,44 @@ CHANNEL_HANDLES = [
     "Manhwa_First", "ManhwaRecapsOfficial", "Manga_Explained", "ManhwaOutpost",
 ]
 BACKFILL_DAYS = 305
+# Nas rodadas normais so atualiza os viewers dos videos dos ultimos RECENT_DAYS dias;
+# a varredura completa acontece 1x por hora (rodada do comeco da hora). Video velho
+# quase nao ganha view, e `videos.list` custa 1 unidade a cada 50 videos: com 2.500
+# videos na planilha, atualizar todo mundo a cada 10 min estouraria a cota diaria.
+RECENT_DAYS = 45
+FULL_SWEEP_BEFORE_MINUTE = 10
+
+# playlist de uploads de cada canal (`UU` + id do canal). E fixa pra sempre, entao nao
+# vale gastar 1 unidade de cota por canal por rodada chamando `channels.list` — o nome
+# do canal vem do proprio `playlistItems` (`videoOwnerChannelTitle`), sempre atualizado.
+# Handle que nao estiver aqui cai no `channels.list` normal (canal novo na lista).
+UPLOADS_PLAYLISTS = {
+    "FrierenManhwa1": "UUEQWc3zNnGKmVyViM7jPdYQ",
+    "Manhwa_Fresh": "UUz3IjVYoX-tmmPPTedhXQEQ",
+    "Manhwa_Teller1": "UURepIiX_QAUnxr2XL1EDYUQ",
+    "Magical_ManhwaRecaps": "UUXirHhcCTfZediXFsjTrMuw",
+    "MamoruManhwa": "UUjtG_KmctknonQtG5M_RUDg",
+    "TobsManhwa": "UU6RUVkRxvDGAswPx4fIBh-g",
+    "ManhwaVoidd": "UUP0U_knol46nPB8itOhGLfA",
+    "Gave-k8y": "UUQn6wzk1TibcW1kZHpmkK9w",
+    "kawaiikotoYT": "UU66gPCteiijwe4dhjZ4kI3g",
+    "manhwaexplorer5310": "UUHqVd77nLslVkVx7WSI6-dg",
+    "John.Manhwa": "UU6Fj81aY7z0X8GUF_agdVNw",
+    "FuriosToon": "UU_Fs1Df-cMqF4J20OF6B6Yw",
+    "manhwadealer": "UUJpBKflQM-kk4OJ19s3comA",
+    "ManhwaRecapZone": "UUB62Dqx3sFCg9wdh8b5fpJA",
+    "MrManhwas01": "UUxTN-InpXxUuKFYyTuso_1A",
+    "Dazai_manhwa": "UUqVmdoA7CKELyMX3Tav4Odw",
+    "MobManhwa": "UUe-Gaq4OcJD_iJN4XEpLliA",
+    "Manhwachatter": "UUmIT58FeYE7qni9ahy2oSuQ",
+    "Villainscan": "UUyWojyDxf7bJ_5jpCd0bAOw",
+    "Tyler_Manhwa": "UUj3KZkYeIw-x7hi9IK9R4fw",
+    "AniRayManhwa": "UU5fPmMjjCEMoW5_D738cFMQ",
+    "Manhwa_First": "UUTiIqLIqI9EKaR8riKZ6-8g",
+    "ManhwaRecapsOfficial": "UUdfDbwFJf0wc0aVp_xpIf7w",
+    "Manga_Explained": "UUc3xCO79t87Y2D5MevDAL_Q",
+    "ManhwaOutpost": "UUsRXoBg1Na4Hw75tDZowQmg",
+}
 
 HEADER = ["quero_postar", "obra", "canal", "data_postado", "viewers", "duracao", "link", "nomes_variantes"]
 NCOLS = len(HEADER)
@@ -126,6 +164,19 @@ def parse_legacy_date_to_brt(s):
         return datetime.strptime(s, "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc).astimezone(BRT)
     except ValueError:
         pass
+    return None
+
+
+def parse_sheet_date(s):
+    """Le a data do jeito que o get_all_values devolve: 'dd/mm/yyyy - HH:mm' (o ' - '
+    vem do formato da coluna D, nao do que o script grava). Usada so pra decidir se o
+    video e recente o bastante pra atualizar os viewers nesta rodada."""
+    s = (s or "").replace(" - ", " ").strip()
+    for fmt in ("%d/%m/%Y %H:%M", "%Y-%m-%d %H:%M"):
+        try:
+            return datetime.strptime(s, fmt).replace(tzinfo=BRT)
+        except ValueError:
+            pass
     return None
 
 
@@ -275,13 +326,22 @@ def main():
         sheet.update([HEADER], "A1:H1")
         rows = sheet.get_all_values()
 
+    now_utc = datetime.now(timezone.utc)
+    full_sweep = now_utc.minute < FULL_SWEEP_BEFORE_MINUTE
+    recent_cutoff = now_utc - timedelta(days=RECENT_DAYS)
+
     existing_by_id = {}
+    recent_ids = []
     date_migrations = []
     for i, row in enumerate(rows[1:], start=2):
         if len(row) >= 7:
             vid = extract_video_id(row[6])
             if vid:
                 existing_by_id[vid] = i
+                dt = parse_sheet_date(row[3]) if len(row) >= 4 else None
+                # data ilegivel -> trata como recente (uma linha a mais nao pesa)
+                if dt is None or dt >= recent_cutoff:
+                    recent_ids.append(vid)
             if len(row) >= 4 and row[3] and "/" not in row[3]:
                 dt = parse_legacy_date_to_brt(row[3])
                 if dt:
@@ -294,20 +354,23 @@ def main():
     new_videos = []
 
     for handle in CHANNEL_HANDLES:
-        resp = yt.channels().list(part="contentDetails,snippet", forHandle=handle).execute()
-        if not resp.get("items"):
-            print(f"channel not found: @{handle}")
-            continue
-        ch = resp["items"][0]
-        uploads = ch["contentDetails"]["relatedPlaylists"]["uploads"]
-        title = ch["snippet"]["title"]
+        uploads = UPLOADS_PLAYLISTS.get(handle)
+        if not uploads:
+            # canal recem-adicionado a lista: descobre a playlist uma vez (1 unidade) e
+            # avisa pra colar em UPLOADS_PLAYLISTS.
+            resp = yt.channels().list(part="contentDetails", forHandle=handle).execute()
+            if not resp.get("items"):
+                print(f"channel not found: @{handle}")
+                continue
+            uploads = resp["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
+            print(f'novo canal: adicione "{handle}": "{uploads}" em UPLOADS_PLAYLISTS')
 
         page_token = None
         stop = False
         while not stop:
             try:
                 r = yt.playlistItems().list(
-                    part="contentDetails", playlistId=uploads,
+                    part="snippet,contentDetails", playlistId=uploads,
                     maxResults=50, pageToken=page_token,
                 ).execute()
             except HttpError as e:
@@ -316,7 +379,9 @@ def main():
                 else:
                     print(f"error fetching @{handle}: {e}")
                 break
-            for it in r["items"]:
+            items = r["items"]
+            n_new = 0
+            for it in items:
                 pub_str = it["contentDetails"].get("videoPublishedAt")
                 if not pub_str:
                     continue
@@ -327,12 +392,20 @@ def main():
                 vid = it["contentDetails"]["videoId"]
                 if vid in existing_by_id:
                     continue
+                title = it["snippet"].get("videoOwnerChannelTitle") or it["snippet"].get("channelTitle", "")
                 new_videos.append({"id": vid, "channel": title, "published": pub})
+                n_new += 1
+            # so vai pra proxima pagina se a pagina INTEIRA era novidade — ai a planilha
+            # esta atrasada de verdade (backfill). Na rodada normal a 1a pagina ja tem
+            # video conhecido, entao para em 1 unidade de cota por canal.
+            if stop or n_new < len(items):
+                break
             page_token = r.get("nextPageToken")
             if not page_token:
                 break
 
-    all_ids = [v["id"] for v in new_videos] + list(existing_by_id.keys())
+    refresh_ids = list(existing_by_id.keys()) if full_sweep else recent_ids
+    all_ids = [v["id"] for v in new_videos] + refresh_ids
     stats = {}
     for batch in chunk(all_ids, 50):
         r = yt.videos().list(part="snippet,statistics,contentDetails", id=",".join(batch)).execute()
@@ -384,7 +457,8 @@ def main():
     # e os nomes do comick desta rodada; ela rele as duas abas por conta propria.
     intro.sync(spreadsheet)
 
-    print(f"added {len(new_rows)} new, updated {len(updates)} viewer counts, migrated {len(date_migrations)} legacy dates, {n_a_migrated} checkboxes, comick: {n_found} nomes / {n_missing} nao encontrados")
+    modo = "completa" if full_sweep else f"recentes({RECENT_DAYS}d)"
+    print(f"[{modo}] added {len(new_rows)} new, updated {len(updates)} viewer counts, migrated {len(date_migrations)} legacy dates, {n_a_migrated} checkboxes, comick: {n_found} nomes / {n_missing} nao encontrados")
 
 
 if __name__ == "__main__":
