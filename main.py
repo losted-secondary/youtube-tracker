@@ -28,7 +28,7 @@ BACKFILL_DAYS = 305
 # quase nao ganha view, e `videos.list` custa 1 unidade a cada 50 videos: com 2.500
 # videos na planilha, atualizar todo mundo a cada 10 min estouraria a cota diaria.
 RECENT_DAYS = 45
-FULL_SWEEP_BEFORE_MINUTE = 10
+FULL_SWEEP_BEFORE_MINUTE = 20   # com cron :17 e :47, so a do :17 faz varredura completa
 
 # playlist de uploads de cada canal (`UU` + id do canal). E fixa pra sempre, entao nao
 # vale gastar 1 unidade de cota por canal por rodada chamando `channels.list` — o nome

@@ -2,10 +2,11 @@ name: sync
 
 on:
   schedule:
-    # 6 tentativas/hora em minutos quebrados (o GitHub dropa mais no :00).
-    # A rodada do :03 e a unica com minuto < 10, entao e ela que faz a varredura
-    # completa de viewers; as outras 5 so mexem nos videos recentes (cota da YouTube).
-    - cron: "3,13,23,33,43,53 * * * *"
+    # 2 tentativas/hora. O repo que roda de verdade e o PRIVADO (lsfelipedev), que
+    # tem teto de 2.000 min/mes: 48 rodadas/dia dao ~1.440 min. De 10 em 10 min
+    # (144/dia) estouraria. So da pra apertar pra 10 min em repo publico.
+    # A do :17 faz a varredura completa de viewers (FULL_SWEEP_BEFORE_MINUTE=20).
+    - cron: "17,47 * * * *"
   workflow_dispatch:
   # commit tocando este arquivo re-arma o agendamento quando o GitHub
   # para de disparar o cron (acontece depois de disable/enable, e em repo novo).
