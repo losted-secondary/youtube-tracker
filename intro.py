@@ -13,6 +13,16 @@ o `todos` manda, editar aqui nao adianta. Os 5 checkboxes existem so aqui e nunc
 tocados depois que a linha entra.
 """
 import re
+from datetime import datetime, timezone, timedelta
+
+BRT = timezone(timedelta(hours=-3))
+# So entra video publicado a partir daqui. Em 27/08/2026 o usuario zerou a aba pra
+# acompanhar so o que vier daqui pra frente — os 275 videos antigos foram apagados de
+# proposito, e sem esse corte o proximo sync recriaria todos eles.
+INTRO_START = datetime(2026, 8, 27, 18, 35, tzinfo=BRT)
+# a data chega do Sheets como numero serial (dias desde 30/12/1899), entao o corte
+# tambem vira serial em vez de converter cada linha pra datetime.
+INTRO_START_SERIAL = (INTRO_START - datetime(1899, 12, 30, tzinfo=BRT)).total_seconds() / 86400.0
 
 INTRO_TAB = "intro"
 INTRO_HEADER = [
@@ -121,6 +131,13 @@ def setup_formatting(spreadsheet, sheet):
     ]})
 
 
+def _is_new_enough(data_postado):
+    """Linha nova so entra se for de depois do INTRO_START. Data vem como serial do
+    Sheets; se vier texto (linha digitada na mao, formato estranho) fica de fora — a
+    aba e alimentada pelo script, entao no duvida melhor nao entrar."""
+    return isinstance(data_postado, (int, float)) and not isinstance(data_postado, bool)         and data_postado >= INTRO_START_SERIAL
+
+
 def _as_bool(v):
     if isinstance(v, bool):
         return v
@@ -172,7 +189,8 @@ def sync(spreadsheet, verbose=True):
         mirror = [row[T_CANAL], row[T_DATA], row[T_VIEWS], row[T_DUR], row[T_LINK], row[T_NOMES]]
 
         if vid not in intro_by_id:
-            new_rows.append([False] * N_CHECKS + [obra_main] + mirror + [obra_main])
+            if _is_new_enough(row[T_DATA]):
+                new_rows.append([False] * N_CHECKS + [obra_main] + mirror + [obra_main])
             continue
 
         _, irow = intro_by_id[vid]

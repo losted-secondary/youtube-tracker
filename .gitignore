@@ -16,3 +16,4 @@ backfill_log.txt
 # python bytecode
 __pycache__/
 *.pyc
+intro_backup_*.csv
