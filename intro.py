@@ -16,10 +16,10 @@ import re
 from datetime import datetime, timezone, timedelta
 
 BRT = timezone(timedelta(hours=-3))
-# So entra video publicado a partir daqui. Em 27/08/2026 o usuario zerou a aba pra
+# So entra video publicado a partir daqui. Em 28/08/2026 o usuario zerou a aba pra
 # acompanhar so o que vier daqui pra frente — os 275 videos antigos foram apagados de
 # proposito, e sem esse corte o proximo sync recriaria todos eles.
-INTRO_START = datetime(2026, 8, 27, 18, 35, tzinfo=BRT)
+INTRO_START = datetime(2026, 8, 28, 17, 54, tzinfo=BRT)
 # a data chega do Sheets como numero serial (dias desde 30/12/1899), entao o corte
 # tambem vira serial em vez de converter cada linha pra datetime.
 INTRO_START_SERIAL = (INTRO_START - datetime(1899, 12, 30, tzinfo=BRT)).total_seconds() / 86400.0

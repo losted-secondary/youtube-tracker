@@ -17,3 +17,6 @@ backfill_log.txt
 __pycache__/
 *.pyc
 intro_backup_*.csv
+
+# gatilho do Apps Script (leva token do GitHub dentro depois de preenchido)
+apps_script_trigger.gs
