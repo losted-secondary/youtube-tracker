@@ -28,6 +28,12 @@ BACKFILL_DAYS = 305
 # quase nao ganha view, e `videos.list` custa 1 unidade a cada 50 videos: com 2.500
 # videos na planilha, atualizar todo mundo a cada 10 min estouraria a cota diaria.
 RECENT_DAYS = 45
+# O nome da obra so era extraido quando o video ENTRAVA na planilha. Muito canal fixa o
+# comentario com o nome depois do upload, e a celula ficava vazia pra sempre. Entao a
+# cada varredura completa (1x/hora) o script tenta de novo nos videos recentes que ainda
+# estao sem obra. Teto baixo porque cada tentativa custa ate 2 unidades de cota.
+OBRA_RETRY_DAYS = 3
+OBRA_RETRY_MAX = 10
 FULL_SWEEP_BEFORE_MINUTE = 10   # ~1 rodada por hora cai nessa faixa (gatilho de 10 min)
 
 # playlist de uploads de cada canal (`UU` + id do canal). E fixa pra sempre, entao nao
@@ -110,7 +116,8 @@ def extract_obra_from_text(text):
         return None
     name = m.group(2).strip().rstrip(",")
     # tira sufixo de capitulos colado no titulo: "1~265", "1-47 chaps", "___45_chaps"
-    name = re.sub(r"[\s_]*\d+\s*[-~]\s*\d+\s*(?:chap(?:ter)?s?\.?)?\s*$", "", name, flags=re.I)
+    # sufixo de capitulos: "1~265", "1 - 100 ch", "1-47 chaps", "1 a 80 chapters"
+    name = re.sub(r"[\s_]*\d+\s*[-~]\s*\d+\s*(?:ch(?:ap(?:ter)?)?s?\.?)?\s*$", "", name, flags=re.I)
     name = re.sub(r"_+\d+_?chaps?\.?\s*$", "", name, flags=re.I)
     name = name.strip(" _\t-")
     if not (2 < len(name) < 200):
@@ -330,8 +337,10 @@ def main():
     full_sweep = now_utc.minute < FULL_SWEEP_BEFORE_MINUTE
     recent_cutoff = now_utc - timedelta(days=RECENT_DAYS)
 
+    obra_retry_cutoff = now_utc - timedelta(days=OBRA_RETRY_DAYS)
     existing_by_id = {}
     recent_ids = []
+    obra_retry = []
     date_migrations = []
     for i, row in enumerate(rows[1:], start=2):
         if len(row) >= 7:
@@ -342,6 +351,9 @@ def main():
                 # data ilegivel -> trata como recente (uma linha a mais nao pesa)
                 if dt is None or dt >= recent_cutoff:
                     recent_ids.append(vid)
+                obra_vazia = not (row[1].strip() if len(row) > 1 else "")
+                if obra_vazia and dt is not None and dt >= obra_retry_cutoff:
+                    obra_retry.append((vid, i))
             if len(row) >= 4 and row[3] and "/" not in row[3]:
                 dt = parse_legacy_date_to_brt(row[3])
                 if dt:
@@ -438,6 +450,20 @@ def main():
     if updates:
         sheet.batch_update(updates)
 
+    # 2a tentativa de pegar o nome da obra (comentario fixado depois do upload).
+    # So na varredura completa, senao seria 1-2 unidades de cota por video a cada 10 min.
+    obra_updates = []
+    if full_sweep:
+        for vid, row_num in obra_retry[:OBRA_RETRY_MAX]:
+            st = stats.get(vid)
+            if not st:
+                continue
+            obra = extract_obra(yt, vid, st.get("channelId"), st.get("description", ""))
+            if obra:
+                obra_updates.append({"range": f"B{row_num}", "values": [[obra]]})
+        if obra_updates:
+            sheet.batch_update(obra_updates, value_input_option="USER_ENTERED")
+
     # nomes alternativos (comick): so mexe em linha com obra preenchida e coluna H vazia.
     # As linhas novas ja entram nessa conta — append_rows coloca elas logo apos `rows`,
     # entao a numeracao de rows + new_rows bate com a da planilha (mesma premissa do sort).
@@ -458,7 +484,7 @@ def main():
     intro.sync(spreadsheet)
 
     modo = "completa" if full_sweep else f"recentes({RECENT_DAYS}d)"
-    print(f"[{modo}] added {len(new_rows)} new, updated {len(updates)} viewer counts, migrated {len(date_migrations)} legacy dates, {n_a_migrated} checkboxes, comick: {n_found} nomes / {n_missing} nao encontrados")
+    print(f"[{modo}] added {len(new_rows)} new, {len(obra_updates)} obras achadas na 2a tentativa, updated {len(updates)} viewer counts, migrated {len(date_migrations)} legacy dates, {n_a_migrated} checkboxes, comick: {n_found} nomes / {n_missing} nao encontrados")
 
 
 if __name__ == "__main__":
