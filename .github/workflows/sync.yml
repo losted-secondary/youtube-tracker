@@ -1,15 +1,10 @@
 name: sync
 
 on:
-  schedule:
-    # 2 tentativas/hora. O repo que roda de verdade e o PRIVADO (lsfelipedev), que
-    # tem teto de 2.000 min/mes: 48 rodadas/dia dao ~1.440 min. De 10 em 10 min
-    # (144/dia) estouraria. So da pra apertar pra 10 min em repo publico.
-    # A do :17 faz a varredura completa de viewers (FULL_SWEEP_BEFORE_MINUTE=20).
-    - cron: "17,47 * * * *"
+  # SEM cron: o agendamento do GitHub dropa quase tudo (2 rodadas de 48 em 28/08/2026).
+  # Quem manda a hora agora e um gatilho de 10 min no Apps Script do Google, que chama
+  # este workflow_dispatch. Deixar o cron aqui tambem so criaria rodada duplicada.
   workflow_dispatch:
-  # commit tocando este arquivo re-arma o agendamento quando o GitHub
-  # para de disparar o cron (acontece depois de disable/enable, e em repo novo).
 
 jobs:
   sync:
