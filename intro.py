@@ -138,6 +138,32 @@ def _is_new_enough(data_postado):
     return isinstance(data_postado, (int, float)) and not isinstance(data_postado, bool)         and data_postado >= INTRO_START_SERIAL
 
 
+def drop_blank_rows(spreadsheet, sheet):
+    """Apaga linha sem link (sobra de limpeza, linha em branco criada na mao).
+
+    O Sheets nao deixa a aba ficar sem nenhuma linha nao congelada, entao quando TUDO
+    esta em branco sobra uma — e sem jeito.
+    """
+    data = spreadsheet.values_get(
+        "'{}'!A1:{}".format(INTRO_TAB, LAST_COL),
+        params={"valueRenderOption": "UNFORMATTED_VALUE"},
+    )
+    rows = [_pad(r, NINTRO) for r in data.get("values", [])]
+    vazias = [i for i, r in enumerate(rows[1:], start=2) if not str(r[I_LINK]).strip()]
+    if not vazias:
+        return 0
+    if len(vazias) == len(rows) - 1:   # aba toda em branco: tem que sobrar uma linha
+        vazias = vazias[1:]
+        if not vazias:
+            return 0
+    # de baixo pra cima, senao os indices andam durante a exclusao
+    pedidos = [{"deleteDimension": {"range": {
+        "sheetId": sheet.id, "dimension": "ROWS", "startIndex": i - 1, "endIndex": i}}}
+        for i in sorted(vazias, reverse=True)]
+    spreadsheet.batch_update({"requests": pedidos})
+    return len(vazias)
+
+
 def _as_bool(v):
     if isinstance(v, bool):
         return v
@@ -154,6 +180,8 @@ def sync(spreadsheet, verbose=True):
     # Le os dois lados AGORA e grava logo em seguida: as escritas no `todos` sao por
     # numero de linha, entao a janela entre ler e gravar tem que ser de segundos
     # (mesmo cuidado do comick.write_names).
+    n_vazias = drop_blank_rows(spreadsheet, sheet)
+
     main_rows = _read(spreadsheet, m.SHEET_TAB, m.NCOLS, "H", content_from=T_OBRA)
     intro_rows = _read(spreadsheet, INTRO_TAB, NINTRO, LAST_COL, content_from=N_CHECKS)
 
@@ -230,8 +258,8 @@ def sync(spreadsheet, verbose=True):
         m.sort_by_filter_order(spreadsheet, sheet, total, ncols=NINTRO, date_col=I_DATA)
 
     if verbose:
-        print("intro: {} novas, {} obras -> todos, {} obras -> intro".format(
-            len(new_rows), len(main_updates), to_intro))
+        print("intro: {} novas, {} obras -> todos, {} obras -> intro, {} linhas vazias apagadas".format(
+            len(new_rows), len(main_updates), to_intro, n_vazias))
     return len(new_rows), len(main_updates), to_intro
 
 
