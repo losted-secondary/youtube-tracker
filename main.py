@@ -10,6 +10,7 @@ from google.oauth2.service_account import Credentials
 
 from comick import fill_names
 import intro
+import postagens
 
 SHEET_ID = "1ordgWcnAmJpxAVD8qXy0dXjhgqu5Y_g2LkJFnzxA9f0"
 SHEET_TAB = "todos"
@@ -482,6 +483,13 @@ def main():
     # aba `intro` (Manhwa Void + Tobs Manhwa). Por ultimo, pra ja pegar os videos novos
     # e os nomes do comick desta rodada; ela rele as duas abas por conta propria.
     intro.sync(spreadsheet)
+
+    # calendario de postagens (Juicy/Senzu) -> aba `postagens` + Discord. Independente do
+    # resto: se quebrar, nao pode derrubar o sync principal.
+    try:
+        postagens.sync(spreadsheet)
+    except Exception as e:
+        print(f"[postagens] ERRO: {e}")
 
     modo = "completa" if full_sweep else f"recentes({RECENT_DAYS}d)"
     print(f"[{modo}] added {len(new_rows)} new, {len(obra_updates)} obras achadas na 2a tentativa, updated {len(updates)} viewer counts, migrated {len(date_migrations)} legacy dates, {n_a_migrated} checkboxes, comick: {n_found} nomes / {n_missing} nao encontrados")
