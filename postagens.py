@@ -119,8 +119,9 @@ def ensure_tabs(spreadsheet):
         cfg.update([CONFIG_HEADER] + DEFAULT_CONFIG, "A1", value_input_option="RAW")
         sid = cfg.id
         spreadsheet.batch_update({"requests": [
-            {"updateSheetProperties": {"properties": {"sheetId": sid, "gridProperties": {"frozenRowCount": 1}},
-                                       "fields": "gridProperties.frozenRowCount"}},
+            # aba escondida: o usuario nao quer ver (Planilha > Ver > Abas ocultas pra abrir)
+            {"updateSheetProperties": {"properties": {"sheetId": sid, "hidden": True, "gridProperties": {"frozenRowCount": 1}},
+                                       "fields": "hidden,gridProperties.frozenRowCount"}},
             {"updateDimensionProperties": {
                 "range": {"sheetId": sid, "dimension": "COLUMNS", "startIndex": C_ULTIMO, "endIndex": C_ULTIMO + 1},
                 "properties": {"hiddenByUser": True}, "fields": "hiddenByUser"}},
