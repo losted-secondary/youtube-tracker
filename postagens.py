@@ -25,8 +25,10 @@ publicacao (horario de Brasilia) e recalcula. Primeira rodada de um canal so mem
 feed, nao marca nada.
 
 Discord: a tabela e UMA mensagem que o script edita via REST (nao precisa de bot ligado).
-Token em `DISCORD_BOT_TOKEN`; ids do canal/mensagem ficam na aba de config. Sem
-mensagem salva, o script cria uma no canal e fixa.
+Token em `DISCORD_BOT_TOKEN`. O canal e achado pelo NOME (`CANAL_DISCORD`) em qualquer
+servidor onde o bot esteja; o usuario so cria o canal de texto e pronto. Ids do canal e
+da mensagem ficam na config so como cache: se o canal foi apagado e recriado, o script
+acha o novo e posta de novo.
 """
 import os
 import re
@@ -56,6 +58,8 @@ DEFAULT_CONFIG = [
     ["Senzu", "UCOcsn9uPit7AW3QvneP3bBg", "Losted, Raffoso, Momo, Wood", "14/09/2026", "Losted",
      "", "", ""],
 ]
+
+CANAL_DISCORD = "calendario"   # nome do canal de texto onde a tabela vive
 
 DIAS = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]
 ICON = {"ok": "✅", "pending": "⬜", "late": "⚠️"}
@@ -235,8 +239,17 @@ def _discord(method, path, token, **kw):
     return r.json() if r.text else {}
 
 
+def find_channel(token):
+    """Id do primeiro canal de texto chamado CANAL_DISCORD nos servidores do bot."""
+    for g in _discord("GET", "/users/@me/guilds", token):
+        for c in _discord("GET", f"/guilds/{g['id']}/channels", token):
+            if c.get("type") == 0 and c.get("name", "").lower() == CANAL_DISCORD:
+                return c["id"]
+    return None
+
+
 def update_discord(canais, token, canal_id, msg_id):
-    """Edita a mensagem da tabela; cria (e fixa) se nao houver. Devolve o id da mensagem."""
+    """Edita a mensagem da tabela; cria (e fixa) se nao houver. Devolve (canal_id, msg_id)."""
     embed = {
         "title": "📅 Calendário de postagens",
         "description": render_discord(canais),
@@ -244,20 +257,24 @@ def update_discord(canais, token, canal_id, msg_id):
         "footer": {"text": "✅ postado   ⬜ previsto   ⚠️ atrasado   •   edite na planilha, aba postagens"},
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
-    if msg_id:
+    if canal_id and msg_id:
         try:
             _discord("PATCH", f"/channels/{canal_id}/messages/{msg_id}", token, json={"embeds": [embed]})
-            return msg_id
+            return canal_id, msg_id
         except RuntimeError as e:
             if ": 404 " not in str(e):
                 raise
-            # mensagem apagada: cria outra
+            # mensagem ou canal apagados: acha o canal de novo e posta outra
+    novo = find_channel(token)
+    if not novo:
+        raise RuntimeError(f"nenhum canal de texto chamado #{CANAL_DISCORD} nos servidores do bot")
+    canal_id = novo
     msg = _discord("POST", f"/channels/{canal_id}/messages", token, json={"embeds": [embed]})
     try:
         _discord("PUT", f"/channels/{canal_id}/pins/{msg['id']}", token)
     except RuntimeError:
         pass
-    return msg["id"]
+    return canal_id, msg["id"]
 
 
 # ---------- sync ----------
@@ -324,17 +341,21 @@ def sync(spreadsheet, verbose=True):
     tab_ws.update([TABELA_HEADER] + valores, "A1", value_input_option="RAW")
 
     # 4. Discord
+    # ids do canal/mensagem ficam na 1a linha da config, so como cache
     token = os.environ.get("DISCORD_BOT_TOKEN")
-    dc = next((c for c in canais if c.row[C_DC_CANAL].strip()), None)
-    if token and dc:
+    if token and canais:
+        dc = canais[0]
+        antes = (dc.row[C_DC_CANAL].strip(), dc.row[C_DC_MSG].strip())
         try:
-            msg_id = update_discord(canais, token, dc.row[C_DC_CANAL].strip(), dc.row[C_DC_MSG].strip())
-            if msg_id != dc.row[C_DC_MSG].strip():
-                cfg_ws.update([[msg_id]], f"{_col(C_DC_MSG)}{canais.index(dc) + 2}", value_input_option="RAW")
+            depois = update_discord(canais, token, *antes)
+            if depois != antes:
+                cfg_ws.update([list(depois)], f"{_col(C_DC_CANAL)}2:{_col(C_DC_MSG)}2", value_input_option="RAW")
+                if verbose:
+                    print(f"[postagens] tabela postada no Discord (canal {depois[0]})")
         except Exception as e:  # planilha ja esta certa; o Discord tenta de novo na proxima rodada
             print(f"[postagens] Discord falhou: {e}")
     elif verbose:
-        print("[postagens] Discord pulado: falta DISCORD_BOT_TOKEN ou discord_canal na config")
+        print("[postagens] Discord pulado: falta DISCORD_BOT_TOKEN")
 
     if verbose:
         for c in canais:
