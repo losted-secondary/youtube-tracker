@@ -24,6 +24,12 @@ Deteccao: feed RSS do YouTube (sem cota da API). Video novo -> marca postado na 
 publicacao (horario de Brasilia) e recalcula. Primeira rodada de um canal so memoriza o
 feed, nao marca nada.
 
+Comandos: o usuario escreve no proprio #calendario (`ordem juicy wood losted momo rafoso`,
+`proximo senzu 14/09 losted`, `postou juicy [13/09]`, `desfazer juicy`, `ajuda`). A cada
+rodada o script le as mensagens novas do canal, aplica, apaga a mensagem e responde;
+a resposta e apagada na rodada seguinte (toda mensagem do bot que nao seja a tabela).
+`_ultimo_comando` na config = id da ultima mensagem processada.
+
 Discord: a tabela e UMA mensagem que o script edita via REST (nao precisa de bot ligado).
 Token em `DISCORD_BOT_TOKEN`. O canal e achado pelo NOME (`CANAL_DISCORD`) em qualquer
 servidor onde o bot esteja; o usuario so cria o canal de texto e pronto. Ids do canal e
@@ -44,19 +50,17 @@ LINHAS_POSTADAS = 8     # por canal, na tabela (as mais recentes)
 
 CONFIG_TAB = "postagens_config"
 CONFIG_HEADER = ["canal", "youtube_id", "ordem", "proxima_data", "proximo",
-                 "discord_canal", "discord_mensagem", "_ultimo_publicado"]
-C_CANAL, C_YT, C_ORDEM, C_PROX_DATA, C_PROXIMO, C_DC_CANAL, C_DC_MSG, C_ULTIMO = range(8)
+                 "discord_canal", "discord_mensagem", "_ultimo_publicado", "_ultimo_comando"]
+C_CANAL, C_YT, C_ORDEM, C_PROX_DATA, C_PROXIMO, C_DC_CANAL, C_DC_MSG, C_ULTIMO, C_ULTIMO_CMD = range(9)
 
 TABELA_TAB = "postagens"
-TABELA_HEADER = ["data", "dia", "canal", "responsavel", "postado"]
+TABELA_HEADER = ["data", "dia", "canal", "responsavel", "postou?"]
 T_DATA, T_DIA, T_CANAL, T_RESP, T_POSTADO = range(5)
 
 # estado inicial, usado so quando a aba de config nao existe ainda
 DEFAULT_CONFIG = [
-    ["Juicy", "UCUnLH9qyXBI8ijs9Kmbt9Ng", "Momo, Wood, Losted, Raffoso", "13/09/2026", "Momo",
-     "1548466445954846780", "1548467466659696862", ""],
-    ["Senzu", "UCOcsn9uPit7AW3QvneP3bBg", "Losted, Raffoso, Momo, Wood", "14/09/2026", "Losted",
-     "", "", ""],
+    ["Juicy", "UCUnLH9qyXBI8ijs9Kmbt9Ng", "Momo, Wood, Losted, Raffoso", "13/09/2026", "Momo", "", "", "", ""],
+    ["Senzu", "UCOcsn9uPit7AW3QvneP3bBg", "Losted, Raffoso, Momo, Wood", "14/09/2026", "Losted", "", "", "", ""],
 ]
 
 CANAL_DISCORD = "calendario"   # nome do canal de texto onde a tabela vive
@@ -123,9 +127,12 @@ def ensure_tabs(spreadsheet):
             {"updateSheetProperties": {"properties": {"sheetId": sid, "hidden": True, "gridProperties": {"frozenRowCount": 1}},
                                        "fields": "hidden,gridProperties.frozenRowCount"}},
             {"updateDimensionProperties": {
-                "range": {"sheetId": sid, "dimension": "COLUMNS", "startIndex": C_ULTIMO, "endIndex": C_ULTIMO + 1},
+                "range": {"sheetId": sid, "dimension": "COLUMNS", "startIndex": C_ULTIMO, "endIndex": len(CONFIG_HEADER)},
                 "properties": {"hiddenByUser": True}, "fields": "hiddenByUser"}},
         ]})
+    if cfg.col_count < len(CONFIG_HEADER):  # config antiga sem as colunas novas
+        cfg.add_cols(len(CONFIG_HEADER) - cfg.col_count)
+        cfg.update([CONFIG_HEADER], "A1", value_input_option="RAW")
     try:
         tab = spreadsheet.worksheet(TABELA_TAB)
     except gspread.WorksheetNotFound:
@@ -184,6 +191,19 @@ class Canal:
         self.eventos.append(f"[{self.nome}] {pessoa} postou em {_fmt(d)} ({motivo})")
         return pessoa
 
+    def set_ordem(self, pessoas):
+        atual = self.ordem[self._proximo_idx()] if self.ordem else ""
+        self.ordem = pessoas
+        self.proximo = atual if self._idx(atual) >= 0 else pessoas[0]
+        self.eventos.append(f"[{self.nome}] ordem: {', '.join(pessoas)} (proximo: {self.proximo})")
+
+    def set_proximo(self, d, pessoa):
+        if self._idx(pessoa) < 0:
+            raise ValueError(f"{pessoa} não está na ordem de {self.nome}: {', '.join(self.ordem)}")
+        self.proxima_data = d
+        self.proximo = self.ordem[self._idx(pessoa)]
+        self.eventos.append(f"[{self.nome}] proximo: {self.proximo} em {_fmt(d)}")
+
     def desfazer(self):
         if not self.postados:
             return None
@@ -224,9 +244,9 @@ def render_discord(canais):
         return "Nenhum canal iniciado. Preencha `proxima_data` e `proximo` na aba `postagens_config`."
     w1 = max([5] + [len(r[1]) for r in rows])
     w2 = max([6] + [len(r[2]) for r in rows])
-    head = f"{'Data':<9}  {'Canal':<{w1}}  {'Pessoa':<{w2}}"
+    head = f"{'Data':<9}  {'Canal':<{w1}}  {'Pessoa':<{w2}}  Postou?"
     lines = [f"{DIAS[d.weekday()]} {d:%d/%m}  {c:<{w1}}  {p:<{w2}}  {ICON[s]}" for d, c, p, s in rows]
-    return "```\n" + head + "\n" + "-" * (len(head) + 3) + "\n" + "\n".join(lines) + "\n```"
+    return "```\n" + head + "\n" + "-" * len(head) + "\n" + "\n".join(lines) + "\n```"
 
 
 # ---------- Discord (REST, sem gateway) ----------
@@ -247,6 +267,87 @@ def find_channel(token):
             if c.get("type") == 0 and c.get("name", "").lower() == CANAL_DISCORD:
                 return c["id"]
     return None
+
+
+AJUDA = (
+    "**Comandos** (escreve aqui no canal, o bot lê em até 10 min):\n"
+    "`ordem juicy wood losted momo rafoso` — troca o rodízio do canal\n"
+    "`proximo senzu 14/09 losted` — define o próximo vídeo do canal\n"
+    "`postou juicy` ou `postou juicy 13/09` — marca o próximo como postado\n"
+    "`desfazer juicy` — desfaz a última marcação\n"
+    "`ajuda` — isso"
+)
+
+
+def aplicar_comando(canais, texto):
+    """Devolve a resposta pro usuario (None = nao era comando). ValueError = erro pro usuario."""
+    partes = [p for p in re.split(r"[\s,;\-]+", texto.strip()) if p]
+    if not partes:
+        return None
+    cmd = partes[0].lower().lstrip("/!")
+    if cmd in ("ajuda", "help"):
+        return AJUDA
+    if cmd not in ("ordem", "proximo", "próximo", "iniciar", "postou", "desfazer"):
+        return None  # conversa normal, ignora
+    if len(partes) < 2:
+        raise ValueError(f"faltou o canal. Ex: `{cmd} juicy`")
+    c = next((c for c in canais if c.nome.lower() == partes[1].lower()), None)
+    if not c:
+        raise ValueError(f"canal `{partes[1]}` não existe. Tem: {', '.join(x.nome for x in canais)}")
+    args = [a[:1].upper() + a[1:] for a in partes[2:]]  # wood -> Wood
+    if cmd == "ordem":
+        if not args:
+            return f"Ordem de {c.nome}: {' → '.join(c.ordem)} (próximo: {c.proximo})"
+        c.set_ordem(args)
+        return f"{c.nome}: ordem agora é {' → '.join(c.ordem)}. Próximo: {c.proximo}."
+    if cmd in ("proximo", "próximo", "iniciar"):
+        if len(args) < 2 or not _parse_date(args[0]):
+            raise ValueError(f"use `proximo {c.nome.lower()} dd/mm pessoa`")
+        c.set_proximo(_parse_date(args[0]), args[1])
+        return f"{c.nome}: próximo vídeo {_fmt(c.proxima_data)} por {c.proximo}."
+    if cmd == "postou":
+        d = _parse_date(args[0]) if args else _today()
+        if not d:
+            raise ValueError("data inválida, use dd/mm")
+        pessoa = c.marcar_postado(d, "comando no Discord")
+        if not pessoa:
+            raise ValueError(f"{c.nome} não tem próximo definido. Use `proximo {c.nome.lower()} dd/mm pessoa`")
+        return f"{c.nome}: {pessoa} marcado como postado em {_fmt(d)}."
+    if cmd == "desfazer":
+        r = c.desfazer()
+        if not r:
+            raise ValueError(f"{c.nome} não tem nada pra desfazer")
+        return f"{c.nome}: desfeito {r[1]} em {_fmt(r[0])}."
+
+
+def processar_comandos(canais, token, canal_id, msg_tabela, ultimo_id):
+    """Le mensagens novas do canal, aplica comandos, apaga o que processou.
+    Devolve o id da ultima mensagem vista."""
+    msgs = _discord("GET", f"/channels/{canal_id}/messages?limit=50", token)
+    msgs.sort(key=lambda m: int(m["id"]))
+    respostas = []
+    for m in msgs:
+        if m["author"].get("bot"):
+            if m["id"] != msg_tabela:  # resposta da rodada passada: some
+                _discord("DELETE", f"/channels/{canal_id}/messages/{m['id']}", token)
+            continue
+        if int(m["id"]) <= int(ultimo_id or 0):
+            continue
+        ultimo_id = m["id"]
+        try:
+            resp = aplicar_comando(canais, m.get("content", ""))
+        except ValueError as e:
+            resp = f"❌ {e}"
+        if resp is None:
+            continue
+        respostas.append(resp)
+        try:
+            _discord("DELETE", f"/channels/{canal_id}/messages/{m['id']}", token)
+        except RuntimeError:
+            pass
+    if respostas:
+        _discord("POST", f"/channels/{canal_id}/messages", token, json={"content": "\n".join(respostas)[:1900]})
+    return ultimo_id
 
 
 def update_discord(canais, token, canal_id, msg_id):
@@ -310,7 +411,20 @@ def sync(spreadsheet, verbose=True):
         if c.nome in manual_marks:
             c.marcar_postado(manual_marks[c.nome], "marcado na planilha")
 
-    # 2. YouTube
+    # 2. comandos escritos no canal do Discord
+    token = os.environ.get("DISCORD_BOT_TOKEN")
+    dc = canais[0] if canais else None
+    if token and dc:
+        try:
+            canal_id = dc.row[C_DC_CANAL].strip() or find_channel(token)
+            if canal_id:
+                dc.row[C_DC_CANAL] = canal_id
+                dc.row[C_ULTIMO_CMD] = processar_comandos(
+                    canais, token, canal_id, dc.row[C_DC_MSG].strip(), dc.row[C_ULTIMO_CMD].strip())
+        except Exception as e:
+            print(f"[postagens] comandos falharam: {e}")
+
+    # 3. YouTube
     for c in canais:
         if not c.youtube_id:
             continue
@@ -333,7 +447,7 @@ def sync(spreadsheet, verbose=True):
             c.marcar_postado(d, f'YouTube: "{e["title"]}"')
             c.ultimo_publicado = e["published"]
 
-    # 3. grava config + tabela
+    # 4. grava config + tabela
     cfg_ws.update([c.to_row() for c in canais], f"A2:{_col(len(CONFIG_HEADER) - 1)}{len(canais) + 1}",
                   value_input_option="RAW")
     linhas = _linhas_ordenadas(canais)
@@ -342,10 +456,8 @@ def sync(spreadsheet, verbose=True):
     tab_ws.update([TABELA_HEADER] + valores, "A1", value_input_option="RAW")
 
     # 4. Discord
-    # ids do canal/mensagem ficam na 1a linha da config, so como cache
-    token = os.environ.get("DISCORD_BOT_TOKEN")
-    if token and canais:
-        dc = canais[0]
+    # 5. tabela no Discord. Ids do canal/mensagem ficam na 1a linha da config, so como cache
+    if token and dc:
         antes = (dc.row[C_DC_CANAL].strip(), dc.row[C_DC_MSG].strip())
         try:
             depois = update_discord(canais, token, *antes)
