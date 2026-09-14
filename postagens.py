@@ -3,6 +3,8 @@
 Regra: cada canal tem um rodizio de pessoas e o proximo video do canal e sempre
 `ultimo post daquele canal + INTERVALO dias`. Se atrasa, a fila inteira do canal anda
 junto. Os canais sao independentes (podem cair no mesmo dia).
+Linha pendente nunca fica no passado: virou o dia e nao postou, a proxima_data do canal
+vira HOJE (e as seguintes acompanham). A lista e pra cada um abrir e ver o seu dia.
 
 Nada do futuro fica guardado: por canal so `proxima_data` + `proximo` (aba
 `postagens_config`), e o que ja foi postado sao as linhas marcadas na aba `postagens`.
@@ -59,14 +61,14 @@ T_DATA, T_DIA, T_CANAL, T_RESP, T_POSTADO = range(5)
 
 # estado inicial, usado so quando a aba de config nao existe ainda
 DEFAULT_CONFIG = [
-    ["Juicy", "UCUnLH9qyXBI8ijs9Kmbt9Ng", "Momo, Wood, Losted, Raffoso", "13/09/2026", "Momo", "", "", "", ""],
-    ["Senzu", "UCOcsn9uPit7AW3QvneP3bBg", "Losted, Raffoso, Momo, Wood", "14/09/2026", "Losted", "", "", "", ""],
+    ["Juicy", "UCUnLH9qyXBI8ijs9Kmbt9Ng", "Momo, Wood, Losted, Rafoso", "13/09/2026", "Momo", "", "", "", ""],
+    ["Senzu", "UCOcsn9uPit7AW3QvneP3bBg", "Losted, Rafoso, Momo, Wood", "14/09/2026", "Losted", "", "", "", ""],
 ]
 
 CANAL_DISCORD = "calendario"   # nome do canal de texto onde a tabela vive
 
 DIAS = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]
-ICON = {"ok": "✅", "pending": "⬜", "late": "⚠️"}
+ICON = {"ok": "✅", "pending": "⬜"}
 
 
 # ---------- datas ----------
@@ -213,14 +215,20 @@ class Canal:
         self.eventos.append(f"[{self.nome}] desfeito: {pessoa} em {_fmt(d)}")
         return d, pessoa
 
-    def linhas(self):
+    def correr(self):
+        """Nao postou no dia previsto -> o proximo vira hoje e a fila do canal anda junto."""
         hoje = _today()
+        if self.proxima_data and self.proxima_data < hoje:
+            self.eventos.append(f"[{self.nome}] {self.proximo} nao postou em {_fmt(self.proxima_data)}, vai pra {_fmt(hoje)}")
+            self.proxima_data = hoje
+
+    def linhas(self):
         out = [(d, self.nome, p, "ok") for d, p in self.postados[-LINHAS_POSTADAS:]]
         if self.ativo:
             i = self._proximo_idx()
             for k in range(LINHAS_FUTURAS):
                 d = self.proxima_data + timedelta(days=k * INTERVALO)
-                out.append((d, self.nome, self.ordem[(i + k) % len(self.ordem)], "late" if d < hoje else "pending"))
+                out.append((d, self.nome, self.ordem[(i + k) % len(self.ordem)], "pending"))
         return out
 
     def to_row(self):
@@ -356,7 +364,7 @@ def update_discord(canais, token, canal_id, msg_id):
         "title": "📅 Calendário de postagens",
         "description": render_discord(canais),
         "color": 0x5865F2,
-        "footer": {"text": "✅ postado   ⬜ previsto   ⚠️ atrasado   •   edite na planilha, aba postagens"},
+        "footer": {"text": "✅ postado   ⬜ previsto   •   escreva `ajuda` aqui pra ver os comandos"},
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
     if canal_id and msg_id:
@@ -446,6 +454,9 @@ def sync(spreadsheet, verbose=True):
             d = datetime.fromisoformat(e["published"].replace("Z", "+00:00")).astimezone(BRT).date()
             c.marcar_postado(d, f'YouTube: "{e["title"]}"')
             c.ultimo_publicado = e["published"]
+
+    for c in canais:
+        c.correr()
 
     # 4. grava config + tabela
     cfg_ws.update([c.to_row() for c in canais], f"A2:{_col(len(CONFIG_HEADER) - 1)}{len(canais) + 1}",
