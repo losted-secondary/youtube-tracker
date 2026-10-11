@@ -1,5 +1,19 @@
 # Testar identificação e manter o tracker privado
 
+## Retomada e piloto Dots — 11/10/2026
+
+Instruções atuais: [dot-tracker.md](dot-tracker.md). `--first-missing` agora escolhe
+somente vídeos dos últimos sete dias. O catálogo contém os dez resultados iniciais
+e quatro novas identificações do piloto (linhas originais 17, 19, 20 e 21).
+
+O primeiro teste real no GitHub falhou na extração do YouTube. Foi habilitado Node
+no yt-dlp e instalado seu pacote de componentes JS. Quando a extração continua
+bloqueada, a coleta usa a YouTube Data API existente para descrição e comentários;
+nesse caso o relatório informa a ausência de falas e frames. O workflow corrigido
+passou em https://github.com/losted-secondary/youtube-tracker/actions/runs/38166014283.
+As quatro identificações foram feitas pelo agente desta sessão; o dot ainda precisa
+ser criado na conta autenticada. Nenhum agendamento do dot foi criado pelo script.
+
 ## O que foi preparado
 
 - `investigate.js`: comando Node.js que coleta pistas de UM vídeo para revisão pelo Dots.

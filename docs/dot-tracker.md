@@ -22,6 +22,12 @@ As linhas podem mudar; identificar sempre pelo ID na coluna G:
 | 20 | Gave | 6xZguXtB-Dc |
 | 21 | Frieren Manhwa | L2Pt016Ev5U |
 
+Estado do piloto: os quatro nomes foram pesquisados, gravados e conferidos pelo
+agente desta sessão em 11/10/2026, com notas de evidência. Isso valida a coleta,
+pesquisa e escrita, mas não prova execução autônoma pelo dot. Ao assumir, revisar
+esses quatro resultados sem sobrescrevê-los e demonstrar autonomia no próximo
+vídeo recente ainda vazio. A criação do dot aguardava login do usuário no ChatGPT.
+
 ## Execução
 
 1. Ler AGENTS.md e atualizar o repositório antes de editar. Consultar as linhas atuais
