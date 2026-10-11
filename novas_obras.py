@@ -2,7 +2,9 @@
 a lista de sites trackeados e como foi a ultima coleta de cada um.
 
 Roda dentro do main.py na varredura completa (1x/hora) ou sozinho:
-    python novas_obras.py      -> so coleta e imprime, sem planilha (teste local)
+    python novas_obras.py              -> so coleta e imprime, sem planilha (teste local)
+    python novas_obras.py --planilha   -> coleta e grava (precisa GOOGLE_CREDENTIALS_JSON;
+                                          e o que o workflow `novas-obras` roda)
 
 Regras:
   - Bloqueia mature/adulto, shoujo/josei e BL/GL. Ecchi passa. Romance so e bloqueado
@@ -382,6 +384,18 @@ def sync(spreadsheet, todos_rows, now_utc=None):
 
 
 if __name__ == "__main__":
+    import os
+    import sys
+    if "--planilha" in sys.argv:
+        import gspread
+        from google.oauth2.service_account import Credentials
+        creds = Credentials.from_service_account_info(
+            json.loads(os.environ["GOOGLE_CREDENTIALS_JSON"]),
+            scopes=["https://www.googleapis.com/auth/spreadsheets"],
+        )
+        ss = gspread.authorize(creds).open_by_key("1ordgWcnAmJpxAVD8qXy0dXjhgqu5Y_g2LkJFnzxA9f0")
+        sync(ss, ss.worksheet("todos").get_all_values())
+        sys.exit()
     now = datetime.now(timezone.utc)
     itens, status = collect(now)
     for n, (qtd, st) in status.items():

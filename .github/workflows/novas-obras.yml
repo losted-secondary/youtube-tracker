@@ -1,0 +1,26 @@
+name: novas-obras
+
+# Roda so a aba `novas_obras` (+ `sites`) na hora, sem esperar a varredura completa do sync.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: youtube-tracker-sheet-write
+  cancel-in-progress: false
+
+jobs:
+  novas-obras:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python novas_obras.py --planilha
+        env:
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
