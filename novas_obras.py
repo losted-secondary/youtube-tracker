@@ -120,6 +120,20 @@ _COMIX_DATA = re.compile(r'<script type="application/json" id="initial-data">(.*
 _COMIX_AGE = re.compile(r"(\d+)\s*(mos|y|w|d|h|m|s)\b")
 
 
+def _comix_get(url):
+    """O Cloudflare do comix da 403 pro IP do GitHub Actions com `requests`; o curl_cffi
+    imita o TLS do Chrome e costuma passar."""
+    try:
+        return _get(url)
+    except requests.HTTPError as e:
+        if e.response is None or e.response.status_code != 403:
+            raise
+        from curl_cffi import requests as creq
+        r = creq.get(url, impersonate="chrome", timeout=25)
+        r.raise_for_status()
+        return r
+
+
 def _comix_queries(html):
     m = _COMIX_DATA.search(html)
     return json.loads(m.group(1)).get("queries", {}) if m else {}
@@ -143,7 +157,7 @@ def comix(now, detail_max=COMIX_DETAIL_MAX):
     <script id="initial-data">. A home traz recem-adicionadas, atualizadas, em alta e mais
     seguidas; os generos so existem na pagina da obra."""
     out, seen = [], set()
-    for key, val in _comix_queries(_get("https://comix.to/home").text).items():
+    for key, val in _comix_queries(_comix_get("https://comix.to/home").text).items():
         if not key.startswith('["manga"'):
             continue
         for s in (val.get("items", []) if isinstance(val, dict) else val) or []:
@@ -158,11 +172,11 @@ def comix(now, detail_max=COMIX_DETAIL_MAX):
                              adulto=s.get("contentRating") in ("erotica", "pornographic")))
     for it in out[:detail_max]:
         try:
-            for key, val in _comix_queries(_get(it["link"]).text).items():
+            for key, val in _comix_queries(_comix_get(it["link"]).text).items():
                 if key.startswith('["manga","detail"'):
                     it["generos"] = _comix_generos(val)
             time.sleep(0.3)
-        except requests.RequestException:
+        except Exception:
             pass
     return out
 
