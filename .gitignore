@@ -20,3 +20,6 @@ intro_backup_*.csv
 
 # gatilho do Apps Script (leva token do GitHub dentro depois de preenchido)
 apps_script_trigger.gs
+
+# hook do Claude Code que da git pull ao abrir (compartilhado)
+!.claude/settings.json
