@@ -1,6 +1,6 @@
 name: novas-obras
 
-# Roda so a aba `novas_obras` (+ `sites`) na hora, sem esperar a varredura completa do sync.
+# Roda so as abas `Novas Obras` + `Sites` na hora, sem esperar a varredura completa do sync.
 on:
   workflow_dispatch:
 
