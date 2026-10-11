@@ -129,6 +129,25 @@ REVIEWED.extend([
 ])
 
 
+# videos de fora dos canais principais (descobrir.py), sem nome na descricao.
+REVIEWED.extend([
+    {
+        "video_id": "DUpaLD29WXw",
+        "title": "Shadow Slave",
+        "aliases": [],
+        "evidence": "Comentário do próprio canal (Gaku Recaps): 'Name; Shadow Slave'. https://www.youtube.com/watch?v=DUpaLD29WXw",
+        "reviewed_at": "2026-10-11",
+    },
+    {
+        "video_id": "Ahr1vUkIdDw",
+        "title": "My Wife Is Actually the Empress?",
+        "aliases": ["我家娘子竟然是女帝"],
+        "evidence": "Comentário de espectador com o título e ~190-200 capítulos (vídeo cobre até o 25); contagem bate com a ficha (202 caps, finalizado). Não é o mesmo que 'My Wife is Actually the Future Tyrant Empress'. https://www.youtube.com/watch?v=Ahr1vUkIdDw https://myanimepulse.com/manga/-130567/my-wife-is-actually-the-empress",
+        "reviewed_at": "2026-10-11",
+    },
+])
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
