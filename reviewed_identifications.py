@@ -249,6 +249,132 @@ REVIEWED.extend([{'video_id': 'o9jlJepDKl8',
   'confirmado': True}])
 
 
+REVIEWED.extend([{'video_id': 'UT1tTO-FWAU',
+  'title': 'Lucky Billion Player',
+  'aliases': ['The Billion-Luck Player',
+              'Lucky Billion Players',
+              'The Billion Lucky Player',
+              '幸运亿的玩家'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública: 0:00–0:49, Fan Xiao '
+              '(grafias automáticas Fon Shiao/Fans Shia) acumula sorte por um mês e ganha '
+              'repetidamente na loteria; 3:18–4:23, entra no Evolution Game, escolhe Assassin e '
+              'recebe Angel of Slaughter, associado aos sete pecados capitais. A página oficial da '
+              'novel na Ciweimao identifica 范肖, a capacidade de poupar sorte para ganhar na '
+              'loteria e o Evolution Game, e informa expressamente sua adaptação Tencent '
+              'intitulada 幸运亿的玩家. Catálogos corroboram os títulos ingleses Lucky Billion Player / '
+              'The Billion-Luck Player e a habilidade de sete pecados; comentário do vídeo também '
+              'fornece Lucky Billion Player. https://www.youtube.com/watch?v=UT1tTO-FWAU&t=22s '
+              'https://www.youtube.com/watch?v=UT1tTO-FWAU&t=198s '
+              'https://www.youtube.com/watch?v=UT1tTO-FWAU&lc=UgxWGW2S6lEvUWsRFBF4AaABAg '
+              'https://mip.ciweimao.com/book/100295569 '
+              'https://ravenscans.org/manga/lucky-billion-player/ '
+              'https://inkstory.net/content/the-billion-luck-player . Título inglês de catálogo; '
+              'edição inglesa oficial não verificada.',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'zVEmnB9PRCQ',
+  'title': 'The Regressor and the Blind Saint',
+  'aliases': ['The Regressor and the Blind Saintess', '회귀자와 맹인 성녀'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública: 0:07–0:38, marca do '
+              'deus dos votos transforma restrições autoimpostas em poder; 0:58–1:07, antigo rei '
+              'dos subúrbios regressa e promete proteger a santa cega; 1:22–1:46, heróis o '
+              'amaldiçoaram após derrotar o lorde demônio; 2:11–3:23, encontra santa cega de '
+              'cabelo branco tida por morta; 5:54–6:11, Vera/Bera e Renee são nomeados (grafia '
+              'automática variável). A sinopse oficial da adaptação em quadrinhos da RIDI nomeia '
+              '베라 (Vera/Bera), 르네 (Renee), a maldição, encontro no esgoto, morte da santa e '
+              'regresso para protegê-la. Correspondência específica de personagens e trama; não '
+              'depende de comentários. https://www.youtube.com/watch?v=zVEmnB9PRCQ&t=7s '
+              'https://www.youtube.com/watch?v=zVEmnB9PRCQ&t=363s '
+              'https://ridibooks.com/books/6344000001?type=rent '
+              'https://mangabaka.org/manhwa/606406/The-Regressor-and-the-Blind-Saintess '
+              'https://the-regressor-and-the-blind-saint.fandom.com/wiki/Vera',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'RzasqVwpLOA',
+  'title': 'Infinite Rebate: Back Off, Senior Sister',
+  'aliases': ['Ten-Thousandfold Return, Senior Sister, Please Behave',
+              'Ten-Thousandfold Payback, Senior Sister, Have Some Self-Respect',
+              '万倍返还，师姐请自重'],
+  'evidence': 'Pesquisado exclusivamente na nuvem. Transcrição pública do recap: 0:15–0:54, '
+              'protagonista Xiao Mu/Zhao Mu transmigrou como nobre noivo de uma princesa, foi '
+              'sequestrado pela seita demoníaca e explorado por seu corpo Pure Yang; 2:20–3:02 '
+              'desperta sistema de retorno de até 10.000 vezes, com primeira compensação '
+              'garantida; 4:16–4:31 recebe Crimson Yang Sacred Body após ter energia extraída. '
+              'Essa combinação específica e o personagem Zhao Mu correspondem às sinopses oficiais '
+              'de Kuaikan e WebComics, que confirma o título inglês Infinite Rebate: Back Off, '
+              'Senior Sister. https://www.youtube.com/watch?v=RzasqVwpLOA&t=15s '
+              'https://www.youtube.com/watch?v=RzasqVwpLOA&t=140s '
+              'https://www.youtube.com/watch?v=RzasqVwpLOA&t=256s '
+              'https://www.kuaikanmanhua.com/web/topic/27125/ '
+              'https://www.webcomicsapp.com/en/eastern-fantasy/infinite-rebate-back-off-senior-sister/69dde6cd62661d4e296bac38 '
+              '. Aliases ingleses atestados em '
+              'https://mudae.net/series/5082103/Ten-Thousandfold%20Return%2C%20Senior%20Sister%2C%20Please%20Behave '
+              '.',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'VZsId8F4DWY',
+  'title': "Shut Up, Evil Dragon! I Don't Want to Raise a Child With You Anymore",
+  'aliases': ["Shut up, Evil Dragon, I Don't Want to Raise A Child with You Anymore",
+              'Shut Up, Evil Dragon! I Don’t Want to Raise a Child with You Anymore',
+              'Shut Up, Malevolent Dragon! I Don’t Want to Have Any More Children With You',
+              '闭嘴恶龙我不想再跟你带孩子了'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Descrição do uploader liga a playlist com o '
+              "nome Shut Up, Evil Dragon, I Don't Want to Raise a Child With You Anymore. "
+              'Transcrição: 0:00–0:14, rainha do clã dos dragões prateados, inimiga há dez anos, '
+              'tem filhas gêmeas híbridas após maldição de sangue; 0:55–1:11, o matador de dragões '
+              'é traído pelos compatriotas e capturado por Loswiss; 3:02–4:01, maldição do sangue '
+              'cria ligação de almas. A sinopse oficial inglesa LoLoBun nomeia Leon, captura pela '
+              'Silver Dragon Queen e a maldição proibida, correspondendo à combinação específica '
+              'do vídeo; a edição chinesa está na SFACG. '
+              'https://www.youtube.com/watch?v=VZsId8F4DWY '
+              'https://www.youtube.com/watch?v=VZsId8F4DWY&t=55s '
+              'https://www.youtube.com/watch?v=VZsId8F4DWY&t=182s https://www.lolobun.com/c/20103 '
+              'https://manhua.sfacg.com/mh/BZELW/ '
+              'https://www.novelupdates.com/series/shut-up-malevolent-dragon-i-dont-want-to-have-any-more-children-with-you/',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'sfUeECfxfRo',
+  'title': '全民选择进化，我选孢子产氧气',
+  'aliases': [],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública, 0:00–0:34: bilhões '
+              'participam de um jogo de evolução ligado à sobrevivência dos países; Su Bai escolhe '
+              'esporos produtores de oxigênio e elimina organismos anaeróbicos; peixe supera '
+              'hipóxia, pequeno mamífero supera asteroide e, na quarta versão, ele escolhe primata '
+              'e investe todos os pontos no cérebro. A descrição reforça Su Bai, fotossíntese e '
+              'extinção por oxigênio. A sinopse da obra de 何时能起飞 no catálogo de 小说阅读网 confirma o '
+              'protagonista 苏白, o jogo 进化狂潮, esporo unicelular, pontos em fotossíntese/oxigênio e '
+              'extinção de 99% dos anaeróbios. Correspondência específica de personagem e '
+              'mecânica, não apenas semelhança de título. '
+              'https://www.youtube.com/watch?v=sfUeECfxfRo&t=0s '
+              'https://www.youtube.com/watch?v=sfUeECfxfRo&t=7s '
+              'https://www.youtube.com/watch?v=sfUeECfxfRo&t=28s '
+              'https://www.readnovel.com/bqx/njwzmilwlw https://m.readnovel.com/bqx/sknjosamlw . '
+              'Mantido título chinês atestado; não foi verificada edição inglesa oficial. A '
+              'tentativa de visualizar o cartão final em 2:49:18 permaneceu carregando e não é '
+              'usada como prova.',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'wzUi2N73tco',
+  'title': "The Back Alley Mage's Second Life",
+  'aliases': ['Return of the Back Alley Wizard', "The Back-Alley Mage's Return", '뒷골목 마법사의 회귀생활'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública: 0:14–1:27, Aster, '
+              'antigo mendigo da zona cinzenta e mercenário, foge da família Declan, é morto por '
+              'Faren von Declan após queimar um grimório e retorna à infância; 2:15–2:38, pretende '
+              'criar uma biblioteca/torre aberta a todos e expor o manual secreto dos Declan na '
+              'entrada. Personagem e combinação específica de regressão, família e projeto da '
+              'biblioteca coincidem com a sinopse oficial Naver de 뒷골목 마법사의 회귀생활. WEBTOON publica '
+              "a edição inglesa com o título The Back Alley Mage's Second Life e identifica Aster. "
+              'https://www.youtube.com/watch?v=wzUi2N73tco&t=14s '
+              'https://www.youtube.com/watch?v=wzUi2N73tco&t=135s '
+              'https://m.comic.naver.com/webtoon/list?titleId=841129 '
+              'https://series.naver.com/comic/detail.series?productNo=12931289 '
+              'https://www.webtoons.com/en/fantasy/the-back-alley-mages-second-life/list?title_no=9175 '
+              'https://www.anime-planet.com/manga/return-of-the-back-alley-wizard . Descrição do '
+              'vídeo declara capítulos 1–46, mas não foi necessária como prova de identidade.',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True}])
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
