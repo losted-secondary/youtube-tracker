@@ -9,6 +9,7 @@ import gspread
 from google.oauth2.service_account import Credentials
 
 from comick import fill_names
+from reviewed_identifications import apply_reviewed
 import intro
 import postagens
 
@@ -101,7 +102,7 @@ def chunk(lst, n):
 
 # prefixos mais especificos primeiro (alternancia do regex casa da esquerda p/ direita)
 OBRA_PATTERN = re.compile(
-    r"^\s*[^\w]*\s*(manhwa name|manhwa title|original name|original title|name|title|manhwa)\s*[:\-–—→]\s*(.+?)\s*$",
+    r"^\s*[^\w]*\s*((?:manhwa|manhua|manga|novel) (?:name|title)|original name|original title|name|title|manhwa)\s*[:\-–—→]\s*(.+?)\s*$",
     re.IGNORECASE | re.MULTILINE,
 )
 OBRA_BLACKLIST = re.compile(r"in the comments?|pinned|below|see below", re.IGNORECASE)
@@ -131,6 +132,8 @@ def extract_obra_from_text(text):
 
 
 def fetch_owner_comment(yt, video_id, channel_id):
+    if not channel_id:
+        return None
     # varre ate ~200 comentarios (2 paginas de 100); o comentario do dono com o
     # nome da obra raramente esta no top-5, entao paginamos. maxResults nao custa
     # cota extra (commentThreads = 1 unidade por chamada).
@@ -146,7 +149,10 @@ def fetch_owner_comment(yt, video_id, channel_id):
         for item in r.get("items", []):
             tc = item["snippet"]["topLevelComment"]["snippet"]
             if tc.get("authorChannelId", {}).get("value") == channel_id:
-                return tc["textOriginal"]
+                # Um fixado com links de partes não deve esconder outro comentário
+                # do autor que realmente informa o nome.
+                if extract_obra_from_text(tc.get("textOriginal", "")):
+                    return tc["textOriginal"]
         token = r.get("nextPageToken")
         if not token:
             break
@@ -332,6 +338,9 @@ def main():
     rows = sheet.get_all_values()
     if not rows or rows[0] != HEADER:
         sheet.update([HEADER], "A1:H1")
+        rows = sheet.get_all_values()
+
+    if apply_reviewed(spreadsheet, sheet):
         rows = sheet.get_all_values()
 
     now_utc = datetime.now(timezone.utc)

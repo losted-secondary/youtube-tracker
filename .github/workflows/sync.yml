@@ -6,6 +6,11 @@ on:
   # este workflow_dispatch. Deixar o cron aqui tambem so criaria rodada duplicada.
   workflow_dispatch:
 
+# Todos os workflows que editam a planilha usam este mesmo grupo.
+concurrency:
+  group: youtube-tracker-sheet-write
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
