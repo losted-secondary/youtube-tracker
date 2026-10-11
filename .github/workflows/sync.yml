@@ -5,6 +5,11 @@ on:
   # Quem manda a hora agora e um gatilho de 10 min no Apps Script do Google, que chama
   # este workflow_dispatch. Deixar o cron aqui tambem so criaria rodada duplicada.
   workflow_dispatch:
+    inputs:
+      descobrir:
+        description: "Rodar agora a busca de videos de fora dos canais principais"
+        type: boolean
+        default: false
 
 # Todos os workflows que editam a planilha usam este mesmo grupo.
 concurrency:
@@ -25,3 +30,4 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DESCOBRIR_AGORA: ${{ inputs.descobrir && '1' || '' }}

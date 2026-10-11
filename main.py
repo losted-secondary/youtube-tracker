@@ -432,7 +432,7 @@ def main():
     # Entram como linha normal, so marcados com `fora` pra ganhar cor depois do append.
     n_fora = 0
     if descobrir.should_run(now_utc, full_sweep):
-        known_ids = set(existing_by_id) | {v["id"] for v in new_videos}
+        known_ids = set(existing_by_id) | {v["id"] for v in new_videos} | descobrir.load_seen(spreadsheet)
         try:
             fora = descobrir.find(
                 yt, descobrir.main_channel_ids(UPLOADS_PLAYLISTS), known_ids, now_utc)
@@ -477,6 +477,7 @@ def main():
             (first + k, descobrir.COR_FORA if v.get("fora") else descobrir.COR_NORMAL)
             for k, v in enumerate(new_videos)
         ], NCOLS)
+        descobrir.save_seen(spreadsheet, [v["id"] for v in new_videos if v.get("fora")], now_utc)
 
     updates = []
     for vid, row_num in existing_by_id.items():

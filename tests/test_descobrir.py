@@ -22,9 +22,10 @@ def hit(vid, channel_id, title="Canal X"):
 
 
 class FakeYoutube:
-    def __init__(self, search_pages, views):
+    def __init__(self, search_pages, views, langs=None):
         self.search_pages = search_pages
         self.views = views
+        self.langs = langs or {}
         self.search_calls = []
         self._next = None
 
@@ -41,7 +42,9 @@ class FakeYoutube:
             self.search_calls.append(kw)
             self._next = self.search_pages.get((kw["q"], kw.get("pageToken")), {"items": []})
         else:
-            self._next = {"items": [{"id": i, "statistics": {"viewCount": str(self.views[i])}}
+            self._next = {"items": [{"id": i, "statistics": {"viewCount": str(self.views[i])},
+                                     "snippet": {"defaultAudioLanguage": self.langs.get(i, "en"),
+                                                 "title": "Recap", "channelTitle": "X"}}
                                     for i in kw["id"].split(",") if i in self.views]}
         return self
 
@@ -73,6 +76,25 @@ class DescobrirTest(unittest.TestCase):
         self.assertEqual(a["published"], datetime(2026, 10, 8, 15, 0, tzinfo=timezone.utc))
         self.assertEqual(yt.search_calls[0]["publishedAfter"], "2026-10-04T12:00:00Z")
         self.assertEqual(yt.search_calls[0]["order"], "viewCount")
+
+    def test_descarta_audio_que_nao_e_ingles(self):
+        pages = {("manhwa recap", None): {"items": [
+            hit("aaaaaaaaaaa", "UC1"), hit("bbbbbbbbbbb", "UC2"), hit("ccccccccccc", "UC3")]}}
+        views = dict.fromkeys(["aaaaaaaaaaa", "bbbbbbbbbbb", "ccccccccccc"], 200_000)
+        yt = FakeYoutube(pages, views, {"bbbbbbbbbbb": "pt-BR", "ccccccccccc": "hi"})
+        self.assertEqual([v["id"] for v in descobrir.find(yt, set(), set(), NOW)], ["aaaaaaaaaaa"])
+        self.assertEqual(yt.search_calls[0]["relevanceLanguage"], "en")
+
+    def test_is_english(self):
+        e = descobrir.is_english
+        self.assertTrue(e({"defaultAudioLanguage": "en-US", "title": "He Became | Manhwa Recap"}))
+        # sem idioma de audio: cai no idioma do titulo
+        self.assertTrue(e({"defaultLanguage": "en", "title": "Reborn King", "channelTitle": "Hasbic"}))
+        self.assertFalse(e({"defaultLanguage": "es", "title": "OBLIGADO a Casarse"}))
+        self.assertFalse(e({"title": "sem idioma nenhum"}))
+        # marcado "en" mas e hindi
+        self.assertFalse(e({"defaultLanguage": "en", "title": "Reborn", "channelTitle": "Manhwa Explainer Hindi"}))
+        self.assertFalse(e({"defaultAudioLanguage": "en", "title": "Explained in Hindi"}))
 
     def test_main_channel_ids_e_agenda(self):
         self.assertEqual(descobrir.main_channel_ids({"x": "UUabc", "y": "PLzzz"}), {"UCabc"})
