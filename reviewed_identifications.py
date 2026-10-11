@@ -148,6 +148,15 @@ REVIEWED.extend([
 ])
 
 
+REVIEWED.append({
+    "video_id": "PtlAIwY5knk",
+    "title": "I Become a God in Twelve Days, and the Whole World Is Hunting Me",
+    "aliases": ["十二天后成神，我被全世界追杀"],
+    "evidence": "Pesquisado pelo Momo Tracker; aplicado pela CLI porque o executor local do Dot falhou. Original de 芝士饭桶. Sequência 1:00:54–1:01:19 do vídeo: fuga como pássaro e perseguidores transformados em formigas corresponde ao capítulo 17. O recap adapta Lin Yu para Ryan Quinn. Título inglês é alias de catálogo, não edição oficial confirmada. https://www.youtube.com/watch?v=PtlAIwY5knk&t=3654s https://www.qidian.com/book/1050573847/ https://www.qidian.com/chapter/1050573847/925313243/ https://daosearch.io/qidian/book/1050573847/i-become-a-god-in-twelve-days-and-the-whole-world-is",
+    "reviewed_at": "2026-10-11",
+})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
