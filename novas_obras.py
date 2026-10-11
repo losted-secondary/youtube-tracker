@@ -1,5 +1,5 @@
-"""Aba `novas_obras`: obras que acabaram de entrar nos sites de scan, + aba `sites` com
-a lista de sites trackeados (aba `Sites`) e como foi a ultima coleta de cada um.
+"""Aba `Novas Obras`: obras que acabaram de entrar nos sites de scan, + aba `Sites` com
+a lista de sites trackeados e como foi a ultima coleta de cada um.
 
 Roda dentro do main.py na varredura completa (1x/hora) ou sozinho:
     python novas_obras.py              -> so coleta e imprime, sem planilha (teste local)
