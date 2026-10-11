@@ -375,6 +375,153 @@ REVIEWED.extend([{'video_id': 'UT1tTO-FWAU',
   'confirmado': True}])
 
 
+REVIEWED.extend([{'video_id': 'QRgV-BiVMLk',
+  'title': 'Sword of the Undying',
+  'aliases': ['The Necromancer of a Renowned Sword Family',
+              'The Necromancer of the Renowned Sword Family',
+              'The Necromancer of a Swordsmanship Family',
+              '검술명가의 네크로맨서'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública: 0:00–0:14 nomeia Klein '
+              'da família Reinrandt (grafias automáticas Klene/Rinrand); 0:38, ao nascer recita '
+              'invocação como Archimond; 0:47, passou sete anos preso numa igreja; 1:03–1:21, é a '
+              'reencarnação do necromante Archimond, derrotado 200 anos antes por Berkel '
+              'Reinrandt. A sinopse oficial Naver de 검술명가의 네크로맨서 confirma os dois personagens, '
+              'morte pela espada do herói, intervalo de 200 anos e bebê que recita a invocação; o '
+              'capítulo 1 é intitulado Klein Reinrandt. Comentário do vídeo sugere Sword of the '
+              'Undying, alias inglês também documentado nos catálogos, mas a confirmação vem da '
+              'trama e nomes. https://www.youtube.com/watch?v=QRgV-BiVMLk&t=38s '
+              'https://www.youtube.com/watch?v=QRgV-BiVMLk&t=63s '
+              'https://www.youtube.com/watch?v=QRgV-BiVMLk&lc=Ugw7hoZmVGag0ov243Z4AaABAg '
+              'https://m.comic.naver.com/webtoon/list?titleId=850499&week=fri '
+              'https://series.naver.com/comic/detail.series?productNo=14132199 '
+              'https://www.asurascans.com/comics/sword-of-the-undying-b6e039fe',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'ZChs2KiSak8',
+  'title': 'Absolute Necromancer: Ascension Through Skeleton Clone',
+  'aliases': ['Becoming Necromancer God Through a Skeleton Clone',
+              'Necromancer: Becoming a God Starting with Skeleton Clone',
+              '亡灵法师：从骷髅分身开始成神'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública: 0:08–0:35, protagonista '
+              'desperta necromante considerado fraco e obtém acesso ao reino dos mortos; '
+              '5:01–6:38, o sistema cria um clone esqueleto nesse reino, permite possuí-lo e '
+              'devorar mortos-vivos para ganhar atributos e invocações. Essa mecânica específica '
+              'corresponde à sinopse oficial de 亡灵法师：从骷髅分身开始成神, da 爱豆喵漫画, no Kuaikan. O recap '
+              'pronuncia Fang Zhou com variantes de legenda; professor Lu Hu e aluna Bai Xiaochan '
+              'também aparecem (1:45 e 7:16). Comentário fornece o título inglês e catálogos '
+              'externos o relacionam ao título chinês, usado apenas como apoio. '
+              'https://www.youtube.com/watch?v=ZChs2KiSak8&t=8s '
+              'https://www.youtube.com/watch?v=ZChs2KiSak8&t=301s '
+              'https://www.youtube.com/watch?v=ZChs2KiSak8&t=359s '
+              'https://www.kuaikanmanhua.com/web/topic/27711/ '
+              'https://www.mangaread.org/manga/becoming-necromancer-god-through-a-skeleton-clone/',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'mfCNyWlZq2w',
+  'title': 'The End Has Come',
+  'aliases': ['종말이 찾아왔다',
+              'The Apocalypse Has Arrived',
+              'The Apocalypse Has Come',
+              'The Apocalypse Is Here'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública: 0:15–1:26, Minjun e '
+              'Yena (transcrição automática Yana/Jana/Yenna) atravessam cidade infestada e '
+              'discutem por água; ela o menospreza pela pobreza, mas depende dele para escapar dos '
+              'infectados; 2:49–3:28, ela volta pedindo ajuda para chegar a Gangnam, é descrita '
+              'como garota rica e popular, enquanto Minjun era pobre e sofria bullying antes do '
+              'vírus devastar Seul. Essa dupla e a premissa correspondem diretamente às sinopses '
+              'oficiais WEBTOON e Naver (정민준, 한예나). Comentário dá The End Has Come, corroborado '
+              'por personagens/enredo, não usado isoladamente. '
+              'https://www.youtube.com/watch?v=mfCNyWlZq2w&t=15s '
+              'https://www.youtube.com/watch?v=mfCNyWlZq2w&t=169s '
+              'https://www.youtube.com/watch?v=mfCNyWlZq2w&lc=UgzBcup6WW9vdMxjAo14AaABAg '
+              'https://www.webtoons.com/en/thriller/the-end-has-come/list?title_no=8421 '
+              'https://m.comic.naver.com/webtoon/list?titleId=838002 '
+              'https://mangatlas.com/title/the-end-has-come',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'cgQuVO6OeSQ',
+  'title': 'Leveling Up: Reshaping the World',
+  'aliases': ['I Use a Top-Tier System to Reshape the World', '我用顶级系统重塑世界'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública: 0:26–1:07, protagonista '
+              'Wei (transcrição Wii/Weii) é F-rank incapaz de subir de nível num planeta refeito '
+              'por inteligência artificial Creation; a fusão com um companheiro permite analisar '
+              'inimigos/copiar habilidades, e ele quer derrubar os criadores dessa ordem e '
+              'reconstruir o mundo. Em 2:23–2:40, seu amuleto veio de um companheiro robô, e as '
+              'inteligências artificiais foram destruídas após a revolução. A premissa específica '
+              'da IA Creator que reformata a realidade em níveis/monstros e a missão de derrubar '
+              'seu regime correspondem às sinopses oficiais Tapas e WEBTOON. Tapas confirma título '
+              'original 我用顶级系统重塑世界; comentário do vídeo fornece os dois títulos ingleses, '
+              'corroborados pela trama. https://www.youtube.com/watch?v=cgQuVO6OeSQ&t=26s '
+              'https://www.youtube.com/watch?v=cgQuVO6OeSQ&t=143s '
+              'https://www.youtube.com/watch?v=cgQuVO6OeSQ&lc=Ugwm7SmnWh5fdJYwDol4AaABAg '
+              'https://tapas.io/series/leveling-up-reshaping-the-world/info '
+              'https://www.webtoons.com/en/action/leveling-up-reshaping-the-world/list?title_no=10229',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'IMISaGSZcR4',
+  'title': 'Copying Skills with Affinity!',
+  'aliases': ['Copy Skills with Affinity!', '호감도로 스킬 복사!'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública: 0:24 nomeia Aiden '
+              'Kellerman (variante automática de Kellermain); 0:57–1:13, vigarista lembra a Terra '
+              'e sabe que vive num jogo; 2:11 nomeia Noel Astria; 2:42–3:31, ela o sequestra e '
+              'exige que finja ser seu marido durante um ano; 3:40–3:49, sistema Weaver of Fate '
+              'permite copiar habilidade dela. Sinopse oficial Naver da adaptação 호감도로 스킬 복사! '
+              'confirma Aiden, vigarista, sequestro pela maior cavaleira do império e casamento '
+              'fingido por um ano; a sinopse oficial da novela confirma a habilidade 운명의 길쌈꾼 '
+              '(Weaver of Fate) e cópia por afinidade. '
+              'https://www.youtube.com/watch?v=IMISaGSZcR4&t=24s '
+              'https://www.youtube.com/watch?v=IMISaGSZcR4&t=203s '
+              'https://m.comic.naver.com/webtoon/list?titleId=855599&week=sat '
+              'https://series.naver.com/comic/detail.series?productNo=14773359 '
+              'https://series.naver.com/novel/detail.series?productNo=11147099 '
+              'https://mangabaka.org/manhwa/605992/Copying-Skills-with-Affinity '
+              'https://www.novelupdates.com/series/copy-skills-with-affinity/',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': '_y1P2hYlMUM',
+  'title': 'Ode of the Brave',
+  'aliases': ["The Warrior's Ballad",
+              "Hero's Ballad",
+              'Ballad of the Hero',
+              "The Hero's Ballad",
+              '용사의 발라드'],
+  'evidence': 'Pesquisado exclusivamente na nuvem. Transcrição pública: 0:08–0:40 nomeia Ricky, '
+              'enfrenta Vulca na academia e o identifica como Steel Reaper e primeiro swordmaster '
+              'do continente; 1:20–1:44, foi pastor nas planícies de Heiden; 2:24–2:38 foi '
+              'convocado por sorteio; 9:21 menciona cem anos separando a guerra da nova vida; '
+              '42:18, Rickart/Ricardt é terceiro filho da casa Stormt. Naver confirma Ricky, '
+              'pastor de Heiden, Steel Reaper morto e reencarnado cem anos depois como terceiro '
+              "filho de nobres; WEBTOON inglês confirma Ricardt e título oficial The Warrior's "
+              'Ballad. https://www.youtube.com/watch?v=_y1P2hYlMUM&t=8s '
+              'https://www.youtube.com/watch?v=_y1P2hYlMUM&t=80s '
+              'https://www.youtube.com/watch?v=_y1P2hYlMUM&t=561s '
+              'https://www.youtube.com/watch?v=_y1P2hYlMUM&t=2538s '
+              'https://m.comic.naver.com/webtoon/list?titleId=854122&week=sun '
+              'https://www.webtoons.com/en/action/the-warriors-ballad/list?title_no=11210 . '
+              'Aliases atestados em https://mangakatana.com/manga/ode-of-the-brave.27936 .',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'AW98afSTGEU',
+  'title': 'All I Can See Is You',
+  'aliases': ['I Can Only See You', 'I Only See You', '너만 보인단 말이야'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública: 0:00–1:19, após vinte '
+              'rejeições, Park Jinyong segue a orientação do amigo imaginário Jason e passa cinco '
+              'anos enxergando garotas como pedras; uma garota é a primeira exceção. Aos 3:46 ele '
+              'se apresenta como Park Jin-yong; aos 5:27 a garota é chamada Sunwoo. Personagens e '
+              'premissa incomum correspondem integralmente à sinopse oficial de 너만 보인단 말이야, de '
+              '채군/닷지, na Naver Series: Park Jinyong, amigo imaginário Jason, mulheres como pedras, '
+              'Sunwoo como exceção após cinco anos. Títulos ingleses atestados em catálogos de '
+              'tradução. https://www.youtube.com/watch?v=AW98afSTGEU&t=15s '
+              'https://www.youtube.com/watch?v=AW98afSTGEU&t=72s '
+              'https://www.youtube.com/watch?v=AW98afSTGEU&t=226s '
+              'https://www.youtube.com/watch?v=AW98afSTGEU&t=327s '
+              'https://series.naver.com/comic/detail.series?productNo=13939347 '
+              'https://comic.naver.com/webtoon/list?titleId=849279 '
+              'https://lunatoons.net/all-i-can-see-is-you',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True}])
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
