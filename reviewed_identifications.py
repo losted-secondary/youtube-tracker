@@ -189,6 +189,66 @@ REVIEWED.extend([
 ])
 
 
+REVIEWED.extend([{'video_id': 'o9jlJepDKl8',
+  'title': 'Slacking My Way to Immortality',
+  'aliases': ['Becoming Immortal by Doing Nothing', '摆烂成仙', 'Bai Lan Cheng Xian'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. A transcrição pública mostra Kian/Keon Luo, '
+              'herdeiro de uma família imortal, insultado durante um banquete (0:05–0:54); ele '
+              'rejeita as ofertas de poder e riqueza do sistema (2:14–2:51) e contrata a '
+              'cultivadora que o insultou por 10.000 pedras espirituais mensais (4:20–4:38). A '
+              'sinopse oficial da WebNovel identifica Kian Luo e a poderosa família imortal; a '
+              'sinopse da adaptação na LeTV confirma especificamente o banquete, a recusa do '
+              "sistema e a contratação por 10.000 pedras. O próprio canal responde 'Becoming "
+              "immortal by doing nothing' ao pedido de nome, usado como apoio, não como prova "
+              'única. https://www.youtube.com/watch?v=o9jlJepDKl8&t=5s '
+              'https://www.youtube.com/watch?v=o9jlJepDKl8&t=134s '
+              'https://www.youtube.com/watch?v=o9jlJepDKl8&t=260s '
+              'https://www.youtube.com/watch?v=o9jlJepDKl8&lc=UgzvNJXlB2_BwbsUqhB4AaABAg.AbiwJos3PC-AbkK6ys9kUi '
+              'https://www.webnovel.com/comic/slacking-my-way-to-immortality_31895717908597701 '
+              'https://www.le.com/comic/10080056.html '
+              'https://www.kuaikanmanhua.com/web/topic/26907/',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'RNN7Ce1LJK4',
+  'title': 'The Knight Only Lives Today',
+  'aliases': ['Eternally Regressing Knight', 'Infinite Regressing Knight'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública do YouTube: 0:18–1:23, '
+              'Enkrid (transcrição automática: Ankrid/Anker) sonha em ser cavaleiro após incentivo '
+              'de um mercenário e lidera um esquadrão problemático; 1:31–2:34, morre com uma '
+              'estocada na garganta e retorna à mesma manhã, com Rem encontrando sempre um inseto '
+              'na bota; 2:47–3:03, aprende Beast Heart e repete batalha entre Naurilia e Aspen. '
+              'Nome e ciclo de morte/treino correspondem à sinopse oficial WEBTOON de The Knight '
+              'Only Lives Today. Comentário específico também lista o título e Eternally '
+              'Regressing Knight, mas a confirmação se apoia no personagem e enredo. '
+              'https://www.youtube.com/watch?v=RNN7Ce1LJK4&t=18s '
+              'https://www.youtube.com/watch?v=RNN7Ce1LJK4&t=91s '
+              'https://www.youtube.com/watch?v=RNN7Ce1LJK4&lc=Ugzi1obhlbmMukcxmlR4AaABAg '
+              'https://usw-m.webtoons.com/en/fantasy/the-knight-only-lives-today/list?title_no=6672 '
+              'https://m.webtoons.com/fr/action/the-knight-only-lives-today/list?title_no=6948 . O '
+              'exportador de transcrição falhou, mas o painel público Show transcript carregou e '
+              'foi lido diretamente.',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'WBBmt_S2phg',
+  'title': 'Bowblade Spirit',
+  'aliases': ['Lord of the Bow and Blade', '궁귀검신', '궁귀검신 1부'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública do vídeo: 0:00–0:16, So '
+              'Moon aprende arco com o avô em uma montanha; 0:55–1:28, flechas guiadas por energia '
+              'contornam árvore e acertam aves; 3:27–4:58, cuida do falcão ferido por ordem do '
+              'avô; 5:12–5:20, aprende técnica familiar de passos baseada no lobo. Personagem e '
+              'combinação específica correspondem à análise de Bowblade Spirit da Popculture.id, '
+              'que nomeia Eulji So Moon, avô, arco guiado por ki e passo do lobo. A sinopse '
+              'oficial Naver de 궁귀검신 1부, de Cho Don-Hyung/Park Gwang-Jin, confirma treino com avô, '
+              'viagem a Zhongyuan para buscar noiva e flecha guiada por ki superior à espada. '
+              'https://www.youtube.com/watch?v=WBBmt_S2phg&t=7s '
+              'https://www.youtube.com/watch?v=WBBmt_S2phg&t=312s '
+              'https://popculture.id/bowblade-spirit-komik-pemanah-sakti/ '
+              'https://series.naver.com/comic/detail.series?productNo=12295802 '
+              'https://atsu.moe/manga/V1W7',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True}])
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
