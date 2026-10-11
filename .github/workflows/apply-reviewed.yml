@@ -1,6 +1,11 @@
 name: apply-reviewed
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - reviewed_identifications.py
+      - .github/workflows/apply-reviewed.yml
   workflow_dispatch:
     inputs:
       dry_run:
@@ -25,6 +30,8 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install -r requirements.txt
+      - name: Validar catalogo e preservacao de nomes existentes
+        run: python -m unittest discover -s tests -p test_reviewed.py
       - name: Aplicar identificações revisadas
         env:
           GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}

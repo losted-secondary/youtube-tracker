@@ -1,0 +1,199 @@
+{
+  "captured_at": "2026-10-11",
+  "source": "todos!A1:H73",
+  "policy": "Explicit user backlog; retain eligibility beyond seven days. Match by video ID, preserve existing names, apply only confirmed identifications.",
+  "videos": [
+    {
+      "video_id": "PtlAIwY5knk",
+      "row_at_capture": 12,
+      "channel": "Gave",
+      "published_at": "10/10/2026 - 10:35"
+    },
+    {
+      "video_id": "Z-AghRYVoDc",
+      "row_at_capture": 23,
+      "channel": "FuriosToon",
+      "published_at": "08/10/2026 - 16:30"
+    },
+    {
+      "video_id": "_ZcaDBS8AY8",
+      "row_at_capture": 24,
+      "channel": "Villain Scan",
+      "published_at": "08/10/2026 - 15:32"
+    },
+    {
+      "video_id": "o9jlJepDKl8",
+      "row_at_capture": 25,
+      "channel": "MrManhwas",
+      "published_at": "08/10/2026 - 11:18"
+    },
+    {
+      "video_id": "sfUeECfxfRo",
+      "row_at_capture": 26,
+      "channel": "Gave",
+      "published_at": "08/10/2026 - 10:59"
+    },
+    {
+      "video_id": "ZChs2KiSak8",
+      "row_at_capture": 27,
+      "channel": "Moon shadow Manhwa",
+      "published_at": "08/10/2026 - 10:57"
+    },
+    {
+      "video_id": "AW98afSTGEU",
+      "row_at_capture": 29,
+      "channel": "Mamoru Manhwa",
+      "published_at": "08/10/2026 - 10:00"
+    },
+    {
+      "video_id": "u2UfQ4zTVTQ",
+      "row_at_capture": 32,
+      "channel": "Manga Explained",
+      "published_at": "07/10/2026 - 22:00"
+    },
+    {
+      "video_id": "OB4HG60j_jw",
+      "row_at_capture": 34,
+      "channel": "Hasbic Manhwa",
+      "published_at": "07/10/2026 - 20:00"
+    },
+    {
+      "video_id": "0woEUsAbMAs",
+      "row_at_capture": 35,
+      "channel": "Tobs Manhwa",
+      "published_at": "07/10/2026 - 17:45"
+    },
+    {
+      "video_id": "WBBmt_S2phg",
+      "row_at_capture": 37,
+      "channel": "John 's Manhwa",
+      "published_at": "07/10/2026 - 11:31"
+    },
+    {
+      "video_id": "zVEmnB9PRCQ",
+      "row_at_capture": 38,
+      "channel": "Manhwa Recap Zone",
+      "published_at": "07/10/2026 - 07:57"
+    },
+    {
+      "video_id": "VZsId8F4DWY",
+      "row_at_capture": 40,
+      "channel": "Manga Explained",
+      "published_at": "06/10/2026 - 22:00"
+    },
+    {
+      "video_id": "QRgV-BiVMLk",
+      "row_at_capture": 41,
+      "channel": "Frieren Manhwa",
+      "published_at": "06/10/2026 - 21:00"
+    },
+    {
+      "video_id": "IMISaGSZcR4",
+      "row_at_capture": 43,
+      "channel": "AniRay Manhwa Recap",
+      "published_at": "06/10/2026 - 17:40"
+    },
+    {
+      "video_id": "QvBiMfQZQz8",
+      "row_at_capture": 44,
+      "channel": "Villain Scan",
+      "published_at": "06/10/2026 - 15:00"
+    },
+    {
+      "video_id": "q5vSNczWC2c",
+      "row_at_capture": 45,
+      "channel": "Tyler's Manhwa",
+      "published_at": "06/10/2026 - 14:37"
+    },
+    {
+      "video_id": "RzasqVwpLOA",
+      "row_at_capture": 47,
+      "channel": "MrManhwas",
+      "published_at": "06/10/2026 - 10:00"
+    },
+    {
+      "video_id": "p5C2EkqAjKM",
+      "row_at_capture": 49,
+      "channel": "Push Recap",
+      "published_at": "05/10/2026 - 20:00"
+    },
+    {
+      "video_id": "_y1P2hYlMUM",
+      "row_at_capture": 52,
+      "channel": "Manhwa Recap Zone",
+      "published_at": "05/10/2026 - 11:04"
+    },
+    {
+      "video_id": "s1FgEmcxJ8U",
+      "row_at_capture": 53,
+      "channel": "Mamoru Manhwa",
+      "published_at": "05/10/2026 - 10:00"
+    },
+    {
+      "video_id": "F93-5vx5OHQ",
+      "row_at_capture": 55,
+      "channel": "John 's Manhwa",
+      "published_at": "05/10/2026 - 06:18"
+    },
+    {
+      "video_id": "pHR4Ytni2Bg",
+      "row_at_capture": 57,
+      "channel": "Villain Scan",
+      "published_at": "04/10/2026 - 18:37"
+    },
+    {
+      "video_id": "E-NdLRfVBIg",
+      "row_at_capture": 59,
+      "channel": "Tyler's Manhwa",
+      "published_at": "04/10/2026 - 14:14"
+    },
+    {
+      "video_id": "RNN7Ce1LJK4",
+      "row_at_capture": 60,
+      "channel": "Manhwa Chatter",
+      "published_at": "04/10/2026 - 13:00"
+    },
+    {
+      "video_id": "UT1tTO-FWAU",
+      "row_at_capture": 62,
+      "channel": "MrManhwas",
+      "published_at": "04/10/2026 - 10:00"
+    },
+    {
+      "video_id": "ExRtesZShT8",
+      "row_at_capture": 63,
+      "channel": "Gave",
+      "published_at": "04/10/2026 - 05:40"
+    },
+    {
+      "video_id": "wzUi2N73tco",
+      "row_at_capture": 64,
+      "channel": "Frieren Manhwa",
+      "published_at": "03/10/2026 - 22:53"
+    },
+    {
+      "video_id": "mfCNyWlZq2w",
+      "row_at_capture": 67,
+      "channel": "John 's Manhwa",
+      "published_at": "03/10/2026 - 07:52"
+    },
+    {
+      "video_id": "cgQuVO6OeSQ",
+      "row_at_capture": 71,
+      "channel": "Tobs Manhwa",
+      "published_at": "02/10/2026 - 16:00"
+    },
+    {
+      "video_id": "9O28Mn4LNyM",
+      "row_at_capture": 72,
+      "channel": "Tyler's Manhwa",
+      "published_at": "02/10/2026 - 10:24"
+    },
+    {
+      "video_id": "a9i82-nZRE8",
+      "row_at_capture": 73,
+      "channel": "Mamoru Manhwa",
+      "published_at": "02/10/2026 - 10:00"
+    }
+  ]
+}

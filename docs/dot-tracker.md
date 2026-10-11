@@ -5,7 +5,27 @@
 Investigar nomes de histórias recentes e preencher somente nomes confirmados na aba
 `todos` de https://docs.google.com/spreadsheets/d/1ordgWcnAmJpxAVD8qXy0dXjhgqu5Y_g2LkJFnzxA9f0/edit.
 Repositório: https://github.com/losted-secondary/youtube-tracker.
-Computador do usuário: `C:\Users\victo\youtube-tracker`.
+Execução exclusivamente na nuvem. Não depender do computador do usuário.
+
+## Configuração vigente (11/10/2026)
+
+Esta seção substitui as alternativas locais descritas abaixo. O usuário solicitou
+que o Dot opere sem PC ou Codex aberto. Pesquisar com navegador e ferramentas da
+nuvem; manter fila e tentativas na memória persistente do Dot. A fila explícita em
+`docs/dot-backlog.json` contém os 32 IDs vazios capturados nas linhas 1–73 e continua
+elegível mesmo fora dos sete dias. Conferir valores atuais pelo ID antes de aplicar.
+
+Depois de confirmar, testar e publicar `reviewed_identifications.py` em `main`:
+o workflow `apply-reviewed` executa automaticamente no push, testa a preservação
+de nomes e grava usando os Secrets existentes. Não é necessário workflow_dispatch
+no plugin nem acesso local. Conferir conclusão do workflow e readback da planilha.
+Não confundir este gatilho com o sync dos canais, que permanece inalterado.
+
+Bloqueio pendente: o GitHub App conectado deve incluir
+`losted-secondary/youtube-tracker` com permissão Contents write. A instalação em
+`victorguima12` não inclui esse repositório. Até corrigir a instalação, pesquisar
+na nuvem e guardar confirmações sem afirmar que foram aplicadas. Não voltar ao PC
+como alternativa. Rotina existente: `6acbdf2a68e08191a9fb0c921fa0e5a8`, a cada 3 horas.
 
 Priorizar publicações dos últimos sete dias, mais novas primeiro. Não recuperar o
 histórico antigo. Canais/vídeos removidos, incluindo possíveis remoções de Dazai e
