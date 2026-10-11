@@ -638,6 +638,56 @@ REVIEWED.extend([{'video_id': 'a9i82-nZRE8',
   'confirmado': True}])
 
 
+REVIEWED.extend([{'video_id': 'F93-5vx5OHQ',
+  'title': 'You Might Die If I Use My Healing Skills On You',
+  'aliases': ['If I Use My Healing Skills, You May Die', '我一个治疗术下去你可能会死'],
+  'evidence': 'Transcrição pública do vídeo: 0:00–0:42, em 2050 o VR Immortals afeta a realidade, '
+              'Jiang Chen/Mortal morre diante de um deus após sacrificar artefato yin-yang e '
+              'retorna ao lançamento; 0:42–1:17, Xia Ruier entrega o capacete; 1:32–1:49 escolhe '
+              'sacerdote com talento Yin-Yang Inversion; 2:06 chega à vila inicial 1001; 3:58 '
+              "coleta 705 chifres; 5:30 obtém Cupid's Blessing. A página oficial da novel na "
+              'Fanqie identifica Jiang Chen, jogo 諸神, sacerdote regressado cujas curas e bênçãos '
+              'viram dano e maldição, e declara explicitamente a adaptação em quadrinhos '
+              '我一个治疗术下去你可能会死. Seu índice inicia com entrada no jogo, inversão yin-yang, caçada de '
+              'ovelhas e bênção de Eros, mesma sequência do vídeo. DragonTea atesta o título '
+              'inglês e alias com Jiang Chen e essa premissa; o catálogo chinês Qimanwu confirma o '
+              'mesmo título. https://www.youtube.com/watch?v=F93-5vx5OHQ&t=0s '
+              'https://www.youtube.com/watch?v=F93-5vx5OHQ&t=92s '
+              'https://www.youtube.com/watch?v=F93-5vx5OHQ&t=330s '
+              'https://fanqienovel.com/page/7008014590231448613 '
+              'https://dragontea.ink/novel/you-might-die-if-i-use-my-healing-skills-on-you/ '
+              'https://qimanwu.org/comic/Ob2NaZ6vKn . O capítulo inicial corroborado traz ainda '
+              '2050, Jiang Chen, artefato yin-yang e Xia Ruier: '
+              'https://m.shuhaige.net/213760/90373205.html . Distinção revisada: Não confundir com '
+              'You Might Die If I Cast My Healing Spell/Catastrophic Priest, cuja história é de '
+              'Lin Ye; o vídeo é de Jiang Chen e jogo VR.',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'pHR4Ytni2Bg',
+  'title': 'The Old Man Vows Revenge Against His Demon Wife',
+  'aliases': ['The Man Who Vowed Revenge on His Demon Wife',
+              'Ossan, Oniyome e no Fukushuu o Chikau',
+              'おっさん、鬼嫁への復讐を誓う'],
+  'evidence': 'Descrição pública do próprio vídeo nomeia expressamente The Old Man Vows Revenge '
+              'Against His Demon Wife. Transcrição 0:00–0:17 descreve masmorras surgidas há 70 '
+              'anos, descoberta de mana e Seishirou (grafado Seiru na legenda) salvando mulher '
+              'oni; 0:17–0:57, esposa Ruka torna-se cruel após morte do pai, trai o marido, mata a '
+              'filha e o atira na masmorra. 5:00–7:57, vampira Elana oferece pacto de vingança que '
+              'deixa apenas um ano de vida. JumpTOON oficial e anúncio do autor confirmam título '
+              'japonês, protagonista 誠志郎/Seishirou, masmorras há 70 anos, mulher oni resgatada, '
+              'casamento e traição que lhe retira tudo. Os catálogos externos associam '
+              'explicitamente os títulos inglês e japonês. '
+              'https://www.youtube.com/watch?v=pHR4Ytni2Bg '
+              'https://www.youtube.com/watch?v=pHR4Ytni2Bg&t=0s '
+              'https://www.youtube.com/watch?v=pHR4Ytni2Bg&t=300s '
+              'https://jumptoon.com/series/JT00120/ '
+              'https://mypage.syosetu.com/mypageblog/view/userid/638162/blogkey/3681362/ '
+              'https://softkomik.co/the-old-man-vows-revenge-against-his-demon-wife-bahasa-indonesia '
+              '.',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True}])
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
