@@ -1,6 +1,8 @@
 """Identificações revisadas: chave por vídeo, nunca pelo número de linha."""
 import re
 
+import confirmacao
+
 REVIEWED = [
   {
     "video_id": "hNIp0R12Ujk",
@@ -9,7 +11,8 @@ REVIEWED = [
       "Murim Psychopath"
     ],
     "evidence": "Frame aos 40s corresponde ao painel do capítulo 1. https://www.mangaread.org/manga/psychopath-in-murim/chapter-1/",
-    "reviewed_at": "2026-10-11"
+    "reviewed_at": "2026-10-11",
+    "confirmado": True
   },
   {
     "video_id": "fE7n-MslLWM",
@@ -26,7 +29,8 @@ REVIEWED = [
       "Even If I Keep Spending, Money Keeps Piling Up"
     ],
     "evidence": "Frame aos 30s corresponde ao capítulo 1. https://vortexscans.org/series/spend-more-earn-more/chapter-1",
-    "reviewed_at": "2026-10-11"
+    "reviewed_at": "2026-10-11",
+    "confirmado": True
   },
   {
     "video_id": "xDfmMGD1mk4",
@@ -94,6 +98,7 @@ REVIEWED.append({
     "aliases": ["Ruler of the Dark Age", "Amheukgiui Jibaeja"],
     "evidence": "Teste de investigate.js: narração inicial sobre herdeiro do clã Luoyang e frame aos 40s correspondem ao capítulo 1. https://www.mangaread.org/manga/the-ruler-of-darkness/chapter-1/ https://freewebnovel.com/novel/the-ruler-of-darkness/chapter-1",
     "reviewed_at": "2026-10-11",
+    "confirmado": True,
 })
 
 
@@ -104,6 +109,7 @@ REVIEWED.extend([
         "aliases": ["Shut Up, Evil Dragon!", "闭嘴恶龙我不想再跟你生孩子了"],
         "evidence": "Piloto da linha 17, pesquisado nesta sessão (não pelo dot). Nome explícito na descrição do vídeo e enredo de caçador de dragões com filhas da rainha inimiga correspondem à sinopse. https://www.youtube.com/watch?v=JPU-wHenQ7s https://olympusscanlation.org/shut-up-evil-dragon-manga/",
         "reviewed_at": "2026-10-11",
+        "confirmado": True,
     },
     {
         "video_id": "RBib2cJkYlU",
@@ -137,6 +143,7 @@ REVIEWED.extend([
         "aliases": [],
         "evidence": "Comentário do próprio canal (Gaku Recaps): 'Name; Shadow Slave'. https://www.youtube.com/watch?v=DUpaLD29WXw",
         "reviewed_at": "2026-10-11",
+        "confirmado": True,
     },
     {
         "video_id": "Ahr1vUkIdDw",
@@ -186,9 +193,24 @@ def plan_updates(rows):
     return updates, notes
 
 
+def plan_confirmed(rows):
+    """Linhas cuja obra e (ou vai ser, neste mesmo sync) o titulo de uma identificacao com
+    `"confirmado": True`. Roda toda vez: e idempotente e cobre linha preenchida antes de
+    a entrada ganhar o "confirmado". Se alguem trocou o nome na mao, nao marca."""
+    known = {item["video_id"]: item for item in REVIEWED if item.get("confirmado")}
+    marks = []
+    for index, row in enumerate(rows[1:], start=2):
+        row = list(row) + [""] * max(0, 8 - len(row))
+        item = known.get(video_id(row[6]))
+        if item and str(row[1]).strip() in ("", item["title"]):
+            marks.append((index, item["evidence"]))
+    return marks
+
+
 def apply_reviewed(spreadsheet, sheet, dry_run=False):
     # Leitura fresca: ordenação/novas linhas podem ter mudado os índices.
-    updates, notes = plan_updates(sheet.get_all_values())
+    rows = sheet.get_all_values()
+    updates, notes = plan_updates(rows)
     if dry_run:
         print(f"Identificações revisadas: {len(notes)} nomes disponíveis (sem gravar).")
         return len(notes)
@@ -205,5 +227,7 @@ def apply_reviewed(spreadsheet, sheet, dry_run=False):
                 "fields": "note",
             }} for row, item in notes
         ]})
+    # depois das notas acima: a nota de confirmado substitui a de "revisada".
+    confirmacao.mark(spreadsheet, sheet, plan_confirmed(rows))
     print(f"Identificações revisadas: {len(notes)} nomes preenchidos.")
     return len(notes)

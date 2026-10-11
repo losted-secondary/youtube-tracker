@@ -6,7 +6,7 @@ import unittest
 
 # Carrega apenas as funções puras/consulta em teste sem exigir credenciais ou SDKs.
 tree = ast.parse(Path('main.py').read_text(encoding='utf-8'))
-names = {'OBRA_PATTERN', 'OBRA_BLACKLIST', 'extract_obra_from_text', 'fetch_owner_comment', 'extract_obra'}
+names = {'OBRA_PATTERN', 'OBRA_BLACKLIST', 'extract_obra_from_text', 'fetch_owner_comment', 'extract_obra', 'extract_obra_fonte'}
 selected = [node for node in tree.body if
             isinstance(node, ast.FunctionDef) and node.name in names or
             isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id in names for t in node.targets)]
@@ -45,6 +45,16 @@ class OwnerCommentTests(unittest.TestCase):
         title = namespace['extract_obra'](yt, 'ycKWC4EEz6c', 'owner', "Manhwa name: It's in the comments")
         self.assertEqual(title, 'Real title')
         self.assertEqual(yt.calls, 2)
+
+    def test_fonte_diz_de_onde_veio_o_nome(self):
+        f = namespace['extract_obra_fonte']
+        self.assertEqual(f(FakeYoutube([]), 'x', 'owner', 'Manhwa name: Shadow Slave'),
+                         ('Shadow Slave', 'nome na descrição do vídeo'))
+        yt = FakeYoutube([{'items': [comment('owner', 'Name: Shadow Slave')]}])
+        self.assertEqual(f(yt, 'x', 'owner', 'sem nome'),
+                         ('Shadow Slave', 'nome em comentário do próprio canal'))
+        yt = FakeYoutube([{'items': [comment('viewer', 'Name: Palpite')]}])
+        self.assertEqual(f(yt, 'x', 'owner', 'sem nome'), (None, None))
 
     def test_missing_owner_id_does_not_query_or_accept_viewers(self):
         yt = FakeYoutube([])

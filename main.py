@@ -13,6 +13,7 @@ from reviewed_identifications import apply_reviewed
 import intro
 import postagens
 import descobrir
+import confirmacao
 import novas_obras
 
 SHEET_ID = "1ordgWcnAmJpxAVD8qXy0dXjhgqu5Y_g2LkJFnzxA9f0"
@@ -161,12 +162,18 @@ def fetch_owner_comment(yt, video_id, channel_id):
     return None
 
 
-def extract_obra(yt, video_id, channel_id, description):
+def extract_obra_fonte(yt, video_id, channel_id, description):
+    """(obra, fonte). As duas fontes sao o proprio canal falando o nome, entao quem achar
+    por aqui vira obra confirmada (confirmacao.py)."""
     obra = extract_obra_from_text(description)
     if obra:
-        return obra
-    comment = fetch_owner_comment(yt, video_id, channel_id)
-    return extract_obra_from_text(comment)
+        return obra, "nome na descrição do vídeo"
+    obra = extract_obra_from_text(fetch_owner_comment(yt, video_id, channel_id))
+    return (obra, "nome em comentário do próprio canal") if obra else (None, None)
+
+
+def extract_obra(yt, video_id, channel_id, description):
+    return extract_obra_fonte(yt, video_id, channel_id, description)[0]
 
 
 def parse_legacy_date_to_brt(s):
@@ -458,9 +465,12 @@ def main():
             }
 
     new_rows = []
+    fontes = []   # fonte do nome de cada linha nova (None = sem obra)
     for v in new_videos:
         s = stats.get(v["id"], {"views": 0, "duration": "", "description": "", "channelId": None})
-        obra = extract_obra(yt, v["id"], s.get("channelId"), s.get("description", "")) or ""
+        obra, fonte = extract_obra_fonte(yt, v["id"], s.get("channelId"), s.get("description", ""))
+        obra = obra or ""
+        fontes.append(fonte)
         new_rows.append([
             False, obra, v["channel"],
             v["published"].astimezone(BRT).strftime(DATE_FMT),
@@ -478,6 +488,8 @@ def main():
             for k, v in enumerate(new_videos)
         ], NCOLS)
         descobrir.save_seen(spreadsheet, [v["id"] for v in new_videos if v.get("fora")], now_utc)
+        confirmacao.mark(spreadsheet, sheet, [
+            (first + k, f) for k, f in enumerate(fontes) if f])
 
     updates = []
     for vid, row_num in existing_by_id.items():
@@ -489,16 +501,19 @@ def main():
     # 2a tentativa de pegar o nome da obra (comentario fixado depois do upload).
     # So na varredura completa, senao seria 1-2 unidades de cota por video a cada 10 min.
     obra_updates = []
+    obra_marks = []
     if full_sweep:
         for vid, row_num in obra_retry[:OBRA_RETRY_MAX]:
             st = stats.get(vid)
             if not st:
                 continue
-            obra = extract_obra(yt, vid, st.get("channelId"), st.get("description", ""))
+            obra, fonte = extract_obra_fonte(yt, vid, st.get("channelId"), st.get("description", ""))
             if obra:
                 obra_updates.append({"range": f"B{row_num}", "values": [[obra]]})
+                obra_marks.append((row_num, fonte))
         if obra_updates:
             sheet.batch_update(obra_updates, value_input_option="USER_ENTERED")
+            confirmacao.mark(spreadsheet, sheet, obra_marks)
 
     # nomes alternativos (comick): so mexe em linha com obra preenchida e coluna H vazia.
     # As linhas novas ja entram nessa conta — append_rows coloca elas logo apos `rows`,
