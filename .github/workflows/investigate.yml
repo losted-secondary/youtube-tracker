@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       video:
-        description: ID ou URL do vídeo (vazio = primeiro sem obra no Sheets)
+        description: ID ou URL (vazio = mais recente sem obra nos últimos 7 dias)
         required: false
         type: string
 
@@ -28,6 +28,7 @@ jobs:
         env:
           VIDEO: ${{ inputs.video }}
           GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: |
           if [ -n "$VIDEO" ]; then
             node investigate.js --video "$VIDEO" --out artifacts/investigation

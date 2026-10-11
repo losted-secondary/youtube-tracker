@@ -102,7 +102,7 @@ def chunk(lst, n):
 
 # prefixos mais especificos primeiro (alternancia do regex casa da esquerda p/ direita)
 OBRA_PATTERN = re.compile(
-    r"^\s*[^\w]*\s*((?:manhwa|manhua|manga|novel) (?:name|title)|original name|original title|name|title|manhwa)\s*[:\-–—→]\s*(.+?)\s*$",
+    r"^\s*[^\w]*\s*((?:manhwa|manhua|manga|novel) (?:name|title)|original name|original title|name|title|manhwa|manhua|manga|novel)\s*[:\-–—→]\s*(.+?)\s*$",
     re.IGNORECASE | re.MULTILINE,
 )
 OBRA_BLACKLIST = re.compile(r"in the comments?|pinned|below|see below", re.IGNORECASE)

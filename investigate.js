@@ -11,6 +11,7 @@ function candidates(text) {
   const result = [];
   for (const line of clean.split(/\r?\n/)) {
     const patterns = [
+      /^\s*(?:manhwa|manhua|manga|novel)\s*[:—–-]\s*(.+)$/i,
       /^\s*[^\w]*(?:(?:manhwa|manhua|manga|novel|series)\s+)?(?:name|title)(?:\s+of\s+the\s+series)?\s*[:—–-]\s*(.+)$/i,
       /(?:the\s+)?name\s+of\s+(?:the\s+)?(?:novel|manhwa|manga|series|story)(?:\s+he\s+is\s+animating)?\s+is\s+(.+)$/i,
       /(?:novel|manhwa|manga|series|story)\s+(?:is\s+)?called\s+(.+)$/i,
@@ -88,7 +89,7 @@ function main(argv) {
     else if (key === '--no-related') opts.related = false;
     else if (key === '--help') {
       console.log('node investigate.js --video ID_OU_LINK [--out artifacts/teste] [--no-frames] [--no-related]\n' +
-        'node investigate.js --first-missing (precisa de GOOGLE_CREDENTIALS_JSON)\n' +
+        'node investigate.js --first-missing (últimos 7 dias; precisa de GOOGLE_CREDENTIALS_JSON)\n' +
         'Dependências: Python, requirements-investigate.txt; ffmpeg opcional para frames. Sem edição do Sheets.');
       return;
     } else throw new Error(`Opção desconhecida: ${key}`);

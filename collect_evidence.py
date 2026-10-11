@@ -7,6 +7,7 @@ import re
 import shutil
 import subprocess
 import sys
+from datetime import datetime, timedelta, timezone
 
 VIDEO_ID = re.compile(r"^[A-Za-z0-9_-]{11}$")
 
@@ -32,13 +33,59 @@ class Logger:
         print("Falha yt-dlp na coleta; tente abrir o vídeo no navegador.", file=sys.stderr)
 
 
+def collect_api(vid):
+    """Fallback de metadados; a API não fornece frames ou legendas públicas."""
+    from googleapiclient.discovery import build
+    from googleapiclient.errors import HttpError
+    yt = build("youtube", "v3", developerKey=os.environ["YOUTUBE_API_KEY"])
+    items = yt.videos().list(part="snippet", id=vid).execute().get("items", [])
+    if not items:
+        raise ValueError("Vídeo indisponível na API.")
+    snippet = items[0]["snippet"]
+    result = dict(video_id=vid, url="https://www.youtube.com/watch?v=" + vid,
+                  title=snippet["title"], description=snippet.get("description", ""),
+                  channel=snippet.get("channelTitle", ""), published=snippet.get("publishedAt"),
+                  comments=[], transcript="", frames=[], collection_method="youtube_api",
+                  errors=["Extração yt-dlp falhou. API forneceu metadados; coletar falas e frames localmente."])
+    token = None
+    try:
+        for _ in range(2):
+            page = yt.commentThreads().list(part="snippet,replies", videoId=vid,
+                maxResults=60, order="relevance", textFormat="plainText", pageToken=token).execute()
+            for thread in page.get("items", []):
+                comments = [thread["snippet"]["topLevelComment"]] + thread.get("replies", {}).get("comments", [])
+                for comment in comments:
+                    c = comment["snippet"]
+                    result["comments"].append(dict(id=comment["id"], text=c.get("textOriginal", c.get("textDisplay", "")),
+                        author=c.get("authorDisplayName", ""), parent=c.get("parentId"),
+                        is_owner=c.get("authorChannelId", {}).get("value") == snippet.get("channelId")))
+            token = page.get("nextPageToken")
+            if not token:
+                break
+    except HttpError as exc:
+        result["errors"].append(f"Comentários indisponíveis na API (HTTP {exc.resp.status}).")
+    result["comments_sampled"] = len(result["comments"])
+    return result
+
+
 def collect(vid, out_dir, frames=True):
+    import yt_dlp
+    try:
+        return collect_ytdlp(vid, out_dir, frames)
+    except yt_dlp.utils.DownloadError:
+        if not os.environ.get("YOUTUBE_API_KEY"):
+            raise
+        return collect_api(vid)
+
+
+def collect_ytdlp(vid, out_dir, frames=True):
     import requests
     import yt_dlp
     errors = []
     opts = {
         "quiet": True, "no_warnings": True, "skip_download": True,
         "logger": Logger(), "getcomments": True,
+        "js_runtimes": {"node": {}},
         "socket_timeout": 20, "retries": 1, "extractor_retries": 1,
         "extractor_args": {"youtube": {"max_comments": ["120"], "comment_sort": ["top"]}},
     }
@@ -108,6 +155,29 @@ def collect(vid, out_dir, frames=True):
     return result
 
 
+def select_recent_missing(rows, now=None, days=7):
+    """Escolhe o mais novo, independente da ordenação visual da planilha."""
+    if not rows or rows[0][:7] != ["quero_postar", "obra", "canal", "data_postado", "viewers", "duracao", "link"]:
+        raise ValueError("Cabeçalho da aba todos diferente do esperado.")
+    now = now or datetime.now(timezone.utc)
+    cutoff = now - timedelta(days=days)
+    eligible = []
+    for row in rows[1:]:
+        if len(row) < 7 or row[1].strip() or not row[6].strip():
+            continue
+        try:
+            published = datetime.strptime(row[3].replace(" - ", " "), "%d/%m/%Y %H:%M").replace(
+                tzinfo=timezone(timedelta(hours=-3)))
+            vid = get_video_id(row[6])
+        except ValueError:
+            continue
+        if cutoff <= published <= now:
+            eligible.append((published, vid))
+    if not eligible:
+        raise ValueError("Nenhum vídeo sem nome nos últimos sete dias.")
+    return max(eligible)[1]
+
+
 def first_missing():
     import gspread
     from google.oauth2.service_account import Credentials
@@ -117,12 +187,7 @@ def first_missing():
                                                        scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"])
     rows = gspread.authorize(credentials).open_by_key(
         "1ordgWcnAmJpxAVD8qXy0dXjhgqu5Y_g2LkJFnzxA9f0").worksheet("todos").get_all_values()
-    if not rows or rows[0][:7] != ["quero_postar", "obra", "canal", "data_postado", "viewers", "duracao", "link"]:
-        raise ValueError("Cabeçalho da aba todos diferente do esperado.")
-    for row in rows[1:]:
-        if len(row) >= 7 and not row[1].strip() and row[6].strip():
-            return get_video_id(row[6])
-    raise ValueError("Nenhum vídeo com link e obra vazia encontrado.")
+    return select_recent_missing(rows)
 
 
 def main():
