@@ -522,6 +522,73 @@ REVIEWED.extend([{'video_id': 'QRgV-BiVMLk',
   'confirmado': True}])
 
 
+REVIEWED.extend([{'video_id': 'QvBiMfQZQz8',
+  'title': 'Idle Player Returns as a God',
+  'aliases': ['I Awoke as a God After Auto Battling for a Million Years',
+              'After Millions of Years, I Woke Up to Be a God!',
+              '网游：挂机百万年，我醒来成神'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. A descrição do uploader identifica Idle '
+              'Player Returns as a God. Transcrição pública: 0:54–1:18, herói Shu Luo morreu '
+              'protegendo o Dragon Kingdom e é lembrado no centenário; 2:20–2:43, reencarna em '
+              'jovem homônimo (Zhang Yue, transcrição Jang Yua); 3:03–3:19, sistema o reconhece '
+              'como Shu Luo e informa 36.552 dias offline; 3:28–4:22, recompensa Supreme Oracle e '
+              'seleção de necromante como classe mítica; 5:08 troca o ID para Zero. Capítulo 1 '
+              'oficial da novela em Zongheng nomeia 张越/修罗, 36.552 dias offline, morte há 100 anos, '
+              'tesouro 至尊神谕 e escolha de 死灵法师; adaptação oficial encontrada em Kuaikan. '
+              'Correspondência específica, independente do título informado no vídeo. '
+              'https://www.youtube.com/watch?v=QvBiMfQZQz8&t=54s '
+              'https://www.youtube.com/watch?v=QvBiMfQZQz8&t=192s '
+              'https://m.zongheng.com/book/1271862 '
+              'https://www.kuaikanmanhua.com/webs/comic-next/739064 '
+              'https://www.novelupdates.com/series/idle-player-returns-as-a-god/ . A transcrição '
+              'diz bônus 999 vezes enquanto a novela diz 9999; esta discrepância numérica não foi '
+              'usada para confirmar o título.',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': '9O28Mn4LNyM',
+  'title': 'For My Own Good',
+  'aliases': ["I'll Retire After Saving the World",
+              'I Will Save the World and Retire',
+              'I Will Save the World And Then Retire',
+              '세상만 구하고 은퇴하겠습니다'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública: 2:28–4:42, Woo '
+              'Hwijae/Heejae (grafias automáticas Wuhi Jay/Hi Jay) trabalha na agência de gestão '
+              'de habilidades e é filho adotivo do hunter Hong Seokyoung; 10:18–11:41, um '
+              'dispositivo o salva do colapso do mundo transportando-o vinte anos ao passado, para '
+              '5/4/2024, junto dos alunos da Hunter Academy; 1:46:31 é identificado como instrutor '
+              'Woo Hwijae. A sinopse oficial WEBTOON de For My Own Good identifica Woo Heejae e a '
+              'viagem de 2044 para 2024, usando conhecimento futuro para ensinar hunters e salvar '
+              'o mundo. A edição alemã oficial confirma seu emprego na agência e o objeto '
+              'temporal. https://www.youtube.com/watch?v=9O28Mn4LNyM&t=148s '
+              'https://www.youtube.com/watch?v=9O28Mn4LNyM&t=618s '
+              'https://www.youtube.com/watch?v=9O28Mn4LNyM&t=6391s '
+              'https://www.webtoons.com/id/fantasy/for-my-own-good/list?title_no=6900 '
+              'https://www.webtoons.com/de/fantasy/for-my-own-good/list?title_no=7535 '
+              'https://www.mangaread.org/manga/ill-retire-after-saving-the-world/chapter-26-1/ . '
+              'For My Own Good é título oficial usado nas edições internacionais verificadas; '
+              'aliases e coreano corroborados pelo catálogo.',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'u2UfQ4zTVTQ',
+  'title': 'I Am the Strongest Transcendent',
+  'aliases': ['I am the Most Powerful Transcendent Being', '俺だけ最強超越者～全世界のチート師匠に認められた～'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Descrição do vídeo nomeia I am the Most '
+              'Powerful Transcendent Being. Transcrição: 0:32, protagonista Minato Kannagi; '
+              '1:31–1:38, reprova três vezes no exame de hunter; 4:46–5:41, Kaisei Hizaki o leva '
+              'ao santuário dos Progenitores e profana as tumbas; 8:33–8:41, Minato exige os '
+              'poderes de todos os espíritos; 11:14, confirma possuir 106 almas heroicas. '
+              'Personagem, armadilha na tumba e 106 Progenitores correspondem à sinopse da edição '
+              'oficial WEBTOON I Am the Strongest Transcendent, de Eto Shunji/Tsuchida Kenta. '
+              'https://www.youtube.com/watch?v=u2UfQ4zTVTQ&t=32s '
+              'https://www.youtube.com/watch?v=u2UfQ4zTVTQ&t=286s '
+              'https://www.youtube.com/watch?v=u2UfQ4zTVTQ&t=513s '
+              'https://www.youtube.com/watch?v=u2UfQ4zTVTQ&t=674s '
+              'https://m.webtoons.com/en/fantasy/i-am-the-strongest-transcendent/list?title_no=6676 '
+              'https://www.anime-planet.com/manga/i-am-the-strongest-transcendent/characters',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True}])
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
