@@ -688,6 +688,30 @@ REVIEWED.extend([{'video_id': 'F93-5vx5OHQ',
   'confirmado': True}])
 
 
+REVIEWED.extend([{'video_id': 'E-NdLRfVBIg',
+  'title': 'The Wind Mage',
+  'aliases': ['바람의 마도사'],
+  'evidence': 'Transcrição pública: 0:07–1:02, Simon tem afinidade com espírito pássaro e perde '
+              'pessoas queridas; 2:22–3:12 salva aldeia inundada com espírito do vento; 6:30–8:15 '
+              'desmascara falso mago e invoca Elcane, rei dos espíritos do vento; 30:16 procura '
+              'Klein Hayes; 40:44–42:32 aparecem Diana, Raiden, mestre Rouette e Klein; 2:19:08 '
+              'nome Ranian. Catálogos inglês Thunderscans e QiManga identificam Simon Hice/Heis, '
+              'depois Ranian/Lanian, pai Klein, mestre Rosette/Ruzette, Diana e irmão Raidin na '
+              'obra The Wind Mage/바람의 마도사. Namu documenta Elcane/엘케인 e o episódio exclusivo do '
+              'webtoon com falso mago do vento. KakaoWebtoon oficial confirma título coreano e '
+              'autoria Next Level Studio/Kim Geun-woo. '
+              'https://www.youtube.com/watch?v=E-NdLRfVBIg&t=7s '
+              'https://www.youtube.com/watch?v=E-NdLRfVBIg&t=495s '
+              'https://www.youtube.com/watch?v=E-NdLRfVBIg&t=1816s '
+              'https://www.youtube.com/watch?v=E-NdLRfVBIg&t=2444s '
+              'https://www.youtube.com/watch?v=E-NdLRfVBIg&t=8348s '
+              'https://en-thunderscans.com/comics/the-wind-mage/ '
+              'https://qimanga.com/series/the-wind-mage https://m.namu.moe/w/바람의%20마도사 '
+              'https://webtoon.kakao.com/content/바람의-마도사/4934 .',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True}])
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
