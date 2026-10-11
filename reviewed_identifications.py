@@ -589,6 +589,55 @@ REVIEWED.extend([{'video_id': 'QvBiMfQZQz8',
   'confirmado': True}])
 
 
+REVIEWED.extend([{'video_id': 'a9i82-nZRE8',
+  'title': "Go Deok-chun's Food Truck",
+  'aliases': ["Go Deokchun's Food Truck", "Godeokchun's Food Truck", '고덕춘의 푸드트럭'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública: 0:44–2:15, protagonista '
+              'arruinado por golpe de compras recebe takoyaki grátis de Deok-chun, passa três anos '
+              'ajudando no food truck e, após a morte do mentor, promete levar o nome Go Deok-chun '
+              'ao país inteiro; 2:22–2:56, apresenta Sehee, filha de magnata; 4:14–5:45, ela '
+              'começa a trabalhar no food truck e o protagonista é chamado Jun/June (Junho). A '
+              'combinação do food truck herdado do falecido Deokchun, Junho viajando para divulgar '
+              'seu nome, e herdeira Sehee é explicitamente confirmada pela sinopse oficial Naver '
+              'Series e Naver Webtoon de 고덕춘의 푸드트럭, por 포포. Catálogos corroboram as grafias '
+              'inglesas. https://www.youtube.com/watch?v=a9i82-nZRE8&t=44s '
+              'https://www.youtube.com/watch?v=a9i82-nZRE8&t=127s '
+              'https://www.youtube.com/watch?v=a9i82-nZRE8&t=321s '
+              'https://series.naver.com/comic/detail.series?productNo=13407372 '
+              'https://comic.naver.com/webtoon/list?tab=sun&titleId=844982 '
+              'https://komascans.com/en/series/go-deok-chuns-food-truck '
+              'https://www.manhwaden.com/manga/godeokchuns-food-truck/ . Inglês é título de '
+              'catálogo/romanização; edição inglesa oficial não verificada.',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True},
+ {'video_id': 'q5vSNczWC2c',
+  'title': 'Hoarding in Hell',
+  'aliases': ['지옥에서 독식', 'Jiogeseo Doksik'],
+  'evidence': 'Pesquisado na nuvem pelo Momo Tracker. Transcrição pública: 0:00–0:26, protagonista '
+              'recolhe musgo cristalino com mana em esgotos com uma colega; 0:41, televisão '
+              'noticia a conquista da masmorra Taebaek de cinco estrelas; 0:49–0:57, advogado '
+              'comunica a morte do pai e entrega medalhão herdado; 1:30–2:06, ao apertar o '
+              'medalhão, é transportado a mundo arruinado, sem sol, identificado como estrela do '
+              'apocalipse e dificuldade Hell; 2:14–3:45 morre e ressuscita repetidamente; 5:44 '
+              'recebe missão de sobreviver à primeira noite. A edição oficial Tapas de Hoarding in '
+              'Hell identifica Hyunmoo Kang, mineiro que herda hearthstone, vai ao Inferno, morre '
+              'e regenera para desenvolver habilidades e acumular itens; sua lista de episódios '
+              'inclui An Inheritance, First Night in Hell e Selling Crystal Moss. O capítulo 1 da '
+              'novela, em fonte secundária, confirma os detalhes distintivos do esgoto/musgo '
+              'cristalino, colega Yumin, advogado, herança paterna e notícia do clã Taeseong '
+              'conquistando Taebaek. Manga News confirma título original 지옥에서 독식. O recap usa '
+              'nomes ocidentalizados (Buster/Bugster, Judy e Robert) em vez dos nomes originais; a '
+              'confirmação baseia-se na sequência específica de eventos, não nessa nomenclatura. '
+              'https://www.youtube.com/watch?v=q5vSNczWC2c&t=0s '
+              'https://www.youtube.com/watch?v=q5vSNczWC2c&t=49s '
+              'https://www.youtube.com/watch?v=q5vSNczWC2c&t=107s '
+              'https://tapas.io/series/hoarding-in-hell/info '
+              'https://www.fanmtl.com/novel/hoarding-in-hell-novel_1.html '
+              'https://www.manga-news.com/index.php/serie/Hoarding-in-Hell',
+  'reviewed_at': '2026-10-11',
+  'confirmado': True}])
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
