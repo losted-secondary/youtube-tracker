@@ -97,6 +97,38 @@ REVIEWED.append({
 })
 
 
+REVIEWED.extend([
+    {
+        "video_id": "JPU-wHenQ7s",
+        "title": "Shut Up, Evil Dragon! I Don't Want to Raise a Child With You Anymore",
+        "aliases": ["Shut Up, Evil Dragon!", "闭嘴恶龙我不想再跟你生孩子了"],
+        "evidence": "Piloto da linha 17, pesquisado nesta sessão (não pelo dot). Nome explícito na descrição do vídeo e enredo de caçador de dragões com filhas da rainha inimiga correspondem à sinopse. https://www.youtube.com/watch?v=JPU-wHenQ7s https://olympusscanlation.org/shut-up-evil-dragon-manga/",
+        "reviewed_at": "2026-10-11",
+    },
+    {
+        "video_id": "RBib2cJkYlU",
+        "title": "Genius Martial Arts Trainer",
+        "aliases": ["Genius Murim Trainer"],
+        "evidence": "Piloto da linha 19, pesquisado nesta sessão (não pelo dot). Falas de 0-180s: treinador Choi Kang-hyuk, academia prejudicada pela pandemia, leitura de novel Shaolin e despertar como Mujin; sequência corresponde ao capítulo 1. https://www.youtube.com/watch?v=RBib2cJkYlU https://faqwiki.us/novel/genius-martial-arts-trainer-chapter-1/",
+        "reviewed_at": "2026-10-11",
+    },
+    {
+        "video_id": "6xZguXtB-Dc",
+        "title": "Popularizing Science: Oxygen is Toxic, and the Whole Internet is Saying I'm Crazy",
+        "aliases": ["科普氧气有毒，全网骂我有病"],
+        "evidence": "Piloto da linha 20, pesquisado nesta sessão (não pelo dot). Identificação por sequência de enredo: apresentador de ciência diz que oxigênio encurta a vida e demonstra oxidação com maçã cortada e metais, como no capítulo 2; descrição relaciona mitos a civilizações antigas, também presentes na sinopse. O recap adapta o nome do protagonista para Theo; original Ye Zhen. https://www.youtube.com/watch?v=6xZguXtB-Dc https://m.jingwx.com/140189/3217785.html https://wtr-lab.com/en/novel/73213/popularizing-science-oxygen-is-toxic-and-the-whole-internet-is-saying-im-crazy",
+        "reviewed_at": "2026-10-11",
+    },
+    {
+        "video_id": "L2Pt016Ev5U",
+        "title": "Legendary Youngest Son of the Marquis House",
+        "aliases": ["Jack Be Invincible", "The Marquess's Youngest Son"],
+        "evidence": "Piloto da linha 21, pesquisado nesta sessão (não pelo dot). Comentários indicam o título; narração 0-180s identifica Jack Valantier, retorno aos 14 anos, irmão abusivo e irmã protetora. Correspondência com sinopse da editora Tapas e capítulo 1. https://www.youtube.com/watch?v=L2Pt016Ev5U https://tapas.io/series/jack-be-invincible/info https://wuxia.click/chapter/legendary-youngest-son-of-the-marquis-house-2",
+        "reviewed_at": "2026-10-11",
+    },
+])
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None

@@ -20,7 +20,7 @@ class ReviewedTests(unittest.TestCase):
     def test_handles_all_reviewed_ids_and_is_idempotent(self):
         rows = [HEADER] + [['FALSE', '', 'Canal', '', '', '', 'https://youtu.be/' + e['video_id'], ''] for e in REVIEWED]
         updates, notes = plan_updates(rows)
-        self.assertEqual(len(notes), 10)
+        self.assertEqual(len(notes), len(REVIEWED))
         for i, e in enumerate(REVIEWED, 1):
             rows[i][1] = e['title']
         self.assertEqual(plan_updates(rows), ([], []))
