@@ -737,6 +737,35 @@ REVIEWED.append({'video_id': '4zgCQqFhDxM',
  'reviewed_at': '2026-10-12',
  'confirmado': True})
 
+REVIEWED.append({
+    "video_id": "cOEwYHR3DDE",
+    "title": "合约疯妻",
+    "aliases": [],
+    "evidence": (
+        "Identificação do manju chinês de animação por IA, pelo título original. "
+        "Transcrição pública em hindi lida na tentativa anterior de 12/10/2026: "
+        "0:17–1:15, protagonista simula a morte após contrato conjugal de cinco anos "
+        "e passa a viver com irmã e sobrinha; 2:05–3:26, reencontra a esposa durante "
+        "compras de relógio com a sobrinha; 5:11–6:28, é sequestrado. A página externa "
+        "Duanju Baike nomeia 合约疯妻, Jiang Bai (姜白) e Chen Keyue (陈可月), e reproduz "
+        "a sequência específica: contrato de cinco anos, morte simulada, irmã e "
+        "sobrinha, encontro no shopping e rapto após golpe na cabeça. Seus 18 episódios "
+        "somam 28 minutos, compatíveis com o recap de 27:54–27:55. Metadados do vídeo "
+        "conferidos novamente nesta revisão. Título e nomes vêm de um único catálogo "
+        "externo; comparação de enredo usa a transcrição já lida, sem alegar nova "
+        "transcrição ou correspondência visual, pois essas coletas falharam nesta "
+        "rodada. Edição inglesa, alias inglês e eventual novel ou quadrinho original "
+        "separado não verificados. "
+        "https://www.youtube.com/watch?v=cOEwYHR3DDE&t=17s "
+        "https://www.youtube.com/watch?v=cOEwYHR3DDE&t=125s "
+        "https://www.youtube.com/watch?v=cOEwYHR3DDE&t=311s "
+        "https://www.duanjubaike.net/manju/info-7596877098732506137.html"
+    ),
+    "reviewed_at": "2026-10-12",
+    "confirmado": True,
+})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
