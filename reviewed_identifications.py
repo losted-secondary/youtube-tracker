@@ -712,6 +712,31 @@ REVIEWED.extend([{'video_id': 'E-NdLRfVBIg',
   'confirmado': True}])
 
 
+REVIEWED.append({'video_id': '4zgCQqFhDxM',
+ 'title': 'The Crazy Villain Regains His Sanity',
+ 'aliases': ['미친 빌런이 정신을 되찾음'],
+ 'evidence': 'Transcrição pública: 0:00–0:49, Junho conversa com a irmã sobre trabalho como '
+             'servidor público antes de um assalto a banco; 3:28–3:37, após derrotar os '
+             'assaltantes, quase usa seu antigo nome de vilão (grafado Bloodkin na legenda '
+             'automática), mas se corrige para futuro hunter do serviço público. 4:30–5:41, dom '
+             'de consumir sangue/essência absorve habilidades, corrompe sua mente e gera '
+             'personalidade destrutiva; 6:51–6:58, a legenda automática registra Chay Junho, de '
+             'volta à mesa da família como desempregado de 25 anos. A página oficial do '
+             'quadrinho no Kakao identifica 최준호 (Choi Junho), ex-vilão 혈종, dom 혈중섭식 que o faz '
+             'perder o autocontrole, e Junho recuperado tornando-se servidor público para '
+             'combater vilões; créditos Next Level Studio, original 김현우. A combinação específica '
+             'de personagem, poder e carreira confirma a identificação. Novel Updates associa o '
+             'título inglês ao coreano e a Choi Joon-ho; a descrição do próprio criador também '
+             'nomeia o título inglês. Edição inglesa oficial não verificada. '
+             'https://www.youtube.com/watch?v=4zgCQqFhDxM&t=0s '
+             'https://www.youtube.com/watch?v=4zgCQqFhDxM&t=208s '
+             'https://www.youtube.com/watch?v=4zgCQqFhDxM&t=270s '
+             'https://www.youtube.com/watch?v=4zgCQqFhDxM&t=411s '
+             'https://page.kakao.com/content/70776768/?tab_type=about '
+             'https://www.novelupdates.com/series/the-crazy-villain-regains-his-sanity/',
+ 'reviewed_at': '2026-10-12',
+ 'confirmado': True})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
