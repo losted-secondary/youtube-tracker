@@ -776,6 +776,40 @@ REVIEWED.append({
 })
 
 
+REVIEWED.append({
+    "video_id": "p5C2EkqAjKM",
+    "title": "断绝关系？我反手激活万倍返利！",
+    "aliases": [],
+    "evidence": (
+        "Novel chinesa de 咸鱼小笼包, identificada pelo título original oficial. "
+        "Transcrição pública preservada da pesquisa anterior: 0:25–3:12, Xiao Fan, "
+        "sete irmãs, sacrifício na vida anterior, rompimento familiar e ativação do "
+        "sistema; 4:12–5:09, saldo de 38 yuan e água de 1 yuan que rende 10.000 pontos "
+        "de qi/sangue; 7:15–9:11, loteria de 36 yuan em 18 apostas, prêmio de 324 "
+        "milhões, imposto de 64,8 milhões e líquido de 259,2 milhões, com técnica "
+        "de combate e cartão preto; 9:42–11:01, compra da escola Dragon Tiger por "
+        "3 milhões e energia maligna de um osso. Na revisão de 12/10/2026, leitura "
+        "nova dos capítulos oficiais 1–4 no Fanqie confirma a mesma sequência, "
+        "os valores exatos, 萧凡 (Xiao Fan), falso herdeiro 林风 (Lin Feng), "
+        "龙虎武馆 e herança 混沌神魔诀. Lin Fang da legenda automática anterior "
+        "é corrigido pela fonte chinesa. Correspondência da novel de origem; "
+        "quadrinho separado, edição inglesa e aliases em inglês não verificados. "
+        "Esta revisão não fez nova transcrição nem comparação visual do vídeo. "
+        "https://www.youtube.com/watch?v=p5C2EkqAjKM&t=25s "
+        "https://www.youtube.com/watch?v=p5C2EkqAjKM&t=252s "
+        "https://www.youtube.com/watch?v=p5C2EkqAjKM&t=435s "
+        "https://www.youtube.com/watch?v=p5C2EkqAjKM&t=582s "
+        "https://fanqienovel.com/page/7538015427515911193 "
+        "https://fanqienovel.com/reader/7538019216746627609 "
+        "https://fanqienovel.com/reader/7538019374322418201 "
+        "https://fanqienovel.com/reader/7538019528530199065 "
+        "https://fanqienovel.com/reader/7538019879878656537"
+    ),
+    "reviewed_at": "2026-10-12",
+    "confirmado": True,
+})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
