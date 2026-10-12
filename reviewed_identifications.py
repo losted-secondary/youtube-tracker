@@ -766,6 +766,16 @@ REVIEWED.append({
 })
 
 
+REVIEWED.append({
+    "video_id": "u-balFxgGDY",
+    "title": "我能加载旧日设定",
+    "aliases": [],
+    "evidence": "Descrição pública do próprio vídeo, observada em 12/10/2026 às 13:24 UTC e preservada na primeira pesquisa, corresponde aos capítulos 1–3 da novel de 鹅毛浮开水: câncer terminal de pulmão, busca de três anos pelo sobrenatural, mansão herdada e Codex of Fate (命运法典) visível só ao protagonista. O capítulo 2 confirma que morrer por ação de um deus permite retroceder ou reviver e obter poder divino por vingança; o capítulo 3 encena a primeira morte e essas escolhas. Correspondência específica de trama e mecânicas, não apenas sinopse genérica. A equivalência entre Dorian Lockwood, citado pelo canal, e 陆延年 (Lu Yannian), da fonte chinesa, é inferida; não foi verificada uma edição ou alias oficial em inglês. A revisão usou a descrição anteriormente lida e novos capítulos externos, sem nova transcrição, frames ou timestamps do vídeo. https://www.youtube.com/watch?v=u-balFxgGDY https://www.198touzi.com/book/127911/ https://www.198touzi.com/book/127911/54894331.html https://www.198touzi.com/book/127911/54894332/2.html https://www.198touzi.com/book/127911/54894333/2.html",
+    "reviewed_at": "2026-10-12",
+    "confirmado": True
+})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
