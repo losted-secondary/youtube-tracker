@@ -926,6 +926,76 @@ REVIEWED.append({
 })
 
 
+REVIEWED.extend([
+    {
+        "video_id": "BTkZ47ABOP8",
+        "title": "I Rely On My Harem To Conquer The World",
+        "aliases": ["我靠后宫征服世界"],
+        "evidence": (
+            "Manhua identificado pela transcrição pública do vídeo, lida na interface "
+            "do YouTube em 13/10/2026, e pelos painéis oficiais da WebNovel Comics "
+            "inspecionados visualmente. Em 0:00–0:34, o ano 2050 corresponde à abertura "
+            "do capítulo 1, Backstab; em 3:53–5:06, a serpente de quinto nível, a fuga "
+            "da equipe e o capitão ferindo o carregador doente para usá-lo como isca "
+            "correspondem ao Titanboa tier 5 e à referência a Beastblight nos painéis "
+            "58, 69, 72 e 74 de 116. Em 5:46–6:39, a invocação pelas súcubos e a "
+            "janela de status correspondem ao cartão Li Haoran, Blood Demon God, "
+            "Bloodkin do painel 109/116. Em 6:56–7:03, a primeira seguidora possui "
+            "88% de afeição, como Nicole, Succubus, favorability 88% no painel 4/82 "
+            "do capítulo 2, I Drained The Succubus Village. Os números são contadores "
+            "de imagens do leitor, não páginas impressas. Título inglês oficial da "
+            "WebNovel; alias chinês atestado no AniList. Grafias variáveis na legenda "
+            "automática não são aliases da obra. Confirmação por sequência específica "
+            "e personagens; sem comparação direta da arte do recap, exportação integral "
+            "da transcrição ou alegação de novel separada. "
+            "https://www.youtube.com/watch?v=BTkZ47ABOP8&t=0s "
+            "https://www.youtube.com/watch?v=BTkZ47ABOP8&t=233s "
+            "https://www.youtube.com/watch?v=BTkZ47ABOP8&t=346s "
+            "https://www.youtube.com/watch?v=BTkZ47ABOP8&t=416s "
+            "https://www.webnovel.com/comic/33460735100887601 "
+            "https://www.webnovel.com/comic/33460735100887601/92159213643552306 "
+            "https://www.webnovel.com/comic/33460735100887601/92159214180423620 "
+            "https://anilist.co/manga/192158/Wokao-Hougong-Zhengfu-Shijie"
+        ),
+        "reviewed_at": "2026-10-13",
+        "confirmado": True,
+    },
+    {
+        "video_id": "OHVNP0eLZuE",
+        "title": "Living with an Aberrant Lifeform in My Body",
+        "aliases": ["Strongest Parasitic Human", "寄宿我身，这个异生人不好惹！"],
+        "evidence": (
+            "Manhua identificado pela transcrição pública do vídeo, lida na interface "
+            "do YouTube em 13/10/2026, e pela sequência de painéis oficiais do episódio "
+            "1 da Tappytoon, inspecionados visualmente. Em 0:27–0:43, o protagonista "
+            "ouve música de fones num trem lotado enquanto os demais passageiros estão "
+            "exaustos; em 2:27–2:45, o agressor é caracterizado como criminoso de "
+            "demolição; em 2:45–3:11, o protagonista vê uma menina com a avó, propõe "
+            "distrair o monstro para elas fugirem e cita sua experiência na equipe "
+            "universitária de atletismo. Essa sequência específica corresponde ao "
+            "episódio 1, além da sinopse oficial sobre Lucas Qin e o ataque no metrô. "
+            "Título inglês licenciado da Tappytoon; Strongest Parasitic Human é título "
+            "de fãs atestado no Komikindo e RezoScan, e o original chinês está no "
+            "MangaBaka e Komikindo. Qin Xi e Lucas Qin são formas documentadas nos "
+            "catálogos; as variações da transcrição automática não são aliases da "
+            "obra. O player ficou preto/em carregamento, portanto não houve comparação "
+            "direta entre a arte do recap e os painéis. Não se afirma novel separada "
+            "nem o capítulo final coberto pelo vídeo. "
+            "https://www.youtube.com/watch?v=OHVNP0eLZuE&t=27s "
+            "https://www.youtube.com/watch?v=OHVNP0eLZuE&t=147s "
+            "https://www.youtube.com/watch?v=OHVNP0eLZuE&t=165s "
+            "https://www.tappytoon.com/en/book/living-with-an-aberrant-lifeform-in-my-body "
+            "https://www.tappytoon.com/en/chapters/339174933 "
+            "https://mangabaka.org/manhua/94279/Living-with-an-Aberrant-Lifeform-in-My-Body "
+            "https://komikindo.ch/komik/strongest-parasitic-human/ "
+            "https://rezoscan.org/series/strongest-parasitic-human"
+        ),
+        "reviewed_at": "2026-10-13",
+        "confirmado": True,
+    },
+])
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
