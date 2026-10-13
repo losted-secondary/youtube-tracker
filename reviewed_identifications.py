@@ -996,6 +996,130 @@ REVIEWED.extend([
 ])
 
 
+REVIEWED.extend([{'video_id': 'yFeCAGnFqcQ',
+  'title': 'My Slain Dragon Bride',
+  'aliases': ['I Married the Dragon I Killed',
+              'The Dragon I Killed Became My Bride',
+              '내가 죽인 드래곤과 결혼했다'],
+  'evidence': 'Manhwa identificado pela transcrição pública do vídeo, lida na interface do YouTube '
+              'em 13/10/2026, e por painéis externos inspecionados visualmente. Em 0:22–0:40, a '
+              'dragão entrega voluntariamente o coração, cuja ingestão revela seu sofrimento e '
+              'motiva a regressão; a sinopse oficial da Naver confirma Valdrova entregando o '
+              'coração para a ascensão ao nono círculo. Em 0:49–1:14, Ferda Rosnova recebe o '
+              'decreto de noivado e precisa escolher entre exílio e a dragão, como no capítulo 1, '
+              'imagem 2 do leitor Asura. Em 1:52:51–1:53:25, Luri recomenda atingir o quarto '
+              'círculo, manda Ferda descansar e o parabeniza quando ele inesperadamente alcança o '
+              'terceiro: sequência correspondente aos painéis finais do capítulo 18, imagem 17; a '
+              'imagem 18 é o cartão final. Abertura e término sustentam o alcance aparente dos '
+              'capítulos 1–18, sem alegar verificação de todos os painéis intermediários; a '
+              'numeração da transcrição do YouTube não é a dos capítulos. Título e aliases '
+              'ingleses atestados na descrição do uploader e no catálogo Asura, sem edição inglesa '
+              'licenciada verificada; título original confirmado na Naver. Comparação de cenas '
+              'narradas com painéis externos, sem alegar comparação direta da arte do recap. '
+              'https://www.youtube.com/watch?v=yFeCAGnFqcQ&t=22s '
+              'https://www.youtube.com/watch?v=yFeCAGnFqcQ&t=49s '
+              'https://www.youtube.com/watch?v=yFeCAGnFqcQ&t=6771s '
+              'https://asurascans.com/comics/my-slain-dragon-bride-1bb35e56 '
+              'https://asurascans.com/comics/my-slain-dragon-bride-1bb35e56/chapter/1 '
+              'https://asurascans.com/comics/my-slain-dragon-bride-1bb35e56/chapter/18 '
+              'https://series.naver.com/comic/detail.series?productNo=14451876',
+  'reviewed_at': '2026-10-13',
+  'confirmado': True},
+ {'video_id': '3s6gYhewIss',
+  'title': 'Whispers of a Scheming Demon',
+  'aliases': ["A Demon's Life From Day One",
+              'Starting Life as a Baby Demon',
+              'Starting My New Life as a Demon Kid',
+              'Saekkibuteo Sijakaneun Angmasaenghwal',
+              '새끼부터 시작하는 악마생활'],
+  'evidence': 'Adaptação manhwa identificada pela transcrição pública do vídeo, lida na interface '
+              'do YouTube em 13/10/2026. Em 1:44–3:08, moradores pedem a Gaff/Gaf que abandone o '
+              'bebê meio-demônio no desfiladeiro da morte; o bebê reconhece o capitão dos '
+              'mercenários Kandea, recorda sua filha desaparecida como futura Grande Bruxa e '
+              'oferece encontrá-la para sobreviver. A sequência, personagens e barganha coincidem '
+              'com Johan, Gaf e Ilea no capítulo 1 do romance-base, The Demon Whispers, lido '
+              'diretamente em We Tried Translations. Em 4:25–4:58, o bebê resiste a um impulso '
+              'cruel e oferece localização da filha em troca de proteção, com as almas em '
+              'garantia; corroborado pelo conteúdo indexado do capítulo 2 do romance em Asura, não '
+              'por leitura direta desse capítulo. Naver Webtoon, via resultado oficial indexado, '
+              'identifica o original 새끼부터 시작하는 악마생활, Yohan e o mundo de Inmarok; a abertura direta '
+              'não forneceu texto legível. Inglês e aliases são títulos de catálogo/scanlation '
+              'atestados nas fontes abaixo, sem licença inglesa estabelecida. Variações fonéticas '
+              'da legenda não são aliases. A descrição do uploader declara capítulos 1–10; o '
+              'término não foi verificado independentemente. Capítulos 1 e 2 citados como prova '
+              'são do romance, não limites da adaptação. Sem comparação de painéis do recap. '
+              'https://www.youtube.com/watch?v=3s6gYhewIss&t=104s '
+              'https://www.youtube.com/watch?v=3s6gYhewIss&t=265s '
+              'https://wetriedtls.com/series/whispers-of-a-scheming-demon/chapter-1 '
+              'https://asurascans.com/novels/whispers-of-a-scheming-demon/chapter/2 '
+              'https://comic.naver.com/webtoon/list?mobile=y&titleId=854302 '
+              'https://asurascans.com/comics/whispers-of-a-scheming-demon-1bb35e56 '
+              'https://mistscans.com/series/a-demons-life-from-day-one/ '
+              'https://lagoonscans.com/manga/starting-life-as-a-baby-demon/ '
+              'https://roliascan.com/manga/starting-my-new-life-as-a-demon-kid/ '
+              'https://anilist.co/manga/216731/Saekkibuteo-Sijakaneun-Angmasaenghwal',
+  'reviewed_at': '2026-10-13',
+  'confirmado': True},
+ {'video_id': 'tDllG4mJ2Vk',
+  'title': "Shut Up, Evil Dragon! I Don't Want to Raise a Child With You Anymore",
+  'aliases': ['Shut Up, Malevolent Dragon! I Don’t Want to Have Any More Children With You',
+              "Shut Up, Evil Dragon, I Don't Want to Raise a Child with You Anymore"],
+  'evidence': 'Obra identificada pela transcrição pública do vídeo exato, lida na interface do '
+              'YouTube em 13/10/2026 até 1:03:03, e por correspondência direta com o romance, '
+              'volume 1, capítulo 43. Em 0:00–6:31, a rainha visita o caçador Leon Cosmo preso, '
+              'prova seu sangue e ativa a maldição; ele desperta dois anos depois e conhece a '
+              'filha Muen. Em 1:02:05–1:02:29, ela traz a avaliação de compatibilidade da academia '
+              'para matrícula de Noah; a cor preferida dela é preto e a dele prata, e ambos dizem '
+              'coincidência. Em 1:02:46, ela observa que ele acerta hábitos físicos e o conforto '
+              'da cauda, mas erra pensamentos. O capítulo V1C43 lido integralmente em Etherreads '
+              'reproduz a sequência, a finalidade do teste para Noia na St. Hys Academy e as '
+              'respostas incomuns de Rosvitha e Leon. A confirmação se apoia em cenas específicas, '
+              'além da premissa; grafias da legenda automática variam. Alias Malevolent Dragon '
+              'atestado no capítulo e variante Evil Dragon/Raise a Child no resultado indexado de '
+              'ReiManga, cuja abertura direta falhou. Sem frames ou comparação de painéis; trecho '
+              'transcrito não cobre as seis horas integrais, e nenhum capítulo final do vídeo foi '
+              'confirmado. https://www.youtube.com/watch?v=tDllG4mJ2Vk&t=0s '
+              'https://www.youtube.com/watch?v=tDllG4mJ2Vk&t=3725s '
+              'https://etherreads.com/shut-up-malevolent-dragon-i-dont-want-to-have-any-more-children-with-you-v1c43/ '
+              'https://reimanga.net/manga/shut-up-evil-dragon-i-dont-want-to-raise-a-child-with-you-anymore-94813',
+  'reviewed_at': '2026-10-13',
+  'confirmado': True},
+ {'video_id': 'TYc1WJ_xyH4',
+  'title': 'The Unlimited Bacteriomancer',
+  'aliases': ['The Infinite Bacteria Necromancer',
+              'The Limitless Germ Necromancer',
+              'Unlimited Bacteria Magician',
+              '무제한의 세균술사'],
+  'evidence': 'Manhwa identificado pela transcrição pública deste vídeo, lida na interface do '
+              'YouTube em 13/10/2026, e por combinação de personagens e termos raros em glossário '
+              'externo. Em 0:16–0:23, Kim Seyun elimina dez coelhos de três olhos; em 2:16–2:31, '
+              'Ahmad Train supera o andar 57 e obtém um elixir; em 2:40–2:51, o protagonista '
+              'desperta como necromante com traço EX de comandante de legião infinita. Em '
+              '7:45–11:44, um funcionário exausto quebra uma placa de Petri e sua necromancia '
+              'revive as bactérias; a cepa é transcrita Perpetuous Exomodulus em 9:18, 9:45 e '
+              '11:44. Em 36:53–38:54, surge o golem de sangue e ouro de Avisenna. O glossário '
+              'comunitário NovelList de 무제한의 세균술사 reúne Kim Sekyun, Ahmad Triain, Three-Eyed '
+              'Rabbit, Infinite Legion Master, Perpetuus Exomodulus Strain, Avicenna e Bloodgold '
+              'Golem. Os raros termos e a combinação específica sustentam a correspondência, com '
+              'variações explícitas de transcrição; o glossário não é capítulo oficial. Página '
+              'oficial Naver inspecionada no navegador confirma original coreano e necromancia '
+              'microscópica; MangaBaka relaciona esse original a The Unlimited Bacteriomancer. '
+              'Aliases ingleses atestados em ManhwaToNovel/MangaTown, sem licença inglesa '
+              'verificada. Sem comparação de painéis nem capítulo numerado da adaptação '
+              'confirmado; divisões da transcrição não são capítulos verificados do quadrinho. '
+              'https://www.youtube.com/watch?v=TYc1WJ_xyH4&t=16s '
+              'https://www.youtube.com/watch?v=TYc1WJ_xyH4&t=136s '
+              'https://www.youtube.com/watch?v=TYc1WJ_xyH4&t=558s '
+              'https://www.youtube.com/watch?v=TYc1WJ_xyH4&t=2213s '
+              'https://www.novellist.co/novels/unlimited-bacteriologist/glossary '
+              'https://series.naver.com/comic/detail.series?productNo=14539733 '
+              'https://mangabaka.org/manhwa/602040/The-Unlimited-Bacteriomancer '
+              'https://www.manhwatonovel.com/titulos/t/ '
+              'https://m.mangatown.com/manga/unlimited_bacteria_magician',
+  'reviewed_at': '2026-10-13',
+  'confirmado': True}])
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
