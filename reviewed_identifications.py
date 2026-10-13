@@ -843,6 +843,42 @@ REVIEWED.append({
 })
 
 
+REVIEWED.append({
+    "video_id": "eSzpxFfhbTA",
+    "title": "I Have Been Stuck on the Same Day for 3,000 Years",
+    "aliases": [
+        "I've Been Stuck on This Day for Three Thousand Years",
+        "I'm Trapped in This Day for Three Thousand Years",
+        "I’ve Been Trapped on the Same Day for Over 3000 Years",
+        "我困在这一天已三千年",
+        "Wǒ Kùn Zài Zhè Yī Tiān Yǐ Sān Qiān Nián",
+    ],
+    "evidence": (
+        "Transcrição pública do próprio vídeo lida na interface do YouTube "
+        "em 13/10/2026 às 01:19 UTC: 0:00–0:58 apresenta três mil anos "
+        "repetindo o mesmo dia, batalha contra um boss e despertar no quarto; "
+        "1:07 nomeia Obsidian Ruins e o ovo do steel-winged colossus trazido "
+        "para o quarto; 1:14 apresenta a irmã Lu Yao em cadeira de rodas; "
+        "2:14–2:22 nomeia Shadow Worlds. A sinopse externa do MangaRead liga "
+        "Obsidian Ruins, Shadow World, o ciclo de três mil anos e seu término "
+        "após um boss à obra 我困在这一天已三千年. Essa combinação específica "
+        "de cenário e sequência confirma a identificação; comentário de "
+        "espectador é apenas apoio. Título em inglês e aliases conforme o "
+        "catálogo MangaRead, sem edição inglesa oficial verificada. O catálogo "
+        "usa Lu Feng, enquanto a legenda automática varia entre Lufang e "
+        "Lu Fang; a grafia não foi critério principal. Identificação textual, "
+        "sem correspondência visual verificada de frames ou painéis. "
+        "https://www.youtube.com/watch?v=eSzpxFfhbTA&t=0s "
+        "https://www.youtube.com/watch?v=eSzpxFfhbTA&t=67s "
+        "https://www.youtube.com/watch?v=eSzpxFfhbTA&t=74s "
+        "https://www.youtube.com/watch?v=eSzpxFfhbTA&t=134s "
+        "https://www.mangaread.org/manga/i-have-been-stuck-on-the-same-day-for-3000-years/"
+    ),
+    "reviewed_at": "2026-10-12",
+    "confirmado": True,
+})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
