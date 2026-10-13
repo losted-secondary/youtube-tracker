@@ -1157,6 +1157,35 @@ REVIEWED.append({'video_id': '_8LZIgTD8pM',
  'confirmado': True})
 
 
+REVIEWED.append({'video_id': 'rr9-Eh9QZNM',
+ 'title': 'Dungeon Gourmet',
+ 'aliases': ['Reincarnated as the Strongest Monster Eater: Revenge on the Tyrant Dragon', '던전 미식가'],
+ 'evidence': 'Manhwa identificado pela transcrição pública do vídeo exato, lida na interface do '
+             'YouTube em 13/10/2026, e por painéis externos do capítulo 1 inspecionados '
+             'visualmente. Em 0:23–0:50, um tanque de elmo e pequeno escudo segura o orc para seus '
+             'companheiros o abaterem; o líder agradece. Em 0:50–1:19, ele corta um membro do orc, '
+             'remove os pelos, drena o sangue, cozinha com especiarias e prepara macarrão cremoso '
+             'enquanto o grupo demonstra repulsa. A sequência distintiva corresponde às imagens 3 '
+             'e 4 do leitor MangaRead, capítulo 1: vanguarda de elmo/escudo, agradecimento a '
+             'Maron, retirada dos pelos, sangue e especiarias, pedaços de carne e massa. Em 4:58, '
+             'o protagonista se apresenta ao mercador; a legenda automática registra Marin Glades. '
+             'A sinopse oficial da Tapas identifica Marron Glace, escudeiro de rosto coberto que '
+             'só come monstros, e o título inglês licenciado Dungeon Gourmet. Original coreano '
+             'atestado no catálogo oficial Kakao, disponível em resultado indexado; o catálogo '
+             'EraScans relaciona o título inglês longo ao original e aos mesmos criadores. Grafias '
+             'da transcrição são ressalvas, não aliases. Comparação da narração transcrita com '
+             'painéis externos, sem reprodução visual verificável do recap. Imagens são contadores '
+             'do leitor; não se afirma capítulo final coberto nem se confundem divisões da '
+             'transcrição com capítulos da obra. https://www.youtube.com/watch?v=rr9-Eh9QZNM&t=23s '
+             'https://www.youtube.com/watch?v=rr9-Eh9QZNM&t=50s '
+             'https://www.youtube.com/watch?v=rr9-Eh9QZNM&t=298s '
+             'https://www.mangaread.org/manga/reincarnated-as-the-strongest-monster-eater-revenge-on-the-tyrant-dragon/chapter-1/ '
+             'https://tapas.io/series/dungeon-gourmet/info '
+             'https://webtoon.kakao.com/content/%EB%8D%98%EC%A0%84-%EB%AF%B8%EC%8B%9D%EA%B0%80/4715 '
+             'https://erascans.com/series/reincarnated-as-the-strongest-monster-eater-revenge-on-the-tyrant-dragon/',
+ 'reviewed_at': '2026-10-13',
+ 'confirmado': True})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
