@@ -879,6 +879,53 @@ REVIEWED.append({
 })
 
 
+REVIEWED.append({
+    "video_id": "UFuiCscincY",
+    "title": "校花别追了，爷的深情你不配",
+    "aliases": [
+        "校花倒追我不要，我只爱小同桌",
+        "School Belle, Stop Chasing Me — You Don’t Deserve My Love",
+    ],
+    "evidence": (
+        "Novel chinesa de 榴莲味的西瓜, identificada como obra-base do recap, "
+        "pelo título original vigente no catálogo oficial Fanqie. Transcrição "
+        "pública do vídeo lida na interface do YouTube em 13/10/2026: "
+        "0:15–2:33, acidente fatal a caminho do casamento da antiga paixão, "
+        "visita ao túmulo com estrelas de papel, receio de desdobrá-las e "
+        "não conseguir refazê-las, mensagens amorosas fixadas à lápide e "
+        "espírito incapaz de abraçá-la; 3:27–4:45, clarão, retorno à aula "
+        "em 22/09/2008, amigo com câmera para a 999ª declaração e desistência "
+        "dela para preparar a carteira da aluna transferida. A sequência "
+        "corresponde ao capítulo 1 reproduzido em WFXS e ao capítulo 2 "
+        "oficial. Em 30:24–31:34, o representante esportivo Optimus bloqueia "
+        "a passagem após a antiga paixão sair irritada, e o amigo diz que "
+        "um bom cachorro não bloqueia o caminho: episódio do capítulo 7 "
+        "oficial, com 秦天柱 (Qin Tianzhu). A confirmação combina cenas "
+        "específicas e separadas, data exata e sequência, não só a premissa. "
+        "O recap usa Xiao Yi, Wen Wan e Lu Yanran; o original, 叶林 (Ye Lin), "
+        "兰呦呦 (Lan Youyou) e 凌飞雪 (Ling Feixue). A renomeação é inferida "
+        "pelas cenas, sem alegar identidade fonética. Há divergência entre "
+        "sinopses/edições quanto à morte da moça; esse detalhe isolado não "
+        "sustenta a identificação. Alias chinês antigo atestado em catálogos; "
+        "alias inglês atestado no catálogo/MTL WTR-LAB, sem edição inglesa "
+        "oficial verificada. Não foi confirmado um quadrinho licenciado "
+        "separado nem o título próprio da adaptação visual. Sem comparação "
+        "de painéis, exportação integral da transcrição ou escuta independente. "
+        "https://www.youtube.com/watch?v=UFuiCscincY&t=15s "
+        "https://www.youtube.com/watch?v=UFuiCscincY&t=207s "
+        "https://www.youtube.com/watch?v=UFuiCscincY&t=1824s "
+        "https://fanqienovel.com/page/7288544802038090812 "
+        "https://m.wfxs.tw/xiaoshuo/2572003/79911397/ "
+        "https://fanqienovel.com/reader/7308405788995748402 "
+        "https://fanqienovel.com/reader/7324010535731593790 "
+        "https://ixdzs8.com/read/571505/ "
+        "https://wtr-lab.com/en/novel/14138/school-belle-stop-chasing-me-you-dont-deserve-my-love"
+    ),
+    "reviewed_at": "2026-10-13",
+    "confirmado": True,
+})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
