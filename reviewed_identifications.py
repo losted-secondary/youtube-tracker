@@ -1120,6 +1120,43 @@ REVIEWED.extend([{'video_id': 'yFeCAGnFqcQ',
   'confirmado': True}])
 
 
+REVIEWED.append({'video_id': '_8LZIgTD8pM',
+ 'title': 'By Changing One Word in My Skills, I Broke Everything',
+ 'aliases': ['I Turn Skills Into Broken Ones With a Single Word', '技能改一个字，他们被我玩坏了'],
+ 'evidence': 'Manhua identificado pela transcrição pública deste vídeo, lida na interface do '
+             'YouTube em 13/10/2026, por painéis externos do capítulo 1 e por combinação rara de '
+             'personagem e mecanismo. Em 0:00–0:20, Jang Yan abre os olhos num ônibus com alunos '
+             'concluintes e reconhece o dia do despertar, dois anos e meio antes da destruição da '
+             'cidade. As imagens 1/16 e 2/16 do leitor Elf Toon, inspecionadas visualmente, exibem '
+             'os títulos inglês/chinês, crédito de adaptação do romance homônimo e a abertura no '
+             'ônibus de alunos de Nanrong no dia do despertar. Em 1:30–2:44, seu poder altera um '
+             'caractere de nomes de habilidades/equipamentos, ele é explorado por poderosos, um '
+             'monstro de nível 96 o mata e uma habilidade modificada produz renascimento. Em 4:12 '
+             'e 5:06–5:14 desperta as duas profissões F, Repair Man e Farmer; em 5:43–6:05 explica '
+             'a modificação e os efeitos do fazendeiro. A sinopse do manhua Elf Toon identifica '
+             'Jiang Yan, exploração e regressão; a ficha MTL do romance-base no WTR-LAB confirma '
+             'especificamente as duas profissões F, a alteração textual e o monstro de nível 96. A '
+             'terminologia crescimento/ressurreição difere entre sinopse e narração, ressalva '
+             'preservada. Alias inglês atestado nos resultados indexados de MangaTime e KomikLab, '
+             'com aberturas diretas indisponíveis; título chinês consta da arte e da ficha do '
+             'manhua. O título MTL da novel não foi adotado automaticamente como alias do '
+             'quadrinho. Comparação da transcrição com painéis externos, sem frames reproduzíveis '
+             'do recap ou escuta independente. Imagens citadas são contadores do leitor; não se '
+             'afirma leitura integral do capítulo nem capítulo final do vídeo. '
+             'https://www.youtube.com/watch?v=_8LZIgTD8pM&t=0s '
+             'https://www.youtube.com/watch?v=_8LZIgTD8pM&t=130s '
+             'https://www.youtube.com/watch?v=_8LZIgTD8pM&t=252s '
+             'https://www.youtube.com/watch?v=_8LZIgTD8pM&t=306s '
+             'https://www.youtube.com/watch?v=_8LZIgTD8pM&t=343s '
+             'https://elftoon.net/series/comic/by-changing-one-word-in-my-skills-i-broke-everything '
+             'https://elftoon.net/series/comic/by-changing-one-word-in-my-skills-i-broke-everything/chapter/1 '
+             'https://wtr-lab.com/en/novel/75862/i-changed-one-word-in-the-skill-and-they-were-ruined-by-me '
+             'https://mangatime.net/catalog/i-turn-skills-into-broken-ones-with-a-single-word/ '
+             'https://komiklab.org/manga/i-turn-skills-into-broken-ones-with-a-single-word/',
+ 'reviewed_at': '2026-10-13',
+ 'confirmado': True})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
