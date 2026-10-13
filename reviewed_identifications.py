@@ -810,6 +810,39 @@ REVIEWED.append({
 })
 
 
+REVIEWED.append({
+    "video_id": "9oh1PCGsEEA",
+    "title": "There's No Such Thing as a Bad Lady",
+    "aliases": [
+        "There Are No Bad Young Ladies in This World",
+        "Noble Lady Reformation Guide",
+    ],
+    "evidence": (
+        "Transcrição pública do vídeo lida diretamente na interface do YouTube "
+        "em 13/10/2026 às 01:14 UTC: 0:17 apresenta Derek nas favelas de "
+        "Ebblestein; 1:21 explica que plebeus chegam somente a duas estrelas "
+        "de magia; 2:16 cita Kadia Flameheart; 3:20:22 cita House Duplane. "
+        "A sinopse oficial do WEBTOON identifica Derek, mercenário e mago "
+        "de segundo nível criado nas favelas de Ebelstein, contratado para "
+        "ensinar Diella Duplain. A combinação de protagonista, cidade, "
+        "limite mágico e família confirma a obra, além da pista em comentário. "
+        "Grafias Ebblestein e Duplane vêm das legendas automáticas; a fonte "
+        "oficial usa Ebelstein e Duplain. Canônico da edição oficial inglesa; "
+        "ManhuaTop relaciona os dois aliases. Trechos efetivamente lidos na "
+        "interface, sem exportação integral bem-sucedida, escuta independente "
+        "do áudio ou comparação visual de painéis. "
+        "https://www.youtube.com/watch?v=9oh1PCGsEEA&t=17s "
+        "https://www.youtube.com/watch?v=9oh1PCGsEEA&t=81s "
+        "https://www.youtube.com/watch?v=9oh1PCGsEEA&t=136s "
+        "https://www.youtube.com/watch?v=9oh1PCGsEEA&t=12022s "
+        "https://www.webtoons.com/en/fantasy/theres-no-such-thing-as-a-bad-lady/list?title_no=9716 "
+        "https://manhuatop.org/manhua/there-are-no-bad-young-ladies-in-this-world/"
+    ),
+    "reviewed_at": "2026-10-12",
+    "confirmado": True,
+})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
