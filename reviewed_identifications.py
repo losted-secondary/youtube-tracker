@@ -1372,6 +1372,38 @@ REVIEWED.append({'video_id': 'tU3BtM7NAoI',
  'reviewed_at': '2026-10-14',
  'confirmado': True})
 
+
+REVIEWED.append({'video_id': 'e2UKl3SoGmA',
+ 'title': 'Error D Echo',
+ 'aliases': ['Error: The Echo', 'Error The Echo', 'Error de Echo', '에러 디 에코'],
+ 'evidence': 'Manhwa identificado pela transcrição nativa deste vídeo, lida na interface '
+             'do YouTube em 14/10/2026, e por sequência específica de painéis do capítulo '
+             '2, inspecionados diretamente na Thunderscans. A descrição do próprio vídeo '
+             'fornece Error: The Echo / Error de Echo. Em 3:51–4:06, uma mulher de luvas '
+             'resgata o protagonista e cobre sua boca; ele reconhece a semelhança com '
+             'Seline/Celine. Em 4:06–4:27, ela lança uma pedra para desviar o monstro, '
+             'pede que ele se afaste e explica que a criatura não tem olhos e caça pelo '
+             'som. Os painéis do capítulo 2 mostram, na mesma ordem, o protagonista '
+             'chamando-a de C-CELINE, a mão enluvada sobre sua boca, a pedra arremessada, '
+             'a criatura seguindo o ruído, o pedido para ele se afastar e a explicação de '
+             'que ela rastreia pelo som e não tem olhos. A combinação específica confirma '
+             'a obra além da premissa. O título coreano 에러 디 에코 e a autoria de 순수 são '
+             'atestados na editora Naver e no cartão do capítulo. Error D Echo é o título '
+             'da scanlation; Error: The Echo e Error de Echo são variantes da descrição do '
+             'canal; Error The Echo é título de catálogo atestado em resultado indexado do '
+             'AniList, cuja abertura direta falhou. Não foi estabelecida edição inglesa '
+             'oficial licenciada. Comparação de transcrição real com painéis externos; o '
+             'player do recap não forneceu frames utilizáveis. Sem escuta independente ou '
+             'capítulo final da compilação confirmado. '
+             'https://www.youtube.com/watch?v=e2UKl3SoGmA&t=231s '
+             'https://www.youtube.com/watch?v=e2UKl3SoGmA&t=246s '
+             'https://en-thunderscans.com/comics/error-d-echo/ '
+             'https://en-thunderscans.com/error-d-echo-chapter-2/ '
+             'https://m.comic.naver.com/webtoon/list?titleId=854335&week=fri '
+             'https://anilist.co/manga/217286/Error-The-Echo/',
+ 'reviewed_at': '2026-10-14',
+ 'confirmado': True})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
