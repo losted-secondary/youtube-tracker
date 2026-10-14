@@ -1322,6 +1322,56 @@ REVIEWED.append({'video_id': '5cmZ9dfEUv8',
  'reviewed_at': '2026-10-14',
  'confirmado': True})
 
+
+REVIEWED.append({'video_id': 'tU3BtM7NAoI',
+ 'title': '玄幻：女帝退婚，我反手夺她机缘',
+ 'aliases': [],
+ 'evidence': 'Novel chinesa identificada pela transcrição nativa do vídeo exato, lida na '
+             'interface do YouTube em 14/10/2026, e por múltiplas sequências específicas dos '
+             'capítulos 1, 2, 7 e 30, lidos diretamente no leitor secundário Novel543. Em '
+             '0:00–0:45 e 1:15–2:43, Bai Ruoxue pede a certidão de casamento e oferece '
+             'pílulas no portão externo da Cloud Heaven Sect; Song Qing, filho do grande '
+             'ancião, carrega um leque. Su Jiuge, filho do Príncipe de Yan, começou a '
+             'cultivar aos oito e enfrenta expulsão após dez anos como discípulo externo; o '
+             'noivado protegeu Bai depois de uma disputa política contra sua família. A ordem '
+             'e os detalhes correspondem ao capítulo 1. Em 4:45–5:19, Su diz que a certidão '
+             'está na propriedade paterna, recebe o frasco, reconhece no fundo o brasão da '
+             'própria família e vai ao mercado, como no capítulo 2. Em 5:35–6:39 e 7:04–7:27, '
+             'recusa sangue de serpente quase de segundo nível por três pedras, compra cinco '
+             'frascos de sangue comum mais um osso por seis pedras e rouba a oportunidade do '
+             'Osso do Imperador de Bai: recompensa de 10.000 vezes, Osso Supremo com Mão dos '
+             'Céus, também no capítulo 2. Em 16:43–18:26, afasta Ye Feng da biblioteca, '
+             'encontra uma folha quase transparente no manual de condução dos cinco elementos '
+             'e obtém o fragmento de absorção estelar, convertido por recompensa de 1.000 '
+             'vezes na arte de devorar espírito de Taotie; retira um manual comum como '
+             'disfarce, por uma pedra para três dias, como no capítulo 7. O recap situa a '
+             'folha na encadernação; a fonte, numa página em camadas. Em 1:19:28–1:23:06, Su '
+             'supera Bai nos degraus de jade; Fang Yuan ganha as apostas dos anciãos após '
+             'cinco sinos; oito superam Xiao Shiyi, nove espantam o mestre Ye Teng durante o '
+             'chá e o décimo consagra Su, como no capítulo 30. As legendas automáticas '
+             'apresentam variantes fonéticas; os nomes foram normalizados pelo texto chinês, '
+             'sem tratá-las como aliases. Título original e autoria de 青山与浊酒 são atestados em '
+             'fonte secundária; nenhuma página oficial detalhada da obra nem edição inglesa '
+             'licenciada foi verificada. O rótulo inglês do WTR-LAB é tradução automática, '
+             'não título licenciado, e foi omitido dos aliases. Comparação de transcrição com '
+             'capítulos externos: sem frames utilizáveis do próprio vídeo, escuta '
+             'independente ou capítulo final confirmado. '
+             'https://www.youtube.com/watch?v=tU3BtM7NAoI&t=0s '
+             'https://www.youtube.com/watch?v=tU3BtM7NAoI&t=285s '
+             'https://www.youtube.com/watch?v=tU3BtM7NAoI&t=335s '
+             'https://www.youtube.com/watch?v=tU3BtM7NAoI&t=1003s '
+             'https://www.youtube.com/watch?v=tU3BtM7NAoI&t=4768s '
+             'https://www.novel543.com/1016606165/ '
+             'https://www.novel543.com/1016606165/8096_1.html '
+             'https://www.novel543.com/1016606165/8096_2.html '
+             'https://www.novel543.com/1016606165/8096_2_2.html '
+             'https://www.novel543.com/1016606165/8096_7.html '
+             'https://www.novel543.com/1016606165/8096_30.html '
+             'https://www.novel543.com/1016606165/8096_30_2.html '
+             'https://wtr-lab.com/en/novel/44267/fantasy-the-empress-breaks-off-the-engagement-i-turn-the-tables-and-seize-her-opportunity',
+ 'reviewed_at': '2026-10-14',
+ 'confirmado': True})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
