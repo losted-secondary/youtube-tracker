@@ -1218,6 +1218,76 @@ REVIEWED.append({'video_id': 'xP18d9gnXR0',
  'reviewed_at': '2026-10-14',
  'confirmado': True})
 
+
+REVIEWED.extend([{'video_id': '8jVw2r5RZt8',
+  'title': 'Villain: Marrying a Blind Fiancée, Crazy in Love',
+  'aliases': ['反派：迎娶盲人未婚妻，疯狂恩爱'],
+  'evidence': 'Romance chinês de 牛头人战士 identificado pela transcrição pública em hindi deste '
+              'vídeo, lida na interface do YouTube em 14/10/2026, e pelos capítulos oficiais '
+              '1, 3 e 4 da Fanqie. Em 0:58–2:12, Gu Yan recebe o Universe Pure Love System e '
+              'trata do casamento arranjado com a futura vilã cega Leng Qingqiu; em '
+              "2:12–3:42, sua mãe Su Murong se surpreende com o abandono de Shen Wan'er. "
+              'Sistema, personagens e telefonema correspondem ao capítulo 1; não se usa a '
+              'reação posterior do pai como prova de leitura do capítulo 2. Em 6:12–8:29, o '
+              'nervoso chefe da família Leng espera o cancelamento do noivado e Old Gao '
+              'apresenta dois documentos, um preparado em Braille, como no capítulo 3. Em '
+              '8:49–9:20, Gu Yan conduz a mão de Qingqiu até o documento, recebe um ponto de '
+              'amor e a irmã protesta; em 10:17–11:20, oferece 5% da empresa avaliada em um '
+              'trilhão, metade de seus 10%, e surpreende a família com a proposta. A ordem '
+              'dessas cenas e os números correspondem ao capítulo 4. A legenda automática em '
+              'hindi distorce algumas grafias; elas não são aliases. Título original e autor '
+              'confirmados na editora. O título inglês é atestado em Novel Updates e '
+              'NoBadNovel como título de tradução/catálogo, sem licença inglesa verificada; '
+              'os campos N/A do índice não provam inexistência de licença. Original chinês é '
+              'o único alias incluído. Identidade do romance-base confirmada; adaptação '
+              'oficial em quadrinhos não estabelecida. O player permaneceu preto/carregando '
+              'na tentativa de frame aos 8:21, portanto não se afirma comparação de arte, '
+              'escuta independente nem capítulo final do vídeo. '
+              'https://www.youtube.com/watch?v=8jVw2r5RZt8&t=58s '
+              'https://www.youtube.com/watch?v=8jVw2r5RZt8&t=372s '
+              'https://www.youtube.com/watch?v=8jVw2r5RZt8&t=529s '
+              'https://www.youtube.com/watch?v=8jVw2r5RZt8&t=617s '
+              'https://fanqienovel.com/page/7296670623839816740 '
+              'https://fanqienovel.com/reader/7297073160984527399 '
+              'https://fanqienovel.com/reader/7297247631397847586 '
+              'https://fanqienovel.com/reader/7297248583034765824 '
+              'https://www.novelupdates.com/series/villain-marrying-a-blind-fiancee-crazy-in-love/ '
+              'https://www.nobadnovel.com/series/villain-marrying-a-blind-fiancee-crazy-in-love',
+  'reviewed_at': '2026-10-14',
+  'confirmado': True},
+ {'video_id': 'yof-IrYDULw',
+  'title': 'For Your Perfect Ending',
+  'aliases': ['For Our Perfect Ending', '당신의 완벽한 엔딩을 위하여'],
+  'evidence': 'Manhwa identificado pela transcrição pública deste vídeo, lida na interface '
+              'do YouTube em 14/10/2026, pela sequência visual do episódio 1 oficial e pelos '
+              'personagens da sinopse licenciada. Em 0:14–0:33, o príncipe ameaça a '
+              'protagonista após capturar sua tentativa de fuga e a mata com uma espada; em '
+              '0:38–1:14, ela desperta no quarto moderno com alarme às 7:45, um mês depois '
+              'de retornar de vinte anos no mundo fictício. No episódio 1 da WEBTOON, '
+              'inspecionado visualmente, o homem de uniforme preto com detalhes '
+              'vermelhos/dourados e espada ensanguentada a repreende por ter sido capturada; '
+              'a transição do ataque leva ao celular marcando exatamente 07:45. Essa '
+              'sequência específica confirma a correspondência além da premissa. Em '
+              '5:26–6:24, os colegas descrevem o popular e rico Lee Haewon; ela o reconhece '
+              'como Killian Dell Winfred, seu assassino no romance. A sinopse oficial '
+              'relaciona Sum/Ines, Killian e Haewon Lee. Variações fonéticas da legenda '
+              'automática não são aliases. For Your Perfect Ending é o título inglês oficial '
+              'licenciado na WEBTOON, de MaryHappy e Hedgebog. O original coreano é atestado '
+              'na Naver; For Our Perfect Ending é variante de catálogo não oficial atestada '
+              'em Kagane e Valir Scans. Comparação da transcrição com painéis externos '
+              'oficiais, sem afirmar comparação de frames do recap, escuta independente ou '
+              'capítulo final coberto pelo vídeo. '
+              'https://www.youtube.com/watch?v=yof-IrYDULw&t=14s '
+              'https://www.youtube.com/watch?v=yof-IrYDULw&t=38s '
+              'https://www.youtube.com/watch?v=yof-IrYDULw&t=326s '
+              'https://www.webtoons.com/en/romance/for-your-perfect-ending/list?title_no=9654 '
+              'https://www.webtoons.com/en/romance/for-your-perfect-ending/episode-1/viewer?episode_no=1&title_no=9654 '
+              'https://m.comic.naver.com/webtoon/list?titleId=843868&week=fri '
+              'https://kagane.to/series/019c6b8e-5371-7be0-b607-716af30800d6 '
+              'https://valirscans.org/series/comic/for-your-perfect-ending',
+  'reviewed_at': '2026-10-14',
+  'confirmado': True}])
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
