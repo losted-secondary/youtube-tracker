@@ -1404,6 +1404,41 @@ REVIEWED.append({'video_id': 'e2UKl3SoGmA',
  'reviewed_at': '2026-10-14',
  'confirmado': True})
 
+
+REVIEWED.append({'video_id': 's1FgEmcxJ8U',
+ 'title': 'Necromancer, the Ultimate Scourge!',
+ 'aliases': ['Disastrous Necromancer', 'Catastrophic Necromancer'],
+ 'evidence': 'Manhua identificado pela transcrição nativa deste vídeo, lida na interface '
+             'do YouTube em 14/10/2026, e por sequência específica de painéis do episódio '
+             '1 oficial da WEBTOON. Em 0:08–0:24, a narração nomeia Lin Moyu e descreve '
+             'seu teste de ataque concluído em 0,1 segundo. Em 0:34–1:14, a cerimônia '
+             'passa por profissões de fazendeiro e cozinheiro, Gao Yang como cavaleiro de '
+             'espada e escudo, Xia Xue como maga elemental rara e Lin despertando como '
+             'necromante de profissão oculta e única, sob nuvens escuras, raios e '
+             'manifestação de mortos-vivos. Nos painéis oficiais inspecionados, Xia Xue é '
+             'nomeada e ganha a profissão rara de maga elemental; em seguida há tempestade '
+             'e manifestação de morto-vivo, e os diálogos identificam Lin Moyu com '
+             'profissão oculta e única, o único necromante desse mundo. Nomes, classes e '
+             'ordem do despertar confirmam a correspondência além da premissa genérica. '
+             'Variações automáticas Lin/Lynn e Shashia/Xia Xue não são aliases. '
+             'Necromancer, the Ultimate Scourge! é o título inglês oficial da WEBTOON, '
+             'creditado a Kuaikan Comics. Disastrous Necromancer e Catastrophic '
+             'Necromancer são variantes atestadas em resultado indexado do catálogo '
+             'AniList; a abertura direta desse catálogo falhou. Catastrophic Necromancer '
+             'também é o título oficial da edição francesa da WEBTOON, cuja sinopse nomeia '
+             'Lin Moyu. A transcrição obtida é parcial, de 0:00 a 1:03:18 de um recap de '
+             '14:20:40; player preto/carregando, sem frames utilizáveis nem escuta '
+             'independente. Comparação com o episódio 1 da edição WEBTOON, sem equiparar '
+             'numerações de outras edições, confirmar capítulo 185 ou o capítulo final da '
+             'compilação. https://www.youtube.com/watch?v=s1FgEmcxJ8U&t=8s '
+             'https://www.youtube.com/watch?v=s1FgEmcxJ8U&t=34s '
+             'https://www.webtoons.com/en/action/necromancer-the-ultimate-scourge/list?title_no=9767 '
+             'https://www.webtoons.com/en/action/necromancer-the-ultimate-scourge/episode-1/viewer?episode_no=1&title_no=9767 '
+             'https://anilist.co/manga/167372 '
+             'https://www.webtoons.com/fr/action/catastrophic-necromancer/list?title_no=6587',
+ 'reviewed_at': '2026-10-14',
+ 'confirmado': True})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
