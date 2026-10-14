@@ -1186,6 +1186,38 @@ REVIEWED.append({'video_id': 'rr9-Eh9QZNM',
  'reviewed_at': '2026-10-13',
  'confirmado': True})
 
+
+REVIEWED.append({'video_id': 'xP18d9gnXR0',
+ 'title': '都觉醒恶魔法则了，你契约蚂蚁？',
+ 'aliases': [],
+ 'evidence': 'Romance chinês de 风动江湖 identificado pela transcrição pública deste vídeo, lida '
+             'na interface do YouTube em 14/10/2026, e pelo capítulo 3 oficial da Fanqie, 第三章 '
+             '意料之外，变态的融合特性. Em 0:45–1:11, o painel Roach Ant Queen descreve uma fera de nível '
+             '1 e grau baixo, Super Breeding, descendentes que herdam todos os atributos '
+             'maternos, reprodução multiplicada por dez, resistência cem vezes e força mil '
+             'vezes a de criatura de mesmo tamanho, além de autocura. A combinação corresponde '
+             'ao painel de 蜚蠊蚁后/超级生育 no capítulo 3. Em 1:26–1:52, o protagonista é '
+             'ridicularizado na escola, chamado pelo professor ao escritório, recebe um '
+             'formulário de retirada da escola e ouve que seus pais o confiaram ao professor '
+             'antes de morrer. A mesma sequência encerra o capítulo 3 com 沈洛 e 刘军. A '
+             'confirmação se apoia nessa combinação específica de mecânica e cena, não apenas '
+             'na premissa de evolução de formigas. O recap adapta 沈洛 para Lucas Kane e o '
+             'professor/guardião para Mr. Reed/Uncle Marcus; nomes de personagens não são '
+             'aliases da obra. A página oficial confirma título e autor. A fonte personalizada '
+             'do leitor produziu alguns glifos privados na extração acessível, mas o capítulo '
+             'foi inspecionado no navegador e os mecanismos e cenas foram identificados. O '
+             'recap comprime/altera detalhes iniciais; não se presume equivalência literal '
+             'integral. Sem título inglês licenciado ou alias independente estabelecido, '
+             'mantém-se o original chinês. Trata-se do romance-base; adaptação em quadrinhos '
+             'separada não foi verificada. Sem reprodução visual verificável do recap, '
+             'comparação de painéis ou capítulo final confirmado. '
+             'https://www.youtube.com/watch?v=xP18d9gnXR0&t=45s '
+             'https://www.youtube.com/watch?v=xP18d9gnXR0&t=86s '
+             'https://fanqienovel.com/page/7517195003517488190 '
+             'https://fanqienovel.com/reader/7517939929746263102',
+ 'reviewed_at': '2026-10-14',
+ 'confirmado': True})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
