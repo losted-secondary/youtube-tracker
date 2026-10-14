@@ -1288,6 +1288,40 @@ REVIEWED.extend([{'video_id': '8jVw2r5RZt8',
   'reviewed_at': '2026-10-14',
   'confirmado': True}])
 
+
+REVIEWED.append({'video_id': '5cmZ9dfEUv8',
+ 'title': 'Solo Glitch Player',
+ 'aliases': ['Solo Bug Player', 'Bug Player', '나 홀로 버그로 꿀빠는 플레이어'],
+ 'evidence': 'Manhwa identificado pela transcrição pública deste vídeo, lida na interface do '
+             'YouTube em 14/10/2026, pela sinopse oficial e por sequência específica do '
+             'episódio 2 oficial da Tapas, Demon Spirit Isabella. Em 0:16–2:04, o jogador '
+             'Taepung Shin desperta como o obeso Jared dentro de Paradiso e planeja explorar '
+             'seu conhecimento dos bugs; nomes e situação correspondem à sinopse licenciada. '
+             'A legenda automática varia Shintaong/Shinte Pong e Paradise, e chama Jared de '
+             'rei onde a sinopse diz senhor; essas variantes não são aliases. Em 5:24–6:40, '
+             'Jared pede o olho espiritual para ler atributos e recrutar pessoas; Isabella '
+             'exige o que ele tem de mais precioso, ameaça devorar sua família e aplica uma '
+             'maldição que toma aquilo em que ele pensa. Seus lábios se embeicam e Jared '
+             'explica ter pensado no primeiro beijo. No episódio 2 da Tapas, inspecionado '
+             "visualmente em acesso público, Mind's Eye mostra atributos/disposição, Jared o "
+             'usa para gerir seu território e recrutar talentos, Isabella exige a coisa mais '
+             'importante, ameaça comer sua família, e a maldição que lê seu pensamento é '
+             'seguida pelos lábios embeicados e pela explicação de Jared sobre explorar o '
+             'contrato. A combinação e a ordem dessas cenas confirmam a obra além da '
+             'premissa. Solo Glitch Player é o título inglês oficial licenciado na Tapas; o '
+             'original coreano é atestado em resultado indexado da KakaoPage. Solo Bug Player '
+             'e Bug Player são aliases atestados em catálogos, usados somente para variantes, '
+             'não como prova da identificação ou licença. Comparação da transcrição com '
+             'painéis oficiais externos; sem frames do próprio recap, escuta independente ou '
+             'capítulo final confirmado. Episódio oficial aberto sem login ou desbloqueio. '
+             'https://www.youtube.com/watch?v=5cmZ9dfEUv8&t=16s '
+             'https://www.youtube.com/watch?v=5cmZ9dfEUv8&t=324s '
+             'https://tapas.io/series/solo-glitch-player/info '
+             'https://tapas.io/episode/2174217 https://page.kakao.com/content/54748024 '
+             'https://www.novellist.co/novels/bug-player https://atsu.moe/manga/twmm0',
+ 'reviewed_at': '2026-10-14',
+ 'confirmado': True})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
