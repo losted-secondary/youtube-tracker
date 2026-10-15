@@ -1649,6 +1649,27 @@ REVIEWED.extend([{'title': 'All People Scramble for the Tower, I Cleared 999 Flo
   'reviewed_at': '2026-10-15',
   'confirmado': True}])
 
+REVIEWED.append({'title': 'The Regressor and the Blind Saint',
+ 'aliases': ['The Regressor and the Blind Saintess',
+             'The Regressionist and the Blind Saintess',
+             '회귀자와 맹인 성녀'],
+ 'evidence': 'Confirmado pela transcrição nativa do vídeo de 27 segundos (00:00–00:27): santa cega '
+             'cuida de um assassino moribundo apesar dos crimes, ele a encontra morta na chuva, '
+             'promete viver por ela, regressa e passa a treinar para ser paladino. Sinopse oficial '
+             'do webtoon RIDI confirma a sequência de Vera/베라 e Renée/르네: '
+             'https://ridibooks.com/books/6344000001 . Título inglês: '
+             'https://asurascans.com/comics/the-regressor-and-the-blind-saint-1bb35e56 ; aliases: '
+             'https://comix.to/title/d1y8g-the-regressor-and-the-blind-saintess . É trecho '
+             'narrativo identificável, não mero anúncio. Frames ficaram carregando; identidade não '
+             'depende de imagem, título ou comentário. A descrição menciona 1–20, mas cobertura de '
+             'capítulos não foi verificada. Título inglês e aliases atestados em '
+             'catálogo/scanlation; licença oficial inglesa do quadrinho não verificada. '
+             'https://www.youtube.com/watch?v=hEvsUBhTXqw',
+ 'reviewed_at': '2026-10-15T19:17:53Z',
+ 'confirmado': True,
+ 'video_id': 'hEvsUBhTXqw'})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
