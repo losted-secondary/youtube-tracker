@@ -1542,6 +1542,41 @@ REVIEWED.append({'video_id': 'FBaT88GUuaI',
  'reviewed_at': '2026-10-15',
  'confirmado': True})
 
+
+REVIEWED.append({'video_id': 'UrS-eHTg72g',
+ 'title': '死亡亿次，我复制天赋杀穿万族！',
+ 'aliases': ['After Billions of Deaths: I Copy Talents and Slaughter All Races!',
+             'After dying billions of times, I copied my talents and killed all races!'],
+ 'evidence': 'Romance identificado pela descrição expandida do vídeo exato, lida no YouTube '
+             'em 15/10/2026, e por correspondências específicas com capítulos externos. O '
+             'diário enviado pelo próprio protagonista dez anos no futuro, a habilidade EX '
+             'Death Copy e um colega que concede retorno exato de doze horas correspondem ao '
+             'início e ao capítulo 3 do original; Book of Wisdom corresponde ao capítulo 7. '
+             'A descrição também reúne morte por uma raposa com controle mental, Eye of '
+             'Truth, Healing Light, Super Senses, controle elemental e linhagem, combinação '
+             'encontrada no capítulo 31 do espelho público Wuxiaspot. O preview oficial do '
+             'capítulo 31 confirma somente controle mental por voz ou olhar e o despertar de '
+             'Su Mu na cama; a lista posterior de poderes é atribuída ao espelho, não a esse '
+             'preview parcial. Nate é o nome localizado usado na descrição, enquanto o '
+             'original usa Su Mu; a equivalência é inferida pelo conjunto narrativo '
+             'específico, não por nomes idênticos. O título chinês canônico e o autor 一年一更 '
+             'foram verificados na editora original Fanqie. Os dois aliases ingleses são '
+             'títulos MTL atestados em WTR-LAB e Wuxiaspot; não foi verificada edição '
+             'inglesa licenciada. Evidência do lado do vídeo restrita à descrição atual: sem '
+             'transcrição obtida, frames utilizáveis, escuta independente ou timestamps de '
+             'cenas. As referências a capítulos do romance servem para identificar a obra; '
+             'não estabelecem cobertura nem capítulo final do recap. '
+             'https://www.youtube.com/watch?v=UrS-eHTg72g '
+             'https://fanqienovel.com/page/7274774422865579069 '
+             'https://fanqienovel.com/reader/7274774461499310648 '
+             'https://fanqienovel.com/reader/7274785095520059963 '
+             'https://fanqienovel.com/reader/7275144026620658234 '
+             'https://fanqienovel.com/reader/7277841898881385016 '
+             'https://www.wuxiaspot.com/novel/after-dying-billions-of-times-i-copied-my-talents-and-killed-all-races_31.html '
+             'https://wtr-lab.com/en/novel/9943/after-billions-of-deaths-i-copy-talents-and-slaughter-all-races',
+ 'reviewed_at': '2026-10-15',
+ 'confirmado': True})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
