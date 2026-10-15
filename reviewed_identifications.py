@@ -1577,6 +1577,43 @@ REVIEWED.append({'video_id': 'UrS-eHTg72g',
  'reviewed_at': '2026-10-15',
  'confirmado': True})
 
+
+REVIEWED.append({'video_id': 'RJOtZX94A6A',
+ 'title': 'Steel Covenant',
+ 'aliases': ['钢铁契约'],
+ 'evidence': 'Manhua identificado pela transcrição nativa do vídeo exato, lida no YouTube em '
+             '15/10/2026, e por comparação narrativa com painéis externos do capítulo 1. Em '
+             '0:00–0:19, um comboio militar cruza o deserto, o radar detecta objetos não visíveis, '
+             'o capitão ordena preparação e um verme emerge junto aos veículos. Os painéis '
+             'externos inspecionados mostram a mesma sequência específica. Em 2:44–3:00, '
+             'Qiao/Chiao An é identificado como aluno da Combat Armor Academy; em 3:40, inicia um '
+             'pacto envolto em energia azul, também presente nos painéis; em 4:05, surge a '
+             'armadura White Tiger. Em 5:39, são citados três séculos desde a descoberta do vírus '
+             'metálico; em 22:14, o protagonista é designado à classe de logística. O catálogo '
+             'MangaBaka atesta Steel Covenant / 钢铁契约, Qiao An, academia, reprovação por '
+             'compatibilidade, logística, dívida e múltiplas armaduras. O anúncio oficial do '
+             'criador Motor Nuclear confirma a IP 钢铁契约 e o lançamento na Tencent; Steel Covenant '
+             'aparece também na arte original de abertura e em catálogos/scanlation, sem edição '
+             'inglesa licenciada verificada. Grafias dos nomes variam na transcrição automática. '
+             'Foi obtida transcrição parcial; não houve inspeção de frames do próprio recap nem '
+             'escuta independente. Comparação entre transcrição e painéis externos, sem '
+             'correspondência pixel a pixel. As referências ao capítulo 1 identificam a obra e não '
+             'estabelecem o intervalo nem o capítulo final do vídeo. '
+             'https://www.youtube.com/watch?v=RJOtZX94A6A&t=0s '
+             'https://www.youtube.com/watch?v=RJOtZX94A6A&t=164s '
+             'https://www.youtube.com/watch?v=RJOtZX94A6A&t=220s '
+             'https://www.youtube.com/watch?v=RJOtZX94A6A&t=245s '
+             'https://www.youtube.com/watch?v=RJOtZX94A6A&t=339s '
+             'https://www.youtube.com/watch?v=RJOtZX94A6A&t=1334s '
+             'https://komiku.org/steel-covenant-chapter-1/ '
+             'https://image3.komiku.to/upload5/steel-covenant/1/2025-05-27/2_part4.jpg '
+             'https://image4.komiku.to/upload5/steel-covenant/1/2025-05-27/2_part5.jpg '
+             'https://image5.komiku.to/upload5/steel-covenant/1/2025-05-27/3_part1.jpg '
+             'https://img.komiku.org/upload5/steel-covenant/1/2025-05-27/7_part4.jpg '
+             'https://mangabaka.org/manhua/2867/Steel-Covenant https://www.mdhtoy.com/new/57.html',
+ 'reviewed_at': '2026-10-15',
+ 'confirmado': True})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
