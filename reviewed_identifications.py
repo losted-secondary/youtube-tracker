@@ -1439,6 +1439,109 @@ REVIEWED.append({'video_id': 's1FgEmcxJ8U',
  'reviewed_at': '2026-10-14',
  'confirmado': True})
 
+
+REVIEWED.append({'video_id': 'dYGhHtY-IiU',
+ 'title': "A Regressor's Tale of Cultivation",
+ 'aliases': ['회귀수선전', '回歸修仙傳'],
+ 'evidence': 'Identificação pela transcrição nativa do vídeo exato, lida na interface do '
+             'YouTube em 15/10/2026, e por sequência específica do capítulo 2 do '
+             'romance-base. Em 5:05–6:15, Seo oferece o próprio braço a uma raposa para '
+             'proteger os colegas; espera que cultivadores cheguem em dois dias para curá-lo, '
+             'usa ervas analgésicas preparadas e recebe sete dias de abrigo. No capítulo '
+             'externo, Seo Eun-hyun entrega o braço esquerdo, calcula a mesma chegada em dois '
+             'dias, mastiga ervas previamente colhidas e obtém sete noites de permanência; '
+             'Diretor Kim o socorre. A ordem e os detalhes confirmam a obra além da premissa '
+             'de regressão. A edição inglesa oficial da WEBTOON estabelece o título A '
+             "Regressor's Tale of Cultivation e os créditos KIM MuHyeon e Amazing. O título "
+             'coreano 회귀수선전 foi lido na página oficial NAVER; 回歸修仙傳 consta como variante nos '
+             'metadados secundários de Thunderscans/NovelUpdates. A transcrição cobre '
+             '0:00–1:41:55 de um vídeo de 1:42:05 e contém erros fonéticos nos nomes. O '
+             'player permaneceu em 0:00: sem frames reproduzíveis nem escuta independente. A '
+             'correspondência com capítulos do romance não estabelece capítulos da adaptação; '
+             'a alegação 1–33 do uploader e o capítulo final do recap permanecem não '
+             'verificados. https://www.youtube.com/watch?v=dYGhHtY-IiU&t=305s '
+             'https://wetriedtls.com/series/a-regressors-tale-of-cultivation/chapter-2 '
+             'https://www.webtoons.com/en/action/a-regressors-tale-of-cultivation/list?title_no=8795 '
+             'https://comic.naver.com/webtoon/list?titleId=839827 '
+             'https://en-thunderscans.com/comics/a-regressors-tale-of-cultivation/ '
+             'https://www.novelupdates.com/series/a-regressors-tale-of-cultivation/',
+ 'reviewed_at': '2026-10-15',
+ 'confirmado': True})
+
+
+REVIEWED.append({'video_id': '02K93Sf5l2g',
+ 'title': 'By Changing One Word in My Skills, I Broke Everything',
+ 'aliases': ['I Turn Skills Into Broken Ones With a Single Word', '技能改一个字，他们被我玩坏了'],
+ 'evidence': 'Manhua identificado pela descrição e transcrição nativas deste vídeo exato, '
+             'lidas na interface do YouTube em 15/10/2026, por fontes externas e pelo início '
+             'do capítulo 1. A descrição informa I Turn Skills Into Broken Ones With a Single '
+             'Word. Em 0:08–0:17, o protagonista regressa ao dia do despertar num ônibus com '
+             'concluintes; a cidade tem dois anos e meio restantes. Em 1:09–1:40, Rewrite '
+             'altera um caractere em habilidades ou equipamentos; poderosos o exploram e '
+             'aprisionam, um dragão de nível 96 o ataca e Revive vira Rebirth, levando-o aos '
+             'dezoito anos. Jiang Yan é nomeado em 2:22; desperta Repairman F em 2:43–2:57 e '
+             'Farmer F em 3:07–3:16. As fichas do manhua em Elf Toon e Raven Scans atestam os '
+             'títulos inglês e chinês, Jiang Yan, exploração e regressão. A ficha MTL do '
+             'romance-base no WTR-LAB confirma a combinação rara das duas profissões F, '
+             'alteração textual e monstro de nível 96. Os rótulos de habilidades diferem: o '
+             'recap usa Revive→Rebirth e Growth Boost→Regeneration; isso não cria novos '
+             'aliases. As imagens 1/16 e 2/16 do leitor Elf Toon foram inspecionadas: título '
+             'chinês, alunos concluintes de Nanrong no dia do despertar, ônibus e '
+             'protagonista surpreso. O recap traduz o lugar como Southgrove. Transcrição '
+             'obtida até 1:46:20 de um vídeo de 1:46:25. Comparação de transcrição com '
+             'painéis externos, sem correspondência pixel a pixel com frames do recap, escuta '
+             'independente ou capítulo final confirmado. Contadores do leitor e divisões da '
+             'transcrição não estabelecem paginação ou cobertura de capítulos. O título MTL '
+             'da novel não foi adotado como alias do quadrinho. '
+             'https://www.youtube.com/watch?v=02K93Sf5l2g&t=8s '
+             'https://www.youtube.com/watch?v=02K93Sf5l2g&t=69s '
+             'https://www.youtube.com/watch?v=02K93Sf5l2g&t=142s '
+             'https://www.youtube.com/watch?v=02K93Sf5l2g&t=163s '
+             'https://www.youtube.com/watch?v=02K93Sf5l2g&t=187s '
+             'https://elftoon.net/series/comic/by-changing-one-word-in-my-skills-i-broke-everything '
+             'https://elftoon.net/series/comic/by-changing-one-word-in-my-skills-i-broke-everything/chapter/1 '
+             'https://ravenscans.org/manga/i-turn-skills-into-broken-ones-with-a-single-word/ '
+             'https://wtr-lab.com/en/novel/75862/i-changed-one-word-in-the-skill-and-they-were-ruined-by-me',
+ 'reviewed_at': '2026-10-15',
+ 'confirmado': True})
+
+
+REVIEWED.append({'video_id': 'FBaT88GUuaI',
+ 'title': "Goblin's Ascent: From Loser to Winner",
+ 'aliases': ['From Goblin to Goblin God',
+             "Goblin's Life Simulator",
+             'Cong Ge Bu Lin Dao Ge Bu Lin Shen',
+             '从哥布林到哥布林神'],
+ 'evidence': 'Manhua identificado pela transcrição nativa do vídeo exato, lida no YouTube em '
+             '15/10/2026, e por painéis do capítulo 1 oficial da WebComics. Em 0:38–1:05, '
+             'após a morte do chefe, goblins disputam a sucessão mordendo narizes, avançam '
+             'contra a cativa e são repelidos por seu protetor armado. A mesma abertura '
+             'ordenada aparece nas imagens 1–18 do leitor oficial. Em 2:11–3:06, um cavaleiro '
+             'muito forte ataca a garota, o protagonista a protege e uma mulher interrompe o '
+             'golpe com barreira dourada. Nos painéis oficiais inspecionados, o goblin '
+             'estranha o poder do cavaleiro, cogita um engano devido à escuridão e a mulher '
+             'manda Rodell esperar enquanto surge a barreira. São correspondências narrativas '
+             'específicas, além da premissa genérica de reencarnação. A WebComics publica o '
+             "título Goblin's Ascent: From Loser to Winner e localiza o protagonista como "
+             'Jace Hurley e o cavaleiro como Rodell; o recap usa Lin Tian/Lintian e '
+             'Loder/Loader. ManhuaPlus e a ficha previamente verificada de Anime-Planet '
+             'atestam os aliases inglês, romanizado e chinês. A transcrição cobre '
+             '0:00–4:39:00; player indica 4:39:05 e a planilha 4:39:06. Não houve frames '
+             'utilizáveis do próprio recap nem escuta independente. Números de imagens são '
+             'posições do leitor, não páginas editoriais. O comentário fixado do uploader não '
+             'é a base da confirmação. A comparação adicional do final com o romance, '
+             'capítulos 141–142 na tradução Etude, não estabelece capítulo final nem '
+             'intervalo do quadrinho. https://www.youtube.com/watch?v=FBaT88GUuaI&t=38s '
+             'https://www.youtube.com/watch?v=FBaT88GUuaI&t=131s '
+             'https://webcomicsapp.com/en/fantasy/goblin-s-ascent-from-loser-to-winner/1/67e20b7662661d12a148fa62 '
+             'https://webcomicsapp.com/en/fantasy/goblin-s-ascent-from-loser-to-winner/67e20b7662661d12a148fa62 '
+             'https://manhuaplus.org/manga/from-goblin-to-goblin-god '
+             'https://www.anime-planet.com/manga/goblins-ascent-from-loser-to-winner '
+             'https://etudetranslations.com/novel/from-goblin-to-goblin-god/chapter-141/ '
+             'https://etudetranslations.com/novel/from-goblin-to-goblin-god/chapter-142/',
+ 'reviewed_at': '2026-10-15',
+ 'confirmado': True})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
