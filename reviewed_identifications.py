@@ -1614,6 +1614,41 @@ REVIEWED.append({'video_id': 'RJOtZX94A6A',
  'reviewed_at': '2026-10-15',
  'confirmado': True})
 
+
+REVIEWED.extend([{'title': 'All People Scramble for the Tower, I Cleared 999 Floors in Advance',
+  'aliases': ['全民抢塔：我提前通关999层', 'Quanmin Qiang Ta: Wo Tiqian Tongguan 999 Ceng'],
+  'evidence': 'Confirmado por transcrição nativa do vídeo: 00:00–03:54 vitória no andar 999, '
+              'morte, despertar em escola e conta reiniciada com relógio de todas as coisas; '
+              '04:11–07:10 melhoria de equipamentos e venda de receitas de vinho à taverna. '
+              'KuaiKan oficial confirma Su Bai/苏白 e 万物时钟: '
+              'https://www.kuaikanmanhua.com/web/topic/25842/ . Painéis iniciais do capítulo 1 '
+              'mostram a transmissão do desafio e o chefe do andar 999: '
+              'https://www.kuaikanmanhua.com/webs/comic-next/802213 . Inglês atestado em '
+              'catálogo/scanlation, não licença oficial inglesa. Nome chinês e romanização '
+              'vinculados no AniList: '
+              'https://anilist.co/manga/209234/Quanmin-Qiang-Ta-Wo-Tiqian-Tongguan-999-Ceng/staff '
+              '. Capítulo final não verificado. https://www.youtube.com/watch?v=qpyaAr9aJTw',
+  'reviewed_at': '2026-10-15T16:21:25Z',
+  'confirmado': True,
+  'video_id': 'qpyaAr9aJTw'},
+ {'video_id': 'PbeNjemNfG8',
+  'title': 'The Rebel of the Apocalypse Academy',
+  'aliases': ['Rebel of the Doomsday Academy', '終末学院の反逆者'],
+  'evidence': 'Transcrição nativa do vídeo 00:00–00:19 corresponde à abertura visual do capítulo '
+              '1: escolhido, jovem de casaco branco diante de máquina circular luminosa, futuro do '
+              'mundo e ordem de morrer. Kanata, órfãos superdotados, dispositivo aos 18 anos, '
+              'traição, portal, ônibus 30 e diretor Shirogane também correspondem à sinopse '
+              'específica. Título inglês atestado em scanlation; original japonês no desenho do '
+              'capítulo 1. Sem confirmação de licença inglesa ou capítulo final. '
+              'https://www.youtube.com/watch?v=PbeNjemNfG8 '
+              'https://en-thunderscans.com/the-rebel-of-the-apocalypse-academy-chapter-1/ '
+              'https://en-thunderscans.com/comics/the-rebel-of-the-apocalypse-academy/ '
+              'https://mgread.io/manga/rebel-of-the-doomsday-academy/ Foram consultados trechos de '
+              'abertura, meio e final da transcrição; não uma transcrição integral nem frames do '
+              'próprio recap.',
+  'reviewed_at': '2026-10-15',
+  'confirmado': True}])
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
