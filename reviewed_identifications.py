@@ -1670,6 +1670,31 @@ REVIEWED.append({'title': 'The Regressor and the Blind Saint',
  'video_id': 'hEvsUBhTXqw'})
 
 
+REVIEWED.append({'video_id': 'YOhSbA3Gw9o',
+ 'title': "I'm Really Not the Demon God's Lackey",
+ 'aliases': ["I'm Really Not the Evil God's Lackey", '我真不是邪神走狗'],
+ 'evidence': 'Transcrição nativa do vídeo: 00:39–02:13, tempestade e caçadora ferida '
+             'entram na sequência da livraria do cap. 1 da novel; 05:06–05:40, '
+             'Confessions de Rousseau aparece como Blood and the Beast e ensina controle '
+             'do sangue de feras, correspondendo aos caps. 2–3; 06:32–07:20, água '
+             'fervente, guarda-chuva, empréstimo de um mês + sete dias e nomes Ji '
+             'Zhixu/Ji Bonong/Lin Jie confirmam a mesma cena. Fontes: '
+             'https://www.youtube.com/watch?v=YOhSbA3Gw9o&t=306s '
+             'https://novelfull.com/im-really-not-the-demon-gods-lackey/chapter-1-welcome.html '
+             'https://www.sonicmtl.com/novel/im-really-not-the-demon-gods-lackey/chapter-2/ '
+             'https://www.sonicmtl.com/novel/im-really-not-the-demon-gods-lackey/chapter-3/ '
+             'Título e alias atestados: '
+             'https://manhuaus.com/manga/im-really-not-the-demon-gods-lackey/ Identidade '
+             'confirmada, sem inferir cobertura completa ou capítulo final. Foram '
+             'inspecionados trechos da transcrição inicial até cerca de 07:47, não o '
+             'vídeo inteiro de 15:32:51. Sem comparação de frames do recap com painéis. '
+             'Os capítulos 1–3 da novel identificam a história, sem estabelecer '
+             'capítulos inicial ou final do manhua adaptado. Inglês e aliases atestados '
+             'em índice de terceiros; licença inglesa atual não verificada.',
+ 'reviewed_at': '2026-10-16T01:18:48Z',
+ 'confirmado': True})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
