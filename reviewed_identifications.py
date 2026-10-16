@@ -1695,6 +1695,26 @@ REVIEWED.append({'video_id': 'YOhSbA3Gw9o',
  'confirmado': True})
 
 
+REVIEWED.append({'video_id': '28RRbqRucW0',
+ 'title': '与十年后的我连线中',
+ 'aliases': ['Accidental Video to My Future Self', '與十年後的我連線中'],
+ 'evidence': 'Transcrição nativa Hindi do vídeo corresponde ao conto 與十年後的我連線中, com '
+             'nomes/gêneros trocados (Jordan/Avery/Mike por 沈輕麥/遲晝/溫迎). 03:59–06:14: KTV, '
+             'música 晴天, tremor e áudio do futuro tocado por engano (001 p2, §§3–4). '
+             '08:38–10:41: selfies, falsa identidade futura, casamentos ambíguos e pergunta '
+             'sobre felicidade (p4, §§6–7). 17:41–20:44: perguntas de fanfic, detector '
+             'apitando durante confissão verdadeira, controle escondido do amigo, diário e '
+             'foto do casamento (p6, §§9–10). 21:53–22:14: despedida das quatro versões e '
+             'desaparecimento futuro (p7, §11). O vídeo altera gravidez e detalhes '
+             'secundários. https://www.oop.tw/areada/a31602502a/a25199_2a.html '
+             'https://www.oop.tw/areada/a31602502a/a25199_4a.html '
+             'https://www.oop.tw/areada/a31602502a/a25199_6a.html '
+             'https://www.oop.tw/areada/a31602502a/a25199_7a.html Alias inglês atestado: '
+             'https://fullnovels.com/accidental-video-to-my-future-self/',
+ 'reviewed_at': '2026-10-16',
+ 'confirmado': True})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
