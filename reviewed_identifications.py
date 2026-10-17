@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 32336)
-Total output lines: 1802
-
 """Identificações revisadas: chave por vídeo, nunca pelo número de linha."""
 import re
 
@@ -850,7 +847,159 @@ REVIEWED.append({
         "Grafias Ebblestein e Duplane vêm das legendas automáticas; a fonte "
         "oficial usa Ebelstein e Duplain. Canônico da edição oficial inglesa; "
         "ManhuaTop relaciona os dois aliases. Trechos efetivamente lidos na "
-        "interface, …2336 tokens truncated…         "https://www.youtube.com/watch?v=OHVNP0eLZuE&t=27s "
+        "interface, sem exportação integral bem-sucedida, escuta independente "
+        "do áudio ou comparação visual de painéis. "
+        "https://www.youtube.com/watch?v=9oh1PCGsEEA&t=17s "
+        "https://www.youtube.com/watch?v=9oh1PCGsEEA&t=81s "
+        "https://www.youtube.com/watch?v=9oh1PCGsEEA&t=136s "
+        "https://www.youtube.com/watch?v=9oh1PCGsEEA&t=12022s "
+        "https://www.webtoons.com/en/fantasy/theres-no-such-thing-as-a-bad-lady/list?title_no=9716 "
+        "https://manhuatop.org/manhua/there-are-no-bad-young-ladies-in-this-world/"
+    ),
+    "reviewed_at": "2026-10-12",
+    "confirmado": True,
+})
+
+
+REVIEWED.append({
+    "video_id": "eSzpxFfhbTA",
+    "title": "I Have Been Stuck on the Same Day for 3,000 Years",
+    "aliases": [
+        "I've Been Stuck on This Day for Three Thousand Years",
+        "I'm Trapped in This Day for Three Thousand Years",
+        "I’ve Been Trapped on the Same Day for Over 3000 Years",
+        "我困在这一天已三千年",
+        "Wǒ Kùn Zài Zhè Yī Tiān Yǐ Sān Qiān Nián",
+    ],
+    "evidence": (
+        "Transcrição pública do próprio vídeo lida na interface do YouTube "
+        "em 13/10/2026 às 01:19 UTC: 0:00–0:58 apresenta três mil anos "
+        "repetindo o mesmo dia, batalha contra um boss e despertar no quarto; "
+        "1:07 nomeia Obsidian Ruins e o ovo do steel-winged colossus trazido "
+        "para o quarto; 1:14 apresenta a irmã Lu Yao em cadeira de rodas; "
+        "2:14–2:22 nomeia Shadow Worlds. A sinopse externa do MangaRead liga "
+        "Obsidian Ruins, Shadow World, o ciclo de três mil anos e seu término "
+        "após um boss à obra 我困在这一天已三千年. Essa combinação específica "
+        "de cenário e sequência confirma a identificação; comentário de "
+        "espectador é apenas apoio. Título em inglês e aliases conforme o "
+        "catálogo MangaRead, sem edição inglesa oficial verificada. O catálogo "
+        "usa Lu Feng, enquanto a legenda automática varia entre Lufang e "
+        "Lu Fang; a grafia não foi critério principal. Identificação textual, "
+        "sem correspondência visual verificada de frames ou painéis. "
+        "https://www.youtube.com/watch?v=eSzpxFfhbTA&t=0s "
+        "https://www.youtube.com/watch?v=eSzpxFfhbTA&t=67s "
+        "https://www.youtube.com/watch?v=eSzpxFfhbTA&t=74s "
+        "https://www.youtube.com/watch?v=eSzpxFfhbTA&t=134s "
+        "https://www.mangaread.org/manga/i-have-been-stuck-on-the-same-day-for-3000-years/"
+    ),
+    "reviewed_at": "2026-10-12",
+    "confirmado": True,
+})
+
+
+REVIEWED.append({
+    "video_id": "UFuiCscincY",
+    "title": "校花别追了，爷的深情你不配",
+    "aliases": [
+        "校花倒追我不要，我只爱小同桌",
+        "School Belle, Stop Chasing Me — You Don’t Deserve My Love",
+    ],
+    "evidence": (
+        "Novel chinesa de 榴莲味的西瓜, identificada como obra-base do recap, "
+        "pelo título original vigente no catálogo oficial Fanqie. Transcrição "
+        "pública do vídeo lida na interface do YouTube em 13/10/2026: "
+        "0:15–2:33, acidente fatal a caminho do casamento da antiga paixão, "
+        "visita ao túmulo com estrelas de papel, receio de desdobrá-las e "
+        "não conseguir refazê-las, mensagens amorosas fixadas à lápide e "
+        "espírito incapaz de abraçá-la; 3:27–4:45, clarão, retorno à aula "
+        "em 22/09/2008, amigo com câmera para a 999ª declaração e desistência "
+        "dela para preparar a carteira da aluna transferida. A sequência "
+        "corresponde ao capítulo 1 reproduzido em WFXS e ao capítulo 2 "
+        "oficial. Em 30:24–31:34, o representante esportivo Optimus bloqueia "
+        "a passagem após a antiga paixão sair irritada, e o amigo diz que "
+        "um bom cachorro não bloqueia o caminho: episódio do capítulo 7 "
+        "oficial, com 秦天柱 (Qin Tianzhu). A confirmação combina cenas "
+        "específicas e separadas, data exata e sequência, não só a premissa. "
+        "O recap usa Xiao Yi, Wen Wan e Lu Yanran; o original, 叶林 (Ye Lin), "
+        "兰呦呦 (Lan Youyou) e 凌飞雪 (Ling Feixue). A renomeação é inferida "
+        "pelas cenas, sem alegar identidade fonética. Há divergência entre "
+        "sinopses/edições quanto à morte da moça; esse detalhe isolado não "
+        "sustenta a identificação. Alias chinês antigo atestado em catálogos; "
+        "alias inglês atestado no catálogo/MTL WTR-LAB, sem edição inglesa "
+        "oficial verificada. Não foi confirmado um quadrinho licenciado "
+        "separado nem o título próprio da adaptação visual. Sem comparação "
+        "de painéis, exportação integral da transcrição ou escuta independente. "
+        "https://www.youtube.com/watch?v=UFuiCscincY&t=15s "
+        "https://www.youtube.com/watch?v=UFuiCscincY&t=207s "
+        "https://www.youtube.com/watch?v=UFuiCscincY&t=1824s "
+        "https://fanqienovel.com/page/7288544802038090812 "
+        "https://m.wfxs.tw/xiaoshuo/2572003/79911397/ "
+        "https://fanqienovel.com/reader/7308405788995748402 "
+        "https://fanqienovel.com/reader/7324010535731593790 "
+        "https://ixdzs8.com/read/571505/ "
+        "https://wtr-lab.com/en/novel/14138/school-belle-stop-chasing-me-you-dont-deserve-my-love"
+    ),
+    "reviewed_at": "2026-10-13",
+    "confirmado": True,
+})
+
+
+REVIEWED.extend([
+    {
+        "video_id": "BTkZ47ABOP8",
+        "title": "I Rely On My Harem To Conquer The World",
+        "aliases": ["我靠后宫征服世界"],
+        "evidence": (
+            "Manhua identificado pela transcrição pública do vídeo, lida na interface "
+            "do YouTube em 13/10/2026, e pelos painéis oficiais da WebNovel Comics "
+            "inspecionados visualmente. Em 0:00–0:34, o ano 2050 corresponde à abertura "
+            "do capítulo 1, Backstab; em 3:53–5:06, a serpente de quinto nível, a fuga "
+            "da equipe e o capitão ferindo o carregador doente para usá-lo como isca "
+            "correspondem ao Titanboa tier 5 e à referência a Beastblight nos painéis "
+            "58, 69, 72 e 74 de 116. Em 5:46–6:39, a invocação pelas súcubos e a "
+            "janela de status correspondem ao cartão Li Haoran, Blood Demon God, "
+            "Bloodkin do painel 109/116. Em 6:56–7:03, a primeira seguidora possui "
+            "88% de afeição, como Nicole, Succubus, favorability 88% no painel 4/82 "
+            "do capítulo 2, I Drained The Succubus Village. Os números são contadores "
+            "de imagens do leitor, não páginas impressas. Título inglês oficial da "
+            "WebNovel; alias chinês atestado no AniList. Grafias variáveis na legenda "
+            "automática não são aliases da obra. Confirmação por sequência específica "
+            "e personagens; sem comparação direta da arte do recap, exportação integral "
+            "da transcrição ou alegação de novel separada. "
+            "https://www.youtube.com/watch?v=BTkZ47ABOP8&t=0s "
+            "https://www.youtube.com/watch?v=BTkZ47ABOP8&t=233s "
+            "https://www.youtube.com/watch?v=BTkZ47ABOP8&t=346s "
+            "https://www.youtube.com/watch?v=BTkZ47ABOP8&t=416s "
+            "https://www.webnovel.com/comic/33460735100887601 "
+            "https://www.webnovel.com/comic/33460735100887601/92159213643552306 "
+            "https://www.webnovel.com/comic/33460735100887601/92159214180423620 "
+            "https://anilist.co/manga/192158/Wokao-Hougong-Zhengfu-Shijie"
+        ),
+        "reviewed_at": "2026-10-13",
+        "confirmado": True,
+    },
+    {
+        "video_id": "OHVNP0eLZuE",
+        "title": "Living with an Aberrant Lifeform in My Body",
+        "aliases": ["Strongest Parasitic Human", "寄宿我身，这个异生人不好惹！"],
+        "evidence": (
+            "Manhua identificado pela transcrição pública do vídeo, lida na interface "
+            "do YouTube em 13/10/2026, e pela sequência de painéis oficiais do episódio "
+            "1 da Tappytoon, inspecionados visualmente. Em 0:27–0:43, o protagonista "
+            "ouve música de fones num trem lotado enquanto os demais passageiros estão "
+            "exaustos; em 2:27–2:45, o agressor é caracterizado como criminoso de "
+            "demolição; em 2:45–3:11, o protagonista vê uma menina com a avó, propõe "
+            "distrair o monstro para elas fugirem e cita sua experiência na equipe "
+            "universitária de atletismo. Essa sequência específica corresponde ao "
+            "episódio 1, além da sinopse oficial sobre Lucas Qin e o ataque no metrô. "
+            "Título inglês licenciado da Tappytoon; Strongest Parasitic Human é título "
+            "de fãs atestado no Komikindo e RezoScan, e o original chinês está no "
+            "MangaBaka e Komikindo. Qin Xi e Lucas Qin são formas documentadas nos "
+            "catálogos; as variações da transcrição automática não são aliases da "
+            "obra. O player ficou preto/em carregamento, portanto não houve comparação "
+            "direta entre a arte do recap e os painéis. Não se afirma novel separada "
+            "nem o capítulo final coberto pelo vídeo. "
+            "https://www.youtube.com/watch?v=OHVNP0eLZuE&t=27s "
             "https://www.youtube.com/watch?v=OHVNP0eLZuE&t=147s "
             "https://www.youtube.com/watch?v=OHVNP0eLZuE&t=165s "
             "https://www.tappytoon.com/en/book/living-with-an-aberrant-lifeform-in-my-body "
