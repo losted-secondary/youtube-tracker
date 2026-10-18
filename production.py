@@ -78,9 +78,9 @@ def sync(book):
   requests.append(put(sheets['Cadastro'],r,9,[[c['maximum']]]))
   requests.append(put(sheets['Painel'],t,9,[[author(c)]]))
   c['displayed_author']=author(c)
-  requests.append(put(sheets['Painel'],25+i,0,[[c['name'],c['last_checked'][8:10]+'/'+c['last_checked'][5:7]+' '+c['last_checked'][11:16] if c['last_checked'] else 'Não consultado',latest['id'] if latest else '',c['error'] or 'Atualizado']]))
+  requests.append(put(sheets['Cadastro'],28+i,0,[[c['name'],c['last_checked'][8:10]+'/'+c['last_checked'][5:7]+' '+c['last_checked'][11:16] if c['last_checked'] else 'Não consultado',latest['id'] if latest else '',c['error'] or 'Atualizado']]))
   if latest:
-   requests.append(put(sheets['Painel'],25+i,2,[[f'=HYPERLINK("https://www.youtube.com/watch?v={latest["id"]}";"Abrir vídeo")']],True))
+   requests.append(put(sheets['Cadastro'],28+i,2,[[f'=HYPERLINK("https://www.youtube.com/watch?v={latest["id"]}";"Abrir vídeo")']],True))
   # Os vídeos mais antigos que a âncora não avançam o rodízio; limita tamanho do estado.
   if len(c['seen'])>1000:c['seen']=[e['id'] for e in feeds.get(c['handle'],[])]+[latest['id']]
  # Estado e células são gravados juntos: uma falha não avança só metade do controle.
