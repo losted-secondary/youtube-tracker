@@ -123,7 +123,7 @@ def sync(book):
   requests.append(put(sheets['Cadastro'],r,5,[[f'=IFERROR(IF(Painel!I{t+1}="Eu";1;VALUE(REGEXEXTRACT(Painel!I{t+1};"[0-9]+"))+1);"")']],True))
   requests.append(put(sheets['Cadastro'],r,9,[[c['maximum']]]))
   requests.append(put(sheets['Painel'],t,8,[[author(c)]]))
-  requests.append({'setDataValidation':{'range':{'sheetId':sheets['Painel'],'startRowIndex':t,'endRowIndex':t+1,'startColumnIndex':8,'endColumnIndex':9},'rule':{'condition':{'type':'ONE_OF_LIST','values':[{'userEnteredValue':v} for v in ['Eu']+[f'Parceiro {n}' for n in range(1,c['people'])]+['A confirmar']]},'strict':True,'showCustomUi':True}}})
+  requests.append({'setDataValidation':{'range':{'sheetId':sheets['Painel'],'startRowIndex':t,'endRowIndex':t+1,'startColumnIndex':8,'endColumnIndex':9},'rule':{'condition':{'type':'ONE_OF_LIST','values':[{'userEnteredValue':v} for v in ['Eu']+[f'Parceiro {n}' for n in range(1,c['people'])]]},'strict':True,'showCustomUi':True}}})
   requests.append({'repeatCell':{'range':{'sheetId':sheets['Painel'],'startRowIndex':t,'endRowIndex':t+1,'startColumnIndex':8,'endColumnIndex':9},'cell':{'userEnteredFormat':{'backgroundColor':{'red':1,'green':.96,'blue':.8}}},'fields':'userEnteredFormat.backgroundColor'}})
   c['displayed_author']=author(c)
   requests.append(put(sheets['Cadastro'],28+i,0,[[c['name'],c['last_checked'][8:10]+'/'+c['last_checked'][5:7]+' '+c['last_checked'][11:16] if c['last_checked'] else 'Não consultado',latest['id'] if latest else '',c['error'] or 'Atualizado']]))
