@@ -31,6 +31,11 @@ class FakeBook:
  def batch_update(self,body):
   names={i:n for n,i in self.ids.items()}
   for req in body['requests']:
+   if 'deleteDimension' in req:
+    d=req['deleteDimension']['range'];name=names[d['sheetId']];start=d['startIndex'];end=d['endIndex'];size=end-start
+    self.cells={(n,r-size if n==name and r>=end else r,c):v for (n,r,c),v in self.cells.items() if not (n==name and start<=r<end)}
+    for item in self.named:
+     if item['range']['startRowIndex']>=end:item['range']['startRowIndex']-=size
    if 'insertDimension' in req:
     d=req['insertDimension']['range'];name=names[d['sheetId']];start=d['startIndex'];size=d['endIndex']-start
     self.cells={(n,r+size if n==name and r>=start else r,c):v for (n,r,c),v in self.cells.items()}
@@ -45,6 +50,14 @@ class FakeBook:
   return {}
 
 class SyncTests(unittest.TestCase):
+ def test_empty_queue_shrinks_without_erasing_channel_header(self):
+  book=FakeBook();book.named=[{'name':'Confirmacoes','range':{'startRowIndex':12}}, {'name':'TabelaCanais','range':{'startRowIndex':20}}]
+  book.cells['Painel',20,0]='Canal'
+  feeds={c['channel_id']:[c['latest']] for c in bootstrap()['channels']}
+  with patch('production.fetch',side_effect=lambda cid:feeds[cid]):sync(book)
+  self.assertEqual(book.cells['Painel',15,0],'Canal')
+  self.assertEqual(book.named[1]['range']['startRowIndex'],15)
+
  def test_top_confirmations_grow_and_keep_answers(self):
   book=FakeBook()
   book.named=[{'name':'Confirmacoes','range':{'startRowIndex':12}}, {'name':'TabelaCanais','range':{'startRowIndex':14}}]
@@ -59,7 +72,8 @@ class SyncTests(unittest.TestCase):
    self.assertEqual(book.cells['Painel',17,8],'A confirmar')
    book.cells['Painel',12,4]='Sim'
    sync(book)
-   self.assertEqual(book.cells['Painel',12,9],'Sim')
+   self.assertEqual(book.cells['Painel',12,10],'another-video')
+   self.assertEqual(json.loads(book.cells['_Controle',0,0])['queue_count'],1)
    self.assertEqual(book.cells['Painel',17,8],'Eu')
 
  def test_detect_save_reload_and_confirm_no_without_duplicate(self):
@@ -74,12 +88,12 @@ class SyncTests(unittest.TestCase):
    book.cells['Painel',21,4]='Não'
    sync(book)
    self.assertEqual(book.cells['Cadastro',7,5],2)
-   self.assertEqual(book.cells['Painel',21,4],'Não')
-   self.assertEqual(book.cells['Painel',21,9],'Não')
-   state=json.loads(book.cells['_Controle',0,0]);self.assertEqual(state['queue_count'],1)
+   self.assertEqual(book.cells['Painel',21,4],'')
+   self.assertEqual(book.cells['Painel',21,10],'')
+   state=json.loads(book.cells['_Controle',0,0]);self.assertEqual(state['queue_count'],0)
    self.assertNotIn('events',state['channels'][1])
    sync(book)
    self.assertEqual(book.cells['Cadastro',7,5],2)
-   self.assertEqual(json.loads(book.cells['_Controle',0,0])['queue_count'],1)
+   self.assertEqual(json.loads(book.cells['_Controle',0,0])['queue_count'],0)
 
 if __name__=='__main__':unittest.main()

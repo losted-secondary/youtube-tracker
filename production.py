@@ -85,12 +85,21 @@ def sync(book):
  requests=[]
  for c in state['channels']:
   if c['handle'] in feeds:ingest(c,feeds[c['handle']])
+ total=sum(1 for c in state['channels'] for e in c['events'] if e['asked'] and e.get('answer','Pendente')=='Pendente')
  if queue_start < main_start:
-  total=queue_count+sum(1 for c in state['channels'] for e in c['events'] if e['asked'] and 'queue_row' not in e)
-  extra=max(0,total-(main_start-queue_start-1))
-  if extra:
+  capacity=main_start-queue_start-1
+  target=max(2,total)
+  extra=target-capacity
+  if extra>0:
    requests.append({'insertDimension':{'range':{'sheetId':sheets['Painel'],'dimension':'ROWS','startIndex':main_start-2,'endIndex':main_start-2+extra},'inheritFromBefore':True}})
-   main_start+=extra
+  elif extra<0:
+   requests.append({'deleteDimension':{'range':{'sheetId':sheets['Painel'],'dimension':'ROWS','startIndex':queue_start-1+target,'endIndex':main_start-2}}})
+  main_start+=extra
+  clear_count=target
+ else:clear_count=max(queue_count,total,1)
+ requests.append(put(sheets['Painel'],queue_start-1,0,[[None]*11 for _ in range(clear_count)]))
+ requests.append({'setDataValidation':{'range':{'sheetId':sheets['Painel'],'startRowIndex':queue_start-1,'endRowIndex':queue_start-1+clear_count,'startColumnIndex':4,'endColumnIndex':5}}})
+ queue_count=0
  for i,c in enumerate(state['channels']):
   c['error']=None
   if c['handle'] in feeds:
@@ -110,16 +119,15 @@ def sync(book):
  ledger=[]
  for c in state['channels']:
   for event in c['events']:
-   if event['asked']:
-    fresh='queue_row' not in event
-    if fresh:
-     event['queue_row']=queue_start+queue_count
-     queue_count+=1
+   event.pop('queue_row',None)
+   if event['asked'] and event.get('answer','Pendente')=='Pendente':
+    event['queue_row']=queue_start+queue_count
+    queue_count+=1
     row=event['queue_row'];serial=(date.fromisoformat(event['date'])-date(1899,12,30)).days
     requests.append(put(sheets['Painel'],row-1,0,[[c['name'],serial]]))
     title=(event.get('title') or 'Abrir vídeo').replace('"','""')
     requests.append(put(sheets['Painel'],row-1,2,[[f'=HYPERLINK("https://www.youtube.com/watch?v={event["id"]}";"{title}")',question_formula(row)]],True))
-    if fresh:requests.append(put(sheets['Painel'],row-1,4,[['Pendente']]))
+    requests.append(put(sheets['Painel'],row-1,4,[['Pendente']]))
     requests.append(put(sheets['Painel'],row-1,5,[[f'=IF(E{row}="Pendente";"Aguardando resposta";IF(E{row}=J{row};"Confirmado";"Aplicando resposta"))']],True))
     requests.append(put(sheets['Painel'],row-1,9,[[event.get('answer','Pendente'),event['id']]]))
    ledger.append([c['handle'],json.dumps(event,ensure_ascii=False,separators=(',',':'))])
