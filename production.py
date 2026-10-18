@@ -73,20 +73,30 @@ def sync(book):
   try:feeds[c['handle']]=fetch(c['channel_id'])
   except Exception as exc:
    print(f"[produção] {c['name']}: {type(exc).__name__}")
+ named={n['name']:n['range'] for n in meta.get('namedRanges',[])}
+ queue_start=named.get('Confirmacoes',{}).get('startRowIndex',21)+1
+ main_start=named.get('TabelaCanais',{}).get('startRowIndex',9)+1
  queue_count=state.get('queue_count',0)
  answers={}
  if queue_count:
-  for row in book.worksheet('Painel').get(f'E22:K{21+queue_count}'):
+  for row in book.worksheet('Painel').get(f'E{queue_start}:K{queue_start-1+queue_count}'):
    if len(row)>=7 and row[6]:answers[row[6]]=row[0] if row else 'Pendente'
  apply_answers(state['channels'],answers)
  requests=[]
+ for c in state['channels']:
+  if c['handle'] in feeds:ingest(c,feeds[c['handle']])
+ if queue_start < main_start:
+  total=queue_count+sum(1 for c in state['channels'] for e in c['events'] if e['asked'] and 'queue_row' not in e)
+  extra=max(0,total-(main_start-queue_start-1))
+  if extra:
+   requests.append({'insertDimension':{'range':{'sheetId':sheets['Painel'],'dimension':'ROWS','startIndex':main_start-2,'endIndex':main_start-2+extra},'inheritFromBefore':True}})
+   main_start+=extra
  for i,c in enumerate(state['channels']):
   c['error']=None
   if c['handle'] in feeds:
-   ingest(c,feeds[c['handle']])
    c['last_checked']=datetime.now(BRT).isoformat(timespec='seconds')
   else:c['error']='Falha na consulta. Dados anteriores preservados.'
-  r=6+i;t=10+i
+  r=6+i;t=main_start+i
   latest=c['latest']
   serial=(date.fromisoformat(latest['date'])-date(1899,12,30)).days if latest else None
   requests.append(put(sheets['Cadastro'],r,2,[[serial,c['minimum'],c['people'],c['position']]]))
@@ -103,7 +113,7 @@ def sync(book):
    if event['asked']:
     fresh='queue_row' not in event
     if fresh:
-     event['queue_row']=22+queue_count
+     event['queue_row']=queue_start+queue_count
      queue_count+=1
     row=event['queue_row'];serial=(date.fromisoformat(event['date'])-date(1899,12,30)).days
     requests.append(put(sheets['Painel'],row-1,0,[[c['name'],serial]]))
@@ -115,21 +125,21 @@ def sync(book):
    ledger.append([c['handle'],json.dumps(event,ensure_ascii=False,separators=(',',':'))])
  # Crescer sem descartar pendências nem históricos antigos.
  panel_rows=next(s['properties']['gridProperties']['rowCount'] for s in meta['sheets'] if s['properties']['title']=='Painel')
- if 22+queue_count>panel_rows:
-  requests.insert(0,{'appendDimension':{'sheetId':sheets['Painel'],'dimension':'ROWS','length':max(100,22+queue_count-panel_rows)}})
+ if queue_start+queue_count>panel_rows:
+  requests.insert(0,{'appendDimension':{'sheetId':sheets['Painel'],'dimension':'ROWS','length':max(100,queue_start+queue_count-panel_rows)}})
  ledger_rows=next((s['properties']['gridProperties']['rowCount'] for s in meta['sheets'] if s['properties']['title']==EVENT_TAB),1000)
  if len(ledger)>ledger_rows:requests.insert(0,{'appendDimension':{'sheetId':sheets[EVENT_TAB],'dimension':'ROWS','length':max(100,len(ledger)-ledger_rows)}})
  if ledger:requests.append(put(sheets[EVENT_TAB],0,0,ledger))
  state['queue_count']=queue_count
- if not queue_count:requests.append(put(sheets['Painel'],21,0,[['Nenhuma confirmação pendente.']]))
+ if not queue_count:requests.append(put(sheets['Painel'],queue_start-1,0,[['Nenhuma confirmação pendente.']]))
  if queue_count:
-  grid={'sheetId':sheets['Painel'],'startRowIndex':21,'endRowIndex':21+queue_count,'startColumnIndex':0,'endColumnIndex':6}
+  grid={'sheetId':sheets['Painel'],'startRowIndex':queue_start-1,'endRowIndex':queue_start-1+queue_count,'startColumnIndex':0,'endColumnIndex':6}
   requests.extend([
    {'repeatCell':{'range':grid,'cell':{'userEnteredFormat':{'horizontalAlignment':'CENTER','verticalAlignment':'MIDDLE','wrapStrategy':'WRAP'}},'fields':'userEnteredFormat.horizontalAlignment,userEnteredFormat.verticalAlignment,userEnteredFormat.wrapStrategy'}},
    {'repeatCell':{'range':dict(grid,startColumnIndex=1,endColumnIndex=2),'cell':{'userEnteredFormat':{'numberFormat':{'type':'DATE','pattern':'dd/mm/yyyy'}}},'fields':'userEnteredFormat.numberFormat'}},
    {'repeatCell':{'range':dict(grid,startColumnIndex=4,endColumnIndex=5),'cell':{'userEnteredFormat':{'backgroundColor':{'red':1,'green':.96,'blue':.8}}},'fields':'userEnteredFormat.backgroundColor'}},
    {'setDataValidation':{'range':dict(grid,startColumnIndex=4,endColumnIndex=5),'rule':{'condition':{'type':'ONE_OF_LIST','values':[{'userEnteredValue':a} for a in ['Pendente','Sim','Não']]},'strict':True,'showCustomUi':True}}},
-   {'updateDimensionProperties':{'range':{'sheetId':sheets['Painel'],'dimension':'ROWS','startIndex':21,'endIndex':21+queue_count},'properties':{'pixelSize':80},'fields':'pixelSize'}}])
+   {'updateDimensionProperties':{'range':{'sheetId':sheets['Painel'],'dimension':'ROWS','startIndex':queue_start-1,'endIndex':queue_start-1+queue_count},'properties':{'pixelSize':80},'fields':'pixelSize'}}])
  for c in state['channels']:c.pop('events',None)
  # Estado e células são gravados juntos: uma falha não avança só metade do controle.
  requests.append(put(sheets[STATE_TAB],0,0,[[json.dumps(state,ensure_ascii=False,separators=(',',':'))]]))
