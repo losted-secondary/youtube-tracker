@@ -27,6 +27,8 @@ def bootstrap():
  return state
 
 def author(c):
+ if c.get('events') and c['events'][-1].get('asked') and c['events'][-1].get('answer')=='Pendente':
+  return 'A confirmar'
  return 'A confirmar' if c['position'] is None else 'Eu' if c['position']==1 else f"Parceiro {c['position']-1}"
 
 def correct_author(c,value):
