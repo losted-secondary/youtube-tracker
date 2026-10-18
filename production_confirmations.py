@@ -31,7 +31,8 @@ def replay(channel):
         # Uma pergunta já feita permanece vinculada ao vídeo, mesmo após correções.
         event['asked']=event.get('asked',False) or expected==1 or expected is None
         answer=event.get('answer','Pendente')
-        if answer=='Sim':position=1
+        if 'manual_position' in event:position=event['manual_position']
+        elif answer=='Sim':position=1
         elif answer=='Não':
             # Não foi meu vídeo: minha vez continua pendente após o parceiro.
             position=channel['people'] if expected==1 else expected

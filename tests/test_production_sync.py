@@ -50,6 +50,24 @@ class FakeBook:
   return {}
 
 class SyncTests(unittest.TestCase):
+ def test_manual_author_persists_and_applies_before_new_video(self):
+  book=FakeBook();base=bootstrap();feeds={c['channel_id']:[c['latest']] for c in base['channels']}
+  with patch('production.fetch',side_effect=lambda cid:feeds[cid]):
+   sync(book)
+   book.cells['Painel',11,8]='Eu'
+   sync(book);sync(book)
+   self.assertEqual(json.loads(book.cells['_Controle',0,0])['channels'][1]['position'],1)
+   book.cells['Painel',11,8]='Parceiro 1'
+   feeds[base['channels'][1]['channel_id']].append({'id':'new','published':'2026-10-18T10:00:00+00:00','date':'2026-10-18'})
+   sync(book)
+   self.assertEqual(book.cells['Painel',21,10],'new')
+   book.cells['Painel',11,8]='Parceiro 1'
+   sync(book);sync(book)
+   self.assertEqual(book.cells['Painel',11,8],'Parceiro 1')
+   self.assertEqual(json.loads(book.cells['_Controle',0,0])['queue_count'],0)
+   self.assertEqual(json.loads(book.cells['_Controle',0,0])['channels'][1]['position'],2)
+   self.assertIn('Painel!I12',book.cells['Cadastro',7,5])
+
  def test_empty_queue_shrinks_without_erasing_channel_header(self):
   book=FakeBook();book.named=[{'name':'Confirmacoes','range':{'startRowIndex':12}}, {'name':'TabelaCanais','range':{'startRowIndex':20}}]
   book.cells['Painel',20,0]='Canal'
@@ -83,17 +101,17 @@ class SyncTests(unittest.TestCase):
    sync(book)
    self.assertEqual(book.cells['Painel',21,4],'Pendente')
    self.assertEqual(book.cells['Painel',21,10],'new-video')
-   self.assertEqual(book.cells['Cadastro',7,5],1)
+   self.assertEqual(json.loads(book.cells['_Controle',0,0])['channels'][1]['position'],1)
    self.assertEqual(book.cells['Painel',11,8],'A confirmar')
    book.cells['Painel',21,4]='Não'
    sync(book)
-   self.assertEqual(book.cells['Cadastro',7,5],2)
+   self.assertEqual(json.loads(book.cells['_Controle',0,0])['channels'][1]['position'],2)
    self.assertEqual(book.cells['Painel',21,4],'')
    self.assertEqual(book.cells['Painel',21,10],'')
    state=json.loads(book.cells['_Controle',0,0]);self.assertEqual(state['queue_count'],0)
    self.assertNotIn('events',state['channels'][1])
    sync(book)
-   self.assertEqual(book.cells['Cadastro',7,5],2)
+   self.assertEqual(json.loads(book.cells['_Controle',0,0])['channels'][1]['position'],2)
    self.assertEqual(json.loads(book.cells['_Controle',0,0])['queue_count'],0)
 
 if __name__=='__main__':unittest.main()
