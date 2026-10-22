@@ -2137,6 +2137,33 @@ REVIEWED.append({'video_id': '28RRbqRucW0',
  'confirmado': True})
 
 
+REVIEWED.append({'video_id': 'FvD39N9jJx8',
+ 'title': 'Monster’s Streamer Star',
+ 'aliases': ['Monster Streaming Star',
+             'Monster Livestream Star',
+             'The Slime’s Livestream Star',
+             "Monster's Internet Broadcast Star",
+             'Monster-ui Inbang Star',
+             '몬스터의 인방스타'],
+ 'evidence': 'Transcrição pública do vídeo: 00:57 slime recém-nascido na caverna tem inteligência '
+             'detectada e recebe sistema de transmissão; 01:36 escolhe Mauling/Malang; 02:01 '
+             'dragão Noble Fire; 18:28 treinador de cabeçadas; 26:16 Queen Maul Kang alerta sobre '
+             'caçadores humanos; 27:17 mentora aracnídea com filhotes; 45:10 lich Konjuki. A '
+             'sinopse oficial Naver855923 identifica 말랑이, 말캉여왕 e 깐죽이, além de Arachne/Fenrir, e a '
+             'mesma sequência conceitual caverna, inteligência, transmissão e evolução. Conjunto '
+             'específico de personagens/enredo confirma a obra; grafias das legendas automáticas '
+             'variam e não são aliases. Título coreano oficial e aliases ingleses atestados nos '
+             'catálogos abaixo, sem alegar edição inglesa oficial. Intervalo de capítulos não '
+             'estabelecido. https://www.youtube.com/watch?v=FvD39N9jJx8 '
+             'https://m.comic.naver.com/webtoon/list?titleId=855923&week=tue '
+             'https://www.novelupdates.com/series/monsters-streamer-star/ '
+             'https://mgread.io/manga/monsters-streamer-star/ '
+             'https://en-thunderscans.com/comics/the-slimes-livestream-star/ '
+             'https://toonz.to/manhwa/monsters-internet-broadcast-star',
+ 'reviewed_at': '2026-10-22',
+ 'confirmado': True})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
