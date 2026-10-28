@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 71283)
-Total output lines: 2267
-
 """Identificações revisadas: chave por vídeo, nunca pelo número de linha."""
 import re
 
@@ -249,7 +246,388 @@ REVIEWED = [
     "I Have Infinite Golden Traits",
     "My Golden Traits Can Evolve Infinitely"
   ],
-  "evidence": "Vídeo: https://www.youtube.com/watch?v=miZ0y8bI1JI. [{\"source_type\":\"official_original_publisher\",\"publisher\":\"Tencent Animation and Comics\",\"url\":\"https://ac.qq.com/Comic/comicInfo/id/…11283 tokens truncated…ulo. O recap usa Suo Tomahiro e o catálogo Chiyuan Suou; identificação apoiada no enredo, não na grafia do nome. https://www.youtube.com/watch?v=Z-AghRYVoDc&t=125s https://www.youtube.com/watch?v=Z-AghRYVoDc&t=1095s https://www.youtube.com/watch?v=Z-AghRYVoDc&lc=UgztKyioI4iPwS64HTB4AaABAg https://mangabaka.org/manhua/605878/The-Return-of-the-Scorned-Genius https://softkomik.co/the-return-of-the-scorned-genius-bahasa-indonesia . Alias japonês atestado em catálogos; Piccoma indicado por MangaBaka (https://piccoma.com/web/product/196779) bloqueia leitura fora do Japão, portanto não foi usado como evidência de conteúdo diretamente verificado.",
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=miZ0y8bI1JI. [{\"source_type\":\"official_original_publisher\",\"publisher\":\"Tencent Animation and Comics\",\"url\":\"https://ac.qq.com/Comic/comicInfo/id/657667\",\"title\":\"我有无限金色词条\",\"access_method\":\"Public web page, successfully opened via reference; original link also discovered on catalog.\",\"supports\":\"Official title and creator. Synopsis names 陈夕 (Chen Xi), exceptional mental power, 阴影法师 (Shadow Mage), golden-trait talent, zero cooldown and limitless undead summoning.\",\"source_locator\":\"Title/creator and synopsis, extracted lines 41–54; confirmed again at 13:23 UTC.\"},{\"source_type\":\"English_title_and_synopsis\",\"publisher\":\"Dragon Tea\",\"url\":\"https://dragontea.ink/novel/i-have-infinite-golden-traits/\",\"title\":\"I Have Infinite Golden Traits\",\"access_method\":\"Public web search and opened page.\",\"supports\":\"English title; same named Chen Xi, Shadow Mage, golden trait, no-cooldown skills and undead legions.\"},{\"source_type\":\"catalog_alias\",\"publisher\":\"MangaBaka\",\"url\":\"https://mangabaka.org/manhua/588991/My-Golden-Traits-Can-Evolve-Infinitely\",\"title\":\"My Golden Traits Can Evolve Infinitely\",\"access_method\":\"Public web search and opened page.\",\"supports\":\"Exact Chinese title, creator, matching synopsis and original Tencent link.\"}] [{\"timestamp\":\"0:54\",\"seconds\":54,\"observation\":\"Protagonist awakens the unpopular Shadow Mage class.\"},{\"timestamp\":\"1:37\",\"seconds\":97,\"observation\":\"Mental-strength test was 150, so he expected a special class.\"},{\"timestamp\":\"1:46\",\"seconds\":106,\"observation\":\"Status identifies protagonist as Chen Xi.\"},{\"timestamp\":\"5:56\",\"seconds\":356,\"observation\":\"Summon Undead costs ten mana and creates two zombies or fighter skeletons.\"},{\"timestamp\":\"6:06–6:27\",\"seconds\":366,\"observation\":\"Golden affix Arcane Grace appears; one golden affix every five levels; effect removes all skill cooldowns.\"},{\"timestamp\":\"7:01–7:31\",\"seconds\":421,\"observation\":\"Repeated casts produce twenty undead and fill his room, demonstrating a growing undead army.\"}] Named protagonist plus his specific class, exceptional mental stat, golden-affix zero-cooldown mechanic and undead army independently agree with the official Tencent synopsis. This is not inferred from the promotional YouTube headline alone.",
+  "reviewed_at": "2026-10-21",
+  "confirmado": True
+},
+{
+  "video_id": "LEftxAxgbmU",
+  "title": "我每周获得一个新人设",
+  "aliases": [
+    "I Get a New Persona Every Week"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=LEftxAxgbmU. [{\"source_type\":\"official_original_chapter\",\"publisher\":\"Qidian\",\"url\":\"https://www.qidian.com/chapter/1049395605/907173638/\",\"title\":\"第1章 废柴的我和邻家的文学少女 — 我每周获得一个新人设\",\"access_method\":\"Directly opened and read native cloud-browser accessibility UI; exact URL verified via tab.url().\",\"supports\":\"Chapter names Zhang Chaomu/张朝暮 and Duan Chaner/段婵儿. It matches 6:30 wake and 9:00 school, polished persona, dirty room, instinctive haircut, saving AC money for internet, brand-new optional uniform, literary neighbor, her toast/fried egg and his beef noodles plus two eggs. Chen Zhenzhen/陈真真 is met at the noodle shop.\"},{\"source_type\":\"publisher_network_title_and_synopsis\",\"publisher\":\"言情小说吧\",\"url\":\"https://www.xs8.cn/kolquery/ycnjhvbp\",\"title\":\"我每周获得一个新人设(张朝暮、段婵儿)\",\"access_method\":\"Public search succeeded; direct browser page read and URL verified.\",\"supports\":\"Exact Chinese title and author. Synopsis mirrors opening role sequence: polished/refined, scholar, fitness enthusiast, chuunibyou, cat. Links directly to the Qidian first chapter.\"},{\"source_type\":\"English_title_catalog\",\"publisher\":\"DaoSearch\",\"url\":\"https://daosearch.io/qidian/book/1049395605/i-get-a-new-persona-every-week\",\"title\":\"I Get a New Persona Every Week\",\"access_method\":\"Public search and opened page.\",\"supports\":\"English title, exact Chinese original, Qidian ID and author. Its translated synopsis matches the same unusual persona sequence.\"}] [{\"timestamp\":\"0:00–0:30\",\"seconds\":0,\"observation\":\"Second-year high-school boy Morgan Hail/Hale acquires a polished persona; later weekly roles include top student, fitness buff, chuunibyou and cat.\"},{\"timestamp\":\"0:38\",\"seconds\":38,\"observation\":\"Wakes at 6:30 on the first school day; class starts at nine.\"},{\"timestamp\":\"1:09–1:39\",\"seconds\":69,\"observation\":\"Dirty clothes, instant-noodle leftovers and bedding prompt cleaning; acquires hair-cutting skill without learning it.\"},{\"timestamp\":\"2:25\",\"seconds\":145,\"observation\":\"Avoids air conditioning to save electricity money for internet access.\"},{\"timestamp\":\"3:19\",\"seconds\":199,\"observation\":\"Newbrook Number One High requires uniform only for major events; his uniform is unused.\"},{\"timestamp\":\"4:56–6:42\",\"seconds\":296,\"observation\":\"Literary-gifted neighbor Camellia Dayne compliments haircut and uniform; she ate toast and a fried egg.\"},{\"timestamp\":\"8:31–8:46\",\"seconds\":511,\"observation\":\"Orders beef rice noodles with two eggs, then greets childhood friend Vera.\"}] The native video translates/localizes the original novel’s opening scene with numerous distinctive details in the same order. Exact first-chapter correspondence resolves the Westernized video names; this is stronger than headline similarity.",
+  "reviewed_at": "2026-10-19",
+  "confirmado": True
+},
+{
+  "video_id": "U6PnVpjIrjY",
+  "title": "좀비가 날 물지 않아",
+  "aliases": [
+    "The Zombie Won’t Bite Me",
+    "Zombies Don’t Bite Me",
+    "Immune to Zombies"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=U6PnVpjIrjY. [{\"source_type\":\"official_original_webtoon\",\"publisher\":\"KakaoPage\",\"url\":\"https://page.kakao.com/content/65994315\",\"title\":\"좀비가 날 물지 않아\",\"access_method\":\"Public web search and opened page.\",\"supports\":\"Canonical Korean webtoon title and credits Jeff, 백지운, The eun. Official Kakao Webtoon also lists the same title and credits.\",\"additional_official_url\":\"https://webtoon.kakao.com/content/%EC%A2%80%EB%B9%84%EA%B0%80-%EB%82%A0-%EB%AC%BC%EC%A7%80-%EC%95%8A%EC%95%84/4434\"},{\"source_type\":\"official_original_novel_synopsis\",\"publisher\":\"KakaoPage\",\"url\":\"https://page.kakao.com/content/51509604?tab_type=about\",\"title\":\"좀비가 날 물지 않아\",\"access_method\":\"Public indexed page.\",\"supports\":\"The eun’s original novel names Yi-hwan, ignored by zombies, unusual strength, one red eye and hunger at blood.\"},{\"source_type\":\"independent_review_with_specific_opening_scene\",\"publisher\":\"Tistory reviewer 잔망탱이\",\"url\":\"https://feel0622.tistory.com/43\",\"title\":\"[리뷰] 좀비가 날 물지않아[The eun_현대판타지_1부 완결]\",\"published_date\":\"2019-05-11\",\"access_method\":\"Public search and opened full page.\",\"supports\":\"Names funeral-company worker 강이환 (Kang Yi-hwan). Describes collecting adult-and-child bodies supposedly from a road accident, oddly uninjured child, mouth/tooth injury, fever and collapse, then waking with a red eye and zombies ignoring him. Later searches for older sister.\"},{\"source_type\":\"independent_reader_identification\",\"publisher\":\"Reddit r/ManhwaRealm\",\"url\":\"https://www.reddit.com/r/ManhwaRealm/comments/1o32jmf/cant_find_this_manhwawebtoon/\",\"title\":\"Can’t find this manhwa/webtoon\",\"access_method\":\"Public search page.\",\"supports\":\"Reader describes the hospital-morgue girl’s tooth scratch/collapse, zombie immunity, convenience-store rescue and search for sister; answer identifies The Zombie Won’t Bite Me. Used as corroboration, not sole proof.\"},{\"source_type\":\"English_alias_synopsis\",\"publisher\":\"Raven Scans / Yomiru\",\"url\":\"https://ravenscans.org/manga/the-zombie-wont-bite-me/\",\"title\":\"The Zombie Won’t Bite Me\",\"access_method\":\"Successful public search extraction; a later direct open timed out.\",\"supports\":\"Lists The Zombie Won’t Bite Me, Zombies Don’t Bite Me, Immune to Zombies and exact Korean title; synopsis matches one red eye, strength and blood hunger. Yomiru names Kang I-hwan.\",\"additional_url\":\"https://www.yomiru.live/series/immune-to-zombies\"}] [{\"timestamp\":\"0:00–1:26\",\"seconds\":0,\"observation\":\"Scientists test injected substance on an adult and child; experiment apparently fails.\"},{\"timestamp\":\"4:24–6:07\",\"seconds\":264,\"observation\":\"Funeral worker Kang visits hospital for adult-and-child bodies supposedly killed in a car accident; girl appears unexpectedly uninjured.\"},{\"timestamp\":\"6:22–8:19\",\"seconds\":382,\"observation\":\"While cleaning girl’s mouth, her tooth scratches his finger; he collapses as virus enters his bloodstream.\"},{\"timestamp\":\"11:14–11:23\",\"seconds\":674,\"observation\":\"Girl ignores him after waking; five days have elapsed.\"},{\"timestamp\":\"14:29\",\"seconds\":869,\"observation\":\"He experiences extreme unexplained hunger.\"},{\"timestamp\":\"17:15–17:59\",\"seconds\":1035,\"observation\":\"Zombified coworker passes him; zombies do not pay attention to him.\"},{\"timestamp\":\"19:00–19:16\",\"seconds\":1140,\"observation\":\"Missed calls and message from sister reveal she and her daughter are safe.\"},{\"timestamp\":\"27:57\",\"seconds\":1677,\"observation\":\"Narration explicitly describes his eye glowing red without him noticing.\"}] Highly specific mortuary-workplace opening, adult/child accident story, tooth scratch and collapse match an independent Korean review of the exact title; red eye, blood hunger and zombie nonaggression match official original-novel synopsis. Official webtoon title/creators and English alias catalog establish title linkage.",
+  "reviewed_at": "2026-10-19",
+  "confirmado": True
+},
+{
+  "video_id": "v455srQ6mqY",
+  "title": "The Dragon Slayer's Regression on Another Level",
+  "aliases": [
+    "A Dragonslayer's Peerless Regression",
+    "Dragonslayer's Class Regression"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=v455srQ6mqY. [{\"url\":\"https://tapas.io/series/the-dragon-slayers-regression-on-another-level/info\",\"source_type\":\"official English publisher\",\"access_method\":\"web search and direct open\",\"observed_at_bounds\":[\"2026-10-19T16:16:39Z\",\"2026-10-19T16:17:24Z\"],\"finding\":\"Tapas explicitly gives the English title and the Korean original title, with copyright EXTEN STUDIO, Hecto / Dreamtoon and publication by TAPAS ENTERTAINMENT. Its synopsis matches Zeke Draker, the family's first failed Awakening, his expulsion, the Phantom of the North identity, an emperor's ancient relic, death by imperial forces, and awakening at age twelve in the Cradle.\",\"supports\":[\"official_english_title\",\"official_original_title\",\"specific_story_identity\"]},{\"url\":\"https://www.novelupdates.com/series/dragonslayers-class-regression/?grr=1\",\"source_type\":\"secondary bibliographic source for original web novel\",\"access_method\":\"web search and direct open\",\"observed_at_bounds\":[\"2026-10-19T16:16:43Z\",\"2026-10-19T16:17:24Z\"],\"finding\":\"Entry headed Dragonslayer’s Class Regression lists A Dragonslayer's Peerless Regression and 용살자의 클래스가 다른 회귀 as associated names. Its description matches Zeke Draker, healer talent, failed awakening, elder-dragon power, and regression twenty years earlier.\",\"supports\":[\"documented_aliases\",\"original_story_continuity\"],\"limitation\":\"This is the original novel's entry, not proof of an official English manhwa title.\"},{\"url\":\"https://comick.dev/comic/a-dragonslayers-peerless-regression\",\"source_type\":\"secondary manhwa catalogue search result\",\"access_method\":\"web search\",\"observed_at_bounds\":[\"2026-10-19T16:16:43Z\",\"2026-10-19T16:16:51Z\"],\"finding\":\"Manhwa entry places The Dragon Slayer's Regression on Another Level and A Dragonslayer's Peerless Regression together, and lists Dragonslayer's Class Regression and the matching Korean title among alternatives.\",\"supports\":[\"alias_mapping_to_manhwa\"],\"limitation\":\"Search-index evidence; secondary source, not a publisher.\"}] [{\"time\":\"00:08\",\"url\":\"https://www.youtube.com/watch?v=v455srQ6mqY&t=8s\",\"kind\":\"native YouTube transcript\",\"paraphrase\":\"Protagonist named Zeke Draker; unable to wield aura.\"},{\"time\":\"00:52–01:17\",\"url\":\"https://www.youtube.com/watch?v=v455srQ6mqY&t=52s\",\"kind\":\"native YouTube transcript\",\"paraphrase\":\"Northern Phantom pursued in the mountains over an ancient relic sought by the emperor.\"},{\"time\":\"01:30–01:47\",\"url\":\"https://www.youtube.com/watch?v=v455srQ6mqY&t=90s\",\"kind\":\"native YouTube transcript and visibly selected timestamp\",\"paraphrase\":\"Zeke is the dragon-slayer Draker household's first failed awakener.\"},{\"time\":\"02:38–03:11\",\"url\":\"https://www.youtube.com/watch?v=v455srQ6mqY&t=158s\",\"kind\":\"native YouTube transcript\",\"paraphrase\":\"After stealing the emperor's relic and facing death, elder-dragon power activates.\"},{\"time\":\"03:27–03:34\",\"url\":\"https://www.youtube.com/watch?v=v455srQ6mqY&t=207s\",\"kind\":\"native YouTube transcript\",\"paraphrase\":\"He awakens as a child in the Cradle, the Draker training institution.\"},{\"time\":\"04:28–04:36\",\"url\":\"https://www.youtube.com/watch?v=v455srQ6mqY&t=268s\",\"kind\":\"native YouTube transcript\",\"paraphrase\":\"Status window lists rare healer class and a draconian ability requiring ten points.\"},{\"time\":\"05:46–06:21\",\"url\":\"https://www.youtube.com/watch?v=v455srQ6mqY&t=346s\",\"kind\":\"native YouTube transcript\",\"paraphrase\":\"Servant Decker arrives; Composed Mind calms Zeke before the evaluation.\"}] An exact protagonist and family name plus the failed awakening, Northern Phantom identity, emperor/relic pursuit, elder-dragon activation, and return to the named Cradle form a distinctive multi-point match. Tapas supplies the authoritative title pair. Identification does not rely on the YouTube thumbnail, recap title, generic tags, comments, or unsupported translated titles.",
+  "reviewed_at": "2026-10-19",
+  "confirmado": True
+},
+{
+  "video_id": "SKiK2hI1NiA",
+  "title": "World-Saving is a Skill",
+  "aliases": [
+    "A Hero Who Knows His Stuff",
+    "세상도 구해본 놈이 잘 구한다"
+  ],
+  "evidence": "Direct native YouTube transcript 06:00: Yu Chan-seok, civilian hunter applicant. 12:36–13:39: Paradox Flame consumes fatigue; duel with Lee Se-eun lasts exactly 4h17min, then lollipop and team-3 partner hunter card. Novel chapter 4 independently matches characters, ability and this exact sequence. Source: https://www.webnovel.com/book/34697984800932305/93162400160735831 . Title/aliases: https://asurascans.com/comics/world-saving-is-a-skill-11fe7da3 https://www.mangaread.org/manga/world-saving-is-a-skill/ . Video: https://www.youtube.com/watch?v=SKiK2hI1NiA&t=756s . No complete chapter-range or visual-panel-match claim.",
+  "reviewed_at": "2026-10-21",
+  "confirmado": True
+},
+{
+  "video_id": "YI7WMvmw_Rg",
+  "title": "Dungeon Porter",
+  "aliases": [],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=YI7WMvmw_Rg. Direct native transcript identifies Nagi, the lowest white-rank porter with a magic storage bag, ambition to fight, ingenious item/trap combinations, unfair 50 versus 10 gold pay and party equipment packed in the bag. Official WEBTOON synopsis corroborates protagonist, mistreatment, magic bag, ingenuity and hierarchy. Confirmation is not based on pinned comment alone. [[\"0:00\",\"Naggi\"],[\"0:07\",\"Magic storage bag\"],[\"0:13–0:30\",\"Nagi, lowest white-rank porter wants to be a fighting adventurer\"],[\"0:33\",\"Items, traps and combinations\"],[\"0:41\",\"Agnesa\"],[\"2:07\",\"White porcelain rank\"],[\"2:32–3:06\",\"Paid 50 gold versus ordinary 10\"],[\"3:13–3:29\",\"Packs party backpacks into magic bag\"],[\"4:53–5:24\",\"Produces meals and bathtub\"]] [\"https://www.webtoons.com/en/fantasy/dungeon-porter/list?title_no=7914\"] Playback stalled on a 15-second advertisement, but native transcript was independently accessible. Official chapter 1 showed only introductory panels, with remaining panels blank; no full panel match or part endpoint coverage is claimed.",
+  "reviewed_at": "2026-10-20",
+  "confirmado": True
+},
+{
+  "video_id": "MMxvbHNYKVE",
+  "title": "凡人老祖：圣女千里寻夫",
+  "aliases": [],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=MMxvbHNYKVE. [{\"url\":\"https://www.douyin.com/video/7678215514249841930\",\"role\":\"Main external title-and-plot correspondence\",\"retrieval\":\"Search-indexed text only; direct web opening returned an internal error and cloud browser a generic server error.\",\"uploader\":\"漫界暴走团\",\"publication_display\":\"2026-08-26 13:57\",\"publication_timezone\":\"Not established\",\"authorship_and_rights_verified\":false},{\"url\":\"https://kuaikaw.cn/browse/1648-1652/110\",\"role\":\"Corroboration only\",\"retrieval\":\"Indexed synopsis includes 万剑仙宗 and 太初圣女. Current paginated page changed and no longer contains the entry.\",\"current_page_contains_entry\":false},{\"url\":\"https://www.bilibili.com/video/BV1RYh36METG/\",\"role\":\"Chinese title corroboration only; does not establish aliases or official provenance.\"}]",
+  "reviewed_at": "2026-10-20",
+  "confirmado": True
+},
+{
+  "video_id": "H9t_zVATGvA",
+  "title": "O Retorno do Primeiro Patriarca: Renasci Mil Anos Depois Como Meu Próprio Descendente",
+  "aliases": [
+    "Return of the First Patriarch: The Strongest Reincarnates into His Descendant 1000 Years Later"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=H9t_zVATGvA. [{\"url\":\"https://br.comikey.com/comics/o-retorno-do-primeiro-patriarca-renasci-mil-anos-d-webtoon/979/\",\"role\":\"Licensed Portuguese edition\",\"specifics\":\"Gilfas Eldragon reincarnates as Zeke Eldragon in his own lineage after a thousand years, under a law of the strongest.\"},{\"url\":\"https://sorajimatoon.com/comics/01K583PA0B17KNAW8XP5CEHZ2J\",\"role\":\"Official Japanese source\"},{\"url\":\"https://qimanga.com/series/return-of-the-first-generation%3A-the-strongest-in-history-reincarnates-as-his-descendant-1000-years-later\",\"role\":\"Secondary English alias source\"}] Video evidence: [{\"timestamp\":\"00:07–00:31\",\"details\":\"Defeats a dragon and eats a golden fruit.\"},{\"timestamp\":\"00:47–01:26\",\"details\":\"Dies old with his son present.\"},{\"timestamp\":\"01:26–02:13\",\"details\":\"Reborn as a baby.\"},{\"timestamp\":\"02:35–04:28\",\"details\":\"Servants test dragon blood on a goblin and then babies.\"},{\"timestamp\":\"05:02\",\"details\":\"Zeke, formerly Gilfus.\"},{\"timestamp\":\"05:59–06:24\",\"details\":\"Bastard son in his own patriarchal family a thousand years later; strongest-survival rule.\"}]",
+  "reviewed_at": "2026-10-20",
+  "confirmado": True
+},
+{
+  "video_id": "_IT7iUHwK8w",
+  "title": "都觉醒恶魔法则了，你契约蚂蚁？",
+  "aliases": [],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=_IT7iUHwK8w. [{\"url\":\"https://fanqienovel.com/page/7517195003517488190\",\"role\":\"Official title and author\"},{\"url\":\"https://fanqienovel.com/reader/7517940027930709054\",\"role\":\"Chapter 55 public preview read in browser\",\"specifics\":\"Poison destroys the body through pores; infernal spear and 雷狮 flee; 蝠翼飞虫 bombs with precise tracking, in the same sequence as video 00:45–01:05.\"},{\"url\":\"https://fanqienovel.com/reader/7517940024583654462\",\"role\":\"Chapter 54 public preview also read\"},{\"url\":\"https://www.youtube.com/watch?v=_IT7iUHwK8w&lc=UgwUsbkmGMgFe2qQjJR4AaABAg\",\"role\":\"Uploader link to previously applied Part 1 xP18d9gnXR0; supporting, not sole basis\"}] Video evidence: [{\"timestamp\":\"00:07–00:34\",\"details\":\"Lake Isle, legendary core, Bureau 11, Shadow Sovereign, Batwing Bomber and Capital Third High recap, consistent with official chapter index 21, 35, 41, 44, 45 and 53–55.\"},{\"timestamp\":\"00:45–01:05\",\"details\":\"Distinctive poison, spear, thunder lion and bomber sequence matches chapter 55 preview.\"},{\"timestamp\":\"01:05\",\"details\":\"Ten elite cores feed the bomber.\"},{\"timestamp\":\"01:18–02:12\",\"details\":\"Dean Price, director Merrick and Capital Third High dean speaking of Lucas; translated names not used as sole identity proof.\"}]",
+  "reviewed_at": "2026-10-20",
+  "confirmado": True
+},
+{
+  "video_id": "A_bQG3SfH-8",
+  "title": "Climbing the Tower that Even the Regressor Couldn't",
+  "aliases": [
+    "Conquering the Tower Even Regressors Couldn't",
+    "I Will Climb the Tower That Even Regressors Couldn't Conquer"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=A_bQG3SfH-8. [{\"url\":\"https://www.wuxiaworld.com/novel/conquering-the-tower-even-regressors-couldnt/cterc-chapter-2\",\"role\":\"Primary chapter 2\",\"details\":\"Kwon Su-Hyeok and Ha Hee-Jeong; exact three instructions and silenced regressor holding up three fingers.\"},{\"url\":\"https://spa-prod.wuxiaworld.com/novel/conquering-the-tower-even-regressors-couldnt/cterc-chapter-1\",\"role\":\"Primary prologue\",\"details\":\"Breakup and bar setting.\"},{\"url\":\"https://manhuatop.org/manhua/climbing-the-tower-that-even-the-regressor-couldnt/\",\"role\":\"Secondary alias source\"}] Video evidence: [{\"timestamp\":\"00:34–01:03\",\"details\":\"After a breakup, protagonist listens to his regressor friend.\"},{\"timestamp\":\"01:12–01:48\",\"details\":\"Refuse the status window; avoid gods on tutorial floors 1–5 and accept the most modest one afterward; awaken holding sword, axe or spear, not a staff.\"},{\"timestamp\":\"01:58–02:23\",\"details\":\"One million selected people; silenced friend holds up three fingers.\"}]",
+  "reviewed_at": "2026-10-20",
+  "confirmado": True
+},
+{
+  "video_id": "xQcqy_EEoDU",
+  "title": "Ghost King",
+  "aliases": [
+    "Phantom Spirit King",
+    "Demonic Spirit King",
+    "King of Ghosts"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=xQcqy_EEoDU. [{\"url\":\"https://www.webtoons.com/en/action/ghost-king/list?title_no=4005\",\"role\":\"Official title and synopsis\",\"details\":\"Murim police university and search for a missing father.\"},{\"url\":\"https://www.webtoons.com/en/action/ghost-king/episode-1/viewer?episode_no=1&title_no=4005\",\"role\":\"Official episode 1, visually inspected\",\"details\":\"Red-jacketed man interrogated by masked man amid defeated men confesses distribution under the Black Death Sect manager; masked man leaves and police arrive late; second-year Jiho Yu.\"},{\"url\":\"https://asurascans.com/comics/demonic-spirit-king-05c7df14\",\"role\":\"Secondary aliases\"},{\"url\":\"https://1668manga.com/manga/phantom-spirit-king/\",\"role\":\"Secondary aliases\"}] Video evidence: [{\"timestamp\":\"00:00–00:40\",\"details\":\"Exact opening interrogation, Black Death Sect confession and late police arrival sequence matches official episode 1.\"},{\"timestamp\":\"02:12–03:15\",\"details\":\"Top student looks at his father's photograph, matching missing-father premise.\"}]",
+  "reviewed_at": "2026-10-20",
+  "confirmado": True
+},
+{
+  "video_id": "r5PFNazIdng",
+  "title": "World’s Strongest Survivor",
+  "aliases": [
+    "서바이벌로 세계 최강"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=r5PFNazIdng. [{\"url\":\"https://beastnovels.com/series/worlds-strongest-survivor/1\",\"role\":\"Chapter 1 narrative correspondence\",\"details\":\"Jin Seowoon, Royal Ground, Escrow/Chiron, capital, top-ten rewards, exclusion below top ninety, Argas Eye descent and spaced houses for equipment; also Kaile.\"},{\"url\":\"https://ravenscans.org/manga/worlds-strongest-survivor/\",\"role\":\"Title, Korean title and synopsis\",\"details\":\"Jin Seowoon, Cloyd Survival and top ten.\"}] Video evidence: [{\"timestamp\":\"03:01–03:44\",\"details\":\"Jin Seowoon is ex-military and plays Royal Ground.\"},{\"timestamp\":\"06:17–06:30\",\"details\":\"Escrow/Chiron, transcribed as Eskrow/Khairon.\"},{\"timestamp\":\"06:41–07:14\",\"details\":\"Capital, top-ten rewards, exclusion below top ninety in future games and Argas Eye descent.\"},{\"timestamp\":\"08:07–08:23\",\"details\":\"Spaced houses for equipment.\"}]",
+  "reviewed_at": "2026-10-20",
+  "confirmado": True
+},
+{
+  "video_id": "LW6D48DgPV4",
+  "title": "The Strongest at Level 0: Absolute Domination with the Analysis Skill",
+  "aliases": [
+    "The Strongest Level 0 Absolute Supremacy Through Analysis Skills",
+    "Absolute Domination at Level 0 Using My Analysis Skill"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=LW6D48DgPV4. [{\"url\":\"https://publishing.unext.co.jp/news/2z61QeAp4Ut8N1PVLHwJCL\",\"role\":\"Official publisher\",\"details\":\"Tenma Itsuki orphaned by Disaster Beasts, level zero, analysis and unlimited attributes; authors Rain/Liezao.\"},{\"url\":\"https://manga.line.me/product/periodic?id=S157028\",\"role\":\"Official listing synopsis, with reader comment mentioning 雷鳴波\",\"details\":\"Same premise; Thunderwave comment corroborative only.\"},{\"url\":\"https://arenascan.com/manga/the-strongest-level-0-absolute-supremacy-through-analysis-skills/\",\"role\":\"English circulation title variants, not verified licensed English edition\"}] Video evidence: [{\"timestamp\":\"00:00–00:25\",\"details\":\"Disaster Beasts and Itsuki.\"},{\"timestamp\":\"02:09–02:33\",\"details\":\"Rare class, zero attributes and skill learning.\"},{\"timestamp\":\"02:57–03:32\",\"details\":\"Analyzes electric attack, learns Thunderwave and increases attributes.\"}]",
+  "reviewed_at": "2026-10-20",
+  "confirmado": True
+},
+{
+  "video_id": "AE1bhcRRPgU",
+  "title": "The Rebel of the Tyrant Noble House — Aster",
+  "aliases": [
+    "The Rebel of the Tyrant Noble Family",
+    "Boukun Meika no Hangyakusha -Aster-",
+    "暴君名家の反逆者-Aster-",
+    "Aster: Um Rebelde Entre os Tiranos"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=AE1bhcRRPgU. [{\"url\":\"https://sorajimatoon.com/comics/01KG1PW0PMBM162DB8SMXGBQES\",\"role\":\"Official publisher\",\"details\":\"Orphan Ash, adoptive father, betrayal and stolen 七翼 power.\"},{\"url\":\"https://qimanga.com/series/the-rebel-of-the-tyrant-noble-house-aster\",\"role\":\"English title/aliases and synopsis\"},{\"url\":\"https://kaynscans.com/series/comic/the-rebel-of-the-tyrant-s-noble-house-aster\",\"role\":\"Portuguese circulation title and aliases\"}] Video evidence: [{\"timestamp\":\"01:03–01:20\",\"details\":\"Aster, Elmheim house and adoptive father Duke Rodrik.\"},{\"timestamp\":\"01:36–01:44\",\"details\":\"Wingless with no mana.\"},{\"timestamp\":\"03:34–03:46\",\"details\":\"Rodrik wanted to steal seven wings.\"},{\"timestamp\":\"04:26–05:32\",\"details\":\"Returns as a baby beside his dead mother in snow while Rodrik's soldiers search.\"}]",
+  "reviewed_at": "2026-10-20",
+  "confirmado": True
+},
+{
+  "video_id": "DrfS47iG-14",
+  "title": "Job Change: Master – Starting by Controlling the School Beauty to Give Me a Massage While Wearing Black Stockings",
+  "aliases": [
+    "转职主人，开局控制校花黑丝按摩",
+    "最废双E？抱歉SSS全是我女仆",
+    "Job Change to Master, Start by Controlling the School Beauty in Black Stockings and Giving Her a Massage"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=DrfS47iG-14. [{\"url\":\"https://shanghaifantasy.com/job-change-master-starting-by-controlling-the-school-beauty-to-give-me-a-massage-while-wearing-black-stockings-chapter-1/\",\"role\":\"Indexed chapter 1 narrative\",\"details\":\"Lanjiang No. 3 school, breakup, classes and characters match. Full indexed excerpts obtained; opening returned Cache miss.\"},{\"url\":\"https://shanghaifantasy.com/job-change-master-starting-by-controlling-the-school-beauty-to-give-me-a-massage-while-wearing-black-stockings-chapter-3/\",\"role\":\"Indexed chapter 3 narrative\",\"details\":\"Data God SS, Master E and distinctive skills match; direct opening Cache miss.\"},{\"url\":\"https://www.biquge.tw/book/7898978.html\",\"role\":\"Opened catalog confirming title, author and alias\"},{\"url\":\"https://www.biquge.tw/book/6170099/\",\"role\":\"Index corroborating He Wanying and Chu Jianghe\"},{\"url\":\"https://wtr-lab.com/en/novel/32670/job-change-to-master-start-by-controlling-the-school-beauty-in-black-stockings-and-giving-her-a-massage\",\"role\":\"Title and author\"}] Video evidence: [{\"timestamp\":\"00:24–02:12\",\"details\":\"Lu Sheng dumped by Qin Yanran, Holy Light Priest A; he is Scout E, with Basic Appraisal of name/age once daily.\"},{\"timestamp\":\"05:09–05:17\",\"details\":\"He Wanying, Massage Therapist E.\"},{\"timestamp\":\"12:06–12:49\",\"details\":\"Master, Be My Son, Talent and Sweat, and Scout changing to Data God SS.\"}]",
+  "reviewed_at": "2026-10-20",
+  "confirmado": True
+},
+{
+  "video_id": "Hlr_D8_La5g",
+  "title": "人气至上，我扮演超级天才",
+  "aliases": [
+    "Popularity Above All: I Play the Role of a Super Genius"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=Hlr_D8_La5g. [{\"url\":\"https://www.readnovel.com/bookquery/zfiqycbpendy?source=m_jump\",\"chapter\":1,\"details\":\"崎寂 chooses 千面, divided into 27 parts, with a 5 million popularity mortgage/debt; matches video 00:14–00:26.\"},{\"url\":\"https://www.qidian.com/chapter/1049020186/901791399/\",\"chapter\":1,\"details\":\"Primary chapter link exposed by the readnovel text.\"},{\"url\":\"https://www.qidian.com/chapter/1049020186/908709969/\",\"chapter\":71,\"details\":\"Matches video 01:48–06:05: Blank's mask breaks; Miracle raises a fire wall to hide the crying feminine face, gathers two halves of a fox mask, repairs it with ice and replaces it. Characters 崎寂 and 诉世.\"},{\"url\":\"https://www.qidian.com/chapter/1049020186/909548594/\",\"chapter\":79,\"details\":\"Matches video 47:43–49:47: falls asleep on Iris's shoulder with white butterfly blossom scent; she moves his head onto Lily's shoulder. Lily recalls her engagement to Blank; Iris uses the bell and substitute teacher's lesson to pull her away. Original names include 崎寂, 琉璃, 白蝶花, 白理理, 诉世 and 静老师.\"},{\"url\":\"https://completenovel.com/popularity-above-all-i-play-the-role-of-a-super-genius/\",\"details\":\"English alias, Chinese title and author.\"}]",
+  "reviewed_at": "2026-10-21",
+  "confirmado": True
+},
+{
+  "video_id": "I9_Ysze26Rc",
+  "title": "It All Starts With A Group Of Primitive People",
+  "aliases": [
+    "Starting With a Group of Primitive Men",
+    "Kaiju Yiqun Yuanshi Ren",
+    "Kāijú Yīqún Yuánshǐ Rén",
+    "开局一群原始人"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=I9_Ysze26Rc. [{\"url\":\"https://www.mangaread.org/manga/it-all-starts-with-a-group-of-primitive-people/\",\"details\":\"Title and aliases.\"},{\"url\":\"https://www.mangaread.org/manga/it-all-starts-with-a-group-of-primitive-people/chapter-1/\",\"details\":\"Chapter 1 panels 5/6 match video 00:58–01:14: tied red-haired protagonist, bald and long-haired captors, red mission window; video 03:54–04:11 matches survive 12 hours, one attribute point and survival package. Video 01:29–01:36 remembers capture. Panel dialogue includes Hello! Where are we? and I remembered.\"},{\"url\":\"https://www.mangaread.org/wp-content/uploads/WP-manga/data/manga_6353bab0c2885/6060e08cf143a6d53b1e6496c97b9ffd/5.jpeg\",\"details\":\"Specific chapter 1 visual match.\"},{\"url\":\"https://www.mangaread.org/wp-content/uploads/WP-manga/data/manga_6353bab0c2885/6060e08cf143a6d53b1e6496c97b9ffd/6.jpeg\",\"details\":\"Specific chapter 1 visual match.\"}]",
+  "reviewed_at": "2026-10-21",
+  "confirmado": True
+},
+{
+  "video_id": "_yJPC7epHwk",
+  "title": "Monster’s Streamer Star",
+  "aliases": [
+    "Monster Streaming Star",
+    "몬스터의 인방스타",
+    "Monster-ui Inbang Star"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=_yJPC7epHwk. [{\"url\":\"https://toonz.to/manhwa/monsters-streamer-star\",\"details\":\"Title and aliases.\"},{\"url\":\"https://asurascans.com/novels/monster-s-streamer-star\",\"details\":\"Title and novel.\"},{\"url\":\"https://asurascans.com/novels/monster-s-streamer-star/chapter/1\",\"details\":\"Chapter 1 matches video 00:30–00:46 bored 600-year dragon finds I want to see livestream; 01:32–02:06 newborn blind slime receives knowledge and starts streaming; 02:14–03:14 Noblesse Fire and Gothic Luxury Bone enter and interact; 04:10–04:18 decide to consult Slime Queen.\"}]",
+  "reviewed_at": "2026-10-21",
+  "confirmado": True
+},
+{
+  "video_id": "dSMML8WWdFM",
+  "title": "Ode of the Brave",
+  "aliases": [
+    "The Warrior's Ballad"
+  ],
+  "evidence": "Vídeo: https://www.youtube.com/watch?v=dSMML8WWdFM. [{\"url\":\"https://asurascans.com/novels/ode-of-the-brave/chapter/2\",\"details\":\"Video 00:51–01:24: Ricky/Ricard visits mother's memorial on death anniversary, brother fetches him for a hunt; question about his future and mother's arms giving everything. Video 02:48–03:51: hunter freezes before boar, Ricky takes spear and kills it, father runs over. Chapter has Ricard/Riki, Graut/Bilter, Stormhertz and Butch's spear, matching the sequence.\"},{\"url\":\"https://asurascans.com/novels/ode-of-the-brave/chapter/3\",\"details\":\"Video 04:48–07:00 matches family conversation, father proposing sword practice, Grout attacking/training, protagonist refusing to fight and falling.\"},{\"url\":\"https://www.webtoons.com/en/action/the-warriors-ballad/list?title_no=11210\",\"details\":\"Official alias and authors Street Bard, namwoong and Dodongpa; Ricardt reborn after 100 years.\"},{\"url\":\"https://genztoons.org/series/ode-of-the-brave-2/\",\"details\":\"Ode of the Brave title and Ricky/Steel Reaper.\"}]",
+  "reviewed_at": "2026-10-21",
+  "confirmado": True
+},
+{
+  "video_id": "94cAXKeg4gI",
+  "title": "Killer Peter",
+  "aliases": [
+    "Killer Pietro"
+  ],
+  "evidence": "YouTube transcript read in cloud browser: 00:30 aging assassin abandoned by new boss after cancer; 00:40 Pietro opens bookstore; 00:59 schoolgirl ambush; 02:51 collapses in rainy park; 03:04 wakes with youthful vitality. Official WEBTOON synopsis independently matches retired Glory Club killer Peter, used bookstore, ambush by former organization and teenage rejuvenation. Uploader description playlist explicitly names killer pietro; viewer name comment only secondary corroboration. No claim to have watched frames or reviewed every chapter. Sources: https://www.youtube.com/watch?v=94cAXKeg4gI&t=40s https://www.youtube.com/watch?v=94cAXKeg4gI&t=184s https://www.webtoons.com/en/action/killer-peter/list?title_no=5816 https://www.youtube.com/playlist?list=PLu5dX6gmxYJ53NjJrKhsZz8BnZ2a3v5y8",
+  "reviewed_at": "2026-10-17",
+  "confirmado": True
+},
+{
+  "video_id": "sblNZi8oHBs",
+  "title": "A Cadet Becomes a Prophet?!",
+  "aliases": [],
+  "evidence": "YouTube transcript read in cloud browser: 00:16–00:29 Fernan Pelenberg heir values money and reads earnings with Hyde; 00:38–00:54 lightning and intruder tries to seize consciousness but Fernan repels it, receiving future visions; 02:04 Ain Armian entering academy; 02:31 return of 72 demons and future hero; 03:35–03:52 gives injured hero high-grade potion as investment. Official WEBTOON8950 synopsis independently identifies Fernan Fallenberg, wealthy Imperial Academy prodigy obsessed with money, lightning, rejected mind invader and Book of Prophecies predicting world end. Pelenberg/Pellenberg/Fallenberg are translation variants. Description claims chapters1–30 but endpoint not independently verified. Sources: https://www.youtube.com/watch?v=sblNZi8oHBs&t=16s https://www.youtube.com/watch?v=sblNZi8oHBs&t=38s https://www.webtoons.com/en/fantasy/a-cadet-becomes-a-prophet/list?title_no=8950",
+  "reviewed_at": "2026-10-17",
+  "confirmado": True
+},
+  {
+    "video_id": "hNIp0R12Ujk",
+    "title": "Psychopath in Murim",
+    "aliases": [
+      "Murim Psychopath"
+    ],
+    "evidence": "Frame aos 40s corresponde ao painel do capítulo 1. https://www.mangaread.org/manga/psychopath-in-murim/chapter-1/",
+    "reviewed_at": "2026-10-11",
+    "confirmado": True
+  },
+  {
+    "video_id": "fE7n-MslLWM",
+    "title": "God of Killers",
+    "aliases": [],
+    "evidence": "Narração cita Gungnir; sinopse editorial corresponde. https://m.webtoons.com/en/action/god-of-killers/list?title_no=10736",
+    "reviewed_at": "2026-10-11"
+  },
+  {
+    "video_id": "9V8sUBpwtPA",
+    "title": "Spend More, Earn More",
+    "aliases": [
+      "Money Keeps Piling Up No Matter How Much I Spend",
+      "Even If I Keep Spending, Money Keeps Piling Up"
+    ],
+    "evidence": "Frame aos 30s corresponde ao capítulo 1. https://vortexscans.org/series/spend-more-earn-more/chapter-1",
+    "reviewed_at": "2026-10-11",
+    "confirmado": True
+  },
+  {
+    "video_id": "xDfmMGD1mk4",
+    "title": "Earthen Keyboard Immortal",
+    "aliases": [
+      "Keyboard Immortal",
+      "Lu Di Jian Xian"
+    ],
+    "evidence": "Legendas citam Zu An e Chu Chuyan; premissa corresponde. https://anilist.co/manga/141681/Lu-Di-Jian-Xian",
+    "reviewed_at": "2026-10-11"
+  },
+  {
+    "video_id": "ycKWC4EEz6c",
+    "title": "Popularity Above All: I Play the Role of a Super Genius",
+    "aliases": [
+      "Popularity is Everything; I Play a Super Genius",
+      "人气至上，我扮演超级天才"
+    ],
+    "evidence": "Novel ilustrada com IA conforme evidências. Comentário da parte 1 e sinopse. https://www.youtube.com/watch?v=6mJUJjuzGcs&lc=Ugwytsu1Vhz0Bh5xEZd4AaABAg https://www.novelupdates.com/series/popularity-above-all-i-play-the-role-of-a-super-genius/",
+    "reviewed_at": "2026-10-11"
+  },
+  {
+    "video_id": "T2Wx3nsn6Ks",
+    "title": "The Genius Blacksmith's Game",
+    "aliases": [
+      "Genius Blacksmith's Game"
+    ],
+    "evidence": "Comentário e sinopse editorial. https://www.youtube.com/watch?v=T2Wx3nsn6Ks&lc=Ugxqc5GMuCtkIfecnR54AaABAg https://tapas.io/series/the-genius-blacksmiths-game/info",
+    "reviewed_at": "2026-10-11"
+  },
+  {
+    "video_id": "WSQlv2nyhDE",
+    "title": "The Regressor and the Blind Saint",
+    "aliases": [
+      "The Regressor and the Blind Saintess"
+    ],
+    "evidence": "Comentário e premissa específica. https://www.youtube.com/watch?v=WSQlv2nyhDE&lc=UgzVVGnsq_AEjamp2Ax4AaABAg https://genztoons.net/the-regressor-and-the-blind-saint",
+    "reviewed_at": "2026-10-11"
+  },
+  {
+    "video_id": "Po0rPmnrZVc",
+    "title": "The Return of the Mythical Archmage",
+    "aliases": [
+      "The Return of the Legendary Archmage"
+    ],
+    "evidence": "Comentário e sinopse tecnológica correspondente. https://www.youtube.com/watch?v=Po0rPmnrZVc&lc=UgxByNuYuhKGUf8x89N4AaABAg https://en-thunderscans.com/comics/the-return-of-the-mythical-archmage/",
+    "reviewed_at": "2026-10-11"
+  },
+  {
+    "video_id": "O2qxTxkCd7g",
+    "title": "Revenge of the Wrongly Accused",
+    "aliases": [
+      "Enzai Fukushou",
+      "Revenge for a False Conviction"
+    ],
+    "evidence": "Comentário e protagonista Manabu Toujou. https://www.youtube.com/watch?v=O2qxTxkCd7g&lc=UgzxsOqsDv743KaUnx94AaABAg https://newm.fanfox.net/manga/revenge_of_the_wrongly_accused/",
+    "reviewed_at": "2026-10-11"
+  }
+]
+
+
+REVIEWED.append({
+    "video_id": "j_lwugWFCps",
+    "title": "The Ruler of Darkness",
+    "aliases": ["Ruler of the Dark Age", "Amheukgiui Jibaeja"],
+    "evidence": "Teste de investigate.js: narração inicial sobre herdeiro do clã Luoyang e frame aos 40s correspondem ao capítulo 1. https://www.mangaread.org/manga/the-ruler-of-darkness/chapter-1/ https://freewebnovel.com/novel/the-ruler-of-darkness/chapter-1",
+    "reviewed_at": "2026-10-11",
+    "confirmado": True,
+})
+
+
+REVIEWED.extend([
+    {
+        "video_id": "JPU-wHenQ7s",
+        "title": "Shut Up, Evil Dragon! I Don't Want to Raise a Child With You Anymore",
+        "aliases": ["Shut Up, Evil Dragon!", "闭嘴恶龙我不想再跟你生孩子了"],
+        "evidence": "Piloto da linha 17, pesquisado nesta sessão (não pelo dot). Nome explícito na descrição do vídeo e enredo de caçador de dragões com filhas da rainha inimiga correspondem à sinopse. https://www.youtube.com/watch?v=JPU-wHenQ7s https://olympusscanlation.org/shut-up-evil-dragon-manga/",
+        "reviewed_at": "2026-10-11",
+        "confirmado": True,
+    },
+    {
+        "video_id": "RBib2cJkYlU",
+        "title": "Genius Martial Arts Trainer",
+        "aliases": ["Genius Murim Trainer"],
+        "evidence": "Piloto da linha 19, pesquisado nesta sessão (não pelo dot). Falas de 0-180s: treinador Choi Kang-hyuk, academia prejudicada pela pandemia, leitura de novel Shaolin e despertar como Mujin; sequência corresponde ao capítulo 1. https://www.youtube.com/watch?v=RBib2cJkYlU https://faqwiki.us/novel/genius-martial-arts-trainer-chapter-1/",
+        "reviewed_at": "2026-10-11",
+    },
+    {
+        "video_id": "6xZguXtB-Dc",
+        "title": "Popularizing Science: Oxygen is Toxic, and the Whole Internet is Saying I'm Crazy",
+        "aliases": ["科普氧气有毒，全网骂我有病"],
+        "evidence": "Piloto da linha 20, pesquisado nesta sessão (não pelo dot). Identificação por sequência de enredo: apresentador de ciência diz que oxigênio encurta a vida e demonstra oxidação com maçã cortada e metais, como no capítulo 2; descrição relaciona mitos a civilizações antigas, também presentes na sinopse. O recap adapta o nome do protagonista para Theo; original Ye Zhen. https://www.youtube.com/watch?v=6xZguXtB-Dc https://m.jingwx.com/140189/3217785.html https://wtr-lab.com/en/novel/73213/popularizing-science-oxygen-is-toxic-and-the-whole-internet-is-saying-im-crazy",
+        "reviewed_at": "2026-10-11",
+    },
+    {
+        "video_id": "L2Pt016Ev5U",
+        "title": "Legendary Youngest Son of the Marquis House",
+        "aliases": ["Jack Be Invincible", "The Marquess's Youngest Son"],
+        "evidence": "Piloto da linha 21, pesquisado nesta sessão (não pelo dot). Comentários indicam o título; narração 0-180s identifica Jack Valantier, retorno aos 14 anos, irmão abusivo e irmã protetora. Correspondência com sinopse da editora Tapas e capítulo 1. https://www.youtube.com/watch?v=L2Pt016Ev5U https://tapas.io/series/jack-be-invincible/info https://wuxia.click/chapter/legendary-youngest-son-of-the-marquis-house-2",
+        "reviewed_at": "2026-10-11",
+    },
+])
+
+
+# videos de fora dos canais principais (descobrir.py), sem nome na descricao.
+REVIEWED.extend([
+    {
+        "video_id": "DUpaLD29WXw",
+        "title": "Shadow Slave",
+        "aliases": [],
+        "evidence": "Comentário do próprio canal (Gaku Recaps): 'Name; Shadow Slave'. https://www.youtube.com/watch?v=DUpaLD29WXw",
+        "reviewed_at": "2026-10-11",
+        "confirmado": True,
+    },
+    {
+        "video_id": "Ahr1vUkIdDw",
+        "title": "My Wife Is Actually the Empress?",
+        "aliases": ["我家娘子竟然是女帝"],
+        "evidence": "Comentário de espectador com o título e ~190-200 capítulos (vídeo cobre até o 25); contagem bate com a ficha (202 caps, finalizado). Não é o mesmo que 'My Wife is Actually the Future Tyrant Empress'. https://www.youtube.com/watch?v=Ahr1vUkIdDw https://myanimepulse.com/manga/-130567/my-wife-is-actually-the-empress",
+        "reviewed_at": "2026-10-11",
+    },
+])
+
+
+REVIEWED.append({
+    "video_id": "PtlAIwY5knk",
+    "title": "I Become a God in Twelve Days, and the Whole World Is Hunting Me",
+    "aliases": ["十二天后成神，我被全世界追杀"],
+    "evidence": "Pesquisado pelo Momo Tracker; aplicado pela CLI porque o executor local do Dot falhou. Original de 芝士饭桶. Sequência 1:00:54–1:01:19 do vídeo: fuga como pássaro e perseguidores transformados em formigas corresponde ao capítulo 17. O recap adapta Lin Yu para Ryan Quinn. Título inglês é alias de catálogo, não edição oficial confirmada. https://www.youtube.com/watch?v=PtlAIwY5knk&t=3654s https://www.qidian.com/book/1050573847/ https://www.qidian.com/chapter/1050573847/925313243/ https://daosearch.io/qidian/book/1050573847/i-become-a-god-in-twelve-days-and-the-whole-world-is",
+    "reviewed_at": "2026-10-11",
+})
+
+
+REVIEWED.extend([
+    {
+        "video_id": "Z-AghRYVoDc",
+        "title": "The Return of the Scorned Genius",
+        "aliases": [
+            "深淵の主～蔑まれた天才の帰還～"
+        ],
+        "evidence": "Pesquisado na nuvem pelo Momo Tracker. Transcrição pública: 0:00–0:53, prodígio com ressonância superior a 100%, ferido ao proteger criança, cadeira de rodas e poderes selados com contagem regressiva; 2:05–2:14, busca o pai no Reino Divino; 18:15, classe Abyss Lord. A combinação específica corresponde à sinopse de The Return of the Scorned Genius; comentário também dá esse título. O recap usa Suo Tomahiro e o catálogo Chiyuan Suou; identificação apoiada no enredo, não na grafia do nome. https://www.youtube.com/watch?v=Z-AghRYVoDc&t=125s https://www.youtube.com/watch?v=Z-AghRYVoDc&t=1095s https://www.youtube.com/watch?v=Z-AghRYVoDc&lc=UgztKyioI4iPwS64HTB4AaABAg https://mangabaka.org/manhua/605878/The-Return-of-the-Scorned-Genius https://softkomik.co/the-return-of-the-scorned-genius-bahasa-indonesia . Alias japonês atestado em catálogos; Piccoma indicado por MangaBaka (https://piccoma.com/web/product/196779) bloqueia leitura fora do Japão, portanto não foi usado como evidência de conteúdo diretamente verificado.",
         "reviewed_at": "2026-10-11",
         "confirmado": True
     },
