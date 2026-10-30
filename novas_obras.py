@@ -1,5 +1,5 @@
-"""Aba `Novas Obras`: obras que acabaram de entrar nos sites de scan, + aba `Sites` com
-a lista de sites trackeados e como foi a ultima coleta de cada um.
+"""Abas `Novas Obras` e `Novas Obras +18`: obras que acabaram de entrar nos sites de scan,
++ aba `Sites` com a lista de sites trackeados e como foi a ultima coleta de cada um.
 
 Roda dentro do main.py na varredura completa (1x/hora) ou sozinho:
     python novas_obras.py              -> so coleta e imprime, sem planilha (teste local)
@@ -7,7 +7,9 @@ Roda dentro do main.py na varredura completa (1x/hora) ou sozinho:
                                           e o que o workflow `novas-obras` roda)
 
 Regras:
-  - Bloqueia shoujo/josei e BL/GL. Adulto/mature/ecchi passam (publico masculino). Romance
+  - Bloqueia shoujo/josei e BL/GL. Adulto/mature/ecchi passam (publico masculino), mas vao
+    para a aba `Novas Obras +18`: obra marcada adulta pelo site (Comick/Comix/Kayn/Mist) ou
+    com genero adulto (ADULT). Uma vez +18, fica +18 (a aba e quem guarda isso). Romance
     so e bloqueado quando nao vem com genero de acao (action/fantasy/martial arts/adventure)
     nem com demografia masculina (shounen/seinen).
   - So entra obra NOVA: aparece com ate MAX_CAPS_NOVA capitulos e ano recente. Site que
@@ -36,6 +38,7 @@ from bs4 import BeautifulSoup
 from comick import normalize
 
 TAB = "Novas Obras"
+TAB_18 = "Novas Obras +18"
 SITES_TAB = "Sites"
 OLD_TABS = ("novas_obras", "sites")   # nomes da primeira versao (11/10/2026)
 HEADER = ["Peguei", "Capa", "Obra", "Capítulos", "Gêneros", "Ano", "Sites", "Visto em", "Já tem vídeo", "Link"]
@@ -58,6 +61,7 @@ ACTION = {"action", "fantasy", "martial arts", "adventure", "murim"}
 CAPA_ROW_PX = 110        # altura das linhas da aba para a capa caber
 CAPA_FILL_MAX = 60       # linhas sem capa que buscam a imagem na pagina da obra, por rodada
 MALE = {"shounen", "seinen"}
+ADULT = {"mature", "adult", "smut", "hentai", "erotica", "pornographic", "19", "19+", "18+"}
 
 
 def _get(url, **kw):
@@ -83,10 +87,12 @@ def _recent(iso, now, days=NEW_DAYS):
     return dt is None or now - dt <= timedelta(days=days)
 
 
-def _item(site, titulo, link, capa="", caps=0, generos="", ano="", data=None):
-    """data: quando a obra entrou no site (datetime com fuso), se o site informa."""
+def _item(site, titulo, link, capa="", caps=0, generos="", ano="", data=None, adulto=False):
+    """data: quando a obra entrou no site (datetime com fuso), se o site informa.
+    adulto: o proprio site marca a obra como adulta (alem dos generos, ver `is_adult`)."""
     return {"site": site, "titulo": (titulo or "").strip(), "link": link, "capa": capa or "",
-            "caps": int(caps or 0), "generos": generos or "", "ano": str(ano or ""), "data": data}
+            "caps": int(caps or 0), "generos": generos or "", "ano": str(ano or ""), "data": data,
+            "adulto": adulto}
 
 
 # ---------------------------------------------------------------- coletores por site
@@ -125,7 +131,8 @@ def comick(now):
             out.append(_item("Comick", s.get("title"), f"https://comick.dev/comic/{s.get('slug')}",
                              f"https://meo.comick.pictures/{covers[0]['b2key']}" if covers else "",
                              _int(s.get("last_chapter")),
-                             COMICK_DEMOGRAPHIC.get(s.get("demographic"), ""), s.get("year")))
+                             COMICK_DEMOGRAPHIC.get(s.get("demographic"), ""), s.get("year"),
+                             adulto=s.get("content_rating") in ("erotica", "pornographic")))
         time.sleep(0.3)
     return out
 
@@ -182,7 +189,7 @@ def comix(now, detail_max=COMIX_DETAIL_MAX):
             seen.add(url)
             out.append(_item("Comix", s.get("title"), "https://comix.to" + url,
                              (s.get("poster") or {}).get("medium", ""), s.get("latestChapter"),
-                             "", s.get("year")))
+                             "", s.get("year"), adulto=s.get("contentRating") in ("erotica", "pornographic")))
     for it in out[:detail_max]:
         try:
             for key, val in _comix_queries(_comix_get(it["link"]).text).items():
@@ -282,7 +289,8 @@ def kayn(now):
         out.append(_item("KaynScans", s.get("title"), f"https://kaynscans.com/series/comic/{s.get('urlSlug')}",
                          "https://kaynscans.com" + (s.get("coverImage") or ""), _max_cap(s.get("chapters")),
                          ", ".join(g["genre"]["slug"].replace("-", " ").title()
-                                   for g in s.get("genres") or [] if g.get("genre")), data=criado))
+                                   for g in s.get("genres") or [] if g.get("genre")), data=criado,
+                         adulto=bool(s.get("isMature") or s.get("nsfw"))))
     return out
 
 
@@ -362,7 +370,7 @@ def mist(now):
         capa = _MIST_CAPA.search(a.get("style") or "")
         it = _item("MistScans", a.get("title"), base + a["href"],
                    f"https://wsrv.nl/?url={capa.group(1)}&w=240&output=jpg" if capa else "",
-                   caps=_int(chapters[0].get("title")), generos=", ".join(generos))
+                   caps=_int(chapters[0].get("title")), generos=", ".join(generos), adulto="19+" in generos)
         if it["caps"] <= MAX_CAPS_NOVA:
             # a[d]: o botao "ler capitulo 1" do topo tambem aponta pro capitulo, mas sem data
             caps = BeautifulSoup(_get(it["link"]).text, "html.parser").select('a[href*="/chapter/"][d]')
@@ -452,6 +460,10 @@ def blocked(it):
     return "romance" in gens and not (gens & (ACTION | MALE))
 
 
+def is_adult(it):
+    return it["adulto"] or bool({normalize(g) for g in it["generos"].split(",") if g.strip()} & ADULT)
+
+
 def is_new(it, now):
     """Obra nova de verdade: chega no site com poucos capitulos e ano recente. Site que
     despeja catalogo traz obra antiga ja com 60, 100, 150 caps -> fica de fora."""
@@ -489,6 +501,7 @@ def merge(existing, itens, now, com_video):
             for f, v in (("generos", it["generos"]), ("ano", it["ano"]), ("capa", it["capa"])):
                 if not e[f] and v:
                     e[f] = v
+            e["adulto"] = e.get("adulto") or is_adult(it)
             continue
         if not is_new(it, now):
             continue
@@ -496,11 +509,12 @@ def merge(existing, itens, now, com_video):
         by_key[key] = {
             "peguei": "FALSE", "capa": it["capa"], "obra": it["titulo"], "capitulos": it["caps"] or "",
             "generos": it["generos"], "ano": it["ano"], "sites": it["site"], "visto_em": visto,
-            "ja_tem_video": "", "link": it["link"],
+            "ja_tem_video": "", "link": it["link"], "adulto": is_adult(it),
         }
     rows = list(by_key.values())
     for r in rows:
         r["ja_tem_video"] = "Sim" if normalize(r["obra"]) in com_video else ""
+        r["adulto"] = is_adult({"adulto": r.get("adulto", False), "generos": r["generos"]})
 
     def when(r):
         try:
@@ -631,6 +645,17 @@ def _row(d):
     return row
 
 
+def _write_obras(spreadsheet, title, rows):
+    ws = _ensure_tab(spreadsheet, title, HEADER, rows=MAX_ROWS + 1,
+                     widths=[65, 80, 340, 85, 260, 60, 220, 125, 110, 300],
+                     center_cols=(0, 1, 3, 5, 7, 8), link_col=9, extra=_novas_obras_rules)
+    if ws.row_count < len(rows) + 1:
+        ws.add_rows(len(rows) + 1 - ws.row_count)
+    ws.batch_clear([f"A2:{chr(64 + NCOLS)}"])
+    if rows:
+        ws.update([_row(d) for d in rows], "A2", value_input_option="USER_ENTERED")
+
+
 def sync(spreadsheet, todos_rows, now_utc=None):
     import gspread
     now = now_utc or datetime.now(timezone.utc)
@@ -638,21 +663,16 @@ def sync(spreadsheet, todos_rows, now_utc=None):
         if ws.title in OLD_TABS:
             spreadsheet.del_worksheet(ws)
     itens, status = collect(now)   # a parte lenta vem antes de mexer na aba
-    try:
-        existing = _read(spreadsheet.worksheet(TAB))   # antes do _ensure_tab, que pode recriar a aba
-    except gspread.WorksheetNotFound:
-        existing = []
+    existing = []
+    for title, adulto in ((TAB, False), (TAB_18, True)):   # antes do _ensure_tab, que pode recriar a aba
+        try:
+            existing += [{**d, "adulto": adulto} for d in _read(spreadsheet.worksheet(title))]
+        except gspread.WorksheetNotFound:
+            pass
     rows = merge(existing, itens, now, video_titles(todos_rows))
     fill_covers(rows)
-    ws = _ensure_tab(spreadsheet, TAB, HEADER, rows=MAX_ROWS + 1,
-                     widths=[65, 80, 340, 85, 260, 60, 220, 125, 110, 300],
-                     center_cols=(0, 1, 3, 5, 7, 8), link_col=9, extra=_novas_obras_rules)
-
-    if ws.row_count < len(rows) + 1:
-        ws.add_rows(len(rows) + 1 - ws.row_count)
-    ws.batch_clear([f"A2:{chr(64 + NCOLS)}"])
-    if rows:
-        ws.update([_row(d) for d in rows], "A2", value_input_option="USER_ENTERED")
+    for title, adulto in ((TAB, False), (TAB_18, True)):
+        _write_obras(spreadsheet, title, [r for r in rows if bool(r["adulto"]) == adulto])
 
     sites_ws = _ensure_tab(spreadsheet, SITES_TAB, SITES_HEADER, widths=[130, 230, 170, 130, 100, 300],
                            center_cols=(3, 4), link_col=1)
@@ -661,7 +681,8 @@ def sync(spreadsheet, todos_rows, now_utc=None):
     sites_ws.update([[n, u, m, "'" + stamp, status[n][0], status[n][1]] for n, u, m, _ in SITES], "A2",
                     value_input_option="USER_ENTERED")
     erros = [n for n, (_, st) in status.items() if st != "OK"]
-    print(f"[novas_obras] {len(itens)} lidas em {len(SITES)} sites, {len(rows)} na aba"
+    n18 = sum(1 for r in rows if r["adulto"])
+    print(f"[novas_obras] {len(itens)} lidas em {len(SITES)} sites, {len(rows) - n18} na aba, {n18} na +18"
           + (f", ERRO em: {', '.join(erros)}" if erros else ""))
 
 

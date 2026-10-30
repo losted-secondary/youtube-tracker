@@ -109,6 +109,21 @@ class NovasObrasTest(unittest.TestCase):
         self.assertEqual(sorted(["/read/x/10", "/read/x/2-5", "/read/x/2"], key=n._cap_order),
                          ["/read/x/2", "/read/x/2-5", "/read/x/10"])
 
+    def test_obra_adulta_pelo_site_ou_pelo_genero_e_continua_adulta(self):
+        self.assertTrue(n.is_adult(item("A", "x", generos="Action, Smut")))
+        self.assertTrue(n.is_adult(item("A", "x", generos="Fantasy, 19+")))
+        self.assertTrue(n.is_adult(n._item("Comick", "x", "l", adulto=True)))
+        self.assertFalse(n.is_adult(item("A", "x", generos="Action, Ecchi")))
+        rows = n.merge([], [n._item("Comick", "Obra X", "l", caps=3, adulto=True)], NOW, set())
+        self.assertTrue(rows[0]["adulto"])
+        # proxima rodada: vem de outro site sem a marca, mas a linha ja estava na aba +18
+        rows = n.merge([{**rows[0], "adulto": True}], [item("Comix", "Obra X")], NOW, set())
+        self.assertTrue(rows[0]["adulto"])
+        # linha antiga da aba normal que nao reaparece: classificada pelo genero
+        velha = {"peguei": "FALSE", "capa": "", "obra": "Velha", "capitulos": "", "generos": "Mature",
+                 "ano": "", "sites": "Comix", "visto_em": "01/10/2026 10:00", "ja_tem_video": "", "link": ""}
+        self.assertTrue(n.merge([{**velha, "adulto": False}], [], NOW, set())[0]["adulto"])
+
     def test_titulos_com_video_vem_de_obra_e_variantes(self):
         todos = [["quero_postar", "obra", "canal", "", "", "", "", "nomes_variantes"],
                  ["FALSE", "God of Killers", "Tobs", "", "", "", "", "God of Killers | Sat-in-ui Sin"]]
