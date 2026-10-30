@@ -41,6 +41,40 @@ class NovasObrasTest(unittest.TestCase):
         self.assertEqual((r["capitulos"], r["visto_em"]), (40, visto))
         self.assertEqual(r["ja_tem_video"], "Sim")
 
+    def test_visto_em_usa_data_do_site_e_ordena_por_ela(self):
+        antiga = n._item("Hive", "Antiga", "l", caps=3, generos="Action",
+                         data=datetime(2026, 10, 1, 15, 0, tzinfo=timezone.utc))
+        recente = n._item("Kayn", "Recente", "l", caps=3, generos="Action",
+                          data=datetime(2026, 10, 9, 15, 0, tzinfo=timezone.utc))
+        existente = {"peguei": "TRUE", "obra": "Do Meio", "capitulos": "2", "generos": "", "ano": "",
+                     "sites": "Comix", "visto_em": "05/10/2026 10:00", "ja_tem_video": "", "link": ""}
+        rows = n.merge([existente], [antiga, recente, item("Comix", "Sem Data")], NOW, set())
+        self.assertEqual([(r["obra"], r["visto_em"]) for r in rows], [
+            ("Sem Data", "11/10/2026 15:00"), ("Recente", "09/10/2026 12:00"),
+            ("Do Meio", "05/10/2026 10:00"), ("Antiga", "01/10/2026 12:00")])
+        self.assertEqual([r["peguei"] for r in rows], ["FALSE", "FALSE", "TRUE", "FALSE"])
+
+    def test_le_aba_antiga_sem_peguei_pelo_nome_da_coluna(self):
+        class Ws:
+            def get_all_values(self):
+                return [["Obra", "Capítulos", "Gêneros", "Ano", "Sites", "Visto em", "Já tem vídeo", "Link"],
+                        ["X", "3", "Action", "2026", "Comix", "29/10/2026 22:02", "", "https://x"]]
+        d = n._read(Ws())[0]
+        self.assertEqual((d["obra"], d["visto_em"], d["link"], d["peguei"]), ("X", "29/10/2026 22:02", "https://x", ""))
+        self.assertEqual(n._row(d)[0], "FALSE")
+
+    def test_data_da_obra_kayn_vem_do_id(self):
+        self.assertEqual(n._cuid_date("cmtzutgp5006igis8txkekkx9").date().isoformat(), "2026-09-13")
+
+    def test_datas_da_mist(self):
+        self.assertEqual(n._mist_date("4 days ago", NOW), datetime(2026, 10, 7, 18, 0, tzinfo=timezone.utc))
+        self.assertEqual(n._mist_date("Oct 22, 2026", NOW).date().isoformat(), "2026-10-22")
+        self.assertIsNone(n._mist_date(None, NOW))
+
+    def test_ordem_dos_capitulos_otl(self):
+        self.assertEqual(sorted(["/read/x/10", "/read/x/2-5", "/read/x/2"], key=n._cap_order),
+                         ["/read/x/2", "/read/x/2-5", "/read/x/10"])
+
     def test_titulos_com_video_vem_de_obra_e_variantes(self):
         todos = [["quero_postar", "obra", "canal", "", "", "", "", "nomes_variantes"],
                  ["FALSE", "God of Killers", "Tobs", "", "", "", "", "God of Killers | Sat-in-ui Sin"]]

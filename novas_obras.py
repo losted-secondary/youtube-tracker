@@ -13,6 +13,11 @@ Regras:
     despeja catalogo traz obra antiga ja com 60, 100, 150 caps -> nem entra na aba.
   - Mesma obra em dois sites vira UMA linha (titulo normalizado); a coluna `Sites`
     acumula onde ela apareceu. `Visto em` nunca muda depois.
+  - `Visto em` e a data em que a obra entrou no site quando o site informa (HiveToons, Kayn,
+    OTL, Mist: janela de NEW_SITES_DAYS); senao, a hora da coleta.
+  - `Peguei` e um checkbox que anda junto com a linha (a aba e reescrita e reordenada a cada
+    rodada, entao pintar a linha na mao nao serve: a cor fica parada e a obra muda).
+    Marcado, a linha inteira fica verde por formatacao condicional.
   - `Já tem vídeo`: o titulo bate com `obra`/`nomes_variantes` de algum video do `todos`.
   - Sem capa: os sites bloqueiam o Google de baixar as imagens (=IMAGE dava #REF!).
 """
@@ -29,13 +34,14 @@ from comick import normalize
 TAB = "Novas Obras"
 SITES_TAB = "Sites"
 OLD_TABS = ("novas_obras", "sites")   # nomes da primeira versao (11/10/2026)
-HEADER = ["Obra", "Capítulos", "Gêneros", "Ano", "Sites", "Visto em", "Já tem vídeo", "Link"]
-KEYS = ["obra", "capitulos", "generos", "ano", "sites", "visto_em", "ja_tem_video", "link"]
+HEADER = ["Peguei", "Obra", "Capítulos", "Gêneros", "Ano", "Sites", "Visto em", "Já tem vídeo", "Link"]
+KEYS = ["peguei", "obra", "capitulos", "generos", "ano", "sites", "visto_em", "ja_tem_video", "link"]
 NCOLS = len(HEADER)
 SITES_HEADER = ["Site", "URL", "Método", "Última coleta", "Obras lidas", "Status"]
 
 MAX_CAPS_NOVA = 25       # obra que aparece com mais capitulos que isso e catalogo antigo
 NEW_DAYS = 30            # quando o site informa a data de entrada, so pega obra recente
+NEW_SITES_DAYS = 20      # HiveToons/Kayn/OTL/Mist: janela pela data real de entrada no site
 MAX_ROWS = 500
 COMIX_DETAIL_MAX = 20    # paginas de detalhe (generos) do comix por rodada
 DATE_FMT = "%d/%m/%Y %H:%M"
@@ -60,19 +66,23 @@ def _int(s):
     return int(m.group()) if m else 0
 
 
-def _recent(iso, now):
-    if not iso:
-        return True
+def _dt(iso):
     try:
-        dt = datetime.fromisoformat(str(iso).replace("Z", "+00:00"))
-    except ValueError:
-        return True
-    return now - dt <= timedelta(days=NEW_DAYS)
+        return datetime.fromisoformat(str(iso).replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return None
 
 
-def _item(site, titulo, link, capa="", caps=0, generos="", ano="", adulto=False):
+def _recent(iso, now, days=NEW_DAYS):
+    dt = iso if isinstance(iso, datetime) else _dt(iso) if iso else None
+    return dt is None or now - dt <= timedelta(days=days)
+
+
+def _item(site, titulo, link, capa="", caps=0, generos="", ano="", adulto=False, data=None):
+    """data: quando a obra entrou no site (datetime com fuso), se o site informa."""
     return {"site": site, "titulo": (titulo or "").strip(), "link": link, "capa": capa or "",
-            "caps": int(caps or 0), "generos": generos or "", "ano": str(ano or ""), "adulto": adulto}
+            "caps": int(caps or 0), "generos": generos or "", "ano": str(ano or ""), "adulto": adulto,
+            "data": data}
 
 
 # ---------------------------------------------------------------- coletores por site
@@ -225,16 +235,151 @@ def _mangareader(site, url):
     return out
 
 
+def _max_cap(chapters):
+    return max((c.get("number") or 0 for c in chapters or []), default=0)
+
+
+def hivetoons(now):
+    """Mesma API da Vortex, mas a lista nao traz a data de criacao: ela vem do /api/post.
+    Obra com capitulo demais e catalogo -> entra sem data (so atualiza linha ja existente)."""
+    api = "https://api.hivetoons.org/api"
+    d = _get(f"{api}/query", params={"page": 1, "perPage": 30, "orderBy": "createdAt",
+                                     "orderDirection": "desc"}).json()
+    out = []
+    for p in d.get("posts", []):
+        if (p.get("seriesType") or "").upper() not in ("MANHWA", "MANHUA"):
+            continue
+        caps, criado = _max_cap(p.get("chapters")), None
+        if caps <= MAX_CAPS_NOVA:
+            criado = _dt((_get(f"{api}/post", params={"postId": p.get("id")}).json().get("post") or {})
+                         .get("createdAt"))
+            time.sleep(0.3)
+            if not _recent(criado, now, NEW_SITES_DAYS):
+                continue
+        out.append(_item("HiveToons", p.get("postTitle"), f"https://hivetoons.org/series/{p.get('slug')}",
+                         p.get("featuredImage"), caps,
+                         ", ".join(g.get("name", "") for g in p.get("genres") or []), data=criado))
+    return out
+
+
+def _cuid_date(cuid):
+    """id cuid = 'c' + timestamp em ms (base36, 8 chars). A Kayn nao expoe a data de criacao
+    da obra, mas ela esta no proprio id."""
+    try:
+        return datetime.fromtimestamp(int(str(cuid)[1:9], 36) / 1000, timezone.utc)
+    except ValueError:
+        return None
+
+
+def kayn(now):
+    out = []
+    for s in _get("https://kaynscans.com/api/series", params={"sort": "newest", "limit": 40}).json().get("data", []):
+        criado = _cuid_date(s.get("id"))
+        if s.get("type") not in ("MANHWA", "MANHUA", "WEBTOON") or not _recent(criado, now, NEW_SITES_DAYS):
+            continue
+        out.append(_item("KaynScans", s.get("title"), f"https://kaynscans.com/series/comic/{s.get('urlSlug')}",
+                         "https://kaynscans.com" + (s.get("coverImage") or ""), _max_cap(s.get("chapters")),
+                         ", ".join(g["genre"]["slug"].replace("-", " ").title()
+                                   for g in s.get("genres") or [] if g.get("genre")),
+                         adulto=bool(s.get("isMature") or s.get("nsfw")), data=criado))
+    return out
+
+
+def _cap_order(href):
+    """'/read/x/20-5' -> (20, 5): ordena capitulo pelo numero, nao pelo texto."""
+    return tuple(int(n) for n in re.findall(r"\d+", href.rstrip("/").rsplit("/", 1)[-1])) or (10 ** 9,)
+
+
+def otl(now):
+    """Site estatico (Astro) com poucas obras. O card traz tipo e capitulos; generos e ano
+    vem do JSON-LD da obra e a data de entrada e o datePublished do primeiro capitulo."""
+    base = "https://otl.moe"
+    out = []
+    for li in BeautifulSoup(_get(f"{base}/series/").text, "html.parser").select("li[data-series-item]"):
+        a = li.select_one('a[href^="/series/"]')
+        badges = [t for t in (s.get_text(strip=True) for s in li.select("span")) if t]
+        if not a or not badges or badges[0].lower() not in ("manhwa", "manhua"):
+            continue
+        it = _item("OTL", li.get("data-series-title"), base + a["href"], caps=_int(badges[-1]))
+        if it["caps"] <= MAX_CAPS_NOVA:
+            page = BeautifulSoup(_get(it["link"]).text, "html.parser")
+            for ld in page.select('script[type="application/ld+json"]'):
+                info = json.loads(ld.string or "{}")
+                if info.get("@type") == "BookSeries":
+                    it["generos"] = ", ".join(info.get("genre") or [])
+                    it["ano"] = str(info.get("datePublished") or "")[:4]
+            caps = sorted({c["href"] for c in page.select('a[href^="/read/"]')}, key=_cap_order)
+            if caps:
+                m = re.search(r'"datePublished":"([^"]+)"', _get(base + caps[0]).text)
+                it["data"] = _dt(m.group(1)) if m else None
+            time.sleep(0.3)
+            if not _recent(it["data"], now, NEW_SITES_DAYS):
+                continue
+        out.append(it)
+    return out
+
+
+_REL_AGE = re.compile(r"(\d+|an?|one)\s*(second|minute|hour|day|week|month|year)s?\s+ago", re.I)
+_AGE_UNIT = {"second": 1 / 86400, "minute": 1 / 1440, "hour": 1 / 24, "day": 1, "week": 7,
+             "month": 30, "year": 365}
+
+
+def _mist_date(txt, now):
+    """'15 hours ago' / '1 day ago' / 'Oct 22, 2026' -> datetime."""
+    txt = (txt or "").strip()
+    m = _REL_AGE.search(txt)
+    if m:
+        n = int(m.group(1)) if m.group(1).isdigit() else 1
+        return now - timedelta(days=n * _AGE_UNIT[m.group(2).lower()])
+    try:
+        return datetime.strptime(txt, "%b %d, %Y").replace(tzinfo=BRT)
+    except ValueError:
+        return None
+
+
+def mist(now):
+    """Sem API. A pagina /latest/ lista todas as obras pela ultima atualizacao; obra que
+    entrou nos ultimos dias tem capitulo recente, entao so essas abrem a pagina da obra
+    para ler a data do capitulo 1 (atributo `d` do link)."""
+    base = "https://mistscans.com"
+    out = []
+    for card in BeautifulSoup(_get(f"{base}/latest/").text, "html.parser").select(".latest-poster"):
+        a = card.select_one("a[title]")
+        chapters = card.select('a[href*="/chapter/"]')
+        badges = [s.get_text(strip=True).lower() for s in a.select("span")] if a else []
+        if not a or not chapters or not {"manhwa", "manhua", "mangatoon"} & set(badges):
+            continue
+        if not _recent(_mist_date(chapters[0].get("d"), now), now, NEW_SITES_DAYS):
+            continue
+        generos = [g.get("title", "") for g in card.select('a[href*="genre="]')]
+        it = _item("MistScans", a.get("title"), base + a["href"], caps=_int(chapters[0].get("title")),
+                   generos=", ".join(generos), adulto="19+" in generos)
+        if it["caps"] <= MAX_CAPS_NOVA:
+            # a[d]: o botao "ler capitulo 1" do topo tambem aponta pro capitulo, mas sem data
+            caps = BeautifulSoup(_get(it["link"]).text, "html.parser").select('a[href*="/chapter/"][d]')
+            primeiro = min(caps, key=lambda c: _int(c.get("title")), default=None)
+            it["data"] = _mist_date(primeiro.get("d"), now) if primeiro else None
+            time.sleep(0.3)
+            if not _recent(it["data"], now, NEW_SITES_DAYS):
+                continue
+        out.append(it)
+    return out
+
+
 SITES = [
     ("AsuraScans", "https://asurascans.com", "API", asura),
     ("Comick", "https://comick.dev", "API", comick),
     ("Comix", "https://comix.to", "HTML (dados embutidos)", comix),
+    ("HiveToons", "https://hivetoons.org", "API", hivetoons),
+    ("KaynScans", "https://kaynscans.com", "API", kayn),
     ("MadaraScans", "https://madarascans.net", "HTML",
      lambda now: _mangareader("MadaraScans", "https://madarascans.net/series/?order=latest")),
     ("MangaRead", "https://www.mangaread.org", "HTML",
      lambda now: _wp_manga("MangaRead", "https://www.mangaread.org/manga/?m_orderby=new-manga")),
     ("ManhwaTop", "https://manhwatop.com", "HTML",
      lambda now: _wp_manga("ManhwaTop", "https://manhwatop.com/manga/?m_orderby=new-manga")),
+    ("MistScans", "https://mistscans.com", "HTML", mist),
+    ("OTL", "https://otl.moe", "HTML", otl),
     ("QiManga", "https://qimanga.com", "API", qimanga),
     ("ThunderScans", "https://en-thunderscans.com", "HTML",
      lambda now: _mangareader("ThunderScans", "https://en-thunderscans.com/project/?order=latest")),
@@ -306,10 +451,11 @@ def merge(existing, itens, now, com_video):
             continue
         if not is_new(it, now):
             continue
+        visto = min(it["data"], now).astimezone(BRT).strftime(DATE_FMT) if it["data"] else stamp
         by_key[key] = {
-            "obra": it["titulo"], "capitulos": it["caps"] or "", "generos": it["generos"],
-            "ano": it["ano"], "sites": it["site"], "visto_em": stamp, "ja_tem_video": "",
-            "link": it["link"],
+            "peguei": "FALSE", "obra": it["titulo"], "capitulos": it["caps"] or "",
+            "generos": it["generos"], "ano": it["ano"], "sites": it["site"], "visto_em": visto,
+            "ja_tem_video": "", "link": it["link"],
         }
     rows = list(by_key.values())
     for r in rows:
@@ -331,7 +477,8 @@ BAND = {"red": 0.96, "green": 0.97, "blue": 0.98}
 GRAY = {"red": 0.45, "green": 0.45, "blue": 0.45}
 
 
-def _style(spreadsheet, ws, widths, center_cols=(), link_col=None):
+def _style(spreadsheet, ws, widths, center_cols=(), link_col=None, extra=None):
+    """extra: funcao sheetId -> requests a mais, aplicadas so quando a aba e criada."""
     sid, n = ws.id, len(widths)
 
     def cols(c0, c1):
@@ -372,11 +519,12 @@ def _style(spreadsheet, ws, widths, center_cols=(), link_col=None):
                                         "underline": False, "foregroundColor": GRAY}}},
                                     "fields": "userEnteredFormat.textFormat.underline,"
                                               "userEnteredFormat.textFormat.foregroundColor"}})
-    spreadsheet.batch_update({"requests": reqs})
+    spreadsheet.batch_update({"requests": reqs + (extra(sid) if extra else [])})
 
 
-def _ensure_tab(spreadsheet, title, header, **style):
-    """Cria a aba formatada. Se o cabecalho mudou (versao antiga da aba), recria do zero."""
+def _ensure_tab(spreadsheet, title, header, rows=200, **style):
+    """Cria a aba formatada. Se o cabecalho mudou (versao antiga da aba), recria do zero;
+    quem precisa dos dados antigos le antes (ver `sync`)."""
     import gspread
     try:
         ws = spreadsheet.worksheet(title)
@@ -385,16 +533,36 @@ def _ensure_tab(spreadsheet, title, header, **style):
         spreadsheet.del_worksheet(ws)
     except gspread.WorksheetNotFound:
         pass
-    ws = spreadsheet.add_worksheet(title=title, rows=200, cols=len(header))
+    ws = spreadsheet.add_worksheet(title=title, rows=rows, cols=len(header))
     ws.update([header], "A1")
     _style(spreadsheet, ws, **style)
     return ws
 
 
+def _peguei_rules(sid):
+    """Checkbox na coluna Peguei + linha verde quando marcado. A regra segue o valor, entao
+    a cor acompanha a obra quando a aba e reordenada."""
+    body = {"sheetId": sid, "startRowIndex": 1, "endRowIndex": MAX_ROWS + 1}
+    return [
+        {"setDataValidation": {"range": {**body, "startColumnIndex": 0, "endColumnIndex": 1},
+                               "rule": {"condition": {"type": "BOOLEAN"}}}},
+        {"addConditionalFormatRule": {"index": 0, "rule": {
+            "ranges": [{**body, "startColumnIndex": 0, "endColumnIndex": NCOLS}],
+            "booleanRule": {"condition": {"type": "CUSTOM_FORMULA", "values": [{"userEnteredValue": "=$A2=TRUE"}]},
+                            "format": {"backgroundColor": {"red": 0.85, "green": 0.92, "blue": 0.83}}}}}},
+    ]
+
+
 def _read(ws):
+    """Le pelo nome da coluna, nao pela posicao: assim a aba antiga (sem `Peguei`) migra sem
+    perder nada."""
+    vals = ws.get_all_values()
+    if not vals:
+        return []
+    col = {h: i for i, h in enumerate(vals[0])}
     out = []
-    for r in ws.get_all_values()[1:]:
-        d = dict(zip(KEYS, (r + [""] * NCOLS)[:NCOLS]))
+    for r in vals[1:]:
+        d = {k: (r[col[h]] if h in col and col[h] < len(r) else "") for h, k in zip(HEADER, KEYS)}
         if d["obra"]:
             out.append(d)
     return out
@@ -404,20 +572,27 @@ def _row(d):
     # apostrofo = texto puro no USER_ENTERED: `obra` nunca vira formula/numero e `visto_em`
     # nao vira data (que voltaria em outro formato na proxima leitura e quebraria a ordem)
     row = [d[k] for k in KEYS]
+    row[KEYS.index("peguei")] = "TRUE" if str(d["peguei"]).upper() == "TRUE" else "FALSE"
     row[KEYS.index("obra")] = "'" + d["obra"]
     row[KEYS.index("visto_em")] = "'" + d["visto_em"]
     return row
 
 
 def sync(spreadsheet, todos_rows, now_utc=None):
+    import gspread
     now = now_utc or datetime.now(timezone.utc)
     for ws in spreadsheet.worksheets():
         if ws.title in OLD_TABS:
             spreadsheet.del_worksheet(ws)
-    ws = _ensure_tab(spreadsheet, TAB, HEADER, widths=[340, 85, 260, 60, 220, 125, 110, 300],
-                     center_cols=(1, 3, 5, 6), link_col=7)
-    itens, status = collect(now)
-    rows = merge(_read(ws), itens, now, video_titles(todos_rows))
+    itens, status = collect(now)   # a parte lenta vem antes de mexer na aba
+    try:
+        existing = _read(spreadsheet.worksheet(TAB))   # antes do _ensure_tab, que pode recriar a aba
+    except gspread.WorksheetNotFound:
+        existing = []
+    rows = merge(existing, itens, now, video_titles(todos_rows))
+    ws = _ensure_tab(spreadsheet, TAB, HEADER, rows=MAX_ROWS + 1,
+                     widths=[65, 340, 85, 260, 60, 220, 125, 110, 300],
+                     center_cols=(0, 2, 4, 6, 7), link_col=8, extra=_peguei_rules)
 
     if ws.row_count < len(rows) + 1:
         ws.add_rows(len(rows) + 1 - ws.row_count)
