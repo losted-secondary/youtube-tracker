@@ -25,6 +25,7 @@ Regras:
     Como =IMAGE le vazio, a URL e relida pela formula (ver `_read`).
 """
 import json
+import random
 import re
 import time
 from datetime import datetime, timezone, timedelta
@@ -55,6 +56,7 @@ HEADERS = {"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"}
 BLOCKED = {"shoujo", "josei", "boys love", "girls love", "yaoi", "yuri", "shounen ai", "shoujo ai"}
 ACTION = {"action", "fantasy", "martial arts", "adventure", "murim"}
 CAPA_ROW_PX = 110        # altura das linhas da aba para a capa caber
+CAPA_FILL_MAX = 60       # linhas sem capa que buscam a imagem na pagina da obra, por rodada
 MALE = {"shounen", "seinen"}
 
 
@@ -407,6 +409,34 @@ def collect(now):
     return itens, status
 
 
+_OG_IMAGE = re.compile(r"""<meta[^>]+(?:property|name)=["'](?:og:image|twitter:image)["'][^>]+content=["']([^"']+)"""
+                       r"""|<meta[^>]+content=["']([^"']+)["'][^>]+(?:property|name)=["'](?:og:image|twitter:image)""", re.I)
+
+
+def _page_cover(url):
+    """Capa pela pagina da obra: og:image, ou a .thumb dos temas WordPress (ThunderScans)."""
+    html = (_comix_get(url) if "comix.to" in url else _get(url)).text
+    m = _OG_IMAGE.search(html)
+    img = (m.group(1) or m.group(2)) if m else _img(BeautifulSoup(html, "html.parser").select_one(".thumb") or
+                                                    BeautifulSoup("", "html.parser"))
+    if "wsrv.nl" in img and "output=" not in img:   # Mist: AVIF, que o =IMAGE nao abre
+        img += "&output=jpg"
+    return img
+
+
+def fill_covers(rows, limit=CAPA_FILL_MAX):
+    """Linha sem capa (entrou antes da coluna existir, ou a lista do site nao traz capa):
+    busca na pagina da obra. Ordem aleatoria: link morto (obra removida) nao trava a fila,
+    e o que sobrar fica para as proximas rodadas."""
+    sem = [r for r in rows if not r["capa"] and r["link"]]
+    for r in random.sample(sem, min(limit, len(sem))):
+        try:
+            r["capa"] = _page_cover(r["link"])
+            time.sleep(0.3)
+        except Exception:
+            pass
+
+
 # ---------------------------------------------------------------- regras
 
 def blocked(it):
@@ -607,6 +637,7 @@ def sync(spreadsheet, todos_rows, now_utc=None):
     except gspread.WorksheetNotFound:
         existing = []
     rows = merge(existing, itens, now, video_titles(todos_rows))
+    fill_covers(rows)
     ws = _ensure_tab(spreadsheet, TAB, HEADER, rows=MAX_ROWS + 1,
                      widths=[65, 80, 340, 85, 260, 60, 220, 125, 110, 300],
                      center_cols=(0, 1, 3, 5, 7, 8), link_col=9, extra=_novas_obras_rules)

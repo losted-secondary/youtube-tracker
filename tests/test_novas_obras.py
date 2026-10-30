@@ -79,6 +79,19 @@ class NovasObrasTest(unittest.TestCase):
         self.assertEqual((d["peguei"], d["capa"]), ("TRUE", "https://c.x/a.jpg"))
         self.assertEqual(n._row({**d, **{k: "" for k in n.KEYS if k not in d}})[1], '=IMAGE("https://c.x/a.jpg")')
 
+    def test_linha_sem_capa_busca_na_pagina_e_link_morto_nao_quebra(self):
+        def fake(url):
+            if "morto" in url:
+                raise RuntimeError("404")
+            return "https://c.x/" + url
+        rows = [{"capa": "", "link": "a"}, {"capa": "ja", "link": "b"}, {"capa": "", "link": "morto"}]
+        original, n._page_cover = n._page_cover, fake
+        try:
+            n.fill_covers(rows)
+        finally:
+            n._page_cover = original
+        self.assertEqual([r["capa"] for r in rows], ["https://c.x/a", "ja", ""])
+
     def test_capa_preenche_linha_existente_sem_capa(self):
         rows = n.merge([], [item("Comix", "Obra X")], NOW, set())
         rows = n.merge(rows, [item("Asura", "Obra X", capa="https://c.x/a.jpg")], NOW, set())
