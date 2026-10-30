@@ -414,8 +414,14 @@ _OG_IMAGE = re.compile(r"""<meta[^>]+(?:property|name)=["'](?:og:image|twitter:i
 
 
 def _page_cover(url):
-    """Capa pela pagina da obra: og:image, ou a .thumb dos temas WordPress (ThunderScans)."""
-    html = (_comix_get(url) if "comix.to" in url else _get(url)).text
+    """Capa pela pagina da obra: og:image, ou a .thumb dos temas WordPress (ThunderScans).
+    Comix nao tem og:image; a capa vem dos dados embutidos, como no coletor."""
+    if "comix.to" in url:
+        for key, val in _comix_queries(_comix_get(url).text).items():
+            if key.startswith('["manga","detail"'):
+                return (val.get("poster") or {}).get("medium", "")
+        return ""
+    html = _get(url).text
     m = _OG_IMAGE.search(html)
     img = (m.group(1) or m.group(2)) if m else _img(BeautifulSoup(html, "html.parser").select_one(".thumb") or
                                                     BeautifulSoup("", "html.parser"))
