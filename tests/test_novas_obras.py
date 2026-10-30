@@ -6,22 +6,25 @@ import novas_obras as n
 NOW = datetime(2026, 10, 11, 18, 0, tzinfo=timezone.utc)
 
 
-def item(site, titulo, caps=5, generos="Action", ano="", adulto=False):
-    return n._item(site, titulo, f"https://{site}.x/{titulo}", "", caps, generos, ano, adulto)
+def item(site, titulo, caps=5, generos="Action", ano="", capa=""):
+    return n._item(site, titulo, f"https://{site}.x/{titulo}", capa, caps, generos, ano)
 
 
 class NovasObrasTest(unittest.TestCase):
-    def test_bloqueia_mature_shoujo_blgl_mas_deixa_ecchi(self):
-        self.assertTrue(n.blocked(item("A", "x", generos="Action, Mature")))
+    def test_bloqueia_shoujo_e_blgl_mas_deixa_adulto_e_ecchi(self):
         self.assertTrue(n.blocked(item("A", "x", generos="Drama, Shoujo")))
         self.assertTrue(n.blocked(item("A", "x", generos="Boys' Love")))
+        self.assertTrue(n.blocked(item("A", "x", generos="Yaoi, Mature")))
         self.assertTrue(n.blocked(item("A", "x", generos="Girls Love")))
-        self.assertTrue(n.blocked(item("A", "x", adulto=True)))
+        self.assertFalse(n.blocked(item("A", "x", generos="Action, Mature")))
+        self.assertFalse(n.blocked(item("A", "x", generos="Drama, Adult, Smut, 19+")))
         self.assertFalse(n.blocked(item("A", "x", generos="Action, Ecchi")))
 
-    def test_romance_so_passa_com_acao(self):
+    def test_romance_so_passa_com_acao_ou_publico_masculino(self):
         self.assertTrue(n.blocked(item("A", "x", generos="Romance, Drama")))
+        self.assertTrue(n.blocked(item("A", "x", generos="Romance, Mature, Josei")))
         self.assertFalse(n.blocked(item("A", "x", generos="Romance, Martial Arts")))
+        self.assertFalse(n.blocked(item("A", "x", generos="Romance, Mature, Seinen")))
 
     def test_so_entra_obra_nova(self):
         rows = n.merge([], [item("A", "Nova", 5, ano="2026"), item("A", "Catalogo", 146),
@@ -46,7 +49,7 @@ class NovasObrasTest(unittest.TestCase):
                          data=datetime(2026, 10, 1, 15, 0, tzinfo=timezone.utc))
         recente = n._item("Kayn", "Recente", "l", caps=3, generos="Action",
                           data=datetime(2026, 10, 9, 15, 0, tzinfo=timezone.utc))
-        existente = {"peguei": "TRUE", "obra": "Do Meio", "capitulos": "2", "generos": "", "ano": "",
+        existente = {"peguei": "TRUE", "capa": "", "obra": "Do Meio", "capitulos": "2", "generos": "", "ano": "",
                      "sites": "Comix", "visto_em": "05/10/2026 10:00", "ja_tem_video": "", "link": ""}
         rows = n.merge([existente], [antiga, recente, item("Comix", "Sem Data")], NOW, set())
         self.assertEqual([(r["obra"], r["visto_em"]) for r in rows], [
@@ -60,8 +63,26 @@ class NovasObrasTest(unittest.TestCase):
                 return [["Obra", "Capítulos", "Gêneros", "Ano", "Sites", "Visto em", "Já tem vídeo", "Link"],
                         ["X", "3", "Action", "2026", "Comix", "29/10/2026 22:02", "", "https://x"]]
         d = n._read(Ws())[0]
-        self.assertEqual((d["obra"], d["visto_em"], d["link"], d["peguei"]), ("X", "29/10/2026 22:02", "https://x", ""))
-        self.assertEqual(n._row(d)[0], "FALSE")
+        self.assertEqual((d["obra"], d["visto_em"], d["link"], d["peguei"], d["capa"]),
+                         ("X", "29/10/2026 22:02", "https://x", "", ""))
+        self.assertEqual(n._row(d)[:2], ["FALSE", ""])
+
+    def test_capa_volta_da_formula_e_vira_image(self):
+        class Ws:
+            def get_all_values(self):
+                return [["Peguei", "Capa", "Obra"], ["TRUE", "", "X"]]
+
+            def col_values(self, col, value_render_option=None):
+                assert (col, value_render_option) == (2, "FORMULA")
+                return ["Capa", '=IMAGE("https://c.x/a.jpg")']
+        d = n._read(Ws())[0]
+        self.assertEqual((d["peguei"], d["capa"]), ("TRUE", "https://c.x/a.jpg"))
+        self.assertEqual(n._row({**d, **{k: "" for k in n.KEYS if k not in d}})[1], '=IMAGE("https://c.x/a.jpg")')
+
+    def test_capa_preenche_linha_existente_sem_capa(self):
+        rows = n.merge([], [item("Comix", "Obra X")], NOW, set())
+        rows = n.merge(rows, [item("Asura", "Obra X", capa="https://c.x/a.jpg")], NOW, set())
+        self.assertEqual(rows[0]["capa"], "https://c.x/a.jpg")
 
     def test_data_da_obra_kayn_vem_do_id(self):
         self.assertEqual(n._cuid_date("cmtzutgp5006igis8txkekkx9").date().isoformat(), "2026-09-13")

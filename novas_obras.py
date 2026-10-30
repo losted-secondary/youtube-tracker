@@ -7,8 +7,9 @@ Roda dentro do main.py na varredura completa (1x/hora) ou sozinho:
                                           e o que o workflow `novas-obras` roda)
 
 Regras:
-  - Bloqueia mature/adulto, shoujo/josei e BL/GL. Ecchi passa. Romance so e bloqueado
-    quando nao vem junto de genero de acao (action/fantasy/martial arts/adventure).
+  - Bloqueia shoujo/josei e BL/GL. Adulto/mature/ecchi passam (publico masculino). Romance
+    so e bloqueado quando nao vem com genero de acao (action/fantasy/martial arts/adventure)
+    nem com demografia masculina (shounen/seinen).
   - So entra obra NOVA: aparece com ate MAX_CAPS_NOVA capitulos e ano recente. Site que
     despeja catalogo traz obra antiga ja com 60, 100, 150 caps -> nem entra na aba.
   - Mesma obra em dois sites vira UMA linha (titulo normalizado); a coluna `Sites`
@@ -19,7 +20,9 @@ Regras:
     rodada, entao pintar a linha na mao nao serve: a cor fica parada e a obra muda).
     Marcado, a linha inteira fica verde por formatacao condicional.
   - `Já tem vídeo`: o titulo bate com `obra`/`nomes_variantes` de algum video do `todos`.
-  - Sem capa: os sites bloqueiam o Google de baixar as imagens (=IMAGE dava #REF!).
+  - `Capa` e =IMAGE(url). O #REF! que aparecia antes era a trava do Google para dados
+    externos ("allow access"): alguem precisa clicar em Permitir acesso uma vez na planilha.
+    Como =IMAGE le vazio, a URL e relida pela formula (ver `_read`).
 """
 import json
 import re
@@ -34,8 +37,8 @@ from comick import normalize
 TAB = "Novas Obras"
 SITES_TAB = "Sites"
 OLD_TABS = ("novas_obras", "sites")   # nomes da primeira versao (11/10/2026)
-HEADER = ["Peguei", "Obra", "Capítulos", "Gêneros", "Ano", "Sites", "Visto em", "Já tem vídeo", "Link"]
-KEYS = ["peguei", "obra", "capitulos", "generos", "ano", "sites", "visto_em", "ja_tem_video", "link"]
+HEADER = ["Peguei", "Capa", "Obra", "Capítulos", "Gêneros", "Ano", "Sites", "Visto em", "Já tem vídeo", "Link"]
+KEYS = ["peguei", "capa", "obra", "capitulos", "generos", "ano", "sites", "visto_em", "ja_tem_video", "link"]
 NCOLS = len(HEADER)
 SITES_HEADER = ["Site", "URL", "Método", "Última coleta", "Obras lidas", "Status"]
 
@@ -49,10 +52,10 @@ BRT = timezone(timedelta(hours=-3))
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 HEADERS = {"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"}
 
-BLOCKED = {"mature", "adult", "smut", "hentai", "erotica", "pornographic",
-           "shoujo", "josei", "boys love", "girls love", "yaoi", "yuri",
-           "shounen ai", "shoujo ai"}
+BLOCKED = {"shoujo", "josei", "boys love", "girls love", "yaoi", "yuri", "shounen ai", "shoujo ai"}
 ACTION = {"action", "fantasy", "martial arts", "adventure", "murim"}
+CAPA_ROW_PX = 110        # altura das linhas da aba para a capa caber
+MALE = {"shounen", "seinen"}
 
 
 def _get(url, **kw):
@@ -78,11 +81,10 @@ def _recent(iso, now, days=NEW_DAYS):
     return dt is None or now - dt <= timedelta(days=days)
 
 
-def _item(site, titulo, link, capa="", caps=0, generos="", ano="", adulto=False, data=None):
+def _item(site, titulo, link, capa="", caps=0, generos="", ano="", data=None):
     """data: quando a obra entrou no site (datetime com fuso), se o site informa."""
     return {"site": site, "titulo": (titulo or "").strip(), "link": link, "capa": capa or "",
-            "caps": int(caps or 0), "generos": generos or "", "ano": str(ano or ""), "adulto": adulto,
-            "data": data}
+            "caps": int(caps or 0), "generos": generos or "", "ano": str(ano or ""), "data": data}
 
 
 # ---------------------------------------------------------------- coletores por site
@@ -105,7 +107,7 @@ def asura(now):
 COMICK_DEMOGRAPHIC = {1: "Shounen", 2: "Shoujo", 3: "Seinen", 4: "Josei"}
 # a busca do comick nao devolve os generos, mas aceita excluir por genero. Aqui romance
 # sai inteiro (sem a excecao de acao), porque nao da pra ver o resto dos generos.
-COMICK_EXCLUDES = ["romance", "yaoi", "yuri", "shoujo-ai", "shounen-ai", "smut", "adult", "mature", "hentai"]
+COMICK_EXCLUDES = ["romance", "yaoi", "yuri", "shoujo-ai", "shounen-ai"]
 
 
 def comick(now):
@@ -114,15 +116,14 @@ def comick(now):
         for s in _get("https://api.comick.dev/v1.0/search",
                       params={"sort": "created_at", "limit": 50, "country": country,
                               "excludes": COMICK_EXCLUDES,
-                              "content_rating": ["safe", "suggestive"]}).json():
+                              "content_rating": ["safe", "suggestive", "erotica", "pornographic"]}).json():
             if not _recent(s.get("created_at"), now):
                 continue
             covers = s.get("md_covers") or []
             out.append(_item("Comick", s.get("title"), f"https://comick.dev/comic/{s.get('slug')}",
                              f"https://meo.comick.pictures/{covers[0]['b2key']}" if covers else "",
                              _int(s.get("last_chapter")),
-                             COMICK_DEMOGRAPHIC.get(s.get("demographic"), ""), s.get("year"),
-                             adulto=s.get("content_rating") in ("erotica", "pornographic")))
+                             COMICK_DEMOGRAPHIC.get(s.get("demographic"), ""), s.get("year")))
         time.sleep(0.3)
     return out
 
@@ -179,8 +180,7 @@ def comix(now, detail_max=COMIX_DETAIL_MAX):
             seen.add(url)
             out.append(_item("Comix", s.get("title"), "https://comix.to" + url,
                              (s.get("poster") or {}).get("medium", ""), s.get("latestChapter"),
-                             "", s.get("year"),
-                             adulto=s.get("contentRating") in ("erotica", "pornographic")))
+                             "", s.get("year")))
     for it in out[:detail_max]:
         try:
             for key, val in _comix_queries(_comix_get(it["link"]).text).items():
@@ -280,8 +280,7 @@ def kayn(now):
         out.append(_item("KaynScans", s.get("title"), f"https://kaynscans.com/series/comic/{s.get('urlSlug')}",
                          "https://kaynscans.com" + (s.get("coverImage") or ""), _max_cap(s.get("chapters")),
                          ", ".join(g["genre"]["slug"].replace("-", " ").title()
-                                   for g in s.get("genres") or [] if g.get("genre")),
-                         adulto=bool(s.get("isMature") or s.get("nsfw")), data=criado))
+                                   for g in s.get("genres") or [] if g.get("genre")), data=criado))
     return out
 
 
@@ -300,7 +299,9 @@ def otl(now):
         badges = [t for t in (s.get_text(strip=True) for s in li.select("span")) if t]
         if not a or not badges or badges[0].lower() not in ("manhwa", "manhua"):
             continue
-        it = _item("OTL", li.get("data-series-title"), base + a["href"], caps=_int(badges[-1]))
+        img = li.select_one("img[src]")
+        it = _item("OTL", li.get("data-series-title"), base + a["href"], base + img["src"] if img else "",
+                   caps=_int(badges[-1]))
         if it["caps"] <= MAX_CAPS_NOVA:
             page = BeautifulSoup(_get(it["link"]).text, "html.parser")
             for ld in page.select('script[type="application/ld+json"]'):
@@ -337,6 +338,9 @@ def _mist_date(txt, now):
         return None
 
 
+_MIST_CAPA = re.compile(r"url=(?:https?://)?([^&)\s]+)")
+
+
 def mist(now):
     """Sem API. A pagina /latest/ lista todas as obras pela ultima atualizacao; obra que
     entrou nos ultimos dias tem capitulo recente, entao so essas abrem a pagina da obra
@@ -352,8 +356,11 @@ def mist(now):
         if not _recent(_mist_date(chapters[0].get("d"), now), now, NEW_SITES_DAYS):
             continue
         generos = [g.get("title", "") for g in card.select('a[href*="genre="]')]
-        it = _item("MistScans", a.get("title"), base + a["href"], caps=_int(chapters[0].get("title")),
-                   generos=", ".join(generos), adulto="19+" in generos)
+        # a capa e AVIF, que o =IMAGE do Google nao abre: o proprio wsrv.nl do site converte em jpg
+        capa = _MIST_CAPA.search(a.get("style") or "")
+        it = _item("MistScans", a.get("title"), base + a["href"],
+                   f"https://wsrv.nl/?url={capa.group(1)}&w=240&output=jpg" if capa else "",
+                   caps=_int(chapters[0].get("title")), generos=", ".join(generos))
         if it["caps"] <= MAX_CAPS_NOVA:
             # a[d]: o botao "ler capitulo 1" do topo tambem aponta pro capitulo, mas sem data
             caps = BeautifulSoup(_get(it["link"]).text, "html.parser").select('a[href*="/chapter/"][d]')
@@ -403,12 +410,10 @@ def collect(now):
 # ---------------------------------------------------------------- regras
 
 def blocked(it):
-    if it["adulto"]:
-        return True
     gens = {normalize(g) for g in it["generos"].split(",") if g.strip()}
     if gens & BLOCKED:
         return True
-    return "romance" in gens and not (gens & ACTION)
+    return "romance" in gens and not (gens & (ACTION | MALE))
 
 
 def is_new(it, now):
@@ -445,7 +450,7 @@ def merge(existing, itens, now, com_video):
             sites = [s for s in e["sites"].split(", ") if s]
             if it["site"] not in sites:
                 e["sites"] = ", ".join(sites + [it["site"]])
-            for f, v in (("generos", it["generos"]), ("ano", it["ano"])):
+            for f, v in (("generos", it["generos"]), ("ano", it["ano"]), ("capa", it["capa"])):
                 if not e[f] and v:
                     e[f] = v
             continue
@@ -453,7 +458,7 @@ def merge(existing, itens, now, com_video):
             continue
         visto = min(it["data"], now).astimezone(BRT).strftime(DATE_FMT) if it["data"] else stamp
         by_key[key] = {
-            "peguei": "FALSE", "obra": it["titulo"], "capitulos": it["caps"] or "",
+            "peguei": "FALSE", "capa": it["capa"], "obra": it["titulo"], "capitulos": it["caps"] or "",
             "generos": it["generos"], "ano": it["ano"], "sites": it["site"], "visto_em": visto,
             "ja_tem_video": "", "link": it["link"],
         }
@@ -539,11 +544,14 @@ def _ensure_tab(spreadsheet, title, header, rows=200, **style):
     return ws
 
 
-def _peguei_rules(sid):
-    """Checkbox na coluna Peguei + linha verde quando marcado. A regra segue o valor, entao
-    a cor acompanha a obra quando a aba e reordenada."""
+def _novas_obras_rules(sid):
+    """Checkbox na coluna Peguei + linha verde quando marcado (a regra segue o valor, entao
+    a cor acompanha a obra quando a aba e reordenada) + linhas altas para a capa."""
     body = {"sheetId": sid, "startRowIndex": 1, "endRowIndex": MAX_ROWS + 1}
     return [
+        {"updateDimensionProperties": {"range": {"sheetId": sid, "dimension": "ROWS", "startIndex": 1,
+                                                 "endIndex": MAX_ROWS + 1},
+                                       "properties": {"pixelSize": CAPA_ROW_PX}, "fields": "pixelSize"}},
         {"setDataValidation": {"range": {**body, "startColumnIndex": 0, "endColumnIndex": 1},
                                "rule": {"condition": {"type": "BOOLEAN"}}}},
         {"addConditionalFormatRule": {"index": 0, "rule": {
@@ -553,6 +561,9 @@ def _peguei_rules(sid):
     ]
 
 
+_IMAGE_URL = re.compile(r'=IMAGE\("([^"]+)"')
+
+
 def _read(ws):
     """Le pelo nome da coluna, nao pela posicao: assim a aba antiga (sem `Peguei`) migra sem
     perder nada."""
@@ -560,6 +571,11 @@ def _read(ws):
     if not vals:
         return []
     col = {h: i for i, h in enumerate(vals[0])}
+    if "Capa" in col:   # =IMAGE() le vazio; a URL so existe na formula
+        formulas = ws.col_values(col["Capa"] + 1, value_render_option="FORMULA")
+        for i, r in enumerate(vals):
+            m = _IMAGE_URL.match(formulas[i] if i < len(formulas) else "")
+            r[col["Capa"]:col["Capa"] + 1] = [m.group(1) if m else ""]
     out = []
     for r in vals[1:]:
         d = {k: (r[col[h]] if h in col and col[h] < len(r) else "") for h, k in zip(HEADER, KEYS)}
@@ -573,6 +589,7 @@ def _row(d):
     # nao vira data (que voltaria em outro formato na proxima leitura e quebraria a ordem)
     row = [d[k] for k in KEYS]
     row[KEYS.index("peguei")] = "TRUE" if str(d["peguei"]).upper() == "TRUE" else "FALSE"
+    row[KEYS.index("capa")] = f'=IMAGE("{d["capa"].replace(chr(34), "%22")}")' if d["capa"] else ""
     row[KEYS.index("obra")] = "'" + d["obra"]
     row[KEYS.index("visto_em")] = "'" + d["visto_em"]
     return row
@@ -591,8 +608,8 @@ def sync(spreadsheet, todos_rows, now_utc=None):
         existing = []
     rows = merge(existing, itens, now, video_titles(todos_rows))
     ws = _ensure_tab(spreadsheet, TAB, HEADER, rows=MAX_ROWS + 1,
-                     widths=[65, 340, 85, 260, 60, 220, 125, 110, 300],
-                     center_cols=(0, 2, 4, 6, 7), link_col=8, extra=_peguei_rules)
+                     widths=[65, 80, 340, 85, 260, 60, 220, 125, 110, 300],
+                     center_cols=(0, 1, 3, 5, 7, 8), link_col=9, extra=_novas_obras_rules)
 
     if ws.row_count < len(rows) + 1:
         ws.add_rows(len(rows) + 1 - ws.row_count)
