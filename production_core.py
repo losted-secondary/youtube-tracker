@@ -9,7 +9,7 @@ CHANNELS=[
  ('MamoruManhwa','Mamoru Manhwa','UCjtG_KmctknonQtG5M_RUDg',3,3,2),
  ('JuicyMangas','Juicy Mangas','UCUnLH9qyXBI8ijs9Kmbt9Ng',2,3,4),
  ('MalfoidManhwa','Malfoid Manhwa','UCBn1Z7j1_cm0UTQjIdOTsXg',3,3,2),
- ('StopwatchStories1','Stopwatch Stories','UCo0ymi41VW8Uw8yphn_40eA',3,3,2),
+ ('MoistyMoijis','Moisty Moijis','UCVeHhCoDyoHtjfd9T1BZxUQ',3,3,2),
 ]
 def initial():
  return {'channels':[dict(handle=h,name=n,channel_id=i,minimum=lo,maximum=hi,people=k,

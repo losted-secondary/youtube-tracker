@@ -16,7 +16,7 @@ ANCHORS=[
  ('YOhSbA3Gw9o','2026-10-15T22:23:34+00:00',2),
  ('Dl2fnGdSaTc','2026-10-18T00:18:16+00:00',1),
  ('C-egSsVTgMY','2026-10-17T12:00:46+00:00',2),
- ('WrCcz2YwtEo','2026-10-17T13:27:40+00:00',2),
+ ('kEAMMkUWrYU','2026-10-30T18:22:34+00:00',None),
 ]
 
 def bootstrap():
@@ -94,6 +94,15 @@ def sync(book):
   if row and row[0] in ['Eu']+[f'Parceiro {i}' for i in range(1,c['people'])]:
    correct_author(c,row[0])
  requests=[]
+ # Substituir o canal preservando os demais; autoria do novo ponto de partida precisa de confirmação.
+ for c in state['channels']:
+  if c['handle']=='StopwatchStories1':
+   entries=fetch('UCVeHhCoDyoHtjfd9T1BZxUQ')
+   latest=entries[-1]
+   c.update(handle='MoistyMoijis',name='Moisty Moijis',channel_id='UCVeHhCoDyoHtjfd9T1BZxUQ',
+            latest=latest,seen=[e['id'] for e in entries],position=None,base_position=None,
+            displayed_author='A confirmar',events=[dict(latest,answer='Pendente',asked=True,gap=False)])
+   feeds[c['handle']]=entries
  for c in state['channels']:
   if c['handle'] in feeds:ingest(c,feeds[c['handle']])
  total=sum(1 for c in state['channels'] for e in c['events'] if e['asked'] and e.get('answer','Pendente')=='Pendente')
@@ -119,6 +128,7 @@ def sync(book):
   r=6+i;t=main_start+i
   latest=c['latest']
   serial=(date.fromisoformat(latest['date'])-date(1899,12,30)).days if latest else None
+  requests.append(put(sheets['Cadastro'],r,0,[[c['name'],'https://www.youtube.com/@'+c['handle']]]))
   requests.append(put(sheets['Cadastro'],r,2,[[serial,c['minimum'],c['people']]]))
   requests.append(put(sheets['Cadastro'],r,5,[[f'=IFERROR(IF(Painel!I{t+1}="Eu";1;VALUE(REGEXEXTRACT(Painel!I{t+1};"[0-9]+"))+1);"")']],True))
   requests.append(put(sheets['Cadastro'],r,9,[[c['maximum']]]))
@@ -152,6 +162,8 @@ def sync(book):
  ledger_rows=next((s['properties']['gridProperties']['rowCount'] for s in meta['sheets'] if s['properties']['title']==EVENT_TAB),1000)
  if len(ledger)>ledger_rows:requests.insert(0,{'appendDimension':{'sheetId':sheets[EVENT_TAB],'dimension':'ROWS','length':max(100,len(ledger)-ledger_rows)}})
  if ledger:requests.append(put(sheets[EVENT_TAB],0,0,ledger))
+ if len(ledger)<event_row_count:
+  requests.append({'updateCells':{'range':{'sheetId':sheets[EVENT_TAB],'startRowIndex':len(ledger),'endRowIndex':event_row_count,'startColumnIndex':0,'endColumnIndex':2},'fields':'userEnteredValue'}})
  state['queue_count']=queue_count
  if not queue_count:requests.append(put(sheets['Painel'],queue_start-1,0,[['Nenhuma confirmação pendente.']]))
  if queue_count:

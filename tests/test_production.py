@@ -8,7 +8,7 @@ def entry(i,published):
 
 class ProductionTests(unittest.TestCase):
  def test_initial_turns(self):
-  self.assertEqual([c['position'] for c in bootstrap()['channels']],[1,2,1,2,2])
+  self.assertEqual([c['position'] for c in bootstrap()['channels']],[1,2,1,2,None])
  def test_late_post_resets_from_actual_day(self):
   c=bootstrap()['channels'][0]
   old=c['latest'];new=entry('late','2026-10-21T02:59:00+00:00')

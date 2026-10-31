@@ -42,7 +42,9 @@ class FakeBook:
     for item in self.named:
      if item['range']['startRowIndex']>=start:item['range']['startRowIndex']+=size
    if 'updateCells' not in req:continue
-   d=req['updateCells'];start=d['start'];name=names[start['sheetId']]
+   d=req['updateCells']
+   if 'start' not in d:continue
+   start=d['start'];name=names[start['sheetId']]
    for ri,row in enumerate(d['rows']):
     for ci,cell in enumerate(row['values']):
      value=next(iter(cell.get('userEnteredValue',{}).values()),'')
@@ -50,6 +52,24 @@ class FakeBook:
   return {}
 
 class SyncTests(unittest.TestCase):
+ def test_replace_stopwatch_and_confirm_new_channel(self):
+  book=FakeBook();state=bootstrap();old=state['channels'][-1]
+  old.update(handle='StopwatchStories1',name='Stopwatch Stories',channel_id='old-id',position=2)
+  book.cells['_Controle',0,0]=json.dumps(state)
+  new={'id':'moisty-new','published':'2026-10-30T18:22:34+00:00','date':'2026-10-30','title':'Video'}
+  feeds={c['channel_id']:[c['latest']] for c in state['channels']}
+  feeds['UCVeHhCoDyoHtjfd9T1BZxUQ']=[new]
+  with patch('production.fetch',side_effect=lambda cid:feeds[cid]):
+   sync(book)
+   self.assertEqual(book.cells['Cadastro',10,0],'Moisty Moijis')
+   self.assertEqual(book.cells['Painel',21,10],'moisty-new')
+   book.cells['Painel',21,4]='Não'
+   sync(book)
+   saved=json.loads(book.cells['_Controle',0,0])
+   self.assertEqual(saved['channels'][-1]['position'],2)
+   self.assertEqual(saved['queue_count'],0)
+   self.assertEqual(saved['channels'][-1]['latest']['date'],'2026-10-30')
+
  def test_manual_author_persists_and_applies_before_new_video(self):
   book=FakeBook();base=bootstrap();feeds={c['channel_id']:[c['latest']] for c in base['channels']}
   with patch('production.fetch',side_effect=lambda cid:feeds[cid]):

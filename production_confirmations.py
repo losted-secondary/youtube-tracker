@@ -35,7 +35,7 @@ def replay(channel):
         elif answer=='Sim':position=1
         elif answer=='Não':
             # Não foi meu vídeo: minha vez continua pendente após o parceiro.
-            position=channel['people'] if expected==1 else expected
+            position=channel['people'] if expected==1 or (expected is None and channel['people']==2) else expected
         else:position=expected
         event['position']=position
     channel['position']=position
