@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Criador de títulos · Momo</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body>
+  <header><a class="brand" href="/">momo<span>studio</span></a><span class="model">GPT-6 Astra</span></header>
+  <main>
+    <section class="intro"><h1>Uma história.<br>Muitos bons títulos.</h1><p>Encontre o jeito de apresentar sua história, com referências reais de recaps que passaram de 200 mil views.</p></section>
+    <div class="workspace">
+      <section class="editor" aria-labelledby="editor-title">
+        <h2 id="editor-title">Conte a história</h2>
+        <form id="form">
+          <label for="story">Resumo <span>obrigatório</span></label>
+          <textarea id="story" name="story" minlength="30" maxlength="12000" required placeholder="Quem é o protagonista? O que acontece com ele? Qual é o poder, conflito ou descoberta que torna essa história interessante?"></textarea>
+          <div class="under-field"><button type="button" id="example" class="text-button">Experimentar um exemplo</button><span id="counter">0 / 12.000</span></div>
+          <div class="options"><div><label for="language">Idioma dos títulos</label><select id="language"><option>Português brasileiro</option><option>English</option><option>Español</option></select></div><div><label for="count">Quantidade</label><select id="count"><option>5</option><option>6</option><option>7</option><option selected>8</option><option>9</option><option>10</option></select></div></div>
+          <label for="constraints">Detalhes e spoilers a evitar <span>opcional</span></label>
+          <textarea id="constraints" maxlength="2000" placeholder="Ex.: não revelar quem traiu o protagonista; destacar a habilidade de cura." rows="3"></textarea>
+          <button type="submit" id="generate" class="primary">Criar títulos</button>
+          <p class="helper">As sugestões usam apenas os fatos do seu resumo. A geração pode levar alguns minutos e usa os créditos da sua API OpenAI.</p>
+          <p id="error" role="alert" hidden></p>
+        </form>
+        <details class="library"><summary>Biblioteca de referências <span id="library-count">Carregando…</span></summary><p id="library-detail"></p><p>Views acumuladas na planilha. A comparação considera canal e faixa de idade; não é uma previsão de desempenho.</p><p>As categorias são identificadas por palavras nos títulos e revisadas pelo Astra ao gerar.</p><div id="patterns"></div><button id="sync" type="button" class="secondary">Atualizar biblioteca</button><p id="sync-state" aria-live="polite"></p></details>
+      </section>
+      <section class="results" aria-labelledby="results-title" aria-busy="false">
+        <div class="results-heading"><h2 id="results-title">Seus títulos</h2><button id="copy-all" class="text-button" hidden>Copiar todos</button></div>
+        <div id="empty"><div class="quote-mark" aria-hidden="true">“</div><h3>O próximo clique começa aqui.</h3><p>Cole um resumo ao lado. Você receberá títulos com ângulos diferentes, a explicação de cada escolha e os vídeos que serviram de referência.</p></div>
+        <div id="loading" role="status" hidden><span class="spinner" aria-hidden="true"></span><h3>O Astra está lendo sua história</h3><p>Comparando os títulos da biblioteca e preparando as sugestões…</p><span id="elapsed"></span></div>
+        <p id="reading" hidden></p><ul id="cautions" hidden></ul><div id="cards"></div>
+        <p id="result-note" class="helper" hidden>Referências indicam padrões observados. Views também dependem da obra, thumbnail, público e distribuição.</p>
+      </section>
+    </div>
+  </main>
+  <footer>Feito para recaps de manhwa.<span>Seus rascunhos ficam neste navegador. Ao gerar, o resumo e as referências são enviados à OpenAI.</span></footer>
+  <div id="toast" role="status" hidden></div>
+</body></html>
