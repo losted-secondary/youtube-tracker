@@ -16,7 +16,7 @@
           <label for="constraints">Detalhes e spoilers a evitar <span>opcional</span></label>
           <textarea id="constraints" maxlength="2000" placeholder="Ex.: não revelar quem traiu o protagonista; destacar a habilidade de cura." rows="3"></textarea>
           <button type="submit" id="generate" class="primary">Criar títulos</button>
-          <p class="helper">As sugestões usam apenas os fatos do seu resumo. A geração pode levar alguns minutos e usa os créditos da sua API OpenAI.</p>
+          <p class="helper">Títulos agressivos, com exageros e invenções a partir da sua história. Defina acima os limites que quer preservar. A geração usa créditos da sua API OpenAI.</p>
           <p id="error" role="alert" hidden></p>
         </form>
         <details class="library"><summary>Biblioteca de referências <span id="library-count">Carregando…</span></summary><p id="library-detail"></p><p>Views acumuladas na planilha. A comparação considera canal e faixa de idade; não é uma previsão de desempenho.</p><p>As categorias são identificadas por palavras nos títulos e revisadas pelo Astra ao gerar.</p><div id="patterns"></div><button id="sync" type="button" class="secondary">Atualizar biblioteca</button><p id="sync-state" aria-live="polite"></p></details>

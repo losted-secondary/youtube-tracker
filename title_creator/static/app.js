@@ -29,7 +29,7 @@ function render(result) {
     const card = el('article', undefined, 'title-card'); const top = el('div', undefined, 'card-top');
     const button = el('button', 'Copiar', 'text-button'); button.type = 'button'; button.addEventListener('click', () => copy(suggestion.title));
     top.append(el('span', suggestion.angle), button); card.append(top, el('h3', suggestion.title), el('p', suggestion.why));
-    const details = el('details'); details.append(el('summary', `Por trás do título · ${suggestion.references.length} referência(s)`), el('p', `Na sua história: ${suggestion.story_evidence}`));
+    const details = el('details'); details.append(el('summary', `Por trás do título · ${suggestion.references.length} referência(s)`), el('p', `Base e amplificação: ${suggestion.story_evidence}`));
     for (const ref of suggestion.references) {
       const block = el('div', undefined, 'reference'); const link = el('a', ref.title); link.href = ref.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
       block.append(link, el('small', `${ref.channel} · ${ref.views.toLocaleString('pt-BR')} views na coleta${ref.peer_ratio ? ` · ${Number(ref.peer_ratio).toLocaleString('pt-BR')}× a mediana de vídeos de idade semelhante no canal` : ''}`)); details.append(block);
@@ -40,7 +40,7 @@ function render(result) {
 }
 $('example').addEventListener('click', () => {
   $('story').value = 'Um jovem curandeiro é expulso de sua equipe por não conseguir lutar. Sozinho, ele descobre que sua magia de cura também consegue restaurar armas antigas. Ele começa a recuperar equipamentos abandonados para sobreviver e decide abrir uma oficina. Seu objetivo é conquistar independência, sem voltar para a equipe que o rejeitou.';
-  $('constraints').value = 'Não inventar poderes de combate nem vingança. Não revelar o destino final da oficina.'; save(); counter(); $('story').focus();
+  $('constraints').value = 'Destacar a habilidade inesperada e a rejeição da equipe. Não revelar o destino final da oficina.'; save(); counter(); $('story').focus();
 });
 $('copy-all').addEventListener('click', () => lastResult && copy(lastResult.suggestions.map(s => s.title).join('\n')));
 $('sync').addEventListener('click', async () => {

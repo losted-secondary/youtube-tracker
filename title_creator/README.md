@@ -11,7 +11,7 @@ python -m title_creator.server --open
 
 ## Uso
 
-Cole um resumo, selecione o idioma e de 5 a 10 sugestões. Informe fatos importantes e spoilers a evitar. Cada resultado inclui ângulo, justificativa, fatos da história e links de referência. Rascunhos ficam no armazenamento local do navegador; resultados não são gravados pelo servidor.
+Cole um resumo, selecione o idioma e de 5 a 10 sugestões. A orientação padrão é maximizar o apelo de clique com exageros, hipérboles e situações inventadas a partir da premissa, seguindo os títulos fortes do nicho. As restrições que você informar continuam obrigatórias, inclusive spoilers ou pedidos específicos de fidelidade. Cada resultado inclui ângulo, justificativa, base da história, amplificação criativa e links de referência. Rascunhos ficam no armazenamento local do navegador; resultados não são gravados pelo servidor.
 
 O modelo é fixado em `gpt-6-astra`, com raciocínio médio, pela Responses API oficial. Não existe troca silenciosa por outro modelo. A API é cobrada na conta da chave, separadamente da assinatura do ChatGPT. O catálogo completo e o resumo são enviados à OpenAI em cada geração; `store=false` desativa o armazenamento da resposta pela API, mas não constitui promessa de retenção zero.
 
@@ -29,7 +29,7 @@ O servidor lê `OPENAI_API_KEY` ou, na ausência dela, `rewrite.api_key` no arqu
 - Uma amostra de até 80 vídeos abaixo ou iguais ao corte é distribuída entre canais e faixas de idade, excluindo vídeos com menos de 7 dias. É uma comparação exploratória, não um experimento causal.
 - `peer_ratio` divide views pela mediana de **outros** vídeos do mesmo canal na mesma faixa de idade (0–7, 8–30, 31–90, 91–180, 181–365, 366+ dias), somente com pelo menos 5 pares e mediana positiva. Usa todos os registros válidos da planilha, antes da seleção do catálogo.
 - Tags são classificações heurísticas por palavras, não avaliações humanas nem conclusões sobre eficácia. O Astra recebe os títulos completos, revisa as categorias pelo sentido e escolhe referências semanticamente compatíveis. Um título pode ter múltiplas tags.
-- O modelo deve variar os ângulos, respeitar fatos/spoilers e citar IDs existentes. O servidor verifica quantidade, títulos únicos com até 100 caracteres e referências pertencentes ao conjunto de vencedores. Fidelidade semântica depende também da revisão humana.
+- O modelo deve variar os ângulos, amplificar a premissa e respeitar restrições explícitas. Pode inventar humilhação, reações, recordes e outros elementos nos títulos, mas deve distinguir a base e a invenção na explicação expandida. Referências e métricas continuam reais. O servidor verifica quantidade, títulos únicos com até 100 caracteres e referências pertencentes ao conjunto de vencedores. CTR é um objetivo editorial, não uma previsão mensurada.
 - Um vídeo popular não prova que seu título causou o sucesso. Títulos atuais podem diferir dos usados durante o crescimento. Canal, idade, obra, thumbnail e distribuição continuam sendo fatores de confusão.
 
 O botão **Atualizar biblioteca** atualiza as views da planilha, inclui novos vídeos e tenta novamente títulos ausentes. Títulos já coletados são reutilizados. Para consultar todos os títulos novamente:
@@ -42,7 +42,7 @@ A atualização salva o CSV de forma atômica; falhas de leitura não apagam a b
 
 ## Validação editorial
 
-Teste histórias diferentes (regressão, cura, artesanato, vingança, sobrevivência, romance, academia, sistema, política e comédia). Para cada conjunto, verifique: fatos preservados, spoilers respeitados, ângulos distintos, idioma correto, título publicável e referência pertinente. Registre quais opções você escolheria antes de avaliar resultados reais de publicação. Não há pontuação automática de viralização.
+Teste histórias diferentes (regressão, cura, artesanato, vingança, sobrevivência, romance, academia, sistema, política e comédia). Para cada conjunto, verifique: força do gancho, amplificação da premissa, restrições explícitas e spoilers respeitados, ângulos distintos, idioma correto e referência pertinente. A explicação expandida deve identificar as invenções sem tratá-las como fatos do resumo. Registre quais opções você escolheria antes de avaliar resultados reais de publicação. Não há pontuação automática de viralização.
 
 Testes automatizados sem chamadas pagas:
 
