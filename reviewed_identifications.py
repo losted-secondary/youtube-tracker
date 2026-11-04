@@ -2261,6 +2261,22 @@ REVIEWED.append({'video_id': 'ndMBcKZXmZk',
  'confirmado': True})
 
 
+REVIEWED.append({'video_id': 'dnCG095au_4',
+ 'title': 'All People: All Summons Have SSS-Level Talents',
+ 'aliases': ['全民：召唤物全是SSS级天赋'],
+ 'evidence': 'Novel source identified, not a confirmed manhwa adaptation. Exact-video description '
+             'has rare GREEDY GLUTTONY, black wolf and abandoned school. Novel chapter 3 has the '
+             'black wolf eating mutant meat, growing over two meters after half an hour, and '
+             'protagonist stats rising by 10, matching the distinctive sequence. Official Fanqie '
+             'listing establishes original title. Sources: '
+             'https://www.youtube.com/watch?v=dnCG095au_4 '
+             'https://www.fanmtl.com/novel/all-people-all-summons-have-sss-level-talents_3.html '
+             'https://fanqienovel.com/page/7319733993400699966 . No direct frame comparison or '
+             'complete chapter coverage claimed.',
+ 'reviewed_at': '2026-11-04',
+ 'confirmado': True})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
