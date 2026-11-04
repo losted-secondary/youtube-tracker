@@ -2227,6 +2227,27 @@ REVIEWED.append({'video_id': 'FvD39N9jJx8',
  'confirmado': True})
 
 
+REVIEWED.append({'video_id': 'FdlZuKNFcQk',
+ 'title': 'The Regressed Doctor Just Wanted to Live Quietly',
+ 'aliases': [],
+ 'evidence': 'Exact-video comment names the work. Official WEBTOON title and synopsis corroborate '
+             'the identification, as reviewed in the tracker research. Sources: '
+             'https://www.youtube.com/watch?v=FdlZuKNFcQk&lc=Ugz2yr7YodrbMB5VT2Z4AaABAg '
+             'https://www.webtoons.com/en/fantasy/the-regressed-doctor-just-wanted-to-live-quietly/list?title_no=8196 '
+             '. No direct video frame comparison claimed.',
+ 'reviewed_at': '2026-11-04',
+ 'confirmado': True})
+
+REVIEWED.append({'video_id': 'unfeWGso2sw',
+ 'title': "The Extra's Academy Survival Guide",
+ 'aliases': [],
+ 'evidence': "Full description of the exact video explicitly identifies The Extra's Academy "
+             'Survival Guide. Source: https://www.youtube.com/watch?v=unfeWGso2sw . No direct '
+             'video frame comparison claimed.',
+ 'reviewed_at': '2026-11-04',
+ 'confirmado': True})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
