@@ -2248,6 +2248,19 @@ REVIEWED.append({'video_id': 'unfeWGso2sw',
  'confirmado': True})
 
 
+REVIEWED.append({'video_id': 'ndMBcKZXmZk',
+ 'title': 'The Ruined World Was Mistaken for a Game',
+ 'aliases': [],
+ 'evidence': 'Exact-video viewer comment names the work. Opening transcript at 0:00–1:26 mentions '
+             'Kim Jin-woo, Arsilan, erosion and the game premise; this distinctive combination '
+             'matches the external series synopsis. Sources: '
+             'https://www.youtube.com/watch?v=ndMBcKZXmZk&lc=UgyUIvbOenmHOubm72d4AaABAg '
+             'https://arenascan.com/manga/the-ruined-world-was-mistaken-for-a-game/ . No direct '
+             'frame comparison or complete chapter coverage claimed.',
+ 'reviewed_at': '2026-11-04',
+ 'confirmado': True})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
