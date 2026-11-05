@@ -2323,6 +2323,41 @@ REVIEWED.append({
 })
 
 
+REVIEWED.append({'video_id': 'fAKmEIeQ9nA',
+ 'title': '我的学习群里全是真大佬',
+ 'aliases': [],
+ 'reviewed_at': '2026-11-05',
+ 'confirmado': True,
+ 'evidence': '{"video_url": "https://www.youtube.com/watch?v=fAKmEIeQ9nA", "source_type": "Novel '
+             'by 胖胖的小橘; no verified official English alias", "creator_evidence": {"location": '
+             '"Expanded description and pinned uploader comment", "url": '
+             '"https://www.youtube.com/watch?v=fAKmEIeQ9nA&lc=UgybJGH1O6S6n64GFjJ4AaABAg&pp=0gcJCUsANpG00pGi", '
+             '"observations": "Both explicitly label linked tH8qKW4qoXU as Part1; title labels '
+             'this recap (2). Uploader says original novel name appears in last 10 seconds, but '
+             'title card was not successfully observed and is not relied on."}, "matches": '
+             '[{"video_timestamp": "00:00–00:29", "observations": "Leo Dawson attends River City '
+             'No. 7 High senior class 2, joins Azure Dragon Study Group with Newton, Joule, '
+             'Einstein and Gauss, receives exclusive red envelopes and stats.", "external_url": '
+             '"https://www.hongxiu.com/bookquery/peurnjosdyzf", "external_location": "Publisher '
+             'title/author, synopsis and chapter 1 indexed text only; direct fetch returned 403 '
+             'and was not bypassed", "external_match": "Original 李东, 江城第七中学高三（2）班, 青龙学习小组, same '
+             'scientist members and red-envelope reward mechanism. Names localized in recap."}, '
+             '{"video_timestamp": "00:38–02:22", "observations": "To let Mendeleev beat Franklin, '
+             'protagonist searches Wright flyer diagrams, early biplane aerodynamics and '
+             'internal-combustion aviation. Logic 0.1 and memory 0.1 help him distill Bernoulli '
+             'wing principles, three-axis control and a lightweight engine into a heavier-than-air '
+             'aircraft PDF. Franklin cries cheating; da Vinci realizes fixed wings, rather than '
+             'flapping ornithopters, are key.", "external_url": '
+             '"https://www.bixiange.top/dsyq/23567/index/29.html", "external_location": "Chapter '
+             '24, 作弊有没有人管了？, on section 29; direct public chapter read, lines 114–204", '
+             '"external_match": "Exact same ordered technical details, PDF, three scientists and '
+             'reactions, verified against directly opened public chapter."}], "limitations": '
+             '["Native transcript observed through UI; transcript export returned a nonexistent '
+             'file path.", "No full-video review claimed. Video remained thumbnail after play/seek '
+             'attempt, so no usable story frame/title card and no reverse-image search.", "Creator '
+             'pinned comment and one reply inspected plus initial twenty displayed top-level '
+             'comments; no full comments census claimed."]}'})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
