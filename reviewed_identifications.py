@@ -2358,6 +2358,94 @@ REVIEWED.append({'video_id': 'fAKmEIeQ9nA',
              'pinned comment and one reply inspected plus initial twenty displayed top-level '
              'comments; no full comments census claimed."]}'})
 
+# Reviewed 2026-11-05: newest eligible recap uploads.
+REVIEWED.extend([{'video_id': 'DsW28iTAN6s',
+  'title': 'Monster Summoner: Dungeon Domination with the Demon King’s Army',
+  'aliases': ['The Demon King’s Monster-Summoning Adventurer', '魔物召喚でダンジョン無双\u3000魔王軍と契約した最強冒険者'],
+  'reviewed_at': '2026-11-05',
+  'confirmado': True,
+  'evidence': 'Native public YouTube transcript: 03:08–03:54, Yuki and Saki grew up in an '
+              'orphanage destroyed by a dungeon break two years ago; 08:30–11:00, demon king '
+              'offers Yuki a Monster Tamer contract to conquer other dungeons and protect his '
+              'subjects; 16:35–17:21 identifies the demon king as Liber during the summoning. '
+              'Official Japanese BOOK WALKER synopsis independently identifies Yuki, loss of '
+              'family to dungeon collapse, strongest dungeon boss Libel/Liber, and Monster Tamer '
+              'contract; its chapter 1 title is Contract: The Weakest Human and the Strongest '
+              'Demon King. Thunderscans and Vortex map the English titles to the same Japanese '
+              'work and matching synopsis. Expanded description contains only generic channel '
+              'text. Ordinary viewer comment suggests Monster Tamer or I Can Summon Anything, not '
+              'used as canonical titles or creator attribution. Video stayed at thumbnail/0:00 '
+              'after playback attempts; no usable opening story frame or reverse-image result, and '
+              'no full-video review claimed. Sources: '
+              'https://www.youtube.com/watch?v=DsW28iTAN6s&t=188s ; '
+              'https://www.youtube.com/watch?v=DsW28iTAN6s&t=510s ; '
+              'https://www.youtube.com/watch?v=DsW28iTAN6s&t=995s ; '
+              'https://bookwalker.jp/series/591142/ ; '
+              'https://en-thunderscans.com/comics/monster-summoner-dungeon-domination-with-the-demon-kings-army/ '
+              '; https://vortexscans.org/series/the-demon-king%27s-monster-summoning-adventurer ; '
+              'https://www.youtube.com/watch?v=DsW28iTAN6s&lc=UgzsgLY8fn_8uaPvqD54AaABAg'},
+ {'video_id': 'hm6SdKaFkYU',
+  'title': 'God of Learning',
+  'aliases': ['我真不想当学神'],
+  'reviewed_at': '2026-11-05',
+  'confirmado': True,
+  'evidence': 'Public native YouTube transcript: 00:00–00:39 He Liang faces expulsion near college '
+              'entrance exams after falling from top student to bottom student over three months; '
+              '01:08 Chen Mang Tong, former deskmate, offers study materials; 01:47 Guo Lin, class '
+              '122 biology representative, mocks him; 02:18 God of Learning system finishes '
+              'bonding. MangaBaka maps God of Learning to 我真不想当学神 by 17K漫画 and repeats the '
+              'distinctive He Liang/three-month fall/exam/expulsion/system sequence, linking '
+              'original Tencent comic 655871. Official iQIYI adaptation synopsis independently '
+              'names He Liang and explains illness causing headaches when reading/writing, '
+              'academic decline and expulsion threat. Expanded YouTube description gives no source '
+              'title. Only one visible comment at inspection, First person to comment, supplied no '
+              'title. The original Tencent URL was identified, but its full comic text was not '
+              'accessible in the final direct check. Transcript export unavailable but visible '
+              'Show transcript panel worked. Player buffered; no panel match/reverse image search '
+              'or full-video review claimed. Sources: '
+              'https://www.youtube.com/watch?v=hm6SdKaFkYU&t=0s ; '
+              'https://www.youtube.com/watch?v=hm6SdKaFkYU&t=138s ; '
+              'https://mangabaka.org/manhua/93537/God-of-Learning ; '
+              'https://ac.qq.com/Comic/comicInfo/id/655871 ; '
+              'https://www.iqiyi.com/a_18o1cq19zh9.html ; '
+              'https://www.youtube.com/watch?v=hm6SdKaFkYU&lc=UgzWQWdse8jEH2H1bx54AaABAg'},
+ {'video_id': 'nWor-IbgBJ8',
+  'title': 'Zombie Apocalypse, I Died Right at the Start',
+  'aliases': ['丧尸末日，我开局即死', '丧尸吃人，我吃丧尸', '我在末日当丧尸王。'],
+  'reviewed_at': '2026-11-05',
+  'confirmado': True,
+  'evidence': 'Expanded description and pinned uploader link identify this as Part 2 of video '
+              '3qlDmanLZBM. Native public transcript 00:57–01:14 compares a flying ant becoming '
+              'queen and sacrificing wings/brain/body with the body-swapped leader avoiding '
+              'monster transformation, matching the official Fanqie chapter 108 preview; '
+              '01:54–02:10 discusses soul contracts being safer than loyalty and Blackie warning '
+              'of an awakened woman core spirit, matching chapter 111; 05:43–05:59 Serena '
+              'melts/shrinks Axel and moves toward Travis before Arya intervenes, matching chapter '
+              '114. Fanqie currently lists 我在末日当丧尸王。 by 罪恶原始袋, 547 chapters. NovelUpdates and '
+              'WTR-LAB map the existing English Part 1 title to 丧尸末日，我开局即死 and 丧尸吃人，我吃丧尸 with the '
+              'same author, 547 chapters, and Ji Chuan/blood-moon/betrayal/zombie-king synopsis. '
+              'Official Fanqie chapter 26, 可怕的忠诚, and the alternate-title Shuhaige chapter 26 have '
+              'identical openings: Gu Yunxi releases Ji Chuan, blushes, and supports Geng Mao '
+              'after he used leaf blades to save her. This establishes alternate titles of the '
+              'same work rather than a conflicting new identification; existing Part 1 title and '
+              'aliases are preserved. No title-change chronology or official English edition is '
+              'asserted. Primary chapter evidence is from public previews, not a full-novel read. '
+              'Other comments provided no additional identification. Player buffered with no '
+              'usable opening panels, so no panel match or reverse-image result is claimed. '
+              'Sources: https://www.youtube.com/watch?v=nWor-IbgBJ8&t=57s ; '
+              'https://www.youtube.com/watch?v=nWor-IbgBJ8&t=114s ; '
+              'https://www.youtube.com/watch?v=nWor-IbgBJ8&t=343s ; '
+              'https://www.youtube.com/watch?v=3qlDmanLZBM ; '
+              'https://fanqienovel.com/page/7444764077718506558 ; '
+              'https://fanqienovel.com/reader/7456803518372905496 ; '
+              'https://fanqienovel.com/reader/7457499247089287742 ; '
+              'https://fanqienovel.com/reader/7457905386704601625 ; '
+              'https://fanqienovel.com/reader/7446993807914041918 ; '
+              'https://m.shuhaige.net/374060/129147090.html ; '
+              'https://www.novelupdates.com/series/zombie-apocalypse-i-died-right-at-the-start/ ; '
+              'https://wtr-lab.com/en/novel/12255/zombie-apocalypse-i-died-right-at-the-start ; '
+              'https://ixdzs8.com/read/592891/'}])
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
