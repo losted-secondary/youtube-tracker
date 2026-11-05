@@ -2446,6 +2446,21 @@ REVIEWED.extend([{'video_id': 'DsW28iTAN6s',
               'https://wtr-lab.com/en/novel/12255/zombie-apocalypse-i-died-right-at-the-start ; '
               'https://ixdzs8.com/read/592891/'}])
 
+
+# Reviewed 2026-11-05: correct source despite a mismatched video description.
+REVIEWED.append({
+  "video_id": "BfWjyBT7wP8",
+  "title": "The Grand Duke of the North's Crazy Son-in-Law",
+  "aliases": [
+    "The Northern Grand Duke's Crazy Son-in-Law",
+    "The Northern Grand Duke's Mad Son-in-Law",
+    "북부 대공의 미친 데릴사위"
+  ],
+  "reviewed_at": "2026-11-05",
+  "confirmado": True,
+  "evidence": "The expanded video description incorrectly labels this The Regressor and the Blind Saintess; that title is rejected because the observed story is different. Native public transcript 00:00–01:51 identifies rookie James at the Intelligence Bureau, Galahad teaching mana compression, three-day recovery, a magical flower, the marry-the-Empire joke and his fourth-circle/youngest-graduate status. At 02:08–03:54, Galahad is assigned to marry the northern duke's swordmaster daughter, learns his father arranged it, smokes with the deputy director and receives candy/chocolate advice from the assistant. This distinctive ordered opening matches novel chapter 1. Official Naver webtoon synopsis independently names Galahad, the political marriage, the daughter as the key to defeating the Demon King and her mana-burning touch. Asura maps the English and Korean titles. Pinned uploader comment, its one viewer reply and the other visible comment were inspected; none names the work. Playback stayed at the thumbnail/00:00 after play/seek attempts, so no opening-panel match, reverse-image result or complete-video review is claimed. Sources: https://www.youtube.com/watch?v=BfWjyBT7wP8 ; https://www.youtube.com/watch?v=BfWjyBT7wP8&lc=UgyN-4yFvnxam0HnpDp4AaABAg ; https://noveltl.com/the-northern-grand-dukes-crazy-son-in-law-chapter-1/ ; https://comic.naver.com/webtoon/list?titleId=855360 ; https://asurascans.com/comics/the-grand-duke-of-the-norths-crazy-son-in-law-ab39de10 ; https://series.naver.com/novel/detail.series?productNo=11008859"
+})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
