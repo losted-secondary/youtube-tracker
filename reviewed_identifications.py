@@ -2278,6 +2278,38 @@ REVIEWED.append({'video_id': 'dnCG095au_4',
  'confirmado': True})
 
 
+REVIEWED.append({
+    "video_id": "4X3uc8MAdVM",
+    "title": "Miss Lu Turned Her Back, Her Six Brothers Begged for Forgiveness",
+    "aliases": ["陆小姐独美后，六个哥哥跪求原谅"],
+    "evidence": (
+        "Confirmed original novel source by 红十三; this video is a renamed, gender-swapped "
+        "retelling, not a verified licensed comic adaptation. Video: "
+        "https://www.youtube.com/watch?v=4X3uc8MAdVM . Fresh native transcript at "
+        "01:11–01:56 gives thesis theft, second sibling's false testimony, third sibling's "
+        "forced kidney operation, siblings 4–6 expelling the protagonist from an international "
+        "team, forged medical records, expulsion from home, failed revenge and asylum torture. "
+        "At 02:13–04:01, rebirth is three years earlier at the driver's child's adoption banquet; "
+        "a false pool accusation leads to sinking, belated rescue by the second sibling, and "
+        "the protagonist swimming away using a skill learned in the prior life. Shuqi chapter 1 "
+        "independently contains this same ordered, distinctive sequence with Lu Ning, six "
+        "brothers and Qin Xiang: https://t.shuqi.com/v2/query/9058439/895127.html . "
+        "The video's Ye Chen/six sisters/driver's son are changed identities. A reader explicitly "
+        "names the source and explains the gender/name changes: "
+        "https://www.youtube.com/watch?v=4X3uc8MAdVM&lc=Ugxi0B089FL8Bw6ZkRx4AaABAg . "
+        "This ordinary comment is corroboration, not the sole identification basis. "
+        "English title and Chinese original are linked by Novel Updates: "
+        "https://www.novelupdates.com/series/miss-lu-turned-her-back-her-six-brothers-begged-for-forgiveness/ . "
+        "The English chapter also matches the pool opening: "
+        "https://noicetranslations.com/manga/miss-lu-turned-her-back-her-six-brothers-begged-for-forgiveness/chapter-1/ . "
+        "The video opening's Thailand/coming-of-age addition was not matched to this source. "
+        "No opening-frame match is claimed: cloud playback remained black and buffering at 00:05."
+    ),
+    "reviewed_at": "2026-11-05",
+    "confirmado": True,
+})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
