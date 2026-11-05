@@ -2310,6 +2310,19 @@ REVIEWED.append({
 })
 
 
+REVIEWED.append({
+  "video_id": "9gsvfXt4_Mc",
+  "title": "Demon King of the Royal Class",
+  "aliases": [
+    "The Demon Prince Goes to the Academy",
+    "마왕은 학원에 간다"
+  ],
+  "evidence": "Full target description checked; it gives no series title, only a comments pointer and claimed chapters 1–80. Public exact-video comments name Demon King of the Royal Class and The Demon Prince Goes to the Academy: https://www.youtube.com/watch?v=9gsvfXt4_Mc&lc=UgxujjaGs472GWHDLm14AaABAg and https://www.youtube.com/watch?v=9gsvfXt4_Mc&lc=UgzlU7cc8QG7bx0eD2R4AaABAg.AcobVz7xxYOAconx6Mclfz . These are ordinary viewers, not creator replies. A separate viewer points to the sin of abandoned stories at 01:36: https://www.youtube.com/watch?v=9gsvfXt4_Mc&lc=UgzXh65OjZMxqdEoYot4AaABAg . Directly inspected public YouTube storyboard opening previews at 10-second intervals from 00:00–02:50: novel writer at computer and hostile reader comment near 01:10–01:20; afterlife female official near 01:40; Valier Junior's Demon King's Castle Escape Plan and human camouflage near 02:10. Official Tapas synopsis identifies the dead novelist, The Demon King Is Dead, rebirth as Baalier Junior and Royal Class in Gradias Temple: https://tapas.io/series/demon-king-of-the-royal-class/info . Licensed Wuxiaworld novel chapter 1 independently gives death from hate-comment-induced hypertension, punishment for repeatedly abandoning novels, rebirth as the demon king's son and escape from the conquered castle: https://www.wuxiaworld.com/novel/demon-king-of-the-royal-class/dkrc-chapter-0 . Alternate English and Korean titles corroborated by https://www.novelupdates.com/series/the-demon-prince-goes-to-the-academy/ . 32 public comments/replies sampled from displayed count 37; no full-comment census claimed. No native transcript was available. Preview images, not full-resolution decoded playback; no reverse-image search needed after specific comment/plot confirmation. Chapter coverage and cancellation status are not independently asserted.",
+  "reviewed_at": "2026-11-05",
+  "confirmado": True
+})
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
