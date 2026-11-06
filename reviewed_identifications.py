@@ -2471,6 +2471,20 @@ REVIEWED.append({
   "evidence": "Expanded description contains generic tags and no source title. A public viewer comment by @MightyTwitchEnjoyer says 'name is the martial unity' and repeats the title in a reply. Native visible transcript at 00:08 names Rui (transcribed as Rui Corer/Louie); at 00:38–02:38 he resists the senior's fear-inducing aura during the academy entrance test and receives his pass. The indexed chapter 12 excerpt of The Martial Unity specifically names applicant Rui Quarrier, his resistance to the senior's fear, the second-round pass and his unusual black hair/eyes, matching the ordered opening despite comic adaptation differences. Official WebNovel comic page verifies The Martial Unity, WebNovel Comics & SOUKAI STUDIO, and protagonist Rui, a reincarnated martial-arts researcher. Playback stayed at the thumbnail after play attempts, so no opening-panel match, reverse-image result or full-video review is claimed. Sources: https://www.youtube.com/watch?v=b_BIqP6Lzlg&lc=Ugyr1sop6yAE47LWuJF4AaABAg ; https://www.youtube.com/watch?v=b_BIqP6Lzlg&lc=Ugziq3PEvtu7PDOsPHd4AaABAg.Acr-P-mYiT9Acr0oiPFc4t ; https://www.youtube.com/watch?v=b_BIqP6Lzlg&t=8s ; https://www.youtube.com/watch?v=b_BIqP6Lzlg&t=38s ; https://www.webnovel.com/comic/the-martial-unity_34539956608002301 ; https://forum.3ptechies.com/files/martial-unity-12-pdf.253899/"
 })
 
+# Reviewed 2026-11-06: explicit description, transcript and comment corroborated.
+REVIEWED.append({
+  "video_id": "hIUCnhssyMs",
+  "title": "The Grand Duke of the North's Crazy Son-in-Law",
+  "aliases": [
+    "The Northern Grand Duke's Crazy Son-in-Law",
+    "The Northern Grand Duke's Mad Son-in-Law",
+    "북부 대공의 미친 데릴사위"
+  ],
+  "reviewed_at": "2026-11-06",
+  "confirmado": True,
+  "evidence": "Expanded public video description explicitly names The Northern Grand Duke’s Crazy Son-in-Law and identifies mage Galahad, warrior Adriana, arranged northern marriage and defeating the Demon King. Native visible transcript at 03:09 names Galahad; 03:46–03:55 describes marrying the Grand Duke's eldest daughter; 04:51 names father Count Abertton as arranging the marriage. An ordinary viewer reply by @shippai000 beneath Name please directly supplies the same title. External Toonz and Kakamanga listings corroborate the elite intelligence mage Galahad, political northern marriage and daughter needed to defeat the Demon King. Canonical spelling and aliases retained consistently with previously verified video BfWjyBT7wP8 for the same work; no filled cells overwritten. No opening-panel match, reverse-image result or full-video review claimed; direct identification and character/plot corroboration establish identity. Sources: https://www.youtube.com/watch?v=hIUCnhssyMs ; https://www.youtube.com/watch?v=hIUCnhssyMs&t=189s ; https://www.youtube.com/watch?v=hIUCnhssyMs&t=226s ; https://www.youtube.com/watch?v=hIUCnhssyMs&t=291s ; https://www.youtube.com/watch?v=hIUCnhssyMs&lc=UgwhYM0axulHpKm6yuZ4AaABAg.Acgq84aMA8HAcgtTS3lPaO ; https://toonz.to/manhwa/the-crazy-son-in-law-of-the-northern-duke ; https://www.kakamanga.com/manga/the-crazy-son-in-law-of-the-grand-duke-of-the-north ; https://comic.naver.com/webtoon/list?titleId=855360"
+})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
