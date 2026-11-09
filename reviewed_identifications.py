@@ -2497,6 +2497,79 @@ REVIEWED.append({
   "evidence": "Exact ordered primary-source chapter match, not merely Naruto themes. Native visible YouTube transcript 00:00–01:43: Ye Tian (ASR Yien/Yetien) works three days straight, dies after a 3 a.m. bicycle/dumptruck collision, wakes beside infant Naruto, gains touch-copying with three choices and one use per person, then perfect Ten-Tails, Wood Style/Deep Forest Emergence and Multi Shadow Clone rewards. Official Fanqie chapter 1 matches this distinctive sequence and names 叶天. Transcript 03:32–04:43 matches Fanqie chapter 3: inheritance demand, chakra chars desk and snaps bookshelf, four ANBU intervene, one-third cash demand and threat of banners about Fourth Hokage’s children eating garbage; Hiruzen cites postwar reconstruction. Fanqie chapter 4 calls him six years old. Canonical Chinese title is from Fanqie chapter headings; 17moon corroborates title/author 虾仁跑路. English alias is an independently indexed MTL-Novel listing, not asserted official translation. Expanded video description only generic tags. 100 loaded top-level comments inspected, no canonical title; one corroborates touch/three-choice copying. Playback remained black/buffering after play and seek attempts, so no opening-panel match, reverse-image result or full-video review claimed. MTL-Novel direct chapter returned 403 and was not retried. Sources: https://www.youtube.com/watch?v=B4ptL64KCv4&t=0s ; https://www.youtube.com/watch?v=B4ptL64KCv4&t=64s ; https://www.youtube.com/watch?v=B4ptL64KCv4&t=212s ; https://www.youtube.com/watch?v=B4ptL64KCv4&lc=UgzVyZLXL8dv8g9PyLV4AaABAg ; https://fanqienovel.com/reader/7669807859189678617 ; https://fanqienovel.com/reader/7669808123976106521 ; https://fanqienovel.com/reader/7669808363798348313 ; https://www.17moon.com/book/fZL/ ; https://mtl-novel.com/novel/naruto-how-did-i-end-up-being-narutos-older-brother-from-the-start/"
 })
 
+# Reviewed 2026-11-09: requested missing-name pass for rows 1–45.
+REVIEWED.extend([
+  {
+    "video_id": "eO8D0v-bqQ4",
+    "title": "Mr. Kim Strikes It Rich with Auto-Hunting",
+    "aliases": [
+      "Mr. Kim Is Living the Good Life with Auto-Hunting",
+      "노가다 김씨, 자동사냥으로 꿀 빱니다"
+    ],
+    "reviewed_at": "2026-11-09",
+    "confirmado": True,
+    "evidence": "Exact-video pinned comment by uploader @Manhwa_Fresh explicitly names Mr Kim Strikes Rich with Autohunting. Independent catalogs map the normalized English title, alias and Korean title, and describe a hunter replacing dangerous work with auto-hunting. Chapter coverage 1–28 is stated by the uploader, not independently verified. Sources: https://www.youtube.com/watch?v=eO8D0v-bqQ4&lc=UgwgXt6xxvdjDg58q9N4AaABAg ; https://mizumanga.org/manhwa/mr-kim-strikes-it-rich-with-auto-hunting ; https://www.manganami.com/manga/mr-kim-strikes-it-rich-with-auto-hunting . No video-frame or full-video review claimed."
+  },
+  {
+    "video_id": "gCKFp2yQ4rI",
+    "title": "The Weakest Awakened Rises Through Slime Synthesis",
+    "aliases": [
+      "The Ultimate Farmer with Slime Fusion",
+      "最弱覚醒者はスライム合成で成り上がる"
+    ],
+    "reviewed_at": "2026-11-09",
+    "confirmado": True,
+    "evidence": "Native public transcript inspected: 00:00–01:01 Saku combines liquids/slimes; 01:19–02:45 rank-one awakener Saku, stuck for three years on a tutorial quest to make mana fruit juice from self-grown crops; 02:52–03:35 sells potions in Akihabara to Ritsu; 02:07:34 familiar Corin is a gluttony demon/slime. Independent series listings name Jindai Saku, the stagnant tutorial quest, dungeon mutation, second awakening Slime Lord and farming/wealth/monster companions, corroborating the specific protagonist and mechanics. Vortex maps alternate English title to the same Japanese title. No explicit creator identification found in description/comments. Sources: https://www.youtube.com/watch?v=gCKFp2yQ4rI&t=79 ; https://weebcentral.live/manga/the-weakest-awakened-rises-through-slime-synthesis ; https://vortexscans.org/series/the-ultimate-farmer-with-slime-fusion . No video-frame match or complete chapter coverage claimed."
+  },
+  {
+    "video_id": "x-43OWM78dY",
+    "title": "The Strongest Swordsman Rising from a Bottom-Tier Job",
+    "aliases": [
+      "Everyone's Switching Classes! Who Dares Say the Swordsman Is a Trash Class?"
+    ],
+    "reviewed_at": "2026-11-09",
+    "confirmado": True,
+    "evidence": "Exact-video public viewer comment @EviI-monkey names both titles and is pinned by uploader @stilesmanhwafresh; commenter is not asserted to be creator. Native transcript 00:03 Rush monster event and magical profession dominance; 00:19 lowest-rank swordsman; 00:58 protagonist rendered Tatsumo Amari, transmigrant raised by poor commoner couple. Independent series page names Tatsuma Emori, adoptive father's sword and D-rank swordsman and explicitly maps the alternate title, corroborating specific character and premise. Sources: https://www.youtube.com/watch?v=x-43OWM78dY&lc=UgwJR3UvWqqcD09Raex4AaABAg ; https://www.youtube.com/watch?v=x-43OWM78dY&t=58 ; https://manhuasite.com/the-strongest-swordsman-rising-from-a-bottom-tier-job . No full-video or panel comparison claimed."
+  },
+  {
+    "video_id": "dTkl5dj_VyQ",
+    "title": "Starting Life from Moss in Another World",
+    "aliases": [
+      "Koke kara Hajimaru Isekai Life",
+      "苔から始まる異世界ライフ"
+    ],
+    "reviewed_at": "2026-11-09",
+    "confirmado": True,
+    "evidence": "Native exact-video transcript 00:00 names Hikaru Tendo, orphaned at five; 00:09 factory worker dies of overwork; 00:37 Astartina grants reincarnation; 01:09 choice of race and skills. Manga Republic listing independently names twenty-year-old factory worker Hikaru Tendo accidentally reincarnated as moss. MangaBaka confirms Japanese/English titles plus moss evolution and Additional Skill Acquisition. The distinctive protagonist, occupation, death and moss reincarnation corroborate identity beyond generic recap headline. Sources: https://www.youtube.com/watch?v=dTkl5dj_VyQ&t=0 ; https://www.youtube.com/watch?v=dTkl5dj_VyQ&t=37 ; https://manga-republic.com/product/product_page_2069487.html ; https://mangabaka.org/manga/367798/Starting-Life-from-Moss-in-Another-World . No complete video, chapter-coverage or panel-comparison claim."
+  }
+])
+
+REVIEWED.append({
+  "video_id": "1fOHaVcbq7A",
+  "title": "Full-Time Hunter: I Hunt the World!",
+  "aliases": [
+    "Global Hunter: I Hunt the World",
+    "全职猎人：我狩猎世界！"
+  ],
+  "reviewed_at": "2026-11-09",
+  "confirmado": True,
+  "evidence": "Exact-video public viewer reply by @monoa1770 explicitly names the work, corroborated by native transcript: 00:00 thirty-seventh Hunter Awakening Ceremony at Clear Sky Town, Cloudwalking Province; 01:42 Lu Shu transmigrated into Hunting World; 01:57 humans occupy one percent, phantom beasts the rest; 02:14–02:35 classes Knowledge/Pride, Weapon/Wrath, Element/Sloth, Gourmet/Gluttony, Phantom Beast/Lust. Thunderscans identifies canonical English/Chinese titles and the distinctive Weapon/Gourmet/Knowledge hunter-world premise; Komascans maps alternate English title. Comment is not asserted to be creator or pinned. Sources: https://www.youtube.com/watch?v=1fOHaVcbq7A&lc=Ugzdp2DfQExOjvhNzi14AaABAg.AczvLBryamKAd-6-CWGuhI ; https://www.youtube.com/watch?v=1fOHaVcbq7A&t=102 ; https://www.youtube.com/watch?v=1fOHaVcbq7A&t=134 ; https://en-thunderscans.com/comics/full-time-hunter-i-hunt-the-world/ ; https://komascans.com/en/series/full-time-hunter-i-hunt-the-world . No frame match or complete coverage claim."
+})
+
+REVIEWED.append({
+  "video_id": "w8UzOg00je0",
+  "title": "World-Saving Is a Skill",
+  "aliases": [
+    "The Return of the World Savior",
+    "The One Who Saved a World Before Will Be Best at Saving Another",
+    "A Hero Who Knows His Stuff",
+    "세상도 구해본 놈이 잘 구한다"
+  ],
+  "reviewed_at": "2026-11-09",
+  "confirmado": True,
+  "evidence": "Exact-video creator @MrManhwas01 directly answers World-Saving Is a Skill in a public comment reply. Native transcript 00:00–00:20 Hyeonseok spent twenty years fighting other-world monsters, returns to Earth, exhausts his severance and becomes a paid Hunter. External series listing corroborates Hyeonseok/Chanseok, twenty years, return reward, Earth's Erosion Points and hunter work for money. Catalogs map aliases and Korean title. Sources: https://www.youtube.com/watch?v=w8UzOg00je0&lc=UgziDZ0F9VkTcJ1JZoR4AaABAg.Aczw3M5L2htAd-FI9Ljgzk ; https://www.youtube.com/watch?v=w8UzOg00je0&t=0 ; https://arenascancomics.com/manga/world-saving-is-a-skill/ ; https://phmanga.com/title/world-saving-is-a-skill-11de45ec ; https://ravenscans.org/manga/world-saving-is-a-skill/ . No full-video or frame-match claim."
+})
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
