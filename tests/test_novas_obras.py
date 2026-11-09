@@ -11,8 +11,9 @@ def item(site, titulo, caps=5, generos="Action", ano="", capa=""):
 
 
 class NovasObrasTest(unittest.TestCase):
-    def test_bloqueia_shoujo_e_blgl_mas_deixa_adulto_e_ecchi(self):
-        self.assertTrue(n.blocked(item("A", "x", generos="Drama, Shoujo")))
+    def test_bloqueia_so_blgl_e_deixa_shoujo_adulto_e_ecchi(self):
+        self.assertFalse(n.blocked(item("A", "x", generos="Drama, Shoujo")))   # vai pra aba Femininas
+        self.assertFalse(n.blocked(item("A", "x", generos="Romance, Drama")))
         self.assertTrue(n.blocked(item("A", "x", generos="Boys' Love")))
         self.assertTrue(n.blocked(item("A", "x", generos="Yaoi, Mature")))
         self.assertTrue(n.blocked(item("A", "x", generos="Girls Love")))
@@ -20,11 +21,176 @@ class NovasObrasTest(unittest.TestCase):
         self.assertFalse(n.blocked(item("A", "x", generos="Drama, Adult, Smut, 19+")))
         self.assertFalse(n.blocked(item("A", "x", generos="Action, Ecchi")))
 
-    def test_romance_so_passa_com_acao_ou_publico_masculino(self):
-        self.assertTrue(n.blocked(item("A", "x", generos="Romance, Drama")))
-        self.assertTrue(n.blocked(item("A", "x", generos="Romance, Mature, Josei")))
-        self.assertFalse(n.blocked(item("A", "x", generos="Romance, Martial Arts")))
-        self.assertFalse(n.blocked(item("A", "x", generos="Romance, Mature, Seinen")))
+    def test_feminina_pela_demografia_ou_romance_sem_acao(self):
+        self.assertTrue(n.is_female("x", "Drama, Shoujo"))
+        self.assertTrue(n.is_female("x", "Action, Josei"))            # demografia manda
+        self.assertTrue(n.is_female("x", "Romance, Drama"))
+        self.assertTrue(n.is_female("x", "Romance, Fantasy, Drama"))  # fantasy nao salva
+        self.assertFalse(n.is_female("x", "Romance, Martial Arts"))
+        self.assertFalse(n.is_female("x", "Romance, Mature, Seinen"))
+        self.assertFalse(n.is_female("x", "Action, Fantasy, Romance"))
+        self.assertFalse(n.is_female("x", "Drama"))
+        self.assertFalse(n.is_female("x", ""))
+        self.assertTrue(n.is_female("x", "Yaoi"))   # BL que so mostrou o genero depois de entrar
+
+    def test_titulo_so_decide_quando_o_genero_nao_diz_nada(self):
+        for t in ("The Reason the Villainess Saved the Male Lead's Brother", "I'll Quit as The Empress",
+                  "The Strongest Duke's One and Only Granddaughter", "My Husband's Funeral",
+                  "The Good Daughter-in-Law No Longer Exists", "N Years of Unrequited Love",
+                  "I Seduced the Male Lead's Mother (GL)", "This Young Lady Hates Being Productive!"):
+            self.assertTrue(n.is_female(t, ""), t)
+        self.assertTrue(n.is_female("I'll Quit as The Empress", "Fantasy, Drama"))
+        for t in ("The Northern Grand Duke's Crazy Son-in-Law", "My Dragon Girlfriend Has Returned",
+                  "My Daughter Is the Final Boss", "Global Beast Taming", "Solo Swordmaster",
+                  "The Academy's Weapon Replicator", "Bandit King"):
+            self.assertFalse(n.is_female(t, ""), t)
+        # genero de acao ou demografia masculina ganha do titulo
+        self.assertFalse(n.is_female("The Princess in the Dragon's Belly", "Seinen"))
+        self.assertFalse(n.is_female("The Regressor and the Blind Princess", "Action, Fantasy, Romance"))
+
+    def test_aba_de_cada_linha(self):
+        def linha(obra, generos="", adulto=False):
+            return {"obra": obra, "generos": generos, "adulto": adulto}
+        self.assertEqual(n.tab_of(linha("Solo Swordmaster", "Action")), "")
+        self.assertEqual(n.tab_of(linha("Solo Swordmaster", "Action, Mature", True)), "adulto")
+        self.assertEqual(n.tab_of(linha("X", "Josei, Smut", True)), "feminina")   # +18 e so masculino
+        self.assertEqual(n.tab_of(linha("The Remarried Empress")), "feminina")
+
+    def test_genero_do_comix_e_buscado_so_em_linha_do_comix_sem_genero(self):
+        pedidos = []
+
+        def fake(url):
+            pedidos.append(url)
+            if "morto" in url:
+                raise RuntimeError("404")
+            return "Romance, Josei"
+        rows = [{"generos": "", "link": "https://comix.to/title/a"},
+                {"generos": "Action", "link": "https://comix.to/title/b"},
+                {"generos": "", "link": "https://qimanga.com/series/c"},
+                {"generos": "", "link": "https://comix.to/title/morto"}]
+        original, n._comix_page_generos = n._comix_page_generos, fake
+        try:
+            n.fill_genres(rows)
+        finally:
+            n._comix_page_generos = original
+        self.assertEqual([r["generos"] for r in rows], ["Romance, Josei", "Action", "", ""])
+        self.assertEqual(sorted(pedidos), ["https://comix.to/title/a", "https://comix.to/title/morto"])
+
+    def test_sync_renomeia_a_aba_antiga_e_separa_em_tres(self):
+        try:
+            import gspread
+        except ImportError:
+            self.skipTest("gspread nao instalado")
+
+        class Ws:
+            def __init__(self, ss, title, vals=None, formulas=None):
+                self.ss, self.title, self.vals = ss, title, [list(r) for r in vals or []]
+                self.formulas = formulas or {}
+                self.id = abs(hash(title)) % 10 ** 6
+                self.row_count = 501
+
+            @property
+            def index(self):
+                return self.ss.sheets.index(self)
+
+            def row_values(self, i):
+                return self.vals[i - 1] if len(self.vals) >= i else []
+
+            def get_all_values(self):
+                return [list(r) for r in self.vals]
+
+            def col_values(self, col, value_render_option=None):
+                return [self.formulas.get(i, r[col - 1] if len(r) >= col else "") for i, r in enumerate(self.vals)]
+
+            def update_title(self, title):
+                self.title = title
+
+            def batch_clear(self, ranges):
+                self.vals = self.vals[:1]
+
+            def add_rows(self, k):
+                self.row_count += k
+
+            def update(self, values, cell, value_input_option=None):
+                if cell == "A1":
+                    self.vals = [list(r) for r in values]
+                else:   # como o USER_ENTERED do Sheets: o apostrofo some, fica o texto
+                    self.vals = self.vals[:1] + [[c[1:] if isinstance(c, str) and c.startswith("'") else c
+                                                  for c in r] for r in values]
+
+        class Ss:
+            def __init__(self):
+                self.sheets, self.deleted = [], []
+
+            def worksheets(self):
+                return list(self.sheets)
+
+            def worksheet(self, title):
+                for ws in self.sheets:
+                    if ws.title == title:
+                        return ws
+                raise gspread.WorksheetNotFound(title)
+
+            def add_worksheet(self, title, rows, cols, index=None):
+                ws = Ws(self, title)
+                self.sheets.insert(len(self.sheets) if index is None else index, ws)
+                return ws
+
+            def del_worksheet(self, ws):
+                self.deleted.append(ws.title)
+                self.sheets.remove(ws)
+
+            def batch_update(self, body):
+                pass
+
+        def linha(peguei, obra, generos, link):
+            return [peguei, "", obra, "3", generos, "2026", "Comix", "01/11/2026 10:00", "", link]
+
+        ss = Ss()
+        ss.sheets = [
+            Ws(ss, "todos"),
+            Ws(ss, "Novas Obras", [n.HEADER,
+                                   linha("TRUE", "Solo Swordmaster", "Action", "https://x/1"),
+                                   linha("TRUE", "The Remarried Empress", "", "https://x/2"),
+                                   linha("FALSE", "Sem Genero", "", "https://comix.to/title/3"),
+                                   linha("FALSE", "Frost", "", "https://comix.to/title/4")],
+               formulas={1: '=IMAGE("https://c.x/capa.jpg")'}),
+            Ws(ss, "Novas Obras +18", [n.HEADER, linha("FALSE", "Adulta", "Action, Mature", "https://x/5")]),
+            Ws(ss, "Sites", [n.SITES_HEADER]),
+        ]
+        antiga = ss.sheets[1]
+        nova = n._item("Asura", "Nova Shoujo", "https://x/6", caps=2, generos="Drama, Shoujo")
+        originais = n.collect, n.fill_covers, n._comix_page_generos
+        n.collect = lambda now: ([nova], {nome: (0, "OK") for nome, _, _, _ in n.SITES})
+        n.fill_covers = lambda rows: None
+        n._comix_page_generos = lambda url: "Romance, Josei" if url.endswith("/3") else "Action, Shounen"
+        try:
+            n.sync(ss, [["quero_postar", "obra"]], NOW)
+        finally:
+            n.collect, n.fill_covers, n._comix_page_generos = originais
+
+        self.assertEqual([ws.title for ws in ss.sheets],
+                         ["todos", "Novas Obras Shonen", "Novas Obras Femininas", "Novas Obras +18", "Sites"])
+        self.assertIs(ss.sheets[1], antiga)    # renomeada, nao recriada
+        self.assertEqual(ss.deleted, [])
+
+        def obras(title):
+            return [(r[0], r[2]) for r in ss.worksheet(title).vals[1:]]
+        self.assertEqual(obras("Novas Obras Shonen"), [("TRUE", "Solo Swordmaster"), ("FALSE", "Frost")])
+        self.assertEqual(sorted(obras("Novas Obras Femininas")),
+                         [("FALSE", "Nova Shoujo"), ("FALSE", "Sem Genero"), ("TRUE", "The Remarried Empress")])
+        self.assertEqual(obras("Novas Obras +18"), [("FALSE", "Adulta")])
+        self.assertEqual(ss.worksheet("Novas Obras Shonen").vals[1][1], '=IMAGE("https://c.x/capa.jpg")')
+        # segunda rodada: nada muda de lugar e nada e recriado
+        n.collect = lambda now: ([], {nome: (0, "OK") for nome, _, _, _ in n.SITES})
+        n.fill_covers = lambda rows: None
+        try:
+            n.sync(ss, [["quero_postar", "obra"]], NOW)
+        finally:
+            n.collect, n.fill_covers = originais[:2]
+        self.assertEqual(len(ss.sheets), 5)
+        self.assertEqual(obras("Novas Obras Shonen"), [("TRUE", "Solo Swordmaster"), ("FALSE", "Frost")])
+        self.assertEqual(len(obras("Novas Obras Femininas")), 3)
 
     def test_so_entra_obra_nova(self):
         rows = n.merge([], [item("A", "Nova", 5, ano="2026"), item("A", "Catalogo", 146),

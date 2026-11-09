@@ -1,6 +1,6 @@
 name: novas-obras
 
-# Roda so as abas `Novas Obras` + `Sites` na hora, sem esperar a varredura completa do sync.
+# Roda so as abas `Novas Obras Shonen/Femininas/+18` + `Sites` na hora, sem esperar a varredura completa do sync.
 on:
   workflow_dispatch:
 

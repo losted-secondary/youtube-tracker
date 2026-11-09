@@ -1,5 +1,6 @@
-"""Abas `Novas Obras` e `Novas Obras +18`: obras que acabaram de entrar nos sites de scan,
-+ aba `Sites` com a lista de sites trackeados e como foi a ultima coleta de cada um.
+"""Abas `Novas Obras Shonen`, `Novas Obras Femininas` e `Novas Obras +18`: obras que acabaram
+de entrar nos sites de scan, + aba `Sites` com a lista de sites trackeados e como foi a
+ultima coleta de cada um.
 
 Roda dentro do main.py na varredura completa (1x/hora) ou sozinho:
     python novas_obras.py              -> so coleta e imprime, sem planilha (teste local)
@@ -7,11 +8,20 @@ Roda dentro do main.py na varredura completa (1x/hora) ou sozinho:
                                           e o que o workflow `novas-obras` roda)
 
 Regras:
-  - Bloqueia shoujo/josei e BL/GL. Adulto/mature/ecchi passam (publico masculino), mas vao
-    para a aba `Novas Obras +18`: obra marcada adulta pelo site (Comick/Comix/Kayn/Mist) ou
-    com genero adulto (ADULT). Uma vez +18, fica +18 (a aba e quem guarda isso). Romance
-    so e bloqueado quando nao vem com genero de acao (action/fantasy/martial arts/adventure)
-    nem com demografia masculina (shounen/seinen).
+  - Bloqueia so BL/GL (quando o site ja informa o genero na coleta).
+  - Tres abas, nesta ordem de decisao (ver `tab_of`):
+      1. `Novas Obras Femininas`: shoujo/josei; romance sem genero de acao (action/martial
+         arts/adventure/murim) nem demografia masculina (shounen/seinen) -- fantasy NAO salva,
+         romance+fantasy e a vila/duquesa classica; ou, sem genero nenhum que diga o
+         contrario, titulo com cara de obra feminina (FEMALE_TITLE: villainess, male lead,
+         empress, bride...). E recalculado toda rodada: se o genero chegar depois e disser
+         shounen/action, a obra volta para a aba Shonen.
+      2. `Novas Obras +18`: obra marcada adulta pelo site (Comick/Comix/Kayn/Mist) ou com
+         genero adulto (ADULT). Uma vez +18, fica +18 (a aba e quem guarda isso).
+      3. `Novas Obras Shonen`: o resto (publico masculino).
+  - Quase toda obra feminina vinha do Comix SEM genero (a home nao traz; so a pagina da
+    obra), entao nenhuma regra de genero pegava. `fill_genres` busca o genero/demografia
+    das linhas do Comix que estao sem, GENRE_FILL_MAX por rodada.
   - So entra obra NOVA: aparece com ate MAX_CAPS_NOVA capitulos e ano recente. Site que
     despeja catalogo traz obra antiga ja com 60, 100, 150 caps -> nem entra na aba.
   - Mesma obra em dois sites vira UMA linha (titulo normalizado); a coluna `Sites`
@@ -37,8 +47,12 @@ from bs4 import BeautifulSoup
 
 from comick import normalize
 
-TAB = "Novas Obras"
+TAB = "Novas Obras Shonen"
+TAB_F = "Novas Obras Femininas"
 TAB_18 = "Novas Obras +18"
+TAB_ANTIGA = "Novas Obras"            # ate 09/11/2026 a aba Shonen tinha esse nome: e renomeada
+# chave da aba (ver `tab_of`) -> titulo, na ordem em que ficam na planilha
+TABS = (("", TAB), ("feminina", TAB_F), ("adulto", TAB_18))
 SITES_TAB = "Sites"
 OLD_TABS = ("novas_obras", "sites")   # nomes da primeira versao (11/10/2026)
 HEADER = ["Peguei", "Capa", "Obra", "Capítulos", "Gêneros", "Ano", "Sites", "Visto em", "Já tem vídeo", "Link"]
@@ -56,8 +70,17 @@ BRT = timezone(timedelta(hours=-3))
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 HEADERS = {"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"}
 
-BLOCKED = {"shoujo", "josei", "boys love", "girls love", "yaoi", "yuri", "shounen ai", "shoujo ai"}
-ACTION = {"action", "fantasy", "martial arts", "adventure", "murim"}
+BLOCKED = {"boys love", "girls love", "yaoi", "yuri", "shounen ai", "shoujo ai"}
+FEMALE = {"shoujo", "josei"}
+ACTION = {"action", "martial arts", "adventure", "murim"}
+GENRE_FILL_MAX = 80      # linhas do Comix sem genero que buscam na pagina da obra, por rodada
+# titulo (normalizado) com cara de obra feminina. So decide quando os generos nao dizem nada
+# (ver `is_female`): "my daughter" fica de fora porque costuma ser obra de pai protagonista.
+FEMALE_TITLE = re.compile(
+    r"\b(villainess|(?:fe)?male leads?|empress|duchess|lady|bride|husband|ex wife|daughter in law"
+    r"|granddaughter|(?<!my )daughter|marry|marriage|married|remarried|fiancee?|love|romance"
+    r"|unrequited|possession|heroine|princess|break up|seduced|crown prince|baby|sweet|sweetness"
+    r"|bl|gl)\b")
 CAPA_ROW_PX = 110        # altura das linhas da aba para a capa caber
 CAPA_FILL_MAX = 60       # linhas sem capa que buscam a imagem na pagina da obra, por rodada
 MALE = {"shounen", "seinen"}
@@ -459,17 +482,57 @@ def fill_covers(rows, limit=CAPA_FILL_MAX):
             pass
 
 
+def _comix_page_generos(url):
+    for key, val in _comix_queries(_comix_get(url).text).items():
+        if key.startswith('["manga","detail"'):
+            return _comix_generos(val)
+    return ""
+
+
+def fill_genres(rows, limit=GENRE_FILL_MAX):
+    """Linha do Comix sem genero: busca genero + demografia na pagina da obra. E o que
+    separa a obra feminina da masculina (ver `is_female`). Ordem aleatoria, como nas capas:
+    link morto nao trava a fila e o que sobrar fica para as proximas rodadas."""
+    sem = [r for r in rows if not r["generos"] and "comix.to" in r["link"]]
+    for r in random.sample(sem, min(limit, len(sem))):
+        try:
+            r["generos"] = _comix_page_generos(r["link"])
+            time.sleep(0.3)
+        except Exception:
+            pass
+
+
 # ---------------------------------------------------------------- regras
 
+def _gens(generos):
+    return {normalize(g) for g in generos.split(",") if g.strip()}
+
+
 def blocked(it):
-    gens = {normalize(g) for g in it["generos"].split(",") if g.strip()}
-    if gens & BLOCKED:
-        return True
-    return "romance" in gens and not (gens & (ACTION | MALE))
+    return bool(_gens(it["generos"]) & BLOCKED)
 
 
 def is_adult(it):
-    return it["adulto"] or bool({normalize(g) for g in it["generos"].split(",") if g.strip()} & ADULT)
+    return it["adulto"] or bool(_gens(it["generos"]) & ADULT)
+
+
+def is_female(titulo, generos):
+    """Obra de publico feminino. A demografia do site manda; depois o genero; o titulo so
+    desempata quando os generos nao dizem nada (vazio, ou so drama/comedy/fantasy)."""
+    gens = _gens(generos)
+    if gens & (FEMALE | BLOCKED):   # BL/GL que so mostrou o genero depois de entrar na aba
+        return True
+    if gens & (MALE | ACTION):
+        return False
+    return "romance" in gens or bool(FEMALE_TITLE.search(normalize(titulo)))
+
+
+def tab_of(r):
+    """Linha da planilha -> chave da aba em TABS. Feminina vem antes de +18: a aba +18 e
+    para o publico masculino."""
+    if is_female(r["obra"], r["generos"]):
+        return "feminina"
+    return "adulto" if r["adulto"] else ""
 
 
 def is_new(it, now):
@@ -492,7 +555,8 @@ def video_titles(todos_rows):
 
 
 def merge(existing, itens, now, com_video):
-    """existing: dicts lidos da aba. Devolve a lista nova de dicts (ordem: visto_em desc).
+    """existing: dicts lidos das abas. Devolve a lista nova de dicts (ordem: visto_em desc),
+    de todas as abas juntas; quem separa e corta em MAX_ROWS por aba e o `sync`.
     Obra ja na aba so atualiza capitulos/sites; obra nova so entra se passar no is_new."""
     by_key = {normalize(e["obra"]): e for e in existing if e["obra"]}
     stamp = now.astimezone(BRT).strftime(DATE_FMT)
@@ -530,7 +594,7 @@ def merge(existing, itens, now, com_video):
         except ValueError:
             return datetime.min
     rows.sort(key=when, reverse=True)
-    return rows[:MAX_ROWS]
+    return rows
 
 
 # ---------------------------------------------------------------- planilha
@@ -585,7 +649,7 @@ def _style(spreadsheet, ws, widths, center_cols=(), link_col=None, extra=None):
     spreadsheet.batch_update({"requests": reqs + (extra(sid) if extra else [])})
 
 
-def _ensure_tab(spreadsheet, title, header, rows=200, **style):
+def _ensure_tab(spreadsheet, title, header, rows=200, index=None, **style):
     """Cria a aba formatada. Se o cabecalho mudou (versao antiga da aba), recria do zero;
     quem precisa dos dados antigos le antes (ver `sync`)."""
     import gspread
@@ -596,7 +660,7 @@ def _ensure_tab(spreadsheet, title, header, rows=200, **style):
         spreadsheet.del_worksheet(ws)
     except gspread.WorksheetNotFound:
         pass
-    ws = spreadsheet.add_worksheet(title=title, rows=rows, cols=len(header))
+    ws = spreadsheet.add_worksheet(title=title, rows=rows, cols=len(header), index=index)
     ws.update([header], "A1")
     _style(spreadsheet, ws, **style)
     return ws
@@ -656,8 +720,8 @@ def _row(d):
     return row
 
 
-def _write_obras(spreadsheet, title, rows):
-    ws = _ensure_tab(spreadsheet, title, HEADER, rows=MAX_ROWS + 1,
+def _write_obras(spreadsheet, title, rows, index=None):
+    ws = _ensure_tab(spreadsheet, title, HEADER, rows=MAX_ROWS + 1, index=index,
                      widths=[65, 80, 340, 85, 260, 60, 220, 125, 110, 300],
                      center_cols=(0, 1, 3, 5, 7, 8), link_col=9, extra=_novas_obras_rules)
     if ws.row_count < len(rows) + 1:
@@ -665,6 +729,7 @@ def _write_obras(spreadsheet, title, rows):
     ws.batch_clear([f"A2:{chr(64 + NCOLS)}"])
     if rows:
         ws.update([_row(d) for d in rows], "A2", value_input_option="USER_ENTERED")
+    return ws
 
 
 def sync(spreadsheet, todos_rows, now_utc=None):
@@ -674,16 +739,22 @@ def sync(spreadsheet, todos_rows, now_utc=None):
         if ws.title in OLD_TABS:
             spreadsheet.del_worksheet(ws)
     itens, status = collect(now)   # a parte lenta vem antes de mexer na aba
+    titles = {ws.title for ws in spreadsheet.worksheets()}
+    if TAB_ANTIGA in titles and TAB not in titles:   # renomeia em vez de recriar: nao perde nada
+        spreadsheet.worksheet(TAB_ANTIGA).update_title(TAB)
     existing = []
-    for title, adulto in ((TAB, False), (TAB_18, True)):   # antes do _ensure_tab, que pode recriar a aba
+    for _, title in TABS:   # antes do _ensure_tab, que pode recriar a aba
         try:
-            existing += [{**d, "adulto": adulto} for d in _read(spreadsheet.worksheet(title))]
+            existing += [{**d, "adulto": title == TAB_18} for d in _read(spreadsheet.worksheet(title))]
         except gspread.WorksheetNotFound:
             pass
     rows = merge(existing, itens, now, video_titles(todos_rows))
+    fill_genres(rows)
     fill_covers(rows)
-    for title, adulto in ((TAB, False), (TAB_18, True)):
-        _write_obras(spreadsheet, title, [r for r in rows if bool(r["adulto"]) == adulto])
+    por_aba = {key: [r for r in rows if tab_of(r) == key][:MAX_ROWS] for key, _ in TABS}
+    index = None
+    for key, title in TABS:   # aba nova nasce logo depois da anterior, nao no fim da planilha
+        index = _write_obras(spreadsheet, title, por_aba[key], index).index + 1
 
     sites_ws = _ensure_tab(spreadsheet, SITES_TAB, SITES_HEADER, widths=[130, 230, 170, 130, 100, 300],
                            center_cols=(3, 4), link_col=1)
@@ -692,8 +763,8 @@ def sync(spreadsheet, todos_rows, now_utc=None):
     sites_ws.update([[n, u, m, "'" + stamp, status[n][0], status[n][1]] for n, u, m, _ in SITES], "A2",
                     value_input_option="USER_ENTERED")
     erros = [n for n, (_, st) in status.items() if st != "OK"]
-    n18 = sum(1 for r in rows if r["adulto"])
-    print(f"[novas_obras] {len(itens)} lidas em {len(SITES)} sites, {len(rows) - n18} na aba, {n18} na +18"
+    print(f"[novas_obras] {len(itens)} lidas em {len(SITES)} sites, "
+          + ", ".join(f"{len(por_aba[key])} em `{title}`" for key, title in TABS)
           + (f", ERRO em: {', '.join(erros)}" if erros else ""))
 
 
@@ -716,5 +787,8 @@ if __name__ == "__main__":
         print(f"{n:14} {qtd:4}  {st}")
     rows = merge([], itens, now, set())
     print(f"\n{len(rows)} obras depois do filtro/dedup")
-    for r in rows[:15]:
-        print(f"  {r['obra'][:55]:55} caps={r['capitulos']!s:4} {r['sites']} | {r['generos'][:50]}")
+    for key, title in TABS:
+        da_aba = [r for r in rows if tab_of(r) == key]
+        print(f"\n{title}: {len(da_aba)}")
+        for r in da_aba[:15]:
+            print(f"  {r['obra'][:55]:55} caps={r['capitulos']!s:4} {r['sites']} | {r['generos'][:50]}")

@@ -541,7 +541,7 @@ def main():
     except Exception as e:
         print(f"[postagens] ERRO: {e}")
 
-    # abas `Novas Obras` + `Sites`: obras recem-chegadas nos sites de scan. Le ~10 sites,
+    # abas `Novas Obras Shonen/Femininas/+18` + `Sites`: obras recem-chegadas nos sites de scan. Le ~10 sites,
     # entao so na varredura completa (1x/hora). Independente: erro aqui nao derruba o sync.
     if full_sweep:
         try:
