@@ -2685,6 +2685,21 @@ REVIEWED.extend([
 ])
 
 
+# Reviewed 2026-11-09: exact-video metadata and official named-character match.
+REVIEWED.extend([
+{
+  "video_id": "lD-gDmrt_g4",
+  "title": "Barbarian's Adventure in a Fantasy World",
+  "aliases": [
+    "판타지 세계 속 바바리안으로 살아가기"
+  ],
+  "reviewed_at": "2026-11-09",
+  "confirmado": True,
+  "evidence": "Exact-video public metadata mirrored at https://salda.ws/video.php?id=lD-gDmrt_g4 explicitly identifies the work and character Ketal in its title and description hashtags. Its outgoing video link resolves to https://youtube.com/watch?v=lD-gDmrt_g4, with Gacha reactrift channel and 00:41:41 duration matching the current Sheet ID. Official English publisher https://tapas.io/series/barbarians-adventure-in-a-fantasy-world/info independently names Ketal the Barbarian and provides the English and original Korean titles. The publisher describes his emergence from the monster-filled White Tundra; this synopsis establishes the distinctive named character, not a claimed frame or transcript match. This is a Gacha reaction video explicitly about that work, not asserted to be a conventional chapter recap. Direct YouTube retrieval was throttled, so no direct comments, playback, frames, transcript, chapter coverage, or reverse-image review is claimed. FameX indexed channel listing corroborated the same title and duration but was not needed for the exact-ID confirmation."
+}
+])
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
