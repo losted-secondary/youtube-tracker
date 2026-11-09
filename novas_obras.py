@@ -173,6 +173,14 @@ def _comix_generos(s):
     return ", ".join(g.get("title", "") for g in (s.get("genres") or []) + (s.get("demographics") or []))
 
 
+def _comix_capa(poster):
+    # em 11/2026 o comix passou a mandar a capa como caminho relativo ("/images/covers/..."),
+    # e o =IMAGE nao abre URL sem dominio: a celula ficava vazia. Antes vinha absoluta
+    # (static.comix.to); as duas formas funcionam.
+    url = (poster or {}).get("medium", "") or ""
+    return "https://comix.to" + url if url.startswith("/") and not url.startswith("//") else url
+
+
 def comix(now, detail_max=COMIX_DETAIL_MAX):
     """comix.to: a API exige token assinado, mas toda pagina ja vem com os dados no
     <script id="initial-data">. A home traz recem-adicionadas, atualizadas, em alta e mais
@@ -188,7 +196,7 @@ def comix(now, detail_max=COMIX_DETAIL_MAX):
                 continue
             seen.add(url)
             out.append(_item("Comix", s.get("title"), "https://comix.to" + url,
-                             (s.get("poster") or {}).get("medium", ""), s.get("latestChapter"),
+                             _comix_capa(s.get("poster")), s.get("latestChapter"),
                              "", s.get("year"), adulto=s.get("contentRating") in ("erotica", "pornographic")))
     for it in out[:detail_max]:
         try:
@@ -427,7 +435,7 @@ def _page_cover(url):
     if "comix.to" in url:
         for key, val in _comix_queries(_comix_get(url).text).items():
             if key.startswith('["manga","detail"'):
-                return (val.get("poster") or {}).get("medium", "")
+                return _comix_capa(val.get("poster"))
         return ""
     html = _get(url).text
     m = _OG_IMAGE.search(html)
@@ -639,7 +647,10 @@ def _row(d):
     # nao vira data (que voltaria em outro formato na proxima leitura e quebraria a ordem)
     row = [d[k] for k in KEYS]
     row[KEYS.index("peguei")] = "TRUE" if str(d["peguei"]).upper() == "TRUE" else "FALSE"
-    row[KEYS.index("capa")] = f'=IMAGE("{d["capa"].replace(chr(34), "%22")}")' if d["capa"] else ""
+    capa = d["capa"]
+    if capa.startswith("/") and not capa.startswith("//"):   # gravada relativa antes do _comix_capa
+        capa = "https://comix.to" + capa
+    row[KEYS.index("capa")] = f'=IMAGE("{capa.replace(chr(34), "%22")}")' if capa else ""
     row[KEYS.index("obra")] = "'" + d["obra"]
     row[KEYS.index("visto_em")] = "'" + d["visto_em"]
     return row

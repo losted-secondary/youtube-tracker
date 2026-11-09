@@ -79,6 +79,17 @@ class NovasObrasTest(unittest.TestCase):
         self.assertEqual((d["peguei"], d["capa"]), ("TRUE", "https://c.x/a.jpg"))
         self.assertEqual(n._row({**d, **{k: "" for k in n.KEYS if k not in d}})[1], '=IMAGE("https://c.x/a.jpg")')
 
+    def test_capa_relativa_do_comix_vira_url_completa(self):
+        rel = "/images/covers/1c/8d/abc@280.jpg"
+        self.assertEqual(n._comix_capa({"medium": rel}), "https://comix.to" + rel)
+        absoluta = "https://static.comix.to/2c4f/i/f/4f/x@280.jpg"
+        self.assertEqual(n._comix_capa({"medium": absoluta}), absoluta)
+        self.assertEqual(n._comix_capa(None), "")
+        # linha que ja estava gravada com o caminho relativo
+        d = {k: "" for k in n.KEYS}
+        d["capa"] = rel
+        self.assertEqual(n._row(d)[1], f'=IMAGE("https://comix.to{rel}")')
+
     def test_linha_sem_capa_busca_na_pagina_e_link_morto_nao_quebra(self):
         def fake(url):
             if "morto" in url:
