@@ -2672,6 +2672,19 @@ REVIEWED.extend([
   }
 ])
 
+# Reviewed missing names requested on 2026-11-09: Gave Greek-mythology novel.
+REVIEWED.extend([
+  {
+    "video_id": "AOyMn2g7jP0",
+    "title": "女神今晚留下来",
+    "aliases": [],
+    "reviewed_at": "2026-11-09",
+    "confirmado": True,
+    "evidence": "Novel by 紫夜弦歌; no verified English alias or separately published manhwa adaptation asserted. Native exact-video transcript:00:01 Helen/希伦 reincarnated with Pandora grandmother and Prometheus grandfather;00:10 Zeus abducts him to Olympus, stories win Hera's favor;00:17 Eris becomes Spear of Heaven's Wrath;00:25 returns to Crete after Athena's ten-year absence, facing sea catastrophe;02:47–04:36 Pallas defends Knossos with labyrinth projection while Helen attacks sea monster's divine core. Independent Qidian-hosted review corroborates ordered sequence through Crete, missing Athena, catastrophe and Pallas. Title/author independently verified from readable novel directory. Hongxiu indexed publisher-family synopsis also confirms Hera's Juno disguise, nightly stories, Eris and Pandora's demand for Hera's divine blood, matching linked first-part description. Creator pinned comment explicitly links Part1 wqoUI0tbBiQ. Qidian and Hongxiu support from indexed text only; direct requests returned403 and were not bypassed. Sources: https://www.youtube.com/watch?v=AOyMn2g7jP0&t=1s ; https://www.youtube.com/watch?v=AOyMn2g7jP0&t=167s ; https://www.youtube.com/watch?v=AOyMn2g7jP0&lc=UgyRMGNyb7-KzTgvsOt4AaABAg ; https://www.youtube.com/watch?v=wqoUI0tbBiQ ; https://book.qidian.com/booklist/detail/634557/ ; https://m.hongxiu.com/kolquery/vxbpurlw ; https://44xw.com/a/197/196064/ . No final title-card observation, full-video review or exact chapter-boundary claim."
+  }
+])
+
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
