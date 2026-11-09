@@ -2570,6 +2570,94 @@ REVIEWED.append({
   "evidence": "Exact-video creator @MrManhwas01 directly answers World-Saving Is a Skill in a public comment reply. Native transcript 00:00–00:20 Hyeonseok spent twenty years fighting other-world monsters, returns to Earth, exhausts his severance and becomes a paid Hunter. External series listing corroborates Hyeonseok/Chanseok, twenty years, return reward, Earth's Erosion Points and hunter work for money. Catalogs map aliases and Korean title. Sources: https://www.youtube.com/watch?v=w8UzOg00je0&lc=UgziDZ0F9VkTcJ1JZoR4AaABAg.Aczw3M5L2htAd-FI9Ljgzk ; https://www.youtube.com/watch?v=w8UzOg00je0&t=0 ; https://arenascancomics.com/manga/world-saving-is-a-skill/ ; https://phmanga.com/title/world-saving-is-a-skill-11de45ec ; https://ravenscans.org/manga/world-saving-is-a-skill/ . No full-video or frame-match claim."
 })
 
+# Reviewed 2026-11-09: second requested missing-name batch.
+REVIEWED.extend([
+  {
+    "video_id": "ukT91_8oHzo",
+    "title": "Return of the Adopted Child in a World of Bloodline Supremacy",
+    "aliases": [
+      "Redoing My Life as the Adopted Son of a Bloodline-Supremacist House",
+      "血統至上主義名家の養子のやり直し",
+      "Kettou Shijou Shugi Meika no Youshi no Yarinaoshi"
+    ],
+    "reviewed_at": "2026-11-09",
+    "confirmado": True,
+    "evidence": "Exact-video public viewer @Positively_Pretty names the work. Native transcript corroborates slave arena versus the Butcher at 00:00; Colin Hall as last surviving human at 00:46; only nobles use magic at 01:17; forbidden book lets anyone learn at 01:33; his blood awakens book at 03:00; book offers regression and magic teaching at 03:19. External synopsis identifies Colin, enslaved swordsman, demon extinction, forbidden book and five-year regression. Qimanga maps Japanese title and aliases. Original Piccoma was Japan-restricted and not bypassed. Sources: https://www.youtube.com/watch?v=ukT91_8oHzo&lc=UgwwGNF2Hv0l-MkDXtN4AaABAg ; https://www.youtube.com/watch?v=ukT91_8oHzo&t=46 ; https://erascans.com/series/return-of-the-adopted-child-in-a-world-of-bloodline-supremacy/ ; https://qimanga.com/series/return-of-the-adopted-child-in-a-world-of-bloodline-supremacy ; https://jp.piccoma.com/web/product/190565 . No full-video or chapter-coverage claim."
+  },
+  {
+    "video_id": "zhNjhPNhPaY",
+    "title": "饥荒，我的物品能升级",
+    "aliases": [
+      "Don't Starve, My Items Can Be Upgraded"
+    ],
+    "reviewed_at": "2026-11-09",
+    "confirmado": True,
+    "evidence": "Novel by 左耳听天, not asserted to be a published manhwa. Exact-video expanded description localizes Yang Chen as Jace and Peng Min as Wren: vitality-converted Hexflux upgrades rusty nailgun with Never-Miss, then Arm Fusion/Zero Recoil; crystallized marrow, storage/Spatial Quake sphere and refuge migration. Chinese chapter-one excerpt names Yang Chen, item-enhancing 妖衍/衍气, rusty tube nail launcher and Peng Min after breakup of their team. Publisher-family synopsis explicitly corroborates arm fusion and no recoil; source table of contents orders chapter12 crystallized marrow,13 stone beast,15 awakening,16 breakthrough,20 如意震空珠. English title is a verified translation alias, not asserted official. Sources: https://www.youtube.com/watch?v=zhNjhPNhPaY ; https://www.rongshuxia.com/bookquery/qbzfcldyvxbp ; https://www.xxsy.net/baike/axdj3tev46bt ; https://www.fanmtl.com/novel/6981335.html ; https://wtr-lab.com/en/novel/10411/dont-starve-my-items-can-be-upgraded . No frame match or complete chapter coverage claimed."
+  },
+  {
+    "video_id": "y_JHzvkR4S4",
+    "title": "My Path to Killing Gods in Another World",
+    "aliases": [
+      "My Way of Killing Gods in Another World",
+      "Assassin in Another World",
+      "我在异界的弑神之路"
+    ],
+    "reviewed_at": "2026-11-09",
+    "confirmado": True,
+    "evidence": "Native exact-video transcript inspected: 01:33–02:34 protagonist plays Cosmos VR to impress classmate, receives headset, lightning strikes house and transports him from bedroom; 02:50–03:39 spawns in desert, cannot contact friend or log out, system reboots to survive for infinity hours; 04:59–05:43 desert wolf encounter and backstory as youngest sixth-dan kendo student; 01:11 opening teaser names chaos element. Official Kuaikan series identifies genius student playing to pursue a girl, lightning transport, monsters and gods. Chinese/English catalogs name Chen Zhiliao/Chen Zhi Le and kendo talent. Independently indexed Chinese adaptation description of same title gives episode1 Welcome to COSMOS,23 Release of Chaos Element and matching character/transport premise. This distinctive combination corroborates identity despite ASR rendering names as Shenzel/Chen. Sources: https://www.youtube.com/watch?v=y_JHzvkR4S4&t=93 ; https://www.youtube.com/watch?v=y_JHzvkR4S4&t=170 ; https://www.youtube.com/watch?v=y_JHzvkR4S4&t=299 ; https://www.kuaikanmanhua.com/web/topic/11031/ ; https://dragontea.ink/novel/my-path-to-killing-gods-in-another-world/ ; https://www.youtube.com/watch?v=MIhoO3yalZU ; https://m.dm5.com/manhua-wozaiyijiedeshishenzhilu/ . Description contains no source title. No frame comparison or complete chapter coverage claimed."
+  },
+  {
+    "video_id": "4qlV6PTIY5Y",
+    "title": "The World’s Strongest Fist Fighter",
+    "aliases": [
+      "World's Strongest Straight Punch",
+      "Conquering the World with a Single Punch",
+      "World's Strongest With Bare Fists",
+      "The World's Strongest Regime",
+      "정권으로 세계최강"
+    ],
+    "reviewed_at": "2026-11-09",
+    "confirmado": True,
+    "evidence": "Uploader @FuriosToon own pinned comment explicitly names World's Strongest Straight Punch. Native transcript 00:17 four disciples murder father,00:29 trains one punch ten years,00:49 traitors became Four Heavenly Kings,03:29 protagonist Jin Guan and inherited limitless fist manual. Independent catalogs corroborate Jin-gwon's ten-year secluded training for his father's revenge and Murim transformed to skills society. Canonical primary retained consistently with previously confirmed i7wa7Mspnqw in this catalog; names are established aliases of 정권으로 세계최강. Sources: https://www.youtube.com/watch?v=4qlV6PTIY5Y&lc=Ugxvc4Gcafl_aH8rkb54AaABAg ; https://www.youtube.com/watch?v=4qlV6PTIY5Y&t=29 ; https://comick.dev/comic/the-worlds-strongest-regime ; https://ravenscans.org/manga/worlds-strongest-straight-punch/ ; https://comic.naver.com/webtoon/list?titleId=851800 . No full-video or panel-match claim."
+  },
+  {
+    "video_id": "-seaUuYO4pw",
+    "title": "Warrior of the Soulblade",
+    "aliases": [
+      "Warrior of the Mind Sword",
+      "Warrior of the Sword Heart",
+      "Soulblade Warrior",
+      "심검의 용사"
+    ],
+    "reviewed_at": "2026-11-09",
+    "confirmado": True,
+    "evidence": "Exact-video public viewer comment names The warrior of the mind sword; chapter1–62 claim is commenter-stated, not independently verified. Native transcript corroborates emotions creating mind swords at01:43, Heith's hatred of demons01:52, boy Ellen02:16, king's ten swords and qualification exam01:10. External catalog maps official-English title Warrior of the Soulblade, aliases and Korean title, and gives WEBTOON synopsis naming Allen, soul swords, purity and exams controlled by the king's ten swords. Sources: https://www.youtube.com/watch?v=-seaUuYO4pw&lc=UgyrXZ3dQX6v2xVLSRx4AaABAg ; https://www.youtube.com/watch?v=-seaUuYO4pw&t=70 ; https://www.youtube.com/watch?v=-seaUuYO4pw&t=103 ; https://hwa.so/series/warrior-of-the-sword-heart-mu-3869456704 . No video-frame match or full-video review claimed."
+  },
+  {
+    "video_id": "utRmIhmyQkc",
+    "title": "After Severing Our Ties, All My Summons Became Dark Creatures",
+    "aliases": [
+      "After Breaking Off Relations, My Summoned Beasts Are All Dark Creatures",
+      "断绝关系后，我的召唤兽全是黑暗生物"
+    ],
+    "reviewed_at": "2026-11-09",
+    "confirmado": True,
+    "evidence": "Two exact-video public viewer comments name the series. Native transcript 00:29 Gu Chen betrayed during final monster battle;01:58 foster parents died, biological father takes him home, blond younger brother abuses and murders him;03:14 monster revives. Official Kuaikan synopsis names Gu Chen, brother's backstab, return to eighteen before awakening, Demon King's Blood, severing family and Dark Summoner. AniList corroborates English/Chinese identity. Chapter1–20 is a viewer claim, not independently checked coverage. Sources: https://www.youtube.com/watch?v=utRmIhmyQkc&lc=UgxGacPtapa0AWXV4Mh4AaABAg ; https://www.youtube.com/watch?v=utRmIhmyQkc&lc=UgzVrSykfqv2lrkQ4fF4AaABAg ; https://www.youtube.com/watch?v=utRmIhmyQkc&t=29 ; https://www.kuaikanmanhua.com/web/topic/27690/ ; https://anilist.co/manga/218623/Duanjue-Guanxi-Hou-Wo-De-Zhaohuan-Shou-Quan-Shi-Heian-Shengwu/ . No full-video or panel-match claim."
+  },
+  {
+    "video_id": "NWKoM60_sfM",
+    "title": "The Dark Mage's Return to Enlistment",
+    "aliases": [
+      "Returned to the Day I Joined the Army",
+      "I Returned, But It Was the Day Before My Enlistment",
+      "귀환했는데 입대 전날이다"
+    ],
+    "reviewed_at": "2026-11-09",
+    "confirmado": True,
+    "evidence": "Exact-video viewer comment explicitly names the series. Native transcript 00:00 Kim Minjun smashes dungeon redstone;00:39 saint summons him to Isgard as dark mage;01:24 saves world, wants games and fried chicken;01:39 removes restraint and returns;02:06 two years passed on Earth and enlistment notice;02:19 must enlist tomorrow. Official Indonesian WEBTOON confirms English title and Kim Minjun/Isgard/home monsters/military requirement. Korean and aliases mapped by external catalog. Commenter chapter count111+ refers to claimed availability, not video coverage and not relied on. Sources: https://www.youtube.com/watch?v=NWKoM60_sfM&lc=Ugw7saClaHxjSZi8P0p4AaABAg ; https://www.youtube.com/watch?v=NWKoM60_sfM&t=39 ; https://www.youtube.com/watch?v=NWKoM60_sfM&t=126 ; https://m.webtoons.com/id/action/the-dark-mages-return-to-enlistment/list?title_no=5663 ; https://ravenscans.org/manga/the-dark-mages-return-to-enlistment/ . No full-video or frame-match claim."
+  }
+])
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
