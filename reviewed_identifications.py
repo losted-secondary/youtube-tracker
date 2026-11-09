@@ -2658,6 +2658,20 @@ REVIEWED.extend([
   }
 ])
 
+# Reviewed 2026-11-09: independently corroborated shelter sequel.
+REVIEWED.extend([
+  {
+    "video_id": "PpHE_n8CXbc",
+    "title": "末世天灾：从打造避难所开始",
+    "aliases": [
+      "Apocalyptic Disasters: Starting by Building a Shelter"
+    ],
+    "reviewed_at": "2026-11-09",
+    "confirmado": True,
+    "evidence": "Creator's pinned comment links Part1 0vtHQxQ1Hag, already confirmed for this novel. Independent native transcript corroboration beyond linkage:00:10 Cade Walker with end-of-world survival system and three-level backyard shelter;00:18 hydroponic/protein farms and automated engineering crew;00:25 seven-million resource deal with authorities;00:50 detection radar on micro-excavator;01:58 Rocky database helper;02:15 survival-point-upgraded large cargo truck;05:05 Riverford subchannel. Same localized Su Wu/Cade Walker and Jianghe/Riverford, survival-point engineering upgrades and shelter established against original chapters1 and3 in prior verified Part1. Novel by 夏天的葡萄, not asserting separate adaptation title. Creator says title appears in last ten seconds, but video stayed black/buffering and that card was NOT observed. Sources: https://www.youtube.com/watch?v=PpHE_n8CXbc&lc=UgyoviItIO1GYK-4oad4AaABAg ; https://www.youtube.com/watch?v=PpHE_n8CXbc&t=10s ; https://www.youtube.com/watch?v=0vtHQxQ1Hag ; https://www.biquge321.com/zhangjie/024424/502751095.html ; https://www.biquge321.com/zhangjie/024424/602351095.html ; https://shanghaifantasy.com/novel/apocalyptic-disasters-starting-by-building-a-shelter/ . No full-video or chapter-coverage claim."
+  }
+])
+
 def video_id(value):
     match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]{11})(?:[?&#/]|$)", value or "")
     return match.group(1) if match else None
