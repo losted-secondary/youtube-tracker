@@ -2782,3 +2782,16 @@ REVIEWED.append({
   "confirmado": True,
   "evidence": "Exact-video public viewer comments explicitly name the series. Native transcript: 00:00–00:19 healer Minsu spent one hundred years in the demon realm and returns with a demon in his stomach after only ten Earth years; 01:16 Min Siwu; 01:24 Frey and dimensional orb; 02:31 Korea 2037 and hundred-year/ten-year time difference. Official French WEBTOON synopsis independently names Min Siwoo, a century in another world, return with Pré after ten Earth years and erased disciples. English/Korean aliases corroborated by Thunderscans. Expanded video description contained tags, not a source title; twenty public comments inspected. Sources: https://www.youtube.com/watch?v=RW7GtvBs67k&lc=UgxTyWIr5ZeGGUxSeYh4AaABAg ; https://www.youtube.com/watch?v=RW7GtvBs67k&lc=UgwzfPZunrjeaweuJRR4AaABAg ; https://www.youtube.com/watch?v=RW7GtvBs67k&t=76 ; https://www.youtube.com/watch?v=RW7GtvBs67k&t=151 ; https://www.webtoons.com/fr/action/the-veteran-healer-is-overpowered/list?title_no=8261 ; https://en-thunderscans.com/comics/the-late-game-healer-is-way-too-strong/ . No video-frame comparison, reverse image search, full-video review or exact chapter-coverage claim."
 })
+
+
+# Reviewed 2026-11-10: Vikir transcript and official publisher confirmation.
+REVIEWED.append({
+  "video_id": "uZ43s8gEJi4",
+  "title": "Revenge of the Baskerville Bloodhound",
+  "aliases": [
+    "Revenge of the Iron-Blooded Sword Hound"
+  ],
+  "reviewed_at": "2026-11-10",
+  "confirmado": True,
+  "evidence": "Two exact-video public viewer comments explicitly name Revenge of the Iron-Blooded Sword Hound. Native transcript: 00:40 Vikir wins written examination; 01:21–01:42 Vikir Van Baskerville accused of treason, killed on his father's orders and returns to birth; 01:42 Hugo; 02:40 cradle of swords; 02:48 River Styx; 03:19 John Barrymore. Official Tapas identifies Vikir, illegitimate son executed by his father, reborn with memories to seek revenge; official Google Play Books series independently names Vikir van Baskerville and newborn regression. Canonical English title retained consistently with existing catalog and Sheet identification. Expanded video description claims chapters 1–90; coverage is uploader-stated, not independently verified. Sources: https://www.youtube.com/watch?v=uZ43s8gEJi4&lc=UgxXKK21tNW4zLwJKBZ4AaABAg ; https://www.youtube.com/watch?v=uZ43s8gEJi4&lc=UgwWQpelnzghWWn3wvB4AaABAg ; https://www.youtube.com/watch?v=uZ43s8gEJi4&t=81 ; https://www.youtube.com/watch?v=uZ43s8gEJi4&t=199 ; https://tapas.io/series/revenge-of-the-baskerville-bloodhound/info ; https://play.google.com/store/books/series?id=7ZWQHAAAABB8iM . No video-frame comparison, reverse image search or full-video review claimed."
+})
