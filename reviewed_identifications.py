@@ -2767,3 +2767,18 @@ def apply_reviewed(spreadsheet, sheet, dry_run=False):
     confirmacao.mark(spreadsheet, sheet, plan_confirmed(rows))
     print(f"Identificações revisadas: {len(notes)} nomes preenchidos.")
     return len(notes)
+
+
+# Reviewed 2026-11-10: native transcript and official named-character match.
+REVIEWED.append({
+  "video_id": "RW7GtvBs67k",
+  "title": "The Veteran Healer Is Overpowered",
+  "aliases": [
+    "The Late Game Healer Is Way Too Strong",
+    "The Overpowered Veteran Healer",
+    "고인물 힐러가 너무 강하다"
+  ],
+  "reviewed_at": "2026-11-10",
+  "confirmado": True,
+  "evidence": "Exact-video public viewer comments explicitly name the series. Native transcript: 00:00–00:19 healer Minsu spent one hundred years in the demon realm and returns with a demon in his stomach after only ten Earth years; 01:16 Min Siwu; 01:24 Frey and dimensional orb; 02:31 Korea 2037 and hundred-year/ten-year time difference. Official French WEBTOON synopsis independently names Min Siwoo, a century in another world, return with Pré after ten Earth years and erased disciples. English/Korean aliases corroborated by Thunderscans. Expanded video description contained tags, not a source title; twenty public comments inspected. Sources: https://www.youtube.com/watch?v=RW7GtvBs67k&lc=UgxTyWIr5ZeGGUxSeYh4AaABAg ; https://www.youtube.com/watch?v=RW7GtvBs67k&lc=UgwzfPZunrjeaweuJRR4AaABAg ; https://www.youtube.com/watch?v=RW7GtvBs67k&t=76 ; https://www.youtube.com/watch?v=RW7GtvBs67k&t=151 ; https://www.webtoons.com/fr/action/the-veteran-healer-is-overpowered/list?title_no=8261 ; https://en-thunderscans.com/comics/the-late-game-healer-is-way-too-strong/ . No video-frame comparison, reverse image search, full-video review or exact chapter-coverage claim."
+})
