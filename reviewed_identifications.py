@@ -2834,3 +2834,16 @@ REVIEWED.append({
   "confirmado": True,
   "evidence": "Native exact-video transcript inspected in the cloud browser: 00:24 protagonist rendered Lu Chang/Lu Cheng; 01:13 vitality 0.6 versus Old Wang 0.8; 01:59 mission to kill ten living beings within twenty-four hours; 03:11 fire ants; 03:41 boiling water poured into the colony; 04:15 one hundred thousand deaths and system error; 04:41 system disabled; 05:08 one hundred million EXP awarded; 05:16 remaining functions kill to gain EXP and spend EXP to level up. Independently read novel chapter 1 reproduces this precise numeric and causal sequence. Direct official Fanqie page confirms original title and author 馒头馅儿饺子. English alias is WTR-LAB's documented machine-translated title, not an official English edition. Expanded video description names Lu Cheng and the premise; twenty inspected comments supplied no source title. Official chapter index 144–146 mentions Mount Gongwang rising/walking, consistent with the description's late moving-mountain premise but not proof of video chapter boundaries. Sources: https://www.youtube.com/watch?v=NfUJfvvuFUg&t=73 ; https://www.youtube.com/watch?v=NfUJfvvuFUg&t=119 ; https://www.youtube.com/watch?v=NfUJfvvuFUg&t=221 ; https://www.youtube.com/watch?v=NfUJfvvuFUg&t=308 ; https://fanqienovel.com/page/7644416447938038846 ; https://wtr-lab.com/en/novel/83808/high-martial-arts-becoming-a-god-starts-with-100-million-experience-points-and-becomes-invincible/chapter-1 . No frame comparison, reverse image search, full-video review or exact chapter-coverage claim."
 })
+
+
+# Cloud review 2026-11-10 16:15 UTC
+REVIEWED.extend([
+  {
+    "video_id": "UHSNLC7Vh5U",
+    "title": "全民选择进化，我选孢子产氧气",
+    "aliases": [],
+    "evidence": "Exact-video expanded description and uploader @Gave-k8y pinned comment explicitly link Part 2 sfUeECfxfRo and Part 1 u9IO65gb4To. Part 2 is already specifically confirmed in this catalog. New native transcript independently matches Su Bai (ASR Sububai), Evolution Frenzy and the distinctive ordered choices: 00:00–00:19 photosynthetic spore, zero attack/defense/mobility, all points to oxygen and 99.2% anaerobic extinction; 00:29–00:38 fish develops lungs before ocean hypoxia; 00:42–00:57 burrowing mouse survives asteroid/nuclear winter; 01:04–01:20 primates use spears, stone tools and fire. Fresh external catalog results identify author 何时能起飞, title, Su Bai, oxygen-producing spore and evolution-game extinction mechanics. Sources: https://www.youtube.com/watch?v=UHSNLC7Vh5U ; https://www.youtube.com/watch?v=UHSNLC7Vh5U&lc=UgyGKpBg_XKab22EFWB4AaABAg ; https://www.youtube.com/watch?v=UHSNLC7Vh5U&t=4 ; https://www.youtube.com/watch?v=UHSNLC7Vh5U&t=42 ; https://www.youtube.com/watch?v=sfUeECfxfRo ; https://www.readnovel.com/bqx/sknjosamlw ; https://www.rongshuxia.com/bqx/qbjdzfamamiq . Catalog search results were readable; direct web opens returned 403. Fourteen top-level public comments inspected. Only selected transcript opening inspected, no full-video, frame comparison, reverse-image search or chapter-coverage claim. No verified English alias.",
+    "reviewed_at": "2026-11-10",
+    "confirmado": True
+  }
+])
