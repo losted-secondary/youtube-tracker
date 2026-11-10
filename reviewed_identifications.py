@@ -2795,3 +2795,18 @@ REVIEWED.append({
   "confirmado": True,
   "evidence": "Two exact-video public viewer comments explicitly name Revenge of the Iron-Blooded Sword Hound. Native transcript: 00:40 Vikir wins written examination; 01:21–01:42 Vikir Van Baskerville accused of treason, killed on his father's orders and returns to birth; 01:42 Hugo; 02:40 cradle of swords; 02:48 River Styx; 03:19 John Barrymore. Official Tapas identifies Vikir, illegitimate son executed by his father, reborn with memories to seek revenge; official Google Play Books series independently names Vikir van Baskerville and newborn regression. Canonical English title retained consistently with existing catalog and Sheet identification. Expanded video description claims chapters 1–90; coverage is uploader-stated, not independently verified. Sources: https://www.youtube.com/watch?v=uZ43s8gEJi4&lc=UgxXKK21tNW4zLwJKBZ4AaABAg ; https://www.youtube.com/watch?v=uZ43s8gEJi4&lc=UgwWQpelnzghWWn3wvB4AaABAg ; https://www.youtube.com/watch?v=uZ43s8gEJi4&t=81 ; https://www.youtube.com/watch?v=uZ43s8gEJi4&t=199 ; https://tapas.io/series/revenge-of-the-baskerville-bloodhound/info ; https://play.google.com/store/books/series?id=7ZWQHAAAABB8iM . No video-frame comparison, reverse image search or full-video review claimed."
 })
+
+
+# Reviewed 2026-11-10: distinctive transcript sequence and chapter-one match.
+REVIEWED.append({
+  "video_id": "ekxadHjvwZI",
+  "title": "The Ruler of Darkness",
+  "aliases": [
+    "Ruler of the Dark Age",
+    "제암진천경",
+    "암흑기의 지배자"
+  ],
+  "reviewed_at": "2026-11-10",
+  "confirmado": True,
+  "evidence": "Native exact-video transcript inspected in the cloud browser: 00:10–00:51 Lu Yong/Lu Yang Sword Clan and prisoner deprived of limbs, tongue and eyes; 01:34–02:13 two sisters killed and fratricidal war after he left to become a son-in-law; 02:20–02:37 at age four he condensed hundreds of martial treatises into twenty-five, at five gave agricultural advice to the emperor, and at six predicted a drought; 05:16–05:55 book made of human skin, blood text and tendon stitching, with pact with darkness; 06:28 heir rendered Sohin by transcript, later Sohyun and Medicine King. Independently read chapter 1 reproduces captivity, mutilations, sisters and the precise age-four/five/six and twenty-five-books sequence. Nine Heavens identifies Yeon So-hyeon and the skin/blood/tendon book; Asura corroborates the English title, aliases, doomed star, destroyed family and dark pact. Official Kakao page confirms Korean title 제암진천경 and creators TenaZ/유과. Expanded description was generic; two inspected comments supplied no title and were not the identification basis. Sources: https://www.youtube.com/watch?v=ekxadHjvwZI&t=10 ; https://www.youtube.com/watch?v=ekxadHjvwZI&t=140 ; https://www.youtube.com/watch?v=ekxadHjvwZI&t=316 ; https://wuxiaworld.eu/chapter/the-ruler-of-darkness-1 ; https://nineheavens.org/novels/the-ruler-of-darkness/ ; https://asurascans.com/comics/the-ruler-of-darkness-f212c582 ; https://webtoon.kakao.com/content/%EC%A0%9C%EC%95%94%EC%A7%84%EC%B2%9C%EA%B2%BD/4898 . No frame comparison, reverse image search, full-video review or exact chapter-coverage claim."
+})
