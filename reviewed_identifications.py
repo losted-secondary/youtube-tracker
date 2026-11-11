@@ -2847,3 +2847,14 @@ REVIEWED.extend([
     "confirmado": True
   }
 ])
+
+
+# Cloud review 2026-11-11: distinctive transcript scene and official novel identity.
+REVIEWED.append({
+  "video_id": "ui7WIFC4w1c",
+  "title": "只剩三个月命，他们来求我原谅！",
+  "aliases": [],
+  "reviewed_at": "2026-11-11",
+  "confirmado": True,
+  "evidence": "Exact-video native transcript opened through Show transcript and read from the rendered page in the cloud browser. Export helper returned unavailable, but the visible transcript was present and saved. 00:00–00:29: nineteen-year-old terminal stomach-cancer patient, three months left, parents attend younger sister's meeting instead. 00:41–01:31: former neighbor Mr. Wallace collides with Ethan and blames him; Ethan pays for the objects, takes them and throws them into a trash can, saying payment makes them his property. Chapter 1 independently reproduces this distinctive ordered scene with Chen Shu (陈殊) and neighbor 刘叔叔. 03:20–03:46: doctor tells mother Linda the terminal diagnosis; chapter 2 matches mother's discovery. 06:21–06:28: Ethan rescued Lauren from drowning; chapters 4 and 6 identify Chen Shu as Lan Xinyu's real rescuer, while she mistakes Li Zhennan for the rescuer. 07:07–07:25: protagonist refuses to continue tutoring the hostile friend; chapter 4 matches. Official Fanqie confirms title, author 月幻瞳, Chen Shu and the three-month prognosis. Recap names are localized; description calls protagonist Chen Xiaoyu, not the canonical original name. Viewer comment UgzMiYmt610Qm0TQhaV4AaABAg suggests an unverified English title, which was not used as canonical title or alias. Sources: https://www.youtube.com/watch?v=ui7WIFC4w1c ; https://fanqienovel.com/page/7243466617948998659 ; https://m.ilwxs.com/shu/115737/159630304.html ; https://m.ilwxs.com/shu/115737/159630305.html ; https://m.ilwxs.com/shu/115737/159630307.html ; https://m.ilwxs.com/shu/115737/159630309.html . Source identified as a Chinese web novel; no official English edition or specific comic adaptation verified. Player stayed black/loading at 0:00. Selected transcript passages inspected, not full-video viewing, frame comparison, reverse-image search or exact chapter-coverage verification."
+})
