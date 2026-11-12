@@ -2899,3 +2899,28 @@ REVIEWED.append({
   "confirmado": True,
   "evidence": "Exact-video native Show transcript UI was readable although transcript export reported unavailable. 00:44 names Hundred Blade Grand Melee; 02:32-02:42 winner can have any wish granted and all 100 places are filled; 05:33 impostor David Evo calls himself Demon Blade Slayer; 14:23-14:39 special entrant blade 101 is Shu, the real Demon Blade Slayer; 20:44-20:53 and 27:03 name Simeon Valdar, Red Death, blade 66. Official LINE Manga serial synopsis independently identifies Shu, the Kadin Kingdom's hundred-fighter wish-prize tournament and Demon Blade Slayer challenger. Its named chapter 5 VS『赤き死』シメオン・ヴァルダル specifically matches the video's named opponent, establishing serial identity beyond the generic premise. Official title 欠陥剣士は覇者になる with creators 九岡望, SORAJIMA, vertwo, 卯太郎. Comicatch directly pairs the Japanese title with established English and romanized aliases; no claim of official English edition. Viewer comment suggests Sovereign of a Hundred Blades: Heir to the Strongest Style, but publisher separately catalogs 百刃の覇者〜最強の流派を継ぐ者〜 as a one-shot; do not silently merge it as a serial alias. Description generic tags, 7 top comments rendered out of 8 indicated. Transcript passages sampled, not full-video, visual panel comparison, reverse-image search or exact chapter-coverage review. Sources: https://www.youtube.com/watch?v=zFekpO4waK0 ; https://www.youtube.com/watch?v=zFekpO4waK0&t=44 ; https://www.youtube.com/watch?v=zFekpO4waK0&t=152 ; https://www.youtube.com/watch?v=zFekpO4waK0&t=863 ; https://www.youtube.com/watch?v=zFekpO4waK0&t=1244 ; https://www.youtube.com/watch?v=zFekpO4waK0&t=1623 ; https://manga.line.me/product/periodic?id=S163576 ; https://comicatch.com/title/58-the-flawed-swordsman-becomes-a-conqueror ; https://sorajimatoon.com/comics/01KQ6CG8R63WEVFR6K7XK4AFQS ; https://www.youtube.com/watch?v=zFekpO4waK0&lc=Ugz8h2I-xUS6LeiDMLJ4AaABAg ."
 })
+
+
+# Cloud review 2026-11-12: named protagonist and distinctive elf relationship.
+REVIEWED.append({'video_id': 'rgMGoad5uqs',
+ 'title': 'Eldmia Ega, the Reincarnated Avenger',
+ 'aliases': ['Never touch Eldmia Egga', 'Absolutely Do Not Touch Eldmia Egga', '復讐の転生者エルドミア・エガ', '절대 엘드미아 에가를 건드리지 마라'],
+ 'reviewed_at': '2026-11-12',
+ 'confirmado': True,
+ 'evidence': 'Exact-video native YouTube transcript: 03:18 protagonist introduces himself as Elmia Ega (phonetic ASR); '
+             "00:14 and 08:02 demon king's army destroys his village and family; 00:22 and 10:58 captive elf becomes "
+             'his older-sister figure and magic teacher; 00:28 a hidden noble girl enters the story. Independently '
+             'opened Kenmei catalog names Eldmia Ega/Eldomia and specifically joins a hometown destroyed by a demonic '
+             'army, the elven mage as sister and master, and a girl from a fallen noble house. This distinctive name '
+             'and character-role sequence confirms the series beyond the generic revenge premise. Elf is Ailia in ASR '
+             'versus Alicie in Kenmei; no exact spelling equivalence claimed. Kenmei directly lists the English, '
+             'Japanese and Korean aliases. English title is a catalog/translation title, not an asserted licensed '
+             'English edition. Expanded description says name in comments and chapters 1-43 but supplies no title; all '
+             'three visible Top comments lack identification. Eight-year contract is video-only; intro wording and '
+             'three-years-earlier flashback differ, and no elapsed-time claim is used for confirmation. Player stayed '
+             'black/buffering at 0:00, so no visual panel comparison, reverse-image search, full-video or exact '
+             'chapter-coverage claim. Sources: https://www.youtube.com/watch?v=rgMGoad5uqs ; '
+             'https://www.youtube.com/watch?v=rgMGoad5uqs&t=14 ; https://www.youtube.com/watch?v=rgMGoad5uqs&t=22 ; '
+             'https://www.youtube.com/watch?v=rgMGoad5uqs&t=198 ; https://www.youtube.com/watch?v=rgMGoad5uqs&t=482 ; '
+             'https://www.youtube.com/watch?v=rgMGoad5uqs&t=658 ; '
+             'https://www.kenmei.co/series/eldmia-ega-the-reincarnated-avenger .'})
