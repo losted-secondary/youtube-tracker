@@ -2948,3 +2948,16 @@ REVIEWED.append({
   "confirmado": True,
   "evidence": "Exact-video native YouTube transcript 00:00-00:27 identifies Su Bai (ASR Subai), seven consecutive victories, oxygen spore and Great Oxidation killing 99.2% of anaerobic life, lunged fish escaping ocean hypoxia, and burrowing mouse/dormant crocodile surviving asteroid nuclear winter. 02:23-02:40 Su Bai orders species longevity jellyfish, shark, crocodile, human. 2:24:21-2:24:36 describes his steam-engine industrial foundation: mine pump, blast furnace, standardized parts, trained workers and safety valves. External Readnovel search-retrieved title/author/synopsis names 苏白, 单细胞孢子, photosynthesis and oxygen mass extinction; catalog chapters 7, 10-14, 18-25, 77-78 and 93-106 match the distinctive evolution sequence, seven-version settlement, trivia and industrial development. MTL-Novel independently lists same Chinese title and author 何时能起飞 as a secondary catalog. External sources retrieved through web search; direct opens returned 403/timeout, so no primary editorial page or chapter-reader access claimed. Description and pinned uploader comment link earlier parts, but continuity alone is not identity proof. Sampled native transcript only, no full-video or visual panel match. No alias inferred from uploader's English title. Sources: https://www.youtube.com/watch?v=6y7kvm2Kb-A&t=0 ; https://www.youtube.com/watch?v=6y7kvm2Kb-A&t=143 ; https://www.youtube.com/watch?v=6y7kvm2Kb-A&t=8661 ; https://m.readnovel.com/bookquery/zfiqskfoenur ; https://www.readnovel.com/bqx/sknjosamlw ; https://mtl-novel.com/novel/everyone-chooses-evolution-i-choose-spores-to-produce-oxygen/ ."
 })
+
+
+# Cloud review 2026-11-12: newly available transcript matches official Tapas.
+REVIEWED.append({
+  "video_id": "yVHqcn1b1Ik",
+  "title": "The Return of the 8th Class Mage",
+  "aliases": [
+    "Return of the 8th Class Magician"
+  ],
+  "reviewed_at": "2026-11-12",
+  "confirmado": True,
+  "evidence": "Native YouTube transcript newly available: 01:39–02:21 names Ian, only eighth-class mage at age42, close friend Emperor Ragnar poisons him fearing his power; Ian uses a time-magic dagger and returns to age12. 03:08 names Green River capital. Official Tapas comic synopsis identifies Ian Paige, eighth-class mage serving Emperor Ragnar of Greenriver, poisoning and time magic returning thirty years into past. This specific named character and event sequence confirms identity. Top comments name Return of the 8th Class Magician; indexed independent discussion ties this alias to Ian, Ragnar and time dagger. Expanded description gives chapters1–62 but no title. Seventeen top-level comments observed of22 indicated; replies not exhaustive. Initial 00:00–03:16 and final 03:19:56–03:22:07 transcript sampled. No full-video viewing, actual scene-frame/panel comparison or exact chapter coverage verified. ASR names Ian, surname from official synopsis. Sources: https://www.youtube.com/watch?v=yVHqcn1b1Ik&t=99s ; https://tapas.io/series/the-return-of-the-8th-class-mage/info ; https://www.youtube.com/watch?v=yVHqcn1b1Ik&lc=UgzYz9wwniHAa63d8gp4AaABAg ; https://www.reddit.com/r/manhwa/comments/oeyuzq ."
+})
