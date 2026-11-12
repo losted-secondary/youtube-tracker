@@ -2924,3 +2924,15 @@ REVIEWED.append({'video_id': 'rgMGoad5uqs',
              'https://www.youtube.com/watch?v=rgMGoad5uqs&t=198 ; https://www.youtube.com/watch?v=rgMGoad5uqs&t=482 ; '
              'https://www.youtube.com/watch?v=rgMGoad5uqs&t=658 ; '
              'https://www.kenmei.co/series/eldmia-ega-the-reincarnated-avenger .'})
+
+# Cloud review 2026-11-12: transcript matches official English and Korean synopsis.
+REVIEWED.append({
+  "video_id": "SGs6MCHfckc",
+  "title": "The Zero-Mana Genius Assassin",
+  "aliases": [
+    "마력 제로 천재 암살자의 두번째 기회"
+  ],
+  "reviewed_at": "2026-11-12",
+  "confirmado": True,
+  "evidence": "Exact-video native YouTube transcript 00:34 names Van Krueger (ASR variation of official Ban Kruger); 00:41-01:12 magicless assassin helps his prince/friend take the throne, is betrayed, his family massacred, returns ten years into the past and enters the academy. 02:08-02:37 his family is alive again; the mana-less clan's physical strength and magical undetectability are emphasized. Official English WEBTOON synopsis identifies magicless Gerudi assassin Ban Kruger and the same enthronement/betrayal/massacre/regression/royal-academy sequence. Official Korean Naver synopsis names Ban and prince Heinz, ten-year regression and magicless academy ambition. These named character and plot matches establish identity beyond generic regression. Korean alias from official Naver. Video title age14 versus English synopsis fifteenth birthday is not used as exact match. Description and sampled comments lack title. No creator attribution because source credits differ; no full-video or visual-panel comparison claim. Sources: https://www.youtube.com/watch?v=SGs6MCHfckc&t=34s ; https://www.youtube.com/watch?v=SGs6MCHfckc&t=41s ; https://www.youtube.com/watch?v=SGs6MCHfckc&t=128s ; https://sg-m.webtoons.com/en/fantasy/the-zero-mana-genius-assassin/list?title_no=11445 ; https://m.comic.naver.com/webtoon/list?titleId=853831&week=dailyPlus ."
+})
