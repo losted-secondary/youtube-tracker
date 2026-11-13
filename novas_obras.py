@@ -60,7 +60,7 @@ KEYS = ["peguei", "capa", "obra", "capitulos", "generos", "ano", "sites", "visto
 NCOLS = len(HEADER)
 SITES_HEADER = ["Site", "URL", "Método", "Última coleta", "Obras lidas", "Status"]
 
-MAX_CAPS_NOVA = 25       # obra que aparece com mais capitulos que isso e catalogo antigo
+MAX_CAPS_NOVA = 80       # obra que aparece com mais capitulos que isso e catalogo antigo
 NEW_DAYS = 30            # quando o site informa a data de entrada, so pega obra recente
 NEW_SITES_DAYS = 20      # HiveToons/Kayn/OTL/Mist/GenZ: janela pela data real de entrada no site
 MAX_ROWS = 500
