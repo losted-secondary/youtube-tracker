@@ -27,7 +27,7 @@ Regras:
   - Mesma obra em dois sites vira UMA linha (titulo normalizado); a coluna `Sites`
     acumula onde ela apareceu. `Visto em` nunca muda depois.
   - `Visto em` e a data em que a obra entrou no site quando o site informa (HiveToons, Kayn,
-    OTL, Mist: janela de NEW_SITES_DAYS); senao, a hora da coleta.
+    OTL, Mist, GenZ, Asura: data real de entrada); senao, a hora da coleta.
   - `Peguei` e um checkbox que anda junto com a linha (a aba e reescrita e reordenada a cada
     rodada, entao pintar a linha na mao nao serve: a cor fica parada e a obra muda).
     Marcado, a linha inteira fica verde por formatacao condicional.
@@ -62,7 +62,7 @@ SITES_HEADER = ["Site", "URL", "Método", "Última coleta", "Obras lidas", "Stat
 
 MAX_CAPS_NOVA = 25       # obra que aparece com mais capitulos que isso e catalogo antigo
 NEW_DAYS = 30            # quando o site informa a data de entrada, so pega obra recente
-NEW_SITES_DAYS = 20      # HiveToons/Kayn/OTL/Mist: janela pela data real de entrada no site
+NEW_SITES_DAYS = 20      # HiveToons/Kayn/OTL/Mist/GenZ: janela pela data real de entrada no site
 MAX_ROWS = 500
 COMIX_DETAIL_MAX = 20    # paginas de detalhe (generos) do comix por rodada
 DATE_FMT = "%d/%m/%Y %H:%M"
@@ -121,17 +121,21 @@ def _item(site, titulo, link, capa="", caps=0, generos="", ano="", data=None, ad
 # ---------------------------------------------------------------- coletores por site
 
 def asura(now):
-    d = _get("https://api.asurascans.com/api/series",
-             params={"page": 1, "order": "latest", "count": 50}).json()
+    """Em 11/2026 a API passou a ignorar `order`/`count` (vinha a lista por atualizacao, 20 por
+    pagina) e a mandar `created_at` zerado nessa lista: nenhuma obra passava no `_recent` e a
+    Asura sumiu da aba desde ~05/11. Com `sort=newest` vem por id desc e com a data real."""
     out = []
-    for s in d.get("data") or d.get("series") or []:
-        if s.get("type") not in ("manhwa", "manhua") or not _recent(s.get("created_at"), now):
+    for s in _get("https://api.asurascans.com/api/series", params={"sort": "newest"}).json().get("data") or []:
+        criado = _dt(s.get("created_at"))
+        if criado and criado.year < 2000:     # 0001-01-01: data ausente
+            criado = None
+        if s.get("type") not in ("manhwa", "manhua") or not criado or not _recent(criado, now):
             continue
         out.append(_item("AsuraScans", s.get("title"),
                          "https://asurascans.com" + (s.get("public_url") or f"/comics/{s.get('slug')}"),
                          s.get("cover"), s.get("chapter_count"),
                          ", ".join(g.get("name", "") for g in s.get("genres") or []),
-                         s.get("release_year")))
+                         s.get("release_year"), data=criado))
     return out
 
 
@@ -382,24 +386,24 @@ def _mist_date(txt, now):
 _MIST_CAPA = re.compile(r"url=(?:https?://)?([^&)\s]+)")
 
 
-def mist(now):
+def mist(now, site="MistScans", base="https://mistscans.com"):
     """Sem API. A pagina /latest/ lista todas as obras pela ultima atualizacao; obra que
     entrou nos ultimos dias tem capitulo recente, entao so essas abrem a pagina da obra
-    para ler a data do capitulo 1 (atributo `d` do link)."""
-    base = "https://mistscans.com"
+    para ler a data do capitulo 1 (atributo `d` do link). A Gen Z (genztoons.org, antigo
+    genzupdates) usa o mesmo tema, e marca manhwa com o selo "comic"."""
     out = []
     for card in BeautifulSoup(_get(f"{base}/latest/").text, "html.parser").select(".latest-poster"):
         a = card.select_one("a[title]")
         chapters = card.select('a[href*="/chapter/"]')
         badges = [s.get_text(strip=True).lower() for s in a.select("span")] if a else []
-        if not a or not chapters or not {"manhwa", "manhua", "mangatoon"} & set(badges):
+        if not a or not chapters or not {"manhwa", "manhua", "mangatoon", "comic"} & set(badges):
             continue
         if not _recent(_mist_date(chapters[0].get("d"), now), now, NEW_SITES_DAYS):
             continue
         generos = [g.get("title", "") for g in card.select('a[href*="genre="]')]
         # a capa e AVIF, que o =IMAGE do Google nao abre: o proprio wsrv.nl do site converte em jpg
         capa = _MIST_CAPA.search(a.get("style") or "")
-        it = _item("MistScans", a.get("title"), base + a["href"],
+        it = _item(site, a.get("title"), base + a["href"],
                    f"https://wsrv.nl/?url={capa.group(1)}&w=240&output=jpg" if capa else "",
                    caps=_int(chapters[0].get("title")), generos=", ".join(generos), adulto="19+" in generos)
         if it["caps"] <= MAX_CAPS_NOVA:
@@ -418,6 +422,7 @@ SITES = [
     ("AsuraScans", "https://asurascans.com", "API", asura),
     ("Comick", "https://comick.dev", "API", comick),
     ("Comix", "https://comix.to", "HTML (dados embutidos)", comix),
+    ("GenZ", "https://genztoons.org", "HTML", lambda now: mist(now, "GenZ", "https://genztoons.org")),
     ("HiveToons", "https://hivetoons.org", "API", hivetoons),
     ("KaynScans", "https://kaynscans.com", "API", kayn),
     ("MadaraScans", "https://madarascans.net", "HTML",
