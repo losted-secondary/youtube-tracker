@@ -2976,3 +2976,17 @@ REVIEWED.append({
   "confirmado": True,
   "evidence": "Native YouTube transcript 01:46–02:55 describes protagonist made into a weapon through human experiments, humanity nearly extinct and sleep lasting 100 million years. At 1:37:38–1:37:46 he introduces himself as Shido Jyn, matching official LINE Manga protagonist 祠堂仁（シドウ ジン）, Jin Shido. LINE official synopsis independently confirms named protagonist, experiments, Corruptors, near-extinction and awakening after 100 million years; SORAJIMA official catalog confirms Japanese original title. Scythe catalog associates English title and aliases with same original and story; English title is not claimed as official licensed edition. Specific named character and event sequence confirm identity, not uploader title alone. Sampled native transcript only; no full-video or visual panel comparison. Percentages differ in narration, not used as exact match. Piccoma Japan territorial restriction was not bypassed. Sources: https://www.youtube.com/watch?v=0Qp_jDJPfmE&t=106s ; https://www.youtube.com/watch?v=0Qp_jDJPfmE&t=5858s ; https://manga.line.me/product/periodic?id=S164684 ; https://sorajimatoon.com/comics/01KK0EHX9Y0969ZCDFSFC1SWGP ; https://scythescans.com/manga/100-million-years-later-the-ultimate-weapons-return/ ."
 })
+
+
+# Cloud review 2026-11-13: distinctive grave and school-regression scenes.
+REVIEWED.append({
+  "video_id": "0Kk18kUTX1Q",
+  "title": "校花倒追我不要，我只爱小同桌",
+  "aliases": [
+    "校花别追了，爷的深情你不配",
+    "爱上软萌小同桌，校花哭晕了"
+  ],
+  "reviewed_at": "2026-11-13",
+  "confirmado": True,
+  "evidence": "Native YouTube transcript 00:08–02:57: man dies driving to his school crush's wedding; shy deskmate visits his grave with a glass jar of surplus folded paper stars, opens hidden love notes, sticks them on the gravestone and dies beside it. His spirit cannot touch her and wishes for rebirth. Chapter 1 她的心願 reproduces this distinctive ordered scene. At 03:04–03:55 he asks his chubby friend the date, September 22, 2008; friend brought a camera for his 999th confession, but he refuses and clears his desk for the deskmate who will otherwise transfer next class. Chapter 2 重回高中 matches date, count and actions. Video localizes 叶林 / 兰呦呦 / 凌飞雪 as Ethan / Grace / Vivian; specific event sequence establishes identity, not assumed name equivalence alone. Source novel by 榴莲味的西瓜; exact animated adaptation version and official English title not established. Native transcript sampled 00:00–15:00; no full-video viewing or actual frame comparison. Secondary chapter/catalog sources, not claimed official publisher. Sources: https://www.youtube.com/watch?v=0Kk18kUTX1Q&t=38s ; https://www.youtube.com/watch?v=0Kk18kUTX1Q&t=184s ; https://m.wfxs.tw/xiaoshuo/2572003/79911397/ ; https://m.wfxs.tw/xiaoshuo/2572003/79911398/ ; https://www.uudwc.com/book/228640/ ; https://www.duanjubaike.net/xiaoshuo/info-7288544802038090812.html ."
+})
