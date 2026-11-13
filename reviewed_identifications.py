@@ -2961,3 +2961,18 @@ REVIEWED.append({
   "confirmado": True,
   "evidence": "Native YouTube transcript newly available: 01:39–02:21 names Ian, only eighth-class mage at age42, close friend Emperor Ragnar poisons him fearing his power; Ian uses a time-magic dagger and returns to age12. 03:08 names Green River capital. Official Tapas comic synopsis identifies Ian Paige, eighth-class mage serving Emperor Ragnar of Greenriver, poisoning and time magic returning thirty years into past. This specific named character and event sequence confirms identity. Top comments name Return of the 8th Class Magician; indexed independent discussion ties this alias to Ian, Ragnar and time dagger. Expanded description gives chapters1–62 but no title. Seventeen top-level comments observed of22 indicated; replies not exhaustive. Initial 00:00–03:16 and final 03:19:56–03:22:07 transcript sampled. No full-video viewing, actual scene-frame/panel comparison or exact chapter coverage verified. ASR names Ian, surname from official synopsis. Sources: https://www.youtube.com/watch?v=yVHqcn1b1Ik&t=99s ; https://tapas.io/series/the-return-of-the-8th-class-mage/info ; https://www.youtube.com/watch?v=yVHqcn1b1Ik&lc=UgzYz9wwniHAa63d8gp4AaABAg ; https://www.reddit.com/r/manhwa/comments/oeyuzq ."
 })
+
+
+# Cloud review 2026-11-13: native transcript matches official LINE Manga.
+REVIEWED.append({
+  "video_id": "0Qp_jDJPfmE",
+  "title": "100 Million Years Later: The Ultimate Weapon’s Return",
+  "aliases": [
+    "最終兵器、1億年後に無双する",
+    "The Ultimate Weapon, Overpowered 100 Million Years Later",
+    "The Ultimate Weapon Returns After 100 Million Years"
+  ],
+  "reviewed_at": "2026-11-13",
+  "confirmado": True,
+  "evidence": "Native YouTube transcript 01:46–02:55 describes protagonist made into a weapon through human experiments, humanity nearly extinct and sleep lasting 100 million years. At 1:37:38–1:37:46 he introduces himself as Shido Jyn, matching official LINE Manga protagonist 祠堂仁（シドウ ジン）, Jin Shido. LINE official synopsis independently confirms named protagonist, experiments, Corruptors, near-extinction and awakening after 100 million years; SORAJIMA official catalog confirms Japanese original title. Scythe catalog associates English title and aliases with same original and story; English title is not claimed as official licensed edition. Specific named character and event sequence confirm identity, not uploader title alone. Sampled native transcript only; no full-video or visual panel comparison. Percentages differ in narration, not used as exact match. Piccoma Japan territorial restriction was not bypassed. Sources: https://www.youtube.com/watch?v=0Qp_jDJPfmE&t=106s ; https://www.youtube.com/watch?v=0Qp_jDJPfmE&t=5858s ; https://manga.line.me/product/periodic?id=S164684 ; https://sorajimatoon.com/comics/01KK0EHX9Y0969ZCDFSFC1SWGP ; https://scythescans.com/manga/100-million-years-later-the-ultimate-weapons-return/ ."
+})
