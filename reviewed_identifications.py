@@ -3001,3 +3001,106 @@ REVIEWED.append({
   "confirmado": True,
   "evidence": "Native YouTube transcript 04:03–05:12: protagonist uses newly gained X-ray vision to find twelve gold bars hidden behind a painting in the study wall, estimates their value at roughly eight million, brings them to the woman sorting bags and jewelry, who asks if he robbed a bank and pulls his ear while questioning how he knew about the compartment. Chapter 4 透视 matches this distinctive ordered scene, exact gold-bar count and approximate value. Earlier transcript 00:12 and 01:19–03:30 describes mother placing college student with her best friend, husband's overseas losses and flight, debts, student's savings offered to help and good-deed system rewarding X-ray vision. Catalog identifies source novel by 天一狮, 楚流枫 and 邢伊珊; video uses localized Ethan/Vivian, identity established by event sequence rather than assumed name equivalence alone. Secondary chapter/catalog sources, not claimed official publisher or licensed English edition. Initial six minutes of native transcript sampled, not full video or actual visual panel comparison; player remained at 0:00. No English alias inferred from recap title. Sources: https://www.youtube.com/watch?v=YmwB2ebe4YQ&t=243s ; https://m.cpxs123.cc/book/193056/4.html ; https://m.cpxs123.cc/book/193056/5.html ; https://m.cpxs123.cc/book/193056/ ."
 })
+
+
+# Cloud confirmations: verified pending entries, application 2026-11-16.
+REVIEWED.extend([{'video_id': 'qRhCQIlKUO8',
+  'title': '我的末日列车',
+  'aliases': [],
+  'evidence': '[{"source": "Native YouTube transcript observed in cloud browser", "timestamps": '
+              '"00:28–02:54", "summary": "Cole in a windowless foul carriage with two dim bulbs; third day '
+              'with two cups gritty water and moldy bread, over 100 prisoners in a 3-by-10-meter carriage. '
+              'Man covets his straw mat; protagonist stabs him four times with a sharpened branch then '
+              'strangles him, hides branch, and three armed guards enter and beat him."}, {"url": '
+              '"https://jpxs123.com/khjj/11090/1.html", "chapter": "1 暴起杀人", "summary": "Opened chapter text '
+              'matches the same ordered, specific scenes with 陈莽: straw mat, two bulbs and windowless '
+              'carriage, third day and quantities, exact carriage dimensions, sharpened branch four times '
+              'then strangling, followed by three pistol-and-baton guards."}] No invented English alias or '
+              'nominal equivalence from localized names; scene sequence supports identification. Description '
+              'mentions unlimited train upgrades but is secondary. No paid Patreon opened. No complete video '
+              'watch or visual frame match. Source video: https://www.youtube.com/watch?v=qRhCQIlKUO8',
+  'reviewed_at': '2026-11-15',
+  'confirmado': True},
+ {'video_id': 'lHG7d9ulHhI',
+  'title': '饥荒，我的物品能升级',
+  'aliases': [],
+  'reviewed_at': '2026-11-15',
+  'confirmado': True,
+  'evidence': 'Native transcript reopened: 00:16–00:53 poisoned wastelanders, noble caravan and '
+              'metal/earth-form allies match chapter20; 1:01:27–1:01:56 Quake Pearl stores marrow and fuses '
+              'into body for defense match 如意震空珠 chapter33. Uploader links identified part1 zhNjhPNhPaY. '
+              'Specific scene matches, not assumed localized-name equivalence. No full video or visual panel '
+              'comparison; no invented English alias. Sources: '
+              'https://www.youtube.com/watch?v=lHG7d9ulHhI&t=16s ; '
+              'https://www.youtube.com/watch?v=lHG7d9ulHhI&t=3687s ; https://xszj.org/b/397265/c/18414301 ; '
+              'https://xszj.org/b/397265/c/18414318 .'},
+ {'video_id': 'gOIfC-nl5dE',
+  'title': '都觉醒恶魔法则了，你契约蚂蚁？',
+  'aliases': [],
+  'evidence': '[{"url": "https://www.youtube.com/watch?v=gOIfC-nl5dE", "timestamps": "00:00–02:28", '
+              '"details": "Demon Law enables unlimited evolution by devouring flesh; roach ant queen; '
+              'crimson hoof charger, batwing bomber and voidstalker; stripped of commander post; 800 wounded '
+              'soldiers and evolved wolf riders form Sovereign Legion."}, {"url": '
+              '"https://fanqienovel.com/page/7517195003517488190", "details": "Official title, author 风动江湖 '
+              'and synopsis match demon-law ant evolution. Chapter index 96–106 matches removal of command, '
+              'manor disclosure, 800 soldiers and wolf cavalry."}, {"url": '
+              '"https://fanqienovel.com/reader/7517939940764699710", "chapter": 106, "details": "Public '
+              'preview explicitly combines 圣炎狼骑, eight hundred elite soldiers and 圣王军团. Matches video '
+              '00:31–00:48 and 01:35–01:43. Full chapter requires app/SVIP; not accessed or bypassed."}, '
+              '{"url": "https://fanqienovel.com/reader/7517939952336768062", "chapter": 105, "details": '
+              '"Public preview references Bai Tu and plans for wolf cavalry; title names wolf '
+              'riders/Sovereign Legion."}, {"url": '
+              '"https://www.youtube.com/watch?v=gOIfC-nl5dE&lc=Ugw0nPnzgq_Qkw22hiB4AaABAg", "details": '
+              '"Uploader pinned links to Part 1 xP18d9gnXR0 and Part 2 _IT7iUHwK8w, and admits rewriting '
+              'prior ending. Supports continuity but not sole evidence. Prior catalog Part 2 identity '
+              'matches."}] Limits: 20 top-level comments sampled of 38 indicated, replies not expanded; Only '
+              'first 2:28 native transcript sampled; no full video, story frames or visual chapter '
+              'comparison; Localized Lucas/Barrett names not exact Chinese name matches; scene/mechanics '
+              'basis; No English alias inferred; Player showed advertisements at 0:00; no media download',
+  'reviewed_at': '2026-11-14',
+  'confirmado': True},
+ {'video_id': 'Bqy0zWtRzI8',
+  'title': 'Catastrophic Priest',
+  'aliases': ['我！灾厄级牧师', 'I Am the Catastrophic Priest!', 'Me! Calamity-Class Priest'],
+  'reviewed_at': '2026-11-14',
+  'confirmado': True,
+  'evidence': 'Native transcript sampled00:00–04:51. At00:26 Lin Yay/Lin Ye priest closes portal;00:34–00:57 '
+              'healing becomes damage, buffs become curses, intentionally chooses priest due reversal '
+              'talent.01:05 childhood friend mage,03:01 Mumu gets A while he gets SSS solo in wolf '
+              'forest;03:40 chooses Mumu partner. Official KuaiKan synopsis names 林夜 and reversal talent '
+              'with lethal healing, matches distinctive character/mechanics; WebNovel chapter1 names Su Mumu '
+              'and reverse-healing priest choice, independently corroborating pair. Thunderscans maps '
+              'English Catastrophic Priest to Chinese title, OniSaga provides aliases. Expanded YouTube '
+              'description generic, comments still loading, not inspected. Player advertisements, no useful '
+              'actual frames; no full-video or panel comparison. Novel title not inserted as adaptation '
+              'alias. Direct Wuxiaworld unavailable and OniSaga403; its indexed snippet only used. Sources: '
+              'https://www.youtube.com/watch?v=Bqy0zWtRzI8&t=26s ; '
+              'https://www.youtube.com/watch?v=Bqy0zWtRzI8&t=181s ; '
+              'https://www.kuaikanmanhua.com/web/topic/22657/ ; '
+              'https://www.webnovel.com/novel/148103776173570205 ; '
+              'https://en-thunderscans.com/comics/0086250808-catastrophic-priest/ ; '
+              'https://onisaga.com/title/catastrophic-priest'},
+ {'video_id': 'eCJsKo2kzms',
+  'title': 'Afterlife Diner',
+  'aliases': ['Restaurant in the After Life', 'Underworld Restaurant', '저승식당'],
+  'reviewed_at': '2026-11-14',
+  'confirmado': True,
+  'evidence': 'Expanded YouTube description and pinned comment identify Afterlife Diner / Restaurant in the '
+              'After Life. Six first-level comments visible, including pinned. Native transcript sampled '
+              '00:00–04:15: Lee Kangjin (ASR Lie Kong Jeene), 28, construction laborer/student; 00:31 called '
+              'to Gangnam; 00:43 Shin legal representative gives inherited building worth 8.2 billion won; '
+              '00:57 Hope Orphanage; 01:35 must operate diner 11pm–1am, Sundays off, feed penniless and '
+              'accept chosen payment, three violations forfeit inheritance. Official Tapas synopsis '
+              'independently matches named protagonist, inheritance in Gangnam and exact 11pm–1am restaurant '
+              'hours with ghosts. NovelUpdates associates Korean and English aliases with matching plot. No '
+              'claim of full video viewing or panel comparison; player at0:00 with unavailable captions but '
+              'native transcript accessible. Official title established via Tapas; chapter-level visual '
+              'match not performed. Parent verification: Tapas opened. OniSaga indexed manhwa catalog '
+              'explicitly maps all three aliases, avoiding sole reliance on novel aliases. NovelUpdates '
+              'parent direct open403; indexed result used. Sources: '
+              'https://www.youtube.com/watch?v=eCJsKo2kzms ; '
+              'https://www.youtube.com/watch?v=eCJsKo2kzms&t=31s ; '
+              'https://www.youtube.com/watch?v=eCJsKo2kzms&t=95s ; '
+              'https://tapas.io/series/afterlife-diner/info ; '
+              'https://www.novelupdates.com/series/underworld-restaurant/ ; '
+              'https://onisaga.com/title/afterlife-diner'}])
