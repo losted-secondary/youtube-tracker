@@ -3127,3 +3127,10 @@ REVIEWED.append({'video_id': 'x-j7LP4cXY4',
              'https://webtoon.kakao.com/viewer/무림에서-온-배달부-001/237544',
  'reviewed_at': '2026-11-19',
  'confirmado': True})
+
+
+# Cloud-reviewed identifications, 2026-11-19.
+REVIEWED.extend([
+    {"video_id":"ZUnHllU0Tk0","title":"A Wimp’s Tower Strategy Guide","aliases":["A Wimp’s Strategy Guide to Conquer the Tower","하남자의 탑 공략법"],"evidence":"The pinned recap comment gives the alternate English title. Native transcript 00:24–00:51: timid Juhyeok Bong (phonetic ASR) summons assassin John Corsac outside the tower; at 01:48–02:33 Corsac confronts the loan shark and uses red ribbons. Official WEBTOON names Juhyeok Bong and publishes the comic; the Korean scene summary identifies Bong Juhyeok, Corsac, and the loan-office incident. Munpia publishes the original novel under the Korean title. https://www.youtube.com/watch?v=ZUnHllU0Tk0&t=37s ; https://www.youtube.com/watch?v=ZUnHllU0Tk0&lc=UgyUM34giotKRYcFL8p4AaABAg ; https://www.webtoons.com/en/action/a-wimps-tower-strategy-guide/list?title_no=9701 ; https://www.munpia.com/novel/detail/400210 ; https://webtoonrecap.com/w/%ED%95%98%EB%82%A8%EC%9E%90%EC%9D%98-%ED%83%91-%EA%B3%B5%EB%9E%B5%EB%B2%95","reviewed_at":"2026-11-19", "confirmado": True},
+    {"video_id":"3BvltAlkX7M","title":"网游：从稻草人开始进化成神","aliases":[],"evidence":"The original Fanqie novel by 树下小草 matches the native recap despite the protagonist being called Jack instead of Zhou Mo. Chapters 1–2: 10 HP scarecrow, ten-meter spawn limit (00:48), Player Panel lifts it (01:10), the couple spots the missing third scarecrow (01:26), a wooden sword deals one damage (02:06), and the protagonist hides among respawned scarecrows (02:52). Chapter 8 features the Elite Scarecrow evolution and 撕扯 (Shred); the recap condenses its timing. No verified alternate title. https://www.youtube.com/watch?v=3BvltAlkX7M&t=48s ; https://fanqienovel.com/page/6861739003717094414 ; https://fanqienovel.com/reader/6861739173146018312 ; https://fanqienovel.com/reader/6861742013009068552 ; https://fanqienovel.com/reader/6861753239142924807","reviewed_at":"2026-11-19", "confirmado": True},
+])
