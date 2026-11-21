@@ -3264,3 +3264,12 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "Native recap 00:00 opens with Kang's ex Sora threatening him with a fork for leaving Antas. At 00:16–01:06 a web novelist is granted a reincarnation wish in the underworld and discovers that he has become Kang, not the novel's protagonist. At 01:30–01:38 Kang is introduced as a swordsmanship and homeroom teacher and at 02:16–02:48 starts his instructor job. This matches the licensed Tapas synopsis and episode 1 for novelist-turned-extra Kang Shinhyuk, the future hero's teacher. A visible native viewer comment independently names the title; Kakao confirms its Korean spelling. https://www.youtube.com/watch?v=KvsgssnRbr8&t=16s ; https://www.youtube.com/watch?v=KvsgssnRbr8&lc=UgyR9y5obcBDHdnuRq14AaABAg ; https://tapas.io/series/i-became-a-swordsmanship-instructor-at-the-academy/info ; https://tapas.io/episode/3788771 ; https://webtoon.kakao.com/content/%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8%EC%9D%98-%EA%B2%80%EC%88%A0-%EA%B0%95%EC%82%AC%EA%B0%80-%EB%90%98%EC%97%88%EB%8B%A4/4509",
 })
+
+REVIEWED.append({
+    "video_id": "jmQ1UFW41T0",
+    "title": "O Retorno do Primeiro Patriarca: Renasci Mil Anos Depois Como Meu Próprio Descendente",
+    "aliases": ["Return of the First Patriarch: The Strongest Reincarnates into His Descendant 1000 Years Later", "初代様の帰還〜史上最強が1000年後の子孫に転生する〜"],
+    "reviewed_at": "2026-11-21",
+    "confirmado": True,
+    "evidence": "Native transcript 03:06–03:26 names Gilfas and describes the dragon guarding a golden immortality fruit. At 04:23 he wakes in a cot; 05:57 mentions ancient dragon blood; 07:22 names the child Zeke Eldragon; 08:17–08:34 describes the sole ten-star warrior, the current family head's illegitimate son, and the thousand-year gap. The licensed Comikey and Sorajima editions match Gilfas becoming Zeke in his own line. The native transcript also names the later family head Balza (28:36 and 48:03), matching the serialized chapter 5 listing. English alias is used in the credited companion recap and the existing H9t_zVATGvA catalogue record. https://www.youtube.com/watch?v=jmQ1UFW41T0&t=186s ; https://www.youtube.com/watch?v=jmQ1UFW41T0&t=1716s ; https://br.comikey.com/comics/o-retorno-do-primeiro-patriarca-renasci-mil-anos-d-webtoon/979/ ; https://sorajimatoon.com/comics/01K583PA0B17KNAW8XP5CEHZ2J/01K584C98AE250P7RHMTME3PWX/SIaXwlyYDjTzwd9hmD1C2X3pxlEB3V8Z ; https://piccoma.com/web/product/192640?etype=episode ; https://www.youtube.com/watch?v=soMBb6ASb7M",
+})
