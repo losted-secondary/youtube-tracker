@@ -3228,3 +3228,12 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "Native recap 00:00–00:29 names Asuka Amou, a professional volleyball captain nicknamed the Ice Empress, and her husband watching her match interview; 01:19–01:45 shows the newlywed former classmates; 03:38–04:09 links a pregnancy scare and their decision to wait to her championship and new captaincy. A public reply gives the romanized title. KADOKAWA ComicWalker chapter 1 independently lists the title, newlyweds Asuka and Yuuto, the women's volleyball captaincy and pregnancy concern before the tournament. https://www.youtube.com/watch?v=Yqald8qFi5o&t=218s ; https://comic-walker.com/detail/KC_012724_S ; https://www.nexusmangas.com/obra/shinkon-dakedo-captain-no-kanojo-to-wa-mada-yarenai",
 })
+
+REVIEWED.append({
+    "video_id": "Ryx0XgM6ivY",
+    "title": "A Regressor’s Tale of Cultivation",
+    "aliases": ["회귀수선전", "回歸修仙傳"],
+    "reviewed_at": "2026-11-21",
+    "confirmado": True,
+    "evidence": "Native recap 00:00–01:25 follows Seo Eun-hyun and his coworkers into the cultivation world after a work-trip accident; after 50 years without cultivation talent, he dies and relives the first day. At 01:54–02:06 chief Kim remains alongside him and becomes a martial prodigy. The original novel and the official Naver webtoon match the named protagonist, stranded coworkers and repeated return to the first day; chapter 1 matches the 50-year opening. https://www.youtube.com/watch?v=Ryx0XgM6ivY&t=114s ; https://series.naver.com/novel/detail.series?productNo=9807283 ; https://m.comic.naver.com/webtoon/list?titleId=839827 ; https://wetriedtls.com/series/a-regressors-tale-of-cultivation/chapter-1",
+})
