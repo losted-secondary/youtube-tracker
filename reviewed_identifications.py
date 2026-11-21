@@ -3255,3 +3255,12 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "Gave's expanded YouTube description describes a 23-year-old called Theo discovering a 20MB god simulator, sending garlic and wheat to the Garlic Tribe using his mouse, receiving a staff and a cactus servant in the real world, and spending 500 Faith to summon the forest apostle Isabel. The original novel by 鹿人戛 uses the name Lu Yao. Its chapters 1–3 match the small game, garlic offering and crossover of gifts; chapter 11 matches the 500 Faith cost and Isabel. English translations use God Simulator and Deity Simulator. https://www.youtube.com/watch?v=UN-yqLz-osc ; https://www.hongxiu.com/chapterlist/24347613101190004 ; https://www.hongxiu.com/chapter/24347613101190004/65366633887092295 ; https://www.hongxiu.com/chapter/24347613101190004/65465820251219072 ; https://www.scribblehub.com/read/2005614-god-simulator/chapter/2009879/ ; https://m.pawread.com/novel/deity-simulator/252788.html",
 })
+
+REVIEWED.append({
+    "video_id": "KvsgssnRbr8",
+    "title": "I Became a Swordsmanship Instructor at the Academy",
+    "aliases": ["아카데미의 검술 강사가 되었다"],
+    "reviewed_at": "2026-11-21",
+    "confirmado": True,
+    "evidence": "Native recap 00:00 opens with Kang's ex Sora threatening him with a fork for leaving Antas. At 00:16–01:06 a web novelist is granted a reincarnation wish in the underworld and discovers that he has become Kang, not the novel's protagonist. At 01:30–01:38 Kang is introduced as a swordsmanship and homeroom teacher and at 02:16–02:48 starts his instructor job. This matches the licensed Tapas synopsis and episode 1 for novelist-turned-extra Kang Shinhyuk, the future hero's teacher. A visible native viewer comment independently names the title; Kakao confirms its Korean spelling. https://www.youtube.com/watch?v=KvsgssnRbr8&t=16s ; https://www.youtube.com/watch?v=KvsgssnRbr8&lc=UgyR9y5obcBDHdnuRq14AaABAg ; https://tapas.io/series/i-became-a-swordsmanship-instructor-at-the-academy/info ; https://tapas.io/episode/3788771 ; https://webtoon.kakao.com/content/%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8%EC%9D%98-%EA%B2%80%EC%88%A0-%EA%B0%95%EC%82%AC%EA%B0%80-%EB%90%98%EC%97%88%EB%8B%A4/4509",
+})
