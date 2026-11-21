@@ -2707,6 +2707,28 @@ def video_id(value):
     return match.group(1) if match else None
 
 
+# Entries with a known cross-channel ID collision are never eligible by ID alone.
+CHANNEL_SCOPED_REVIEWED = {
+    "UySIk2dAWWk": {
+        "video_id": "UySIk2dAWWk",
+        "expected_channel": "Mamoru Manhwa",
+        "title": "The Regressed Demon Lord Is Kind",
+        "aliases": ["회귀한 마왕은 착하게 산다"],
+        "reviewed_at": "2026-11-21",
+        "confirmado": True,
+        "evidence": "Mamoru's exact-ID archive identifies the uploader separately from the conflicting AniRay sheet record. The native recap at 02:38:17–02:41:15 names Zich, Hans and Estellade and depicts Hans using the holy sword. Wuxiaworld chapter 117 matches Hans wielding Estellade after observing Zich. The webtoon studio identifies Zich Moore and the original Korean title. https://www.youtube.com/watch?v=UySIk2dAWWk&t=9497s ; https://zolotube.com/watch?v=UySIk2dAWWk ; https://spa-prod.wuxiaworld.com/novel/the-regressed-demon-lord-is-kind/rdl-chapter-117 ; https://www.toyoudream.com/work/webtoonView?work_no=539",
+    },
+}
+
+
+def reviewed_for_row(known, row):
+    vid = video_id(row[6])
+    scoped = CHANNEL_SCOPED_REVIEWED.get(vid)
+    if scoped is not None:
+        return scoped if str(row[2]).strip() == scoped["expected_channel"] else None
+    return known.get(vid)
+
+
 def plan_updates(rows):
     if not rows or rows[0][:8] != [
         "quero_postar", "obra", "canal", "data_postado",
@@ -2718,7 +2740,7 @@ def plan_updates(rows):
     notes = []
     for index, row in enumerate(rows[1:], start=2):
         row = list(row) + [""] * max(0, 8 - len(row))
-        item = known.get(video_id(row[6]))
+        item = reviewed_for_row(known, row)
         # Não sobrescrever nomes já presentes, nem variantes de outra identificação.
         if not item or str(row[1]).strip():
             continue
@@ -2739,8 +2761,8 @@ def plan_confirmed(rows):
     marks = []
     for index, row in enumerate(rows[1:], start=2):
         row = list(row) + [""] * max(0, 8 - len(row))
-        item = known.get(video_id(row[6]))
-        if item and str(row[1]).strip() in ("", item["title"]):
+        item = reviewed_for_row(known, row)
+        if item and item.get("confirmado") and str(row[1]).strip() in ("", item["title"]):
             marks.append((index, item["evidence"]))
     return marks
 
