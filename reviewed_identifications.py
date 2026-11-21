@@ -3237,3 +3237,12 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "Native recap 00:00–01:25 follows Seo Eun-hyun and his coworkers into the cultivation world after a work-trip accident; after 50 years without cultivation talent, he dies and relives the first day. At 01:54–02:06 chief Kim remains alongside him and becomes a martial prodigy. The original novel and the official Naver webtoon match the named protagonist, stranded coworkers and repeated return to the first day; chapter 1 matches the 50-year opening. https://www.youtube.com/watch?v=Ryx0XgM6ivY&t=114s ; https://series.naver.com/novel/detail.series?productNo=9807283 ; https://m.comic.naver.com/webtoon/list?titleId=839827 ; https://wetriedtls.com/series/a-regressors-tale-of-cultivation/chapter-1",
 })
+
+REVIEWED.append({
+    "video_id": "VOKnyuvibII",
+    "title": "Global Awakening: The Synthesis Master Starts with an Undead Army",
+    "aliases": ["Everyone Start with Synthesizing the Undead Army", "全民：合成师，开局合成亡灵大军", "全民：合成師，開局合成亡靈大軍"],
+    "reviewed_at": "2026-11-21",
+    "confirmado": True,
+    "evidence": "Stiles recap transcript: 01:04–01:11 identifies Chen Mo and his transmigration three years earlier; 02:20 names Fang Datong; 05:00–06:37 gives Chen Mo the public two-star Skeleton Mage class and hidden five-star Infinite Synthesizer, for seven combined stars; 10:05–10:31 he fuses three ordinary skeletons and chooses an attribute. Hongxiu's novel reference and chapter 4 listing match the unusual two professions and their exact star ratings; Comicu's illustrated series listing names Chen Mo and his skeleton fusion and attests the English and Chinese titles. https://www.youtube.com/watch?v=VOKnyuvibII&t=300s ; https://www.hongxiu.com/baike/1pcbn19zp4pgo ; https://www.hongxiu.com/bookquery/jdzffopexawz ; https://comicu.net/comic/everyone-start-with-synthesizing-the-undead-army ; https://www.baozimh.net/quanminhechengshikaijuhechengwanglingdajun",
+})
