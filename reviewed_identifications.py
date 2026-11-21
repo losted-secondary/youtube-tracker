@@ -3246,3 +3246,12 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "Stiles recap transcript: 01:04–01:11 identifies Chen Mo and his transmigration three years earlier; 02:20 names Fang Datong; 05:00–06:37 gives Chen Mo the public two-star Skeleton Mage class and hidden five-star Infinite Synthesizer, for seven combined stars; 10:05–10:31 he fuses three ordinary skeletons and chooses an attribute. Hongxiu's novel reference and chapter 4 listing match the unusual two professions and their exact star ratings; Comicu's illustrated series listing names Chen Mo and his skeleton fusion and attests the English and Chinese titles. https://www.youtube.com/watch?v=VOKnyuvibII&t=300s ; https://www.hongxiu.com/baike/1pcbn19zp4pgo ; https://www.hongxiu.com/bookquery/jdzffopexawz ; https://comicu.net/comic/everyone-start-with-synthesizing-the-undead-army ; https://www.baozimh.net/quanminhechengshikaijuhechengwanglingdajun",
 })
+
+REVIEWED.append({
+    "video_id": "UN-yqLz-osc",
+    "title": "神明模拟器",
+    "aliases": ["God Simulator", "Deity Simulator"],
+    "reviewed_at": "2026-11-21",
+    "confirmado": True,
+    "evidence": "Gave's expanded YouTube description describes a 23-year-old called Theo discovering a 20MB god simulator, sending garlic and wheat to the Garlic Tribe using his mouse, receiving a staff and a cactus servant in the real world, and spending 500 Faith to summon the forest apostle Isabel. The original novel by 鹿人戛 uses the name Lu Yao. Its chapters 1–3 match the small game, garlic offering and crossover of gifts; chapter 11 matches the 500 Faith cost and Isabel. English translations use God Simulator and Deity Simulator. https://www.youtube.com/watch?v=UN-yqLz-osc ; https://www.hongxiu.com/chapterlist/24347613101190004 ; https://www.hongxiu.com/chapter/24347613101190004/65366633887092295 ; https://www.hongxiu.com/chapter/24347613101190004/65465820251219072 ; https://www.scribblehub.com/read/2005614-god-simulator/chapter/2009879/ ; https://m.pawread.com/novel/deity-simulator/252788.html",
+})
