@@ -3219,3 +3219,12 @@ REVIEWED.append({
     "reviewed_at": "2026-11-20",
     "confirmado": True,
 })
+
+REVIEWED.append({
+    "video_id": "Yqald8qFi5o",
+    "title": "Shinkon dakedo Captain no Kanojo to wa Mada Yarenai",
+    "aliases": ["新婚だけどキャプテンの彼女とはまだヤれない"],
+    "reviewed_at": "2026-11-21",
+    "confirmado": True,
+    "evidence": "Native recap 00:00–00:29 names Asuka Amou, a professional volleyball captain nicknamed the Ice Empress, and her husband watching her match interview; 01:19–01:45 shows the newlywed former classmates; 03:38–04:09 links a pregnancy scare and their decision to wait to her championship and new captaincy. A public reply gives the romanized title. KADOKAWA ComicWalker chapter 1 independently lists the title, newlyweds Asuka and Yuuto, the women's volleyball captaincy and pregnancy concern before the tournament. https://www.youtube.com/watch?v=Yqald8qFi5o&t=218s ; https://comic-walker.com/detail/KC_012724_S ; https://www.nexusmangas.com/obra/shinkon-dakedo-captain-no-kanojo-to-wa-mada-yarenai",
+})
