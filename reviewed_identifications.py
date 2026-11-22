@@ -3282,3 +3282,12 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "Mamoru's pinned creator comment names Becoming a Magic School Mage and identifies the recap as comic chapters 1–85. The recap headline describes a teacher attempting to drain a new mage's enormous mana supply. In novel chapter 36, vampire Professor Voladi absorbs Ihan's mana to train his fine control, is overwhelmed before draining it, and the student remains fine. The licensed Tapas comic names the protagonist Ehan and confirms the official English series title; Kakao Webtoon confirms the Korean original. The chapter translation uses the variant Surviving as a Mage in a Magic Academy. https://www.youtube.com/watch?v=P5g7ElbQXuY&lc=Ugz_61ahe3m65lEsieJ4AaABAg ; https://tapas.io/series/becoming-a-magic-school-mage/info ; https://webtoon.kakao.com/content/%EB%A7%88%EB%B2%95%ED%95%99%EA%B5%90-%EB%A7%88%EB%B2%95%EC%82%AC%EB%A1%9C-%EC%82%B4%EC%95%84%EA%B0%80%EB%8A%94-%EB%B2%95/3103 ; https://www.webnovel.com/id/book/32337629708383605/87406928967297082",
 })
+
+REVIEWED.append({
+    "video_id": "IinYS9fOmlI",
+    "title": "我的末日列车",
+    "aliases": ["My Doomsday Train","My Apocalypse Train","My Apocalyptic Train"],
+    "reviewed_at": "2026-11-22",
+    "confirmado": True,
+    "evidence": "Gave’s native expanded description and pinned creator comment link its exact Part 1 qRhCQIlKUO8 and do not name the work. Target transcript at 00:16–01:39 matches novel chapter 46: Stellar (恒星号), gathering of roughly 40–50 trains for spider silk, Bloodthirsty Bull and Beat King captains, companions Old Pig and Biaozi with three escorts and Rising Dragon rifles. 11:47 exchange of handheld zombie-disguise device for spider silk matches chapter 49. The prose author is 中世纪的兔子. English variants are catalogued, not licensed-edition claims; this is an identification of the underlying novel, not proof of a separately published manhwa. Part 1 was not separately reviewed. Sources: https://www.youtube.com/watch?v=IinYS9fOmlI&t=16s ; https://www.youtube.com/watch?v=IinYS9fOmlI&t=707s ; https://www.youtube.com/watch?v=IinYS9fOmlI&lc=UgwFDwLw8cnu9wsYm6J4AaABAg ; https://czbooks.net/n/s6kgmn/s6onh211?chapterNumber=47 ; https://czbooks.net/n/s6kgmn/s6onh21c?chapterNumber=50 ; https://www.novelupdates.com/series/my-doomsday-train/",
+})
