@@ -3309,3 +3309,13 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "Now verse native description names Ye Xuan. The Hindi transcript at 00:32–00:46 has the female instructor arrive on a flying sword and call students to the awakening pillar; at 01:50–02:16 Qin Wuyan asks Ye Xuan (叶轩) to stop drinking; at 02:23–02:53 the 1,000-drink milestone unlocks the unique SSS Wine Sword Immortal Spirit; at 03:14–03:46 Chu Haohui receives an A-rank Azure Dragon Blade. These ordered scenes and names match official Fanqie chapter 1 of the novel by 朱雀火火火. This confirms the underlying novel, not a specific animation or comic edition. Sources: https://www.youtube.com/watch?v=w3gSt0XPCEA&t=143s ; https://fanqienovel.com/page/7298878331255000115 ; https://fanqienovel.com/reader/7298881417847505446",
 })
+
+# Cloud-reviewed identification, 2026-11-22.
+REVIEWED.append({
+    "video_id": "Na0riaeGRpA",
+    "title": "Hunter Academy's Invincible Martial God",
+    "aliases": ["Hunter Academy's Strongest Battle God","헌터 아카데미의 최강투신"],
+    "reviewed_at": "2026-11-22",
+    "confirmado": True,
+    "evidence": "The expanded description of the exact YouTube video names both English titles. Native transcript 00:00–00:47: Shin Yusung starts at age five and trains for twelve years under the Fist King. 02:04–02:41: F-rank attribute and mana-powered Heightened Focus. Official Tapas publishes the comic as Hunter Academy's Invincible Martial God and identifies Yusung Shin, his low-level attribute and Gaon Academy. The Korean comics archive corroborates the age, mentor, exact training period and academy. Kakao Webtoon confirms the original Korean comic title and matching creators. Sources: https://www.youtube.com/watch?v=Na0riaeGRpA&t=0s ; https://www.youtube.com/watch?v=Na0riaeGRpA&t=124s ; https://tapas.io/series/hunter-academys-invincible-martial-god/info ; https://tapas.io/episode/3218691 ; https://webtoon.kakao.com/content/헌터-아카데미의-최강투신/4028 ; https://www.kmas.or.kr/archive/comics/2024011346",
+})
