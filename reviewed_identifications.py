@@ -3291,3 +3291,21 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "Gave’s native expanded description and pinned creator comment link its exact Part 1 qRhCQIlKUO8 and do not name the work. Target transcript at 00:16–01:39 matches novel chapter 46: Stellar (恒星号), gathering of roughly 40–50 trains for spider silk, Bloodthirsty Bull and Beat King captains, companions Old Pig and Biaozi with three escorts and Rising Dragon rifles. 11:47 exchange of handheld zombie-disguise device for spider silk matches chapter 49. The prose author is 中世纪的兔子. English variants are catalogued, not licensed-edition claims; this is an identification of the underlying novel, not proof of a separately published manhwa. Part 1 was not separately reviewed. Sources: https://www.youtube.com/watch?v=IinYS9fOmlI&t=16s ; https://www.youtube.com/watch?v=IinYS9fOmlI&t=707s ; https://www.youtube.com/watch?v=IinYS9fOmlI&lc=UgwFDwLw8cnu9wsYm6J4AaABAg ; https://czbooks.net/n/s6kgmn/s6onh211?chapterNumber=47 ; https://czbooks.net/n/s6kgmn/s6onh21c?chapterNumber=50 ; https://www.novelupdates.com/series/my-doomsday-train/",
 })
+
+REVIEWED.append({
+    "video_id": "3TM6yu2m7ms",
+    "title": "From Riches To Rags",
+    "aliases": ["身为首富的我真不想重生啊","As the Richest Man, I Really Don’t Want to Be Reborn"],
+    "reviewed_at": "2026-11-22",
+    "confirmado": True,
+    "evidence": "Native recap 00:00–00:31: Hao Qiong returns to age 18 after becoming the richest man and recalls his damaged awakening vessels. At 01:14–02:21 the bracelet from warrior Di Zhetian triggers the regression. The licensed WebNovel comic confirms Hao Qiong and the richest-man regression; the Kuaikan comic confirms the Chinese title. Tencent's attributed synopsis explicitly identifies Hao Qiong, his real-estate fortune and Di Zhetian's bracelet. Sources: https://www.youtube.com/watch?v=3TM6yu2m7ms&t=74s ; https://www.webnovel.com/comic/from-riches-to-rags_21292682205861501 ; https://www.kuaikanmanhua.com/web/topic/22982/ ; https://www.sohu.com/a/454027503_100102138",
+})
+
+REVIEWED.append({
+    "video_id": "w3gSt0XPCEA",
+    "title": "诗酒双绝：一剑开天，校花崩坏了",
+    "aliases": [],
+    "reviewed_at": "2026-11-22",
+    "confirmado": True,
+    "evidence": "Now verse native description names Ye Xuan. The Hindi transcript at 00:32–00:46 has the female instructor arrive on a flying sword and call students to the awakening pillar; at 01:50–02:16 Qin Wuyan asks Ye Xuan (叶轩) to stop drinking; at 02:23–02:53 the 1,000-drink milestone unlocks the unique SSS Wine Sword Immortal Spirit; at 03:14–03:46 Chu Haohui receives an A-rank Azure Dragon Blade. These ordered scenes and names match official Fanqie chapter 1 of the novel by 朱雀火火火. This confirms the underlying novel, not a specific animation or comic edition. Sources: https://www.youtube.com/watch?v=w3gSt0XPCEA&t=143s ; https://fanqienovel.com/page/7298878331255000115 ; https://fanqienovel.com/reader/7298881417847505446",
+})
