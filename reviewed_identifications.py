@@ -3329,3 +3329,23 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "A viewer comment on the exact recap explicitly names Dungeon Odyssey; uploader description and pin do not identify it. Native transcript 00:05–00:46: children born in the labyrinth after the war, fed monster milk; Kim becomes a guide. 11:37: Naga's Labyrinth. 12:44–15:38: the 18,230th liberator inherits the Naga throne and is registered as Naga King. Tapas's official comic confirms dungeon-born guide Kim Jinwoo and labyrinth ownership. Chapter 2 of the separate official prose edition corroborates Kim Jin-Woo, the Naga's Labyrinth and the number 18,230. Kakao Webtoon confirms the Korean comic title. Sources: https://www.youtube.com/watch?v=G1KKAU7OK8U&lc=UgwTISRO8Wv1ZxIN2694AaABAg ; https://www.youtube.com/watch?v=G1KKAU7OK8U&t=697s ; https://www.youtube.com/watch?v=G1KKAU7OK8U&t=938s ; https://tapas.io/series/dungeon-odyssey/info ; https://tapas.io/episode/3096420 ; https://webtoon.kakao.com/content/던전-견문록/3190",
 })
+
+# Cloud-reviewed identification, 2026-11-22.
+REVIEWED.append({
+    "video_id": "TB-kDMU4dMM",
+    "title": "公爵家のSランク神器使いの回帰",
+    "aliases": ["The Return of the S-Rank Holy Weapon User From the Duke’s Family"],
+    "reviewed_at": "2026-11-22",
+    "confirmado": True,
+    "evidence": "Native Tobs recap: Bell and his brother Zane at the awakening ceremony (00:00–01:25); Bell obtains Avalon at 02:31, returns to save his sister Sarah at 02:54–03:13, and regresses to the ceremony with Avalon after being killed at 03:35–03:54. SORAJIMA and co-producer Nippon TV confirm Bell of the Catastrophe ducal family, born unable to summon a divine armament, his acquisition of Avalon, return to save his sister, murder and regression with the artifact. Licensed LINE Manga lists episodes 1–3 (legendary armament, regressed S-rank holy knight, Duke Galleon). The English alias is a catalog rendering, not a verified licensed English edition. Sources: https://www.youtube.com/watch?v=TB-kDMU4dMM&t=151s ; https://www.youtube.com/watch?v=TB-kDMU4dMM&t=215s ; https://sorajima.jp/works/IfTjmjBx ; https://www.ntv.co.jp/topics/articles/19qo8t84h3u6zkazro.html ; https://manga.line.me/product/periodic?id=S138873&t=1712966400033 ; https://mangabaka.org/manga/79587/The-Return-of-the-S-Rank-Holy-Weapon-User-From-the-Duke-s-Family",
+})
+
+# Cloud-reviewed identification, 2026-11-22.
+REVIEWED.append({
+    "video_id": "sYBELWCy5vo",
+    "title": "回帰した天才魔剣士",
+    "aliases": ["The Return of the Genius Magic Swordsman","Genius Magic Swordsman Returns","The Regressed Genius Magic Swordsman"],
+    "reviewed_at": "2026-11-22",
+    "confirmado": True,
+    "evidence": "Native FuriosToon recap 00:50–01:45: Xavier Benedict fights Demon King Sirius Patrick, crushing his core after the century-long demon war. At 02:25–02:44 he regresses to his own birth; at 03:30–04:07 he recognizes the magical aptitude he lacked in his earlier life; at 05:12–05:28 he tests a fireball that craters a mountain. This ordered opening and Xavier/Zavier match the comic synopsis, and an independently indexed recap names Xavier Benedict and the same death and rebirth. Piccoma's official listing links the exact Japanese title to product 185336. The English aliases are catalog renderings, not verified licensed editions. Sources: https://www.youtube.com/watch?v=sYBELWCy5vo&t=50s ; https://www.youtube.com/watch?v=sYBELWCy5vo&t=145s ; https://piccoma.com/web/product/185336 ; https://kingofshojo.com/manga/genius-magic-swordsman-returns/ ; https://qimanga.com/series/genius-magic-swordsman-returns ; https://www.youtube.com/watch?v=mMCcL-mfAIk ; https://www.manhwatonovel.com/novela/the-regressed-genius-magic-swordsman/",
+})
