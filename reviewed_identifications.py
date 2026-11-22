@@ -3319,3 +3319,13 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "The expanded description of the exact YouTube video names both English titles. Native transcript 00:00–00:47: Shin Yusung starts at age five and trains for twelve years under the Fist King. 02:04–02:41: F-rank attribute and mana-powered Heightened Focus. Official Tapas publishes the comic as Hunter Academy's Invincible Martial God and identifies Yusung Shin, his low-level attribute and Gaon Academy. The Korean comics archive corroborates the age, mentor, exact training period and academy. Kakao Webtoon confirms the original Korean comic title and matching creators. Sources: https://www.youtube.com/watch?v=Na0riaeGRpA&t=0s ; https://www.youtube.com/watch?v=Na0riaeGRpA&t=124s ; https://tapas.io/series/hunter-academys-invincible-martial-god/info ; https://tapas.io/episode/3218691 ; https://webtoon.kakao.com/content/헌터-아카데미의-최강투신/4028 ; https://www.kmas.or.kr/archive/comics/2024011346",
 })
+
+# Cloud-reviewed identification, 2026-11-22.
+REVIEWED.append({
+    "video_id": "G1KKAU7OK8U",
+    "title": "Dungeon Odyssey",
+    "aliases": ["던전 견문록"],
+    "reviewed_at": "2026-11-22",
+    "confirmado": True,
+    "evidence": "A viewer comment on the exact recap explicitly names Dungeon Odyssey; uploader description and pin do not identify it. Native transcript 00:05–00:46: children born in the labyrinth after the war, fed monster milk; Kim becomes a guide. 11:37: Naga's Labyrinth. 12:44–15:38: the 18,230th liberator inherits the Naga throne and is registered as Naga King. Tapas's official comic confirms dungeon-born guide Kim Jinwoo and labyrinth ownership. Chapter 2 of the separate official prose edition corroborates Kim Jin-Woo, the Naga's Labyrinth and the number 18,230. Kakao Webtoon confirms the Korean comic title. Sources: https://www.youtube.com/watch?v=G1KKAU7OK8U&lc=UgwTISRO8Wv1ZxIN2694AaABAg ; https://www.youtube.com/watch?v=G1KKAU7OK8U&t=697s ; https://www.youtube.com/watch?v=G1KKAU7OK8U&t=938s ; https://tapas.io/series/dungeon-odyssey/info ; https://tapas.io/episode/3096420 ; https://webtoon.kakao.com/content/던전-견문록/3190",
+})
