@@ -3273,3 +3273,12 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "Native transcript 03:06–03:26 names Gilfas and describes the dragon guarding a golden immortality fruit. At 04:23 he wakes in a cot; 05:57 mentions ancient dragon blood; 07:22 names the child Zeke Eldragon; 08:17–08:34 describes the sole ten-star warrior, the current family head's illegitimate son, and the thousand-year gap. The licensed Comikey and Sorajima editions match Gilfas becoming Zeke in his own line. The native transcript also names the later family head Balza (28:36 and 48:03), matching the serialized chapter 5 listing. English alias is used in the credited companion recap and the existing H9t_zVATGvA catalogue record. https://www.youtube.com/watch?v=jmQ1UFW41T0&t=186s ; https://www.youtube.com/watch?v=jmQ1UFW41T0&t=1716s ; https://br.comikey.com/comics/o-retorno-do-primeiro-patriarca-renasci-mil-anos-d-webtoon/979/ ; https://sorajimatoon.com/comics/01K583PA0B17KNAW8XP5CEHZ2J/01K584C98AE250P7RHMTME3PWX/SIaXwlyYDjTzwd9hmD1C2X3pxlEB3V8Z ; https://piccoma.com/web/product/192640?etype=episode ; https://www.youtube.com/watch?v=soMBb6ASb7M",
 })
+
+REVIEWED.append({
+    "video_id": "P5g7ElbQXuY",
+    "title": "Becoming a Magic School Mage",
+    "aliases": ["마법학교 마법사로 살아가는 법", "Surviving as a Mage in a Magic Academy"],
+    "reviewed_at": "2026-11-22",
+    "confirmado": True,
+    "evidence": "Mamoru's pinned creator comment names Becoming a Magic School Mage and identifies the recap as comic chapters 1–85. The recap headline describes a teacher attempting to drain a new mage's enormous mana supply. In novel chapter 36, vampire Professor Voladi absorbs Ihan's mana to train his fine control, is overwhelmed before draining it, and the student remains fine. The licensed Tapas comic names the protagonist Ehan and confirms the official English series title; Kakao Webtoon confirms the Korean original. The chapter translation uses the variant Surviving as a Mage in a Magic Academy. https://www.youtube.com/watch?v=P5g7ElbQXuY&lc=Ugz_61ahe3m65lEsieJ4AaABAg ; https://tapas.io/series/becoming-a-magic-school-mage/info ; https://webtoon.kakao.com/content/%EB%A7%88%EB%B2%95%ED%95%99%EA%B5%90-%EB%A7%88%EB%B2%95%EC%82%AC%EB%A1%9C-%EC%82%B4%EC%95%84%EA%B0%80%EB%8A%94-%EB%B2%95/3103 ; https://www.webnovel.com/id/book/32337629708383605/87406928967297082",
+})
