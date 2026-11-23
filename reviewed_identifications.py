@@ -3359,3 +3359,13 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "Native Gave recap 00:00–00:53 names the veteran Muay Thai fighter Chachai and Li Yan (李阎), a practitioner of Eight Trigrams Palm with leukemia. It sets the Yanfu event in 1986 Kowloon Walled City and gives the seventh-ring goal, the Lost Ancient Tales fragment, the Ubume awakening task and 300 Yanfu points. At 02:08–04:20 the video-store visit by martial-arts association representative Lei Jing and Li Yan's acute myeloid leukemia match the original novel's opening. Qidian chapter 3 and its publisher-network material corroborate the Kowloon seventh-ring task and illness; the official Yuewen Comics adaptation confirms Li Yan entering Yanfu and uses the alias All Starts with Ubume. This identifies the underlying work, not a specific edition of the video. Sources: https://www.youtube.com/watch?v=u2jA4dsw_FY&t=32s ; https://www.youtube.com/watch?v=u2jA4dsw_FY&t=128s ; https://www.qidian.com/chapter/1011321110/398159394/ ; https://www.hongxiu.com/novelbaike/1pcbn19zsay87 ; https://www.youtube.com/watch?v=3m6QoCsvoDg ; https://www.bilibili.com/bangumi/play/ep775975",
 })
+
+# Cloud-reviewed identification, 2026-11-23.
+REVIEWED.append({
+    "video_id": "hrezMssCVzg",
+    "title": "The Fallen House of Ardan",
+    "aliases": ["I Regressed to My Ruined Family", "회귀했더니 가문이 망했다"],
+    "reviewed_at": "2026-11-23",
+    "confirmado": True,
+    "evidence": "The exact Frieren upload description directs to comments and covers chapters 1–89; a viewer names both The Fallen House of Ardan and I Regressed to My Ruined Family. The native 02:59–03:05 storyboard shows a person thrown across an interior, and a timestamped viewer comment identifies the slap at 02:59. Chapter 3 of the prose translation describes Ethan Ardan sending Hans flying with a slap in front of the attendants after they leave his sister to do their work. This scene supports the identification; no exact comic panel or full transcript was available. Tapas confirms Ethan's return, his sister, his ten-year coma, the licensed English name and the 89-episode finale. KakaoPage comic episode 1 confirms the Korean title. Sources: https://www.youtube.com/watch?v=hrezMssCVzg&t=179s ; https://www.youtube.com/watch?v=hrezMssCVzg&lc=Ugya_Zpu9751yKxfawN4AaABAg ; https://karistudio.com/chapter-3-the-young-lords-wrath/ ; https://tapas.io/series/the-fallen-house-of-ardan/info ; https://tapas.io/episode/2780492 ; https://page.kakao.com/content/60659272/viewer/60689646",
+})
