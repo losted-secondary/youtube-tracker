@@ -3349,3 +3349,13 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "Native FuriosToon recap 00:50–01:45: Xavier Benedict fights Demon King Sirius Patrick, crushing his core after the century-long demon war. At 02:25–02:44 he regresses to his own birth; at 03:30–04:07 he recognizes the magical aptitude he lacked in his earlier life; at 05:12–05:28 he tests a fireball that craters a mountain. This ordered opening and Xavier/Zavier match the comic synopsis, and an independently indexed recap names Xavier Benedict and the same death and rebirth. Piccoma's official listing links the exact Japanese title to product 185336. The English aliases are catalog renderings, not verified licensed editions. Sources: https://www.youtube.com/watch?v=sYBELWCy5vo&t=50s ; https://www.youtube.com/watch?v=sYBELWCy5vo&t=145s ; https://piccoma.com/web/product/185336 ; https://kingofshojo.com/manga/genius-magic-swordsman-returns/ ; https://qimanga.com/series/genius-magic-swordsman-returns ; https://www.youtube.com/watch?v=mMCcL-mfAIk ; https://www.manhwatonovel.com/novela/the-regressed-genius-magic-swordsman/",
 })
+
+# Cloud-reviewed identification, 2026-11-23.
+REVIEWED.append({
+    "video_id": "u2jA4dsw_FY",
+    "title": "从姑获鸟开始",
+    "aliases": ["All Starts with Ubume"],
+    "reviewed_at": "2026-11-23",
+    "confirmado": True,
+    "evidence": "Native Gave recap 00:00–00:53 names the veteran Muay Thai fighter Chachai and Li Yan (李阎), a practitioner of Eight Trigrams Palm with leukemia. It sets the Yanfu event in 1986 Kowloon Walled City and gives the seventh-ring goal, the Lost Ancient Tales fragment, the Ubume awakening task and 300 Yanfu points. At 02:08–04:20 the video-store visit by martial-arts association representative Lei Jing and Li Yan's acute myeloid leukemia match the original novel's opening. Qidian chapter 3 and its publisher-network material corroborate the Kowloon seventh-ring task and illness; the official Yuewen Comics adaptation confirms Li Yan entering Yanfu and uses the alias All Starts with Ubume. This identifies the underlying work, not a specific edition of the video. Sources: https://www.youtube.com/watch?v=u2jA4dsw_FY&t=32s ; https://www.youtube.com/watch?v=u2jA4dsw_FY&t=128s ; https://www.qidian.com/chapter/1011321110/398159394/ ; https://www.hongxiu.com/novelbaike/1pcbn19zsay87 ; https://www.youtube.com/watch?v=3m6QoCsvoDg ; https://www.bilibili.com/bangumi/play/ep775975",
+})
