@@ -3369,3 +3369,13 @@ REVIEWED.append({
     "confirmado": True,
     "evidence": "The exact Frieren upload description directs to comments and covers chapters 1–89; a viewer names both The Fallen House of Ardan and I Regressed to My Ruined Family. The native 02:59–03:05 storyboard shows a person thrown across an interior, and a timestamped viewer comment identifies the slap at 02:59. Chapter 3 of the prose translation describes Ethan Ardan sending Hans flying with a slap in front of the attendants after they leave his sister to do their work. This scene supports the identification; no exact comic panel or full transcript was available. Tapas confirms Ethan's return, his sister, his ten-year coma, the licensed English name and the 89-episode finale. KakaoPage comic episode 1 confirms the Korean title. Sources: https://www.youtube.com/watch?v=hrezMssCVzg&t=179s ; https://www.youtube.com/watch?v=hrezMssCVzg&lc=Ugya_Zpu9751yKxfawN4AaABAg ; https://karistudio.com/chapter-3-the-young-lords-wrath/ ; https://tapas.io/series/the-fallen-house-of-ardan/info ; https://tapas.io/episode/2780492 ; https://page.kakao.com/content/60659272/viewer/60689646",
 })
+
+# Cloud-reviewed identification, 2026-11-23.
+REVIEWED.append({
+    "video_id": "lNV2D2xAB9Q",
+    "title": "몬스터의 인방스타",
+    "aliases": ["Monster's Streamer Star","The Slime's Livestream Star"],
+    "reviewed_at": "2026-11-23",
+    "confirmado": True,
+    "evidence": "Native Ainz recap 00:00–00:40 opens on a blind newborn slime starting the 'I Want to See' livestream, a dragon viewer of 600 years, and the Slime Queen tipping five coins. At 02:04–03:20 it is born in a dark cave, unlocks streaming through unusual intelligence, evolves sight, and names its channel Malang. At 10:11 Malang sees floating chat; the uploader marks 15:38 for Fenrir. The pinned viewer explains Malang as Squishy, not a work title. Naver Webtoon's official synopsis names cave-born low-level slime Malrangi (말랑이), his system-enabled broadcast, Slime Queen Malkang, a teasing lich and Fenrir as a mentor. This distinctive combination confirms the work, not the precise edition recapped. Naver Series separately lists Damogajang's original prose, and the production studio confirms the Korean comic launch. Monster's Streamer Star and The Slime's Livestream Star are catalog aliases, not verified licensed English titles. Sources: https://www.youtube.com/watch?v=lNV2D2xAB9Q&t=124s ; https://www.youtube.com/watch?v=lNV2D2xAB9Q&t=611s ; https://www.youtube.com/watch?v=lNV2D2xAB9Q&lc=UgyQNuoI1U1e6C2Lfnx4AaABAg ; https://m.comic.naver.com/webtoon/list?titleId=855923 ; https://m.series.naver.com/novel/detail.series?productNo=12027873 ; https://www.crikorea.com/home/works/works_view.html?seq=279 ; https://comik.to/title/nkvrnp",
+})
