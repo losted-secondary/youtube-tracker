@@ -1004,8 +1004,16 @@ if __name__ == "__main__":
         if not PLANILHA_ARQ.exists():
             log("Sem planilha do caçador configurada (cacador_saida/planilha.json): nada gravado.")
             sys.exit()
-        n = gravar_planilha(d["linhas"], d.get("gerado", ""), gc)
-        log(f"Planilha do caçador: aba `{TAB_OUT}` gravada com {n} obras (lista de {d.get('gerado')}).")
+        conta = json.loads(os.environ["GOOGLE_CREDENTIALS_JSON"]).get("client_email", "?")
+        try:
+            n = gravar_planilha(d["linhas"], d.get("gerado", ""), gc)
+        except Exception as e:
+            # ::error:: vira anotação pública no GitHub: dá para ler o motivo sem abrir o log
+            msg = f"{type(e).__name__}: {str(e)[:300]}".replace("\n", " ")
+            print(f"::error::Planilha do caçador não gravada ({msg}). A planilha precisa estar compartilhada "
+                  f"como Editor com {conta}")
+            sys.exit(1)
+        print(f"::notice::Planilha do caçador gravada: {n} obras (lista de {d.get('gerado')}).")
         sys.exit()
     max_yt = int(sys.argv[sys.argv.index("--max-yt") + 1]) if "--max-yt" in sys.argv else 100
     vivos = cacar(max_yt=max_yt)
