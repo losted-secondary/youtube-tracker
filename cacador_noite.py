@@ -35,6 +35,7 @@ QUERIES = [
     "demon king manhwa recap", "transmigrated manhwa recap", "isekai manga recap", "op mc manga recap",
     "sect manhua recap", "immortal manhua recap", "player manhwa recap", "level up manhwa recap",
 ]
+DOSSIES_POR_NOITE = 25
 MIN_VIEWS = 80_000
 MIN_IDADE = 170               # dias: vídeo mais novo que isso bloqueia a obra (regra dos 6 meses)
 MAX_DESC = 260                # descrições abertas por noite (o resto fica no cache para a próxima)
@@ -189,18 +190,31 @@ def fase(max_yt):
     vivos = C.cacar(max_yt=max_yt, extras_fn=descobrir, sem_api=True)
     ls = C.linhas(vivos)
     C.salvar_local(ls)
-    top = [l for l in ls if l["youtube"] != "não checado"][:25] if max_yt else []
+    # dossiê vale 7 dias: a rodada diária pesquisa as melhores que ainda não têm (ou cujo dossiê venceu)
+    dossies, meta, agora = C._cache("dossies"), C._cache("dossies_meta"), time.time()
+    for k in dossies:
+        meta.setdefault(k, agora)
+    for k in [k for k in meta if agora - meta[k] > 7 * 86400]:
+        meta.pop(k)
+        dossies.pop(k, None)
+    C._salva("dossies_meta", meta)
+    C._salva("dossies", dossies)
+    top = ([l for l in ls if l["youtube"] != "não checado" and str(l["id"]) not in dossies][:DOSSIES_POR_NOITE]
+           if max_yt else [])
     C._salva("top_dossie", {"obras": [{k: l[k] for k in ("id", "obra", "nomes", "canal", "nota", "premissa", "caps",
                                                            "youtube", "planilha", "nossos", "fonte", "link")}
                                       for l in top]})
-    log(f"{len(ls)} obras no ranking; top_dossie.json com {len(top)}")
+    log(f"{len(ls)} obras no ranking; top_dossie.json com {len(top)} (já com dossiê: {len(dossies)})")
     return ls
 
 
 def html():
     ult = C._cache("ultimo")
-    C.salvar_local(ult["linhas"])
-    log(f"HTML refeito com {len(C._cache('dossies'))} dossiês -> {C.DIR / 'recomendadas.html'}")
+    ls = ult["linhas"]
+    C.salvar_local(ls)            # junta veredito/dossiê e reordena
+    saida = C.exportar(ls)
+    log(f"HTML refeito com {len(C._cache('dossies'))} dossiês -> {C.DIR / 'recomendadas.html'}; "
+        f"lista para a planilha -> {saida}")
 
 
 # ---------------------------------------------------------------- ferramentas do agente

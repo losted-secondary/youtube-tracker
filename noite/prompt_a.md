@@ -5,7 +5,7 @@ MODO AUTÔNOMO: ninguém vai responder perguntas (o dono está dormindo). Não p
 (ignore ~/.agents/skills), não peça confirmação: decida sozinho e trabalhe até terminar.
 
 Pasta de trabalho: C:\Users\victo\Desktop\momo-apps\tracker
-REGRAS: não edite arquivos .py, não faça git commit/push, não mexa na planilha do Google. Só crie/edite
+REGRAS: não edite arquivos .py, NUNCA rode git (nada de add/commit/push: quem publica é o script), não mexa na planilha do Google. Só crie/edite
 arquivos dentro de artifacts\cacador\. Use `python` (Windows; para acentos use `$env:PYTHONIOENCODING='utf-8'`).
 
 ARQUIVOS JSON: grave SEMPRE com Python, assim: json.dump(dados, open(caminho, 'w', encoding='utf-8'),

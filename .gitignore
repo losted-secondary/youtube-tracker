@@ -30,3 +30,6 @@ node_modules/
 # hook do Claude Code que da git pull ao abrir (compartilhado)
 !.claude/settings.json
 !.claude/CLAUDE.md
+
+# lista do Caçador de Obras: o PC publica, o workflow cacador-planilha grava a aba
+!cacador_saida/*.json

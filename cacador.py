@@ -894,30 +894,89 @@ caps {html.escape(str(l['caps']))} · início {l['inicio']} · {html.escape(l['f
 {''.join(cards)}""", encoding="utf-8")
 
 
-HEADER_OUT = ["Peguei", "Capa", "Nota", "Obra", "Canal", "Premissa", "Ganchos", "Por quê", "Risco", "Caps",
-              "YouTube", "Testada (outro canal)", "Fonte", "Link"]
+HEADER_OUT = ["Peguei", "Capa", "Nota", "Veredito", "Obra", "Canal", "Premissa", "Dossiê", "Caps", "YouTube hoje",
+               "Testada (prova)", "Nossos canais", "Ganchos", "Fonte", "Link", "Vídeo que rendeu", "ID"]
+MAX_LINHAS_OUT = 250
+SAIDA = Path(__file__).parent / "cacador_saida" / "recomendadas.json"   # o PC publica; o GitHub grava a aba
 
 
-def gravar_planilha(ls):
+def exportar(ls):
+    """lista final (com veredito/dossiê) -> cacador_saida/recomendadas.json, que vai para o GitHub."""
+    campos = ["id", "nota", "veredito", "obra", "canal", "premissa", "dossie", "caps", "youtube", "planilha",
+              "nossos", "ganchos", "fonte", "link", "video_prova", "capa"]
+    SAIDA.parent.mkdir(exist_ok=True)
+    SAIDA.write_text(json.dumps({"gerado": datetime.now(BRT).strftime("%d/%m/%Y %H:%M"),
+                                 "linhas": [{k: l.get(k, "") for k in campos} for l in ls[:MAX_LINHAS_OUT]]},
+                                ensure_ascii=False, indent=0), encoding="utf-8")
+    return SAIDA
+
+
+def _regras_out(sid):
+    n = len(HEADER_OUT)
+    corpo = {"sheetId": sid, "startRowIndex": 1, "endRowIndex": MAX_LINHAS_OUT + 1}
+
+    def cor_veredito(txt, rgb):
+        return {"addConditionalFormatRule": {"index": 0, "rule": {
+            "ranges": [{**corpo, "startColumnIndex": 3, "endColumnIndex": 4}],
+            "booleanRule": {"condition": {"type": "TEXT_STARTS_WITH", "values": [{"userEnteredValue": txt}]},
+                            "format": {"textFormat": {"bold": True, "foregroundColor": rgb}}}}}}
+    return [
+        {"updateDimensionProperties": {"range": {"sheetId": sid, "dimension": "ROWS", "startIndex": 1,
+                                                 "endIndex": MAX_LINHAS_OUT + 1},
+                                       "properties": {"pixelSize": 110}, "fields": "pixelSize"}},
+        {"setDataValidation": {"range": {**corpo, "startColumnIndex": 0, "endColumnIndex": 1},
+                               "rule": {"condition": {"type": "BOOLEAN"}}}},
+        {"repeatCell": {"range": {**corpo, "startColumnIndex": 6, "endColumnIndex": 8},
+                        "cell": {"userEnteredFormat": {"wrapStrategy": "WRAP"}},
+                        "fields": "userEnteredFormat.wrapStrategy"}},
+        {"addConditionalFormatRule": {"index": 0, "rule": {
+            "ranges": [{**corpo, "startColumnIndex": 0, "endColumnIndex": n}],
+            "booleanRule": {"condition": {"type": "CUSTOM_FORMULA", "values": [{"userEnteredValue": "=$A2=TRUE"}]},
+                            "format": {"backgroundColor": {"red": 0.85, "green": 0.92, "blue": 0.83}}}}}},
+        cor_veredito("PEGAR", {"red": 0.08, "green": 0.55, "blue": 0.2}),
+        cor_veredito("TALVEZ", {"red": 0.8, "green": 0.5, "blue": 0.0}),
+        cor_veredito("TOMADA", {"red": 0.8, "green": 0.1, "blue": 0.1}),
+        cor_veredito("DESCART", {"red": 0.5, "green": 0.5, "blue": 0.5}),
+    ]
+
+
+def gravar_planilha(ls, gerado=""):
+    """Aba `Obras Recomendadas`. O Peguei acompanha a obra pelo ID (a aba é reescrita e reordenada)."""
     import gspread
     from google.oauth2.service_account import Credentials
+    import novas_obras as NO
     creds = Credentials.from_service_account_info(json.loads(os.environ["GOOGLE_CREDENTIALS_JSON"]),
                                                   scopes=["https://www.googleapis.com/auth/spreadsheets"])
     ss = gspread.authorize(creds).open_by_key(SHEET_ID)
+    peguei = {}
     try:
-        ws = ss.worksheet(TAB_OUT)
-        antigos = {r[3]: r[0] for r in ws.get_all_values()[1:] if len(r) > 3}
+        for r in ss.worksheet(TAB_OUT).get_all_values()[1:]:
+            if len(r) >= len(HEADER_OUT) and r[-1]:
+                peguei[r[-1]] = r[0]
     except gspread.WorksheetNotFound:
-        ws, antigos = ss.add_worksheet(TAB_OUT, rows=300, cols=len(HEADER_OUT)), {}
-    vals = [HEADER_OUT] + [[antigos.get(l["obra"], "FALSE"), f'=IMAGE("{l["capa"]}")' if l["capa"] else "",
-                            l["nota"], l["obra"], l["canal"], l["premissa"], l["ganchos"], l["porque"], l["risco"],
-                            l["caps"], l["youtube"], l["planilha"], l["fonte"], l["link"]] for l in ls[:250]]
-    ws.clear()
-    ws.update(vals, "A1", value_input_option="USER_ENTERED")
+        pass
+    ws = NO._ensure_tab(ss, TAB_OUT, HEADER_OUT, rows=MAX_LINHAS_OUT + 1,
+                        widths=[65, 80, 55, 95, 260, 110, 300, 420, 55, 300, 280, 170, 150, 90, 220, 220, 90],
+                        center_cols=(0, 1, 2, 3, 8), link_col=14, extra=_regras_out)
+    ws.batch_clear([f"A2:Q{MAX_LINHAS_OUT + 1}"])
+    linhas_ = [[peguei.get(str(l["id"]), "FALSE"), f'=IMAGE("{l["capa"]}")' if l.get("capa") else "",
+                l["nota"], l.get("veredito") or "", l["obra"], l["canal"], l["premissa"], l.get("dossie") or "",
+                str(l["caps"]), l["youtube"], l["planilha"], l.get("nossos") or "", l["ganchos"], l["fonte"],
+                l["link"], l.get("video_prova") or "", str(l["id"])] for l in ls[:MAX_LINHAS_OUT]]
+    if linhas_:
+        ws.update(linhas_, "A2", value_input_option="USER_ENTERED")
+    if gerado:
+        ws.update_note("A1", f"Caçador de Obras · gerado em {gerado}")
+    return len(linhas_)
 
 
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
+    if "--planilha-de" in sys.argv:        # GitHub Actions: grava a aba a partir do json que o PC publicou
+        d = json.loads(Path(sys.argv[sys.argv.index("--planilha-de") + 1]).read_text(encoding="utf-8"))
+        n = gravar_planilha(d["linhas"], d.get("gerado", ""))
+        log(f"Aba `{TAB_OUT}` gravada com {n} obras (lista de {d.get('gerado')}).")
+        sys.exit()
     max_yt = int(sys.argv[sys.argv.index("--max-yt") + 1]) if "--max-yt" in sys.argv else 100
     vivos = cacar(max_yt=max_yt)
     ls = linhas(vivos)

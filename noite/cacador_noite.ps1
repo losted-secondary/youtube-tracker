@@ -49,4 +49,15 @@ Agente "B" "prompt_b.md"
 $sujo = & python -c "import json,re,pathlib as P;a=P.Path(r'$art');print(sum(len(re.findall(r'\w\?\w', (a/f).read_text(encoding='utf-8'))) for f in ['notas_agente.json','dossies.json'] if (a/f).exists()))"
 if ([int]$sujo -gt 0) { Log "$sujo acentos quebrados: agente de correção"; Agente "acentos" "prompt_acentos.md" }
 Py "html" @("html")
+
+# publica a lista: o push dispara o workflow cacador-planilha, que grava a aba `Obras Recomendadas`
+$saida = Join-Path $dir "cacador_saida\recomendadas.json"
+$gitlog = Join-Path $art "noite_git.log"
+if (Test-Path $saida) {
+    & git -C $dir pull --rebase --autostash *> $gitlog
+    & git -C $dir add -- "cacador_saida/recomendadas.json" *>> $gitlog
+    & git -C $dir commit -m ("Caçador de Obras: lista de " + (Get-Date -Format "dd/MM/yyyy")) -- "cacador_saida/recomendadas.json" *>> $gitlog
+    & git -C $dir push *>> $gitlog
+    Log "lista publicada no GitHub (código $LASTEXITCODE); o workflow grava a aba Obras Recomendadas"
+}
 Log "===== rodada noturna terminou: $art\recomendadas.html ====="

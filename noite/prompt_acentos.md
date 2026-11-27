@@ -1,4 +1,5 @@
 MODO AUTÔNOMO: não pergunte nada, não use skills. Pasta: C:\Users\victo\Desktop\momo-apps\tracker
+NUNCA rode git (nada de add/commit/push). Só edite os dois arquivos abaixo.
 
 Os arquivos artifacts\cacador\notas_agente.json e artifacts\cacador\dossies.json foram gravados com a
 codificação errada: as letras acentuadas do português viraram '?' (ex.: "Ap?s", "invenc?vel", "Vingan?a",
