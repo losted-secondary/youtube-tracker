@@ -67,7 +67,9 @@ POOLS = [("KR", "TRENDING_DESC", 4, None, "Em alta"), ("KR", "POPULARITY_DESC", 
          ("KR", "POPULARITY_DESC", 4, ("antes", 20200101), "Clássica"),
          ("CN", "POPULARITY_DESC", 3, ("antes", 20200101), "Clássica"),
          ("JP", "POPULARITY_DESC", 4, ("antes", 20200101), "Clássica")]
-ABA_MANHWA, ABA_MANGA = "Manhwa e Manhua", "Mangá"
+ABA_MANHWA, ABA_MANHUA, ABA_MANGA = "Manhwa", "Manhua", "Mangá"     # uma página/aba por tipo
+ABAS = (ABA_MANHWA, ABA_MANHUA, ABA_MANGA)
+ABAS_ANTIGAS = ("Obras Recomendadas", "Manhwa e Manhua")
 
 
 def log(*a):
@@ -721,6 +723,8 @@ def tipo_de(c):
         return "Testada"
     if _prova_yt(c) >= 1:
         return "Descoberta (YouTube)"
+    if arquetipo(c)[0] >= 1.5:
+        return "Arquétipo ⭐"
     ano = c.get("inicio")
     if c.get("fonte") == "Nova" or (isinstance(ano, int) and ano >= 2025):
         return "Nova"
@@ -730,7 +734,12 @@ def tipo_de(c):
 
 
 def aba_de(c):
-    return ABA_MANGA if (c.get("pais") == "JP" or str(c.get("canal", "")).startswith("Mangá")) else ABA_MANHWA
+    canal = str(c.get("canal", ""))
+    if c.get("pais") == "JP" or canal.startswith("Mangá"):
+        return ABA_MANGA
+    if c.get("pais") == "CN" or canal.startswith("Kamen"):
+        return ABA_MANHUA
+    return ABA_MANHWA
 
 
 def _demanda(c):
@@ -765,6 +774,25 @@ def _prova_planilha(c):
     v = ((c.get("todos") or {}).get("melhor") or {}).get("views", 0)
     peso = 1.0 if v >= 50_000 else 0.8 if v >= 20_000 else 0.5 if v >= 5_000 else 0.2   # canal minúsculo prova pouco
     return min(4.0, 2 * math.log2(r)) * peso
+
+
+_FONTES_FRACAS = ("Popular", "Em alta")
+
+
+def mesclar(atual, c):
+    """a mesma obra veio de duas fontes: junta nomes, categorias, prova e capítulos."""
+    atual["nomes"] = list(dict.fromkeys(atual["nomes"] + c["nomes"]))
+    atual["tags"] = list(dict.fromkeys((atual.get("tags") or []) + (c.get("tags") or [])))
+    if c.get("prova_yt") and c["prova_yt"]["views"] > (atual.get("prova_yt") or {}).get("views", 0):
+        atual["prova_yt"] = c["prova_yt"]
+    if c.get("mu_id") and not atual.get("mu_id"):
+        atual["mu_id"] = c["mu_id"]
+    if c.get("caps") and (atual.get("caps") is None or atual.get("caps_est")):
+        atual["caps"], atual["caps_est"] = c["caps"], c.get("caps_est", False)
+    if atual.get("fonte") in _FONTES_FRACAS and c.get("fonte"):
+        atual["fonte"] = c["fonte"]
+    if not atual.get("sinopse") and c.get("sinopse"):
+        atual["sinopse"] = c["sinopse"]
 
 
 def cacar(max_yt=100, now=None, extras_fn=None, sem_api=False):
@@ -814,18 +842,25 @@ def cacar(max_yt=100, now=None, extras_fn=None, sem_api=False):
         _salva("anilist", cache_ani)
         log(f"   {n_rep} obras para repostar")
         if extras_fn:
-            n_ex = 0
+            n_ex, n_mesc = 0, 0
+            por_nome = {}
+            for c0 in cands.values():
+                for n in c0["nomes"]:
+                    por_nome.setdefault(normalize(n), c0)
             for c in extras_fn(cache_ani, cache_yt, idx, now):
-                atual = cands.get(c["id"])
+                atual = cands.get(c["id"]) or next((por_nome[normalize(n)] for n in c["nomes"]
+                                                     if normalize(n) in por_nome), None)
                 if atual:
-                    if c.get("prova_yt") and (c["prova_yt"]["views"] > (atual.get("prova_yt") or {}).get("views", 0)):
-                        atual["prova_yt"] = c["prova_yt"]
+                    mesclar(atual, c)
+                    n_mesc += 1
                 else:
                     cands[c["id"]] = c
+                    for n in c["nomes"]:
+                        por_nome.setdefault(normalize(n), c)
                     n_ex += 1
             _salva("anilist", cache_ani)
             _salva("youtube", cache_yt)
-            log(f"   {n_ex} obras novas vindas da descoberta no YouTube")
+            log(f"   {n_ex} obras novas de outras fontes (YouTube, MangaUpdates, tracker); {n_mesc} juntadas a uma que já existia")
 
         # filtro: capítulos, nossos canais, monitorado recente
         fora = {"poucos caps": 0, "canal monitorado recente": 0, "fora do perfil": 0}
@@ -877,6 +912,19 @@ def cacar(max_yt=100, now=None, extras_fn=None, sem_api=False):
 
         def pontua(c):
             return -pontuar(c)
+
+        if max_yt:
+            import mangaupdates as MU
+            vivos.sort(key=pontua)
+            log("MangaUpdates: categorias, nomes e capítulos das 150 primeiras…")
+            for i, c in enumerate(vivos[:150], 1):
+                try:
+                    MU.enriquecer(c, cache_ani)
+                except Exception as e:
+                    log("   MU erro:", str(e)[:80])
+                if i % 50 == 0:
+                    _salva("anilist", cache_ani)
+            _salva("anilist", cache_ani)
 
         # checa o YouTube das melhores; quem cai (TOMADA) abre espaço e a próxima também é checada,
         # até as `max_yt` primeiras estarem todas conferidas
@@ -983,18 +1031,41 @@ def salvar_local(ls, dossies=None):
         w.writeheader()
         w.writerows(ls)
     cor = {"JÁ FIZEMOS": "#7c3aed", "LIVRE": "#16a34a", "ESFRIOU": "#2563eb", "MORNA": "#d97706", "TOMADA": "#dc2626"}
-    cards = []
     por_aba = {}
     for l in ls:
         por_aba.setdefault(l.get("aba") or ABA_MANHWA, []).append(l)
-    seq = []
-    for aba in (ABA_MANHWA, ABA_MANGA):
-        seq.append(("aba", aba))
-        seq += [(i, l) for i, l in enumerate(por_aba.get(aba, [])[:120], 1)]
-    for i, l in seq:
-        if i == "aba":
-            cards.append(f'<h2 id="{normalize(l)}">{html.escape(l)} · {len(por_aba.get(l, []))} obras</h2>')
-            continue
+    for aba in ABAS:
+        _pagina(aba, por_aba.get(aba, [])[:150], por_aba, cor)
+    # recomendadas.html = índice: as 5 melhores de cada tipo + link para a página de cada um
+    blocos = []
+    for aba in ABAS:
+        top = por_aba.get(aba, [])[:5]
+        itens = "".join(f"<li><b>{l['nota']:.1f}</b> {html.escape(l.get('veredito') or '')} · "
+                        f"{html.escape(l['obra'])} <span class=m>({html.escape(l.get('tipo') or '')})</span></li>"
+                        for l in top)
+        blocos.append(f'<div class=c style="display:block"><h2><a href="{_arq_pagina(aba)}">{html.escape(aba)} · '
+                      f'{len(por_aba.get(aba, []))} obras →</a></h2><ol>{itens}</ol></div>')
+    (DIR / "recomendadas.html").write_text(_cabeca("Caçador de Obras") + "".join(blocos), encoding="utf-8")
+
+
+def _arq_pagina(aba):
+    return f"recomendadas_{normalize(aba).replace(' ', '_') or 'manga'}.html"
+
+
+def _cabeca(titulo):
+    nav = " · ".join(f'<a style="color:#93c5fd" href="{_arq_pagina(a)}">{html.escape(a)}</a>' for a in ABAS)
+    return f"""<!doctype html><meta charset=utf-8><title>{html.escape(titulo)}</title>
+<style>body{{font:15px system-ui;background:#0f1115;color:#e5e7eb;margin:20px}}h1{{font-size:26px}}h2 a{{color:#fff}}li{{margin:4px 0}}
+.c{{display:flex;gap:14px;background:#181b22;border-radius:10px;padding:12px;margin:10px 0}}img{{width:92px;height:130px;object-fit:cover;border-radius:6px}}
+.h{{font-size:18px}}.h a{{color:#fff;text-decoration:none}}.k{{background:#374151;border-radius:4px;padding:1px 6px;font-size:13px}}
+.p{{margin:6px 0;font-size:16px}}.m{{color:#9ca3af;font-size:13px}}.s{{color:#fff;border-radius:4px;padding:1px 6px;margin-right:6px}}
+.w{{color:#cbd5e1;font-size:13px;margin-top:4px}}.c>.t{{flex:1}}img.v{{width:240px;height:135px;border-radius:6px;object-fit:cover}}.tt{{color:#4ade80;font-size:14px;margin-top:4px;font-weight:600}}.n{{color:#c4b5fd;font-size:13px;margin-top:3px}}.d{{background:#0b1220;border-left:3px solid #f59e0b;padding:8px 10px;margin-top:8px;font-size:14px;line-height:1.45;color:#e5e7eb}}</style>
+<h1>{html.escape(titulo)} · {datetime.now(BRT):%d/%m/%Y %H:%M}</h1><p><a style="color:#93c5fd" href="recomendadas.html">Índice</a> · {nav}</p>"""
+
+
+def _pagina(aba, ls, por_aba, cor):
+    cards = []
+    for i, l in enumerate(ls, 1):
         st = l["youtube"].split(":")[0]
         cards.append(f"""<div class=c><img src="{html.escape(l['capa'])}" loading=lazy><div class=t>
 <div class=h><b>#{i} · {l['nota']:.1f}</b> <span class=k>{html.escape(l['canal'])}</span>
@@ -1007,14 +1078,9 @@ def salvar_local(ls, dossies=None):
 {('<div class=n>🟣 ' + html.escape(l['nossos']) + '</div>') if l.get('nossos') else ''}
 {('<div class=d><b>🕵️ ' + html.escape(l.get('veredito') or 'Dossiê') + '</b><br>' + html.escape(l['dossie']).replace(chr(10), '<br>') + '</div>') if l.get('dossie') else ''}</div>
 {('<a href="' + html.escape(l['video_prova']) + '" target=_blank title="vídeo que rendeu"><img class=v src="' + _yt_thumb(l['video_prova']) + '"></a>') if l.get('video_prova') else ''}</div>""")
-    (DIR / "recomendadas.html").write_text(f"""<!doctype html><meta charset=utf-8><title>Caçador de Obras</title>
-<style>body{{font:15px system-ui;background:#0f1115;color:#e5e7eb;margin:20px}}h1{{font-size:26px}}
-.c{{display:flex;gap:14px;background:#181b22;border-radius:10px;padding:12px;margin:10px 0}}img{{width:92px;height:130px;object-fit:cover;border-radius:6px}}
-.h{{font-size:18px}}.h a{{color:#fff;text-decoration:none}}.k{{background:#374151;border-radius:4px;padding:1px 6px;font-size:13px}}
-.p{{margin:6px 0;font-size:16px}}.m{{color:#9ca3af;font-size:13px}}.s{{color:#fff;border-radius:4px;padding:1px 6px;margin-right:6px}}
-.w{{color:#cbd5e1;font-size:13px;margin-top:4px}}.c>.t{{flex:1}}img.v{{width:240px;height:135px;border-radius:6px;object-fit:cover}}.tt{{color:#4ade80;font-size:14px;margin-top:4px;font-weight:600}}.n{{color:#c4b5fd;font-size:13px;margin-top:3px}}.d{{background:#0b1220;border-left:3px solid #f59e0b;padding:8px 10px;margin-top:8px;font-size:14px;line-height:1.45;color:#e5e7eb}}</style><h1>Caçador de Obras · {datetime.now(BRT):%d/%m/%Y %H:%M}</h1>
-<p><a style="color:#93c5fd" href="#{normalize(ABA_MANHWA)}">{ABA_MANHWA}</a> · <a style="color:#93c5fd" href="#{normalize(ABA_MANGA)}">{ABA_MANGA}</a></p>
-{''.join(cards)}""", encoding="utf-8")
+    (DIR / _arq_pagina(aba)).write_text(_cabeca(f"Caçador de Obras · {aba}") +
+                                        f"<h2>{html.escape(aba)} · {len(por_aba.get(aba, []))} obras</h2>" +
+                                        "".join(cards), encoding="utf-8")
 
 
 HEADER_OUT = ["Peguei", "Capa", "Nota", "Veredito", "Tipo", "Obra", "Canal", "Premissa", "Dossiê", "Caps",
@@ -1027,7 +1093,7 @@ def exportar(ls):
     """lista final (com veredito/dossiê) -> cacador_saida/recomendadas.json, que vai para o GitHub."""
     campos = ["id", "nota", "veredito", "tipo", "obra", "canal", "premissa", "dossie", "caps", "youtube",
               "planilha", "nossos", "ganchos", "fonte", "link", "video_prova", "capa"]
-    abas = {ABA_MANHWA: [], ABA_MANGA: []}
+    abas = {a: [] for a in ABAS}
     for l in ls:
         lst = abas.setdefault(l.get("aba") or ABA_MANHWA, [])
         if len(lst) < MAX_LINHAS_OUT:
@@ -1119,7 +1185,7 @@ def gravar_planilha(abas, gerado="", gc=None):
         total += len(linhas_)
         feitas.add(ws.id)
     for outra in ss.worksheets():          # aba vazia da planilha nova e a antiga `Obras Recomendadas` saem
-        if outra.id not in feitas and (outra.title == TAB_OUT or not any(c for r in outra.get_values("A1:C3") for c in r)):
+        if outra.id not in feitas and (outra.title in ABAS_ANTIGAS or not any(c for r in outra.get_values("A1:C3") for c in r)):
             ss.del_worksheet(outra)
     return total
 

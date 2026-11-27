@@ -48,8 +48,9 @@ SP_FILTROS = (SP_ANO, SP_TUDO, SP_RELEVANCIA)
 POR_CANAL = 3                  # máx. de vídeos por canal: canal gigante não domina a descoberta
 DOSSIES_POR_NOITE = 30
 # dossiês por noite, por aba e tipo (o que sobrar de uma cota vai para as melhores da aba)
-COTAS = {C.ABA_MANHWA: {"Testada": 7, "Descoberta (YouTube)": 5, "Nova": 4, "Clássica": 4},
-         C.ABA_MANGA: {"Testada": 2, "Descoberta (YouTube)": 3, "Nova": 3, "Clássica": 2}}
+COTAS = {C.ABA_MANHWA: {"Testada": 5, "Arquétipo ⭐": 3, "Descoberta (YouTube)": 3, "Nova": 2, "Clássica": 2},
+         C.ABA_MANHUA: {"Testada": 3, "Arquétipo ⭐": 2, "Descoberta (YouTube)": 2, "Nova": 2, "Clássica": 1},
+         C.ABA_MANGA: {"Testada": 2, "Arquétipo ⭐": 2, "Descoberta (YouTube)": 2, "Nova": 2, "Clássica": 2}}
 MIN_VIEWS = 50_000
 MIN_IDADE = 170               # dias: vídeo mais novo que isso bloqueia a obra (regra dos 6 meses)
 MAX_DESC = 260                # descrições abertas por noite (o resto fica no cache para a próxima)
@@ -241,7 +242,15 @@ def novas_do_tracker(cache_ani, idx, now, limite=120):
 
 
 def extras(cache_ani, cache_yt, idx, now):
-    return descobrir(cache_ani, cache_yt, idx, now) + novas_do_tracker(cache_ani, idx, now)
+    import mangaupdates as MU
+    try:
+        log("MangaUpdates: buscas por arquétipo e premissa…")
+        mu = MU.pools(cache_ani, now, C.CANAL_PAIS, C.MIN_CAPS)
+        log(f"   {len(mu)} obras do MangaUpdates")
+    except Exception as e:
+        log("   MangaUpdates fora do ar:", str(e)[:100])
+        mu = []
+    return mu + descobrir(cache_ani, cache_yt, idx, now) + novas_do_tracker(cache_ani, idx, now)
 
 
 # ---------------------------------------------------------------- fases
