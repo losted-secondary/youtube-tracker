@@ -967,6 +967,47 @@ def _yt_txt(c):
             f"o maior fez {yt['max_views']:,}").replace(",", ".")
 
 
+def _quando(dias):
+    if dias is None:
+        return "?"
+    return f"há {dias / 30.4:.0f} meses" if dias >= 45 else f"há {dias:.0f} dias"
+
+
+def _mil(v):
+    v = int(v or 0)
+    if v >= 1_000_000:
+        return f"{v / 1_000_000:.1f} mi".replace(".", ",")
+    return f"{v / 1000:.0f} mil" if v >= 1000 else str(v)
+
+
+_ICONE = {"LIVRE": "🟢 Livre", "ESFRIOU": "🔵 Esfriou", "MORNA": "🟠 Só canal pequeno", "TOMADA": "🔴 Tomada",
+          "JÁ FIZEMOS": "🔴 Já fizemos"}
+
+
+def _yt_curto(c):
+    yt = c.get("yt")
+    if not yt:
+        return "—"
+    if yt["status"] == "LIVRE":
+        return "🟢 Livre · ninguém fez recap longo"
+    u = yt["videos"][0] if yt.get("videos") else {}
+    return f"{_ICONE.get(yt['status'], yt['status'])} · último {_quando(u.get('idade'))} ({_mil(u.get('views'))} views)"
+
+
+def _prova_curta(c):
+    """-> (texto, link do vídeo, views do vídeo)"""
+    py = c.get("prova_yt")
+    if py and _prova_yt(c) > _prova_planilha(c):
+        subs = f" · canal de {_mil(py['subs'])} inscritos" if py.get("subs") else ""
+        return f"{py['canal']} · {_quando(py['idade'])}{subs}", py["link"], py["views"]
+    o = c.get("todos")
+    if not o or not (o.get("ratio") or 0):
+        return "", "", 0
+    b = o["melhor"]
+    dias = (datetime.now(timezone.utc) - b["dt"]).days
+    return f"{(b['ratio'] or 0):.1f}× a média do {b['canal']} · {_quando(dias)}".replace(".", ","), b["link"], b["views"]
+
+
 def _texto_prova(c):
     py = c.get("prova_yt")
     if py and _prova_yt(c) > _prova_planilha(c):
@@ -1006,6 +1047,8 @@ def linhas(vivos):
                     "tipo": tipo_de(c) + (f" · ⭐ {c['arquetipo']}" if c.get("arquetipo") else ""),
                     "popularidade": c["popularidade"], "inicio": c["inicio"] or "",
                     "capa": c["capa"], "link": c["link"],
+                    "yt_curto": _yt_curto(c), "prova_curta": _prova_curta(c)[0], "video_views": _prova_curta(c)[2],
+                    "arquetipo": c.get("arquetipo") or arquetipo(c)[1],
                     "video_prova": (c.get("prova_yt") or {}).get("link") if _prova_yt(c) > _prova_planilha(c)
                     else ((c.get("todos") or {}).get("melhor") or {}).get("link", "")})
     return out
@@ -1018,14 +1061,25 @@ def salvar_local(ls, dossies=None):
     for l in ls:
         d = dossies.get(str(l.get("id"))) or {}
         l["dossie"], l["veredito"] = d.get("dossie", ""), d.get("veredito", "")
-        if d.get("nome_ingles") and normalize(d["nome_ingles"]) != normalize(l["obra"]):
-            l["obra"] = f"{d['nome_ingles']} ({l['obra']})"
+        if d.get("nome_ingles"):
+            l["obra"] = d["nome_ingles"]
         if d.get("youtube"):
             l["youtube"] = d["youtube"]
+        st = (d.get("status") or "").upper()
+        if st in _ICONE:
+            u = d.get("ultimo_recap") or {}
+            if st == "LIVRE":
+                l["yt_curto"] = "🟢 Livre · ninguém fez recap longo"
+            else:
+                meses = u.get("meses")
+                quando = f"há {meses} meses" if meses not in (None, "") else "?"
+                l["yt_curto"] = f"{_ICONE[st]} · último {quando} ({_mil(u.get('views'))} views)"
+            l["yt_conferido"] = True
         if d.get("caps"):
             l["caps"] = d["caps"]
     # quem o agente reprovou (TOMADA/descartar) desce para o fim
-    ls.sort(key=lambda l: (1 if (l.get("veredito") or "").upper().startswith(("DESCART", "TOMADA")) else 0, -l["nota"]))
+    ls.sort(key=lambda l: (1 if ((l.get("veredito") or "").upper().startswith(("DESCART", "TOMADA"))
+                                 or (l.get("yt_curto") or "").startswith("🔴")) else 0, -l["nota"]))
     with open(DIR / "recomendadas.csv", "w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(ls[0].keys()))
         w.writeheader()
@@ -1040,9 +1094,8 @@ def salvar_local(ls, dossies=None):
     blocos = []
     for aba in ABAS:
         top = por_aba.get(aba, [])[:5]
-        itens = "".join(f"<li><b>{l['nota']:.1f}</b> {html.escape(l.get('veredito') or '')} · "
-                        f"{html.escape(l['obra'])} <span class=m>({html.escape(l.get('tipo') or '')})</span></li>"
-                        for l in top)
+        itens = "".join(f"<li><b>{l['nota']:.1f}</b> · {html.escape(l['obra'])} "
+                        f"<span class=m>{html.escape(l.get('yt_curto') or '')}</span></li>" for l in top)
         blocos.append(f'<div class=c style="display:block"><h2><a href="{_arq_pagina(aba)}">{html.escape(aba)} · '
                       f'{len(por_aba.get(aba, []))} obras →</a></h2><ol>{itens}</ol></div>')
     (DIR / "recomendadas.html").write_text(_cabeca("Caçador de Obras") + "".join(blocos), encoding="utf-8")
@@ -1057,8 +1110,9 @@ def _cabeca(titulo):
     return f"""<!doctype html><meta charset=utf-8><title>{html.escape(titulo)}</title>
 <style>body{{font:15px system-ui;background:#0f1115;color:#e5e7eb;margin:20px}}h1{{font-size:26px}}h2 a{{color:#fff}}li{{margin:4px 0}}
 .c{{display:flex;gap:14px;background:#181b22;border-radius:10px;padding:12px;margin:10px 0}}img{{width:92px;height:130px;object-fit:cover;border-radius:6px}}
-.h{{font-size:18px}}.h a{{color:#fff;text-decoration:none}}.k{{background:#374151;border-radius:4px;padding:1px 6px;font-size:13px}}
+.h{{font-size:21px}}.h a{{color:#fff;text-decoration:none}}.k{{background:#374151;border-radius:4px;padding:1px 6px;font-size:13px}}
 .p{{margin:6px 0;font-size:16px}}.m{{color:#9ca3af;font-size:13px}}.s{{color:#fff;border-radius:4px;padding:1px 6px;margin-right:6px}}
+.g{{display:grid;grid-template-columns:1.3fr 1.3fr .5fr;gap:10px;margin-top:12px;font-size:17px}}.g span{{display:block;color:#9ca3af;font-size:13px;margin-bottom:2px}}.a{{color:#fbbf24;font-size:15px}}.vv{{color:#e5e7eb;text-align:center;text-decoration:none;font-size:15px}}
 .w{{color:#cbd5e1;font-size:13px;margin-top:4px}}.c>.t{{flex:1}}img.v{{width:240px;height:135px;border-radius:6px;object-fit:cover}}.tt{{color:#4ade80;font-size:14px;margin-top:4px;font-weight:600}}.n{{color:#c4b5fd;font-size:13px;margin-top:3px}}.d{{background:#0b1220;border-left:3px solid #f59e0b;padding:8px 10px;margin-top:8px;font-size:14px;line-height:1.45;color:#e5e7eb}}</style>
 <h1>{html.escape(titulo)} · {datetime.now(BRT):%d/%m/%Y %H:%M}</h1><p><a style="color:#93c5fd" href="recomendadas.html">Índice</a> · {nav}</p>"""
 
@@ -1066,33 +1120,28 @@ def _cabeca(titulo):
 def _pagina(aba, ls, por_aba, cor):
     cards = []
     for i, l in enumerate(ls, 1):
-        st = l["youtube"].split(":")[0]
+        estrela = f" ⭐ <span class=a>{html.escape(l['arquetipo'])}</span>" if l.get("arquetipo") else ""
+        video = (f'<a class=vv href="{html.escape(l["video_prova"])}" target=_blank><img class=v src="'
+                 f'{_yt_thumb(l["video_prova"])}"><br>▶ {_mil(l.get("video_views"))} views</a>') if l.get("video_prova") else ""
         cards.append(f"""<div class=c><img src="{html.escape(l['capa'])}" loading=lazy><div class=t>
-<div class=h><b>#{i} · {l['nota']:.1f}</b> <span class=k>{html.escape(l['canal'])}</span>
-<a href="{html.escape(l['link'])}" target=_blank>{html.escape(l['obra'])}</a></div>
-<div class=p>{html.escape(l['premissa'])}</div>
-<div class=m><span style="background:{cor.get(st, '#6b7280')}" class=s>{html.escape(l['youtube'])}</span>
-<b>{html.escape(l.get('tipo') or '')}</b> · caps {html.escape(str(l['caps']))} · início {l['inicio']} · ganchos: {html.escape(l['ganchos'])}</div>
-<div class=w>{html.escape(l['porque'])}{(' · <i>risco: ' + html.escape(l['risco']) + '</i>') if l['risco'] else ''}</div>
-{('<div class=tt>✅ TESTADA: ' + html.escape(l['planilha']) + '</div>') if l['planilha'] else ''}
-{('<div class=n>🟣 ' + html.escape(l['nossos']) + '</div>') if l.get('nossos') else ''}
-{('<div class=d><b>🕵️ ' + html.escape(l.get('veredito') or 'Dossiê') + '</b><br>' + html.escape(l['dossie']).replace(chr(10), '<br>') + '</div>') if l.get('dossie') else ''}</div>
-{('<a href="' + html.escape(l['video_prova']) + '" target=_blank title="vídeo que rendeu"><img class=v src="' + _yt_thumb(l['video_prova']) + '"></a>') if l.get('video_prova') else ''}</div>""")
+<div class=h><b>#{i} · {l['nota']:.1f}</b> <a href="{html.escape(l['link'])}" target=_blank>{html.escape(l['obra'])}</a>{estrela}</div>
+<div class=g><div><span>YouTube hoje</span>{html.escape(l.get('yt_curto') or '—')}</div>
+<div><span>Testada</span>{html.escape(l.get('prova_curta') or '—')}</div>
+<div><span>Capítulos</span>{html.escape(str(l['caps']) or '?')}</div></div></div>{video}</div>""")
     (DIR / _arq_pagina(aba)).write_text(_cabeca(f"Caçador de Obras · {aba}") +
                                         f"<h2>{html.escape(aba)} · {len(por_aba.get(aba, []))} obras</h2>" +
                                         "".join(cards), encoding="utf-8")
 
 
-HEADER_OUT = ["Peguei", "Capa", "Nota", "Veredito", "Tipo", "Obra", "Canal", "Premissa", "Dossiê", "Caps",
-              "YouTube hoje", "Prova", "Nossos canais", "Ganchos", "Link", "Vídeo que rendeu", "ID"]
+HEADER_OUT = ["Peguei", "Capa", "Nota", "Obra", "Caps", "YouTube hoje", "Testada", "Vídeo que rendeu", "Link", "ID"]
 MAX_LINHAS_OUT = 250
 SAIDA = Path(__file__).parent / "cacador_saida" / "recomendadas.json"   # o PC publica; o GitHub grava a aba
 
 
 def exportar(ls):
     """lista final (com veredito/dossiê) -> cacador_saida/recomendadas.json, que vai para o GitHub."""
-    campos = ["id", "nota", "veredito", "tipo", "obra", "canal", "premissa", "dossie", "caps", "youtube",
-              "planilha", "nossos", "ganchos", "fonte", "link", "video_prova", "capa"]
+    campos = ["id", "nota", "obra", "arquetipo", "caps", "yt_curto", "prova_curta", "video_prova", "video_views",
+              "link", "capa"]
     abas = {a: [] for a in ABAS}
     for l in ls:
         lst = abas.setdefault(l.get("aba") or ABA_MANHWA, [])
@@ -1108,28 +1157,29 @@ def _regras_out(sid):
     n = len(HEADER_OUT)
     corpo = {"sheetId": sid, "startRowIndex": 1, "endRowIndex": MAX_LINHAS_OUT + 1}
 
-    def cor_veredito(txt, rgb):
-        return {"addConditionalFormatRule": {"index": 0, "rule": {
-            "ranges": [{**corpo, "startColumnIndex": 3, "endColumnIndex": 4}],
-            "booleanRule": {"condition": {"type": "TEXT_STARTS_WITH", "values": [{"userEnteredValue": txt}]},
-                            "format": {"textFormat": {"bold": True, "foregroundColor": rgb}}}}}}
+    def cols(a, b):
+        return {**corpo, "startColumnIndex": a, "endColumnIndex": b}
+
+    def fmt(a, b, f, campos):
+        return {"repeatCell": {"range": cols(a, b), "cell": {"userEnteredFormat": f}, "fields": campos}}
     return [
         {"updateDimensionProperties": {"range": {"sheetId": sid, "dimension": "ROWS", "startIndex": 1,
                                                  "endIndex": MAX_LINHAS_OUT + 1},
-                                       "properties": {"pixelSize": 110}, "fields": "pixelSize"}},
-        {"setDataValidation": {"range": {**corpo, "startColumnIndex": 0, "endColumnIndex": 1},
-                               "rule": {"condition": {"type": "BOOLEAN"}}}},
-        {"repeatCell": {"range": {**corpo, "startColumnIndex": 7, "endColumnIndex": 9},
-                        "cell": {"userEnteredFormat": {"wrapStrategy": "WRAP"}},
-                        "fields": "userEnteredFormat.wrapStrategy"}},
+                                       "properties": {"pixelSize": 120}, "fields": "pixelSize"}},
+        {"updateDimensionProperties": {"range": {"sheetId": sid, "dimension": "COLUMNS", "startIndex": n - 1,
+                                                 "endIndex": n}, "properties": {"hiddenByUser": True},
+                                       "fields": "hiddenByUser"}},          # ID: só para o Peguei andar junto
+        {"setDataValidation": {"range": cols(0, 1), "rule": {"condition": {"type": "BOOLEAN"}}}},
+        fmt(0, n, {"textFormat": {"fontSize": 12}, "verticalAlignment": "MIDDLE", "wrapStrategy": "WRAP"},
+            "userEnteredFormat.textFormat.fontSize,userEnteredFormat.verticalAlignment,userEnteredFormat.wrapStrategy"),
+        fmt(2, 3, {"textFormat": {"fontSize": 15, "bold": True}, "numberFormat": {"type": "NUMBER", "pattern": "0.0"}},
+            "userEnteredFormat.textFormat.fontSize,userEnteredFormat.textFormat.bold,userEnteredFormat.numberFormat"),
+        fmt(3, 4, {"textFormat": {"fontSize": 13, "bold": True}}, "userEnteredFormat.textFormat.fontSize,userEnteredFormat.textFormat.bold"),
+        fmt(5, 8, {"horizontalAlignment": "CENTER"}, "userEnteredFormat.horizontalAlignment"),
         {"addConditionalFormatRule": {"index": 0, "rule": {
-            "ranges": [{**corpo, "startColumnIndex": 0, "endColumnIndex": n}],
+            "ranges": [cols(0, n)],
             "booleanRule": {"condition": {"type": "CUSTOM_FORMULA", "values": [{"userEnteredValue": "=$A2=TRUE"}]},
                             "format": {"backgroundColor": {"red": 0.85, "green": 0.92, "blue": 0.83}}}}}},
-        cor_veredito("PEGAR", {"red": 0.08, "green": 0.55, "blue": 0.2}),
-        cor_veredito("TALVEZ", {"red": 0.8, "green": 0.5, "blue": 0.0}),
-        cor_veredito("TOMADA", {"red": 0.8, "green": 0.1, "blue": 0.1}),
-        cor_veredito("DESCART", {"red": 0.5, "green": 0.5, "blue": 0.5}),
     ]
 
 
@@ -1170,16 +1220,27 @@ def gravar_planilha(abas, gerado="", gc=None):
     total, feitas = 0, set()
     for i, (titulo, ls) in enumerate(abas.items()):
         ws = NO._ensure_tab(ss, titulo, HEADER_OUT, rows=MAX_LINHAS_OUT + 1, index=i,
-                            widths=[65, 80, 55, 95, 150, 260, 110, 300, 420, 55, 300, 280, 170, 150, 220, 220, 90],
-                            center_cols=(0, 1, 2, 3, 4, 9), link_col=14, extra=_regras_out)
-        ws.batch_clear([f"A2:Q{MAX_LINHAS_OUT + 1}"])
+                            widths=[70, 95, 70, 330, 75, 300, 300, 170, 90, 60],
+                            center_cols=(0, 1, 2, 4, 7, 8), link_col=None, extra=_regras_out)
+        ws.batch_clear([f"A2:J{MAX_LINHAS_OUT + 1}"])
+
         linhas_ = [[peguei.get(str(l["id"]), "FALSE"), f'=IMAGE("{l["capa"]}")' if l.get("capa") else "",
-                    l["nota"], l.get("veredito") or "", l.get("tipo") or l.get("fonte") or "", l["obra"], l["canal"],
-                    l["premissa"], l.get("dossie") or "", str(l["caps"]), l["youtube"], l["planilha"],
-                    l.get("nossos") or "", l["ganchos"], l["link"], l.get("video_prova") or "", str(l["id"])]
+                    l["nota"], ("⭐ " if l.get("arquetipo") else "") + l["obra"], str(l.get("caps") or ""),
+                    l.get("yt_curto") or "—", l.get("prova_curta") or "—", "", "", str(l["id"])]
                    for l in ls[:MAX_LINHAS_OUT]]
+
+        def celula_link(url, texto):   # link de verdade no texto (vale em qualquer idioma da planilha)
+            if not url:
+                return {"userEnteredValue": {"stringValue": ""}}
+            return {"userEnteredValue": {"stringValue": texto},
+                    "textFormatRuns": [{"startIndex": 0, "format": {"link": {"uri": url}}}]}
+        links = [{"values": [celula_link(l.get("video_prova"), f"▶ {_mil(l.get('video_views'))} views"),
+                             celula_link(l.get("link"), "abrir obra")]} for l in ls[:MAX_LINHAS_OUT]]
         if linhas_:
             ws.update(linhas_, "A2", value_input_option="USER_ENTERED")
+            ss.batch_update({"requests": [{"updateCells": {
+                "rows": links, "fields": "userEnteredValue,textFormatRuns",
+                "start": {"sheetId": ws.id, "rowIndex": 1, "columnIndex": 7}}}]})
         if gerado:
             ws.update_note("A1", f"Caçador de Obras · gerado em {gerado}")
         total += len(linhas_)

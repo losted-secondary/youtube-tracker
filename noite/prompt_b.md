@@ -4,13 +4,9 @@ Critério do dono: premissa forte manda; obra que JÁ RENDEU MUITO no canal de o
 melhor aposta (já foi testada); nada de romance; pode repostar obra cujo último recap tem 6+ meses.
 Também há MANGÁ (japonês) para um canal de mangá: campo "aba" = "Mangá". Mesmo critério; em mangá os
 recaps costumam dizer "manga recap" e muitos canais misturam anime — só conta recap do MANGÁ em inglês.
-Cada obra tem um "tipo": Testada (rendeu num canal monitorado), Descoberta (YouTube) (rendeu num canal que o
-dono NÃO acompanha — diga no dossiê qual canal e quantos inscritos, se souber), Nova (começou em 2025/26: confira
-se já tem capítulos suficientes e se está saindo com frequência) ou Clássica (antiga: confira se ainda dá
-para fazer recap inédito em inglês, ou se o último foi há anos). Use o tipo para guiar o dossiê.
-ARQUÉTIPOS QUE O DONO MAIS QUER (rendem em todos os nichos): protagonista que REENCARNA CRIANÇA em FAMÍLIA
-NOBRE (o melhor), reencarna em família nobre, reencarna criança/bebê, garoto mágico na ACADEMIA de magia. Se a
-obra é um desses, diga no dossiê; se o "tipo" traz ⭐ mas a obra NÃO é isso de verdade, avise.
+Cada obra tem um "tipo" (Testada, Arquétipo ⭐, Descoberta (YouTube), Nova, Clássica): obra Nova, confira
+com cuidado os capítulos; obra Clássica, confira se o último recap em inglês foi há anos.
+O seu trabalho é CONFERIR DADOS (nome em inglês, YouTube, capítulos), não escrever análise.
 
 MODO AUTÔNOMO: ninguém vai responder perguntas (o dono está dormindo). Não pergunte nada, não use skills
 (ignore ~/.agents/skills), não peça confirmação: decida sozinho e trabalhe até terminar.
@@ -38,21 +34,20 @@ na ordem:
     e `yt "<nome> manhwa"` (ou manhua). Vídeos longos (40+ min) suspeitos cujo título não diz o nome: abra
     com `video ID` e confirme pela descrição/comentário fixado. Ignore recaps em outro idioma.
     Anote: o recap longo em inglês MAIS RECENTE (canal, há quanto tempo, views) e o MAIOR (canal, views).
- c) Capítulos disponíveis hoje (comick/anilist/web). Precisa de 15+.
- d) VEREDITO, um destes:
-    PEGAR   = ninguém fez recap longo em inglês nos últimos 6 meses, 15+ caps, premissa forte
-    TALVEZ  = boa mas com ressalva (poucos caps, premissa ok, prova fraca)
-    TOMADA  = recap longo em inglês nos últimos 6 meses de canal com 10k+ views (inclui Mamoru/Tobs)
-    DESCARTAR = romance como foco, protagonista que não serve, menos de 15 caps, premissa fraca
- e) DOSSIÊ em português, 3 a 5 linhas curtas:
-    1. a premissa em 1 frase vendedora (como abriria o vídeo);
-    2. a prova: quem fez, quantas views, quando (se houver);
-    3. situação no YouTube hoje;
-    4. o melhor gancho para título/thumb (contraste, humilhação, aura, sistema, segredo, tensão);
-    5. risco, se houver.
+ c) Capítulos disponíveis hoje (mangaupdates/comick/anilist/web). Precisa de 15+.
+ d) STATUS no YouTube (só recap longo em inglês conta):
+    LIVRE   = ninguém fez recap longo em inglês
+    ESFRIOU = o último foi há 6+ meses
+    MORNA   = teve recap nos últimos 6 meses, mas só de canal pequeno (menos de 10k views)
+    TOMADA  = recap nos últimos 6 meses de canal com 10k+ views (inclui Mamoru/Tobs)
+ e) DESCARTAR só se for claramente errado para o público: romance como foco, protagonista mulher,
+    menos de 15 capítulos. Não julgue a premissa: quem julga é o dono.
+NÃO escreva dossiê, premissa nem texto longo: o dono só quer os dados curtos.
 Grave artifacts\cacador\dossies.json no formato
-  {"<id>": {"nome_ingles": "...", "outros_nomes": ["..."], "veredito": "PEGAR|TALVEZ|TOMADA|DESCARTAR",
-            "youtube": "<1 linha: situação + recap mais recente + maior>", "caps": "<número>",
-            "dossie": "<as linhas do item e, separadas por \n>"}}
+  {"<id>": {"nome_ingles": "...", "outros_nomes": ["..."], "status": "LIVRE|ESFRIOU|MORNA|TOMADA",
+            "ultimo_recap": {"canal": "...", "meses": <número inteiro>, "views": <número>},
+            "maior_recap": {"canal": "...", "views": <número>}, "caps": "<número>",
+            "veredito": "OK|DESCARTAR"}}
+(ultimo_recap e maior_recap = {} se não houver recap.)
 O id é exatamente o campo "id" do top_dossie (como texto). MESCLE com o arquivo existente e SALVE APÓS
-CADA OBRA (para não perder trabalho se cair). Não pule obras. No fim, responda com a lista: obra -> veredito.
+CADA OBRA (para não perder trabalho se cair). Não pule obras. No fim, responda só "FEITO".
