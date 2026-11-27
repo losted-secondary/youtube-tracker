@@ -8,6 +8,9 @@ Cada obra tem um "tipo": Testada (rendeu num canal monitorado), Descoberta (YouT
 dono NÃO acompanha — diga no dossiê qual canal e quantos inscritos, se souber), Nova (começou em 2025/26: confira
 se já tem capítulos suficientes e se está saindo com frequência) ou Clássica (antiga: confira se ainda dá
 para fazer recap inédito em inglês, ou se o último foi há anos). Use o tipo para guiar o dossiê.
+ARQUÉTIPOS QUE O DONO MAIS QUER (rendem em todos os nichos): protagonista que REENCARNA CRIANÇA em FAMÍLIA
+NOBRE (o melhor), reencarna em família nobre, reencarna criança/bebê, garoto mágico na ACADEMIA de magia. Se a
+obra é um desses, diga no dossiê; se o "tipo" traz ⭐ mas a obra NÃO é isso de verdade, avise.
 
 MODO AUTÔNOMO: ninguém vai responder perguntas (o dono está dormindo). Não pergunte nada, não use skills
 (ignore ~/.agents/skills), não peça confirmação: decida sozinho e trabalhe até terminar.

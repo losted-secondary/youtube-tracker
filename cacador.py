@@ -570,6 +570,9 @@ EXEMPLOS REAIS (views do vídeo ÷ mediana do mesmo canal na mesma época):
 
 Calibre a nota assim: 9-10 = premissa no nível das melhores vencedoras; 7-8 = forte, fácil de vender;
 5-6 = mediana; 3-4 = fraca ou nichada; 0-2 = romance/slice of life/não serve.
+ARQUÉTIPOS QUE RENDEM EM TODOS OS NICHOS (o dono confirmou; valorize na nota): protagonista que REENCARNA
+CRIANÇA em FAMÍLIA NOBRE (o melhor de todos), reencarna em família nobre, reencarna quando ainda é criança/bebê,
+e garoto mágico na ACADEMIA/escola de magia.
 Responda SÓ JSON: {{"obras":[{{"id":<id>,"nota":<0-10, pode ter .5>,"premissa":"<1 frase em português,
 o gancho da história>","ganchos":["<ids dos ganchos: contraste|humilhacao|aura|sistema|segredo|tensao|beleza>"],
 "porque":"<até 25 palavras, compare com uma vencedora se fizer sentido>","risco":"<até 12 palavras ou vazio>","origem":"<KR|CN|JP: país da obra; chute pelo título se não souber>"}}]}}"""
@@ -666,10 +669,49 @@ def _cand_da_planilha(o, cache):
             "fonte": "Testada", "inicio": ""}
 
 
+# ARQUÉTIPOS que o dono diz que rendem em TODOS os nichos (manhwa, manhua, mangá):
+#   reencarna CRIANÇA em FAMÍLIA NOBRE (o melhor) > reencarna em família nobre = reencarna criança = academia de magia
+_RE_REENCARNA = re.compile(r"reincarnat|reborn|rebirth|regress|transmigrat|isekai|possess(?:ed|es|ing) the body|"
+                           r"wakes? up (?:as|in)|in the body of|second life|past life|reencarn|renasc|regress|"
+                           r"volta (?:no tempo|ao passado)|transmigr", re.I)
+_RE_NOBRE = re.compile(r"\bnobl|aristocra|\bduke|duchy|ducal|duchess|marquis|marquess|margrav|\bearl\b|\bbaron|"
+                       r"viscount|\bcount(?:'s|ess)?\b|young master|\blord(?:'s)? (?:son|family|house)|"
+                       r"\bhouse of\b|prestigious (?:family|clan)|royal|prince|imperial (?:family|clan)|"
+                       r"\bnobre|aristocr|duque|marqu[eê]s|conde|bar[aã]o|fam[ií]lia (?:nobre|real|imperial)|pr[ií]ncipe", re.I)
+_RE_CRIANCA = re.compile(r"\bbab(?:y|ies)|infant|toddler|newborn|\bchild(?:hood)?\b|\bkid\b|little boy|"
+                         r"(?:\d|three|four|five|six|seven|eight|nine|ten)[- ]year[- ]old|youngest son|"
+                         r"\bbeb[eê]|crian[cç]a|garotinho|menino de \d|ca[cç]ula", re.I)
+_RE_ACADEMIA = re.compile(r"academy|magic(?:al)? school|school of magic|wizard(?:ing)? school|"
+                          r"\bacademia|escola de magia", re.I)
+_RE_MAGIA = re.compile(r"\bmagic|\bmage\b|wizard|sorcer|archmage|\bmana\b|spell|\bmagia|\bmago", re.I)
+
+
+def arquetipo(c):
+    """-> (bônus, rótulo) pelo texto da obra (sinopse, título, tags, premissa da IA)."""
+    texto = " ".join([c.get("titulo") or "", " ".join(c.get("nomes") or []), c.get("sinopse") or "",
+                      " ".join(c.get("tags") or []), c.get("premissa") or ""])
+    re_ = bool(_RE_REENCARNA.search(texto)) or "Reincarnation" in (c.get("tags") or [])
+    nobre = bool(_RE_NOBRE.search(texto))
+    crianca = bool(_RE_CRIANCA.search(texto))
+    academia = bool(_RE_ACADEMIA.search(texto)) and bool(_RE_MAGIA.search(texto))
+    bonus, rotulos = 0.0, []
+    if re_ and nobre and crianca:
+        bonus, rotulos = 2.5, ["reencarna criança em família nobre"]
+    else:
+        if re_ and nobre:
+            bonus, rotulos = 1.5, ["reencarna em família nobre"]
+        if re_ and crianca:
+            bonus, rotulos = max(bonus, 1.5), rotulos + ["reencarna criança"]
+    if academia:
+        bonus, rotulos = bonus + 1.5, rotulos + ["academia de magia"]
+    return min(3.0, bonus), " + ".join(rotulos)
+
+
 def pontuar(c):
     st = (c.get("yt") or {}).get("status")
     pen = 4 if st == "TOMADA" else 6 if st == "JÁ FIZEMOS" else 1 if st == "MORNA" else 0
-    c["final"] = round(c.get("nota", 0) + _prova(c) + 0.5 * _demanda(c) - pen, 2)
+    c["bonus_arq"], c["arquetipo"] = arquetipo(c)
+    c["final"] = round(c.get("nota", 0) + _prova(c) + 0.5 * _demanda(c) + c["bonus_arq"] - pen, 2)
     return c["final"]
 
 
@@ -912,7 +954,8 @@ def linhas(vivos):
                     "premissa": c["premissa"], "ganchos": ", ".join(c["ganchos"]), "porque": c["porque"],
                     "risco": c["risco"], "caps": caps, "youtube": _yt_txt(c), "planilha": _texto_prova(c), "nossos": _texto_nossos(c),
                     "id": c["id"], "nomes": " | ".join(c["nomes"][:6]),
-                    "fonte": c["fonte"], "tipo": tipo_de(c), "aba": aba_de(c),
+                    "fonte": c["fonte"], "aba": aba_de(c),
+                    "tipo": tipo_de(c) + (f" · ⭐ {c['arquetipo']}" if c.get("arquetipo") else ""),
                     "popularidade": c["popularidade"], "inicio": c["inicio"] or "",
                     "capa": c["capa"], "link": c["link"],
                     "video_prova": (c.get("prova_yt") or {}).get("link") if _prova_yt(c) > _prova_planilha(c)
