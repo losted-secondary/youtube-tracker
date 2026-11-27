@@ -42,12 +42,16 @@ na ordem:
     TOMADA  = recap nos últimos 6 meses de canal com 10k+ views (inclui Mamoru/Tobs)
  e) DESCARTAR só se for claramente errado para o público: romance como foco, protagonista mulher,
     menos de 15 capítulos. Não julgue a premissa: quem julga é o dono.
-NÃO escreva dossiê, premissa nem texto longo: o dono só quer os dados curtos.
+ f) DOSSIÊ CURTO: exatamente 4 linhas, cada uma com no máximo 15 palavras, sem premissa:
+    Prova: <quem fez, quantas views, há quanto tempo — ou "sem prova">
+    Hoje: <situação no YouTube em inglês hoje>
+    Gancho: <o melhor gancho para título/thumb, em CAIXA ALTA>
+    Risco: <o principal risco, ou "nenhum">
 Grave artifacts\cacador\dossies.json no formato
   {"<id>": {"nome_ingles": "...", "outros_nomes": ["..."], "status": "LIVRE|ESFRIOU|MORNA|TOMADA",
             "ultimo_recap": {"canal": "...", "meses": <número inteiro>, "views": <número>},
             "maior_recap": {"canal": "...", "views": <número>}, "caps": "<número>",
-            "veredito": "OK|DESCARTAR"}}
+            "veredito": "OK|DESCARTAR", "dossie": "Prova: ...\nHoje: ...\nGancho: ...\nRisco: ..."}}
 (ultimo_recap e maior_recap = {} se não houver recap.)
 O id é exatamente o campo "id" do top_dossie (como texto). MESCLE com o arquivo existente e SALVE APÓS
 CADA OBRA (para não perder trabalho se cair). Não pule obras. No fim, responda só "FEITO".
