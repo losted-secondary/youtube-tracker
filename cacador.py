@@ -1127,20 +1127,22 @@ def _pagina(aba, ls, por_aba, cor):
 <div class=h><b>#{i} · {l['nota']:.1f}</b> <a href="{html.escape(l['link'])}" target=_blank>{html.escape(l['obra'])}</a>{estrela}</div>
 <div class=g><div><span>YouTube hoje</span>{html.escape(l.get('yt_curto') or '—')}</div>
 <div><span>Testada</span>{html.escape(l.get('prova_curta') or '—')}</div>
-<div><span>Capítulos</span>{html.escape(str(l['caps']) or '?')}</div></div></div>{video}</div>""")
+<div><span>Capítulos</span>{html.escape(str(l['caps']) or '?')}</div></div>
+{('<div class=d>' + html.escape(dossie_curto(l.get('dossie'))).replace(chr(10), '<br>') + '</div>') if l.get('dossie') else ''}</div>{video}</div>""")
     (DIR / _arq_pagina(aba)).write_text(_cabeca(f"Caçador de Obras · {aba}") +
                                         f"<h2>{html.escape(aba)} · {len(por_aba.get(aba, []))} obras</h2>" +
                                         "".join(cards), encoding="utf-8")
 
 
-HEADER_OUT = ["Peguei", "Capa", "Nota", "Obra", "Caps", "YouTube hoje", "Testada", "Vídeo que rendeu", "Link", "ID"]
+HEADER_OUT = ["Peguei", "Capa", "Nota", "Obra", "Caps", "YouTube hoje", "Testada", "Dossiê", "Vídeo que rendeu",
+              "Link", "ID"]
 MAX_LINHAS_OUT = 250
 SAIDA = Path(__file__).parent / "cacador_saida" / "recomendadas.json"   # o PC publica; o GitHub grava a aba
 
 
 def exportar(ls):
     """lista final (com veredito/dossiê) -> cacador_saida/recomendadas.json, que vai para o GitHub."""
-    campos = ["id", "nota", "obra", "arquetipo", "caps", "yt_curto", "prova_curta", "video_prova", "video_views",
+    campos = ["id", "nota", "obra", "arquetipo", "caps", "yt_curto", "prova_curta", "dossie", "video_prova", "video_views",
               "link", "capa"]
     abas = {a: [] for a in ABAS}
     for l in ls:
@@ -1151,6 +1153,12 @@ def exportar(ls):
     SAIDA.write_text(json.dumps({"gerado": datetime.now(BRT).strftime("%d/%m/%Y %H:%M"), "abas": abas},
                                 ensure_ascii=False, indent=0), encoding="utf-8")
     return SAIDA
+
+
+def dossie_curto(txt):
+    linhas = [x.strip() for x in (txt or "").splitlines() if x.strip()]
+    chave = [x for x in linhas if x.split(":")[0].strip().lower() in ("prova", "hoje", "gancho", "risco")]
+    return chr(10).join(chave or linhas[1:] or linhas)
 
 
 def _regras_out(sid):
@@ -1165,7 +1173,7 @@ def _regras_out(sid):
     return [
         {"updateDimensionProperties": {"range": {"sheetId": sid, "dimension": "ROWS", "startIndex": 1,
                                                  "endIndex": MAX_LINHAS_OUT + 1},
-                                       "properties": {"pixelSize": 120}, "fields": "pixelSize"}},
+                                       "properties": {"pixelSize": 200}, "fields": "pixelSize"}},
         {"updateDimensionProperties": {"range": {"sheetId": sid, "dimension": "COLUMNS", "startIndex": n - 1,
                                                  "endIndex": n}, "properties": {"hiddenByUser": True},
                                        "fields": "hiddenByUser"}},          # ID: só para o Peguei andar junto
@@ -1175,7 +1183,10 @@ def _regras_out(sid):
         fmt(2, 3, {"textFormat": {"fontSize": 15, "bold": True}, "numberFormat": {"type": "NUMBER", "pattern": "0.0"}},
             "userEnteredFormat.textFormat.fontSize,userEnteredFormat.textFormat.bold,userEnteredFormat.numberFormat"),
         fmt(3, 4, {"textFormat": {"fontSize": 13, "bold": True}}, "userEnteredFormat.textFormat.fontSize,userEnteredFormat.textFormat.bold"),
-        fmt(5, 8, {"horizontalAlignment": "CENTER"}, "userEnteredFormat.horizontalAlignment"),
+        fmt(5, 7, {"horizontalAlignment": "CENTER"}, "userEnteredFormat.horizontalAlignment"),
+        fmt(7, 8, {"textFormat": {"fontSize": 11}, "verticalAlignment": "MIDDLE"},
+            "userEnteredFormat.textFormat.fontSize,userEnteredFormat.verticalAlignment"),
+        fmt(8, 10, {"horizontalAlignment": "CENTER"}, "userEnteredFormat.horizontalAlignment"),
         {"addConditionalFormatRule": {"index": 0, "rule": {
             "ranges": [cols(0, n)],
             "booleanRule": {"condition": {"type": "CUSTOM_FORMULA", "values": [{"userEnteredValue": "=$A2=TRUE"}]},
@@ -1220,13 +1231,14 @@ def gravar_planilha(abas, gerado="", gc=None):
     total, feitas = 0, set()
     for i, (titulo, ls) in enumerate(abas.items()):
         ws = NO._ensure_tab(ss, titulo, HEADER_OUT, rows=MAX_LINHAS_OUT + 1, index=i,
-                            widths=[70, 95, 70, 330, 75, 300, 300, 170, 90, 60],
-                            center_cols=(0, 1, 2, 4, 7, 8), link_col=None, extra=_regras_out)
+                            widths=[70, 130, 70, 280, 70, 240, 260, 560, 150, 90, 60],
+                            center_cols=(0, 1, 2, 4, 8, 9), link_col=None, extra=_regras_out)
         ws.batch_clear([f"A2:J{MAX_LINHAS_OUT + 1}"])
 
         linhas_ = [[peguei.get(str(l["id"]), "FALSE"), f'=IMAGE("{l["capa"]}")' if l.get("capa") else "",
                     l["nota"], ("⭐ " if l.get("arquetipo") else "") + l["obra"], str(l.get("caps") or ""),
-                    l.get("yt_curto") or "—", l.get("prova_curta") or "—", "", "", str(l["id"])]
+                    l.get("yt_curto") or "—", l.get("prova_curta") or "—", dossie_curto(l.get("dossie")), "", "",
+                    str(l["id"])]
                    for l in ls[:MAX_LINHAS_OUT]]
 
         def celula_link(url, texto):   # link de verdade no texto (vale em qualquer idioma da planilha)
@@ -1240,7 +1252,7 @@ def gravar_planilha(abas, gerado="", gc=None):
             ws.update(linhas_, "A2", value_input_option="USER_ENTERED")
             ss.batch_update({"requests": [{"updateCells": {
                 "rows": links, "fields": "userEnteredValue,textFormatRuns",
-                "start": {"sheetId": ws.id, "rowIndex": 1, "columnIndex": 7}}}]})
+                "start": {"sheetId": ws.id, "rowIndex": 1, "columnIndex": 8}}}]})
         if gerado:
             ws.update_note("A1", f"Caçador de Obras · gerado em {gerado}")
         total += len(linhas_)
