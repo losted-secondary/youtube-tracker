@@ -25,18 +25,32 @@ from comick import normalize
 
 SP_ANO = "CAMSBAgFEAE="        # mais vistos, este ano, só vídeo
 SP_TUDO = "CAMSBBgCEAE="       # mais vistos, longos, todos os tempos
+SP_RELEVANCIA = None           # ordem normal do YouTube: traz canal médio/pequeno, não só os gigantes
 QUERIES = [
-    "manhwa recap", "manhua recap", "manga recap", "full manhwa recap", "regression manhwa recap",
-    "system manhwa recap", "murim manhwa recap", "cultivation manhua recap", "reincarnated manhwa recap",
-    "overpowered mc manhwa recap", "weakest to strongest manhwa recap", "revenge manhwa recap",
-    "hunter manhwa recap", "tower manhwa recap", "academy manhwa recap", "apocalypse manhua recap",
+    # manhwa
+    "manhwa recap", "full manhwa recap", "regression manhwa recap", "system manhwa recap", "murim manhwa recap",
+    "reincarnated manhwa recap", "overpowered mc manhwa recap", "weakest to strongest manhwa recap",
+    "revenge manhwa recap", "hunter manhwa recap", "tower manhwa recap", "academy manhwa recap",
     "villain manhwa recap", "necromancer manhwa recap", "sss rank manhwa recap", "returned manhwa recap",
-    "dungeon manhwa recap", "martial arts manhua recap", "system manhua recap", "genius manhwa recap",
-    "demon king manhwa recap", "transmigrated manhwa recap", "isekai manga recap", "op mc manga recap",
-    "sect manhua recap", "immortal manhua recap", "player manhwa recap", "level up manhwa recap",
+    "dungeon manhwa recap", "genius manhwa recap", "demon king manhwa recap", "transmigrated manhwa recap",
+    "player manhwa recap", "level up manhwa recap", "zombie manhwa recap", "chaebol manhwa recap",
+    "military manhwa recap", "sword master manhwa recap", "mage manhwa recap", "healer manhwa recap",
+    # manhua
+    "manhua recap", "cultivation manhua recap", "apocalypse manhua recap", "martial arts manhua recap",
+    "system manhua recap", "sect manhua recap", "immortal manhua recap", "doomsday manhua recap",
+    "beast tamer manhua recap", "urban cultivation manhua recap", "xianxia manhua recap", "god level manhua recap",
+    # mangá
+    "manga recap", "isekai manga recap", "op mc manga recap", "reincarnation manga recap", "dark fantasy manga recap",
+    "revenge manga recap", "dungeon manga recap", "system manga recap", "overpowered manga recap",
+    "monster manga recap", "seinen manga recap", "full manga recap",
 ]
-DOSSIES_POR_NOITE = 25
-MIN_VIEWS = 80_000
+SP_FILTROS = (SP_ANO, SP_TUDO, SP_RELEVANCIA)
+POR_CANAL = 3                  # máx. de vídeos por canal: canal gigante não domina a descoberta
+DOSSIES_POR_NOITE = 30
+# dossiês por noite, por aba e tipo (o que sobrar de uma cota vai para as melhores da aba)
+COTAS = {C.ABA_MANHWA: {"Testada": 7, "Descoberta (YouTube)": 5, "Nova": 4, "Clássica": 4},
+         C.ABA_MANGA: {"Testada": 2, "Descoberta (YouTube)": 3, "Nova": 3, "Clássica": 2}}
+MIN_VIEWS = 50_000
 MIN_IDADE = 170               # dias: vídeo mais novo que isso bloqueia a obra (regra dos 6 meses)
 MAX_DESC = 260                # descrições abertas por noite (o resto fica no cache para a próxima)
 
@@ -103,21 +117,22 @@ def _resolver(nomes, cache_ani, now, prova):
 
 def descobrir(cache_ani, cache_yt, idx, now):
     """busca recaps longos em inglês que explodiram há 6+ meses e acha a obra de cada um."""
-    conhecidos = set()
+    conhecidos, monitorados = set(), set(C.NOSSOS)
     for o in idx.exato.values():
         for x in o:
             for v in x["videos"]:
+                monitorados.add(normalize(v["canal"]))
                 m = re.search(r"([\w-]{11})$", v.get("link") or "")
                 if m:
                     conhecidos.add(m.group(1))
     achados = {}
-    k = "desc_busca|" + datetime.now().strftime("%Y-%m-%d")
+    k = "desc_busca3|" + datetime.now().strftime("%Y-%m-%d")
     if k in cache_yt:
         achados = cache_yt[k]
     else:
-        log(f"Descoberta no YouTube: {len(QUERIES)} buscas x 2 filtros…")
+        log(f"Descoberta no YouTube: {len(QUERIES)} buscas x {len(SP_FILTROS)} filtros…")
         for q in QUERIES:
-            for sp in (SP_ANO, SP_TUDO):
+            for sp in SP_FILTROS:
                 try:
                     res = C.yt_busca(q, sp)
                 except Exception as e:
@@ -125,14 +140,22 @@ def descobrir(cache_ani, cache_yt, idx, now):
                     continue
                 for v in res:
                     if (v["dur"] >= 40 * 60 and v["views"] >= MIN_VIEWS and (v["idade"] or 0) >= MIN_IDADE
-                            and not C._NAO_EN.search(v["titulo"]) and normalize(v["canal"]) not in C.NOSSOS):
+                            and not C._NAO_EN.search(v["titulo"]) and normalize(v["canal"]) not in monitorados):
                         achados.setdefault(v["id"], v)
                 time.sleep(0.6)
         cache_yt[k] = achados
         C._salva("youtube", cache_yt)
-    log(f"   {len(achados)} recaps longos com {MIN_VIEWS:,}+ views e 6+ meses".replace(",", "."))
-    novos = [v for vid, v in achados.items() if vid not in conhecidos]
-    log(f"   {len(novos)} fora da planilha")
+    log(f"   {len(achados)} recaps longos com {MIN_VIEWS:,}+ views e 6+ meses, de canais que você NÃO monitora"
+        .replace(",", "."))
+    novos, por_canal = [], {}
+    for v in sorted(achados.values(), key=lambda v: -v["views"]):
+        if v["id"] in conhecidos or normalize(v["canal"]) in monitorados:
+            continue
+        if por_canal.get(v["canal"], 0) >= POR_CANAL:
+            continue
+        por_canal[v["canal"]] = por_canal.get(v["canal"], 0) + 1
+        novos.append(v)
+    log(f"   {len(novos)} vídeos de {len(por_canal)} canais (máx. {POR_CANAL} por canal)")
     agente = C._cache("nomes_agente")
     fila, cands, abertos = [], {}, 0
     for v in sorted(novos, key=lambda v: -v["views"]):
@@ -152,7 +175,8 @@ def descobrir(cache_ani, cache_yt, idx, now):
         if cache_yt[kv].get("pub"):
             v["idade"] = (now - datetime.fromisoformat(cache_yt[kv]["pub"])).total_seconds() / 86400
         prova = {"views": v["views"], "canal": v["canal"], "idade": v["idade"] or 0,
-                 "link": f"https://youtu.be/{v['id']}", "titulo": v["titulo"]}
+                 "link": f"https://youtu.be/{v['id']}", "titulo": v["titulo"],
+                 "subs": C.canal_inscritos(v.get("canal_id"), cache_yt)}
         ag = agente.get(v["id"])
         if ag is not None:
             nomes = [re.sub(r"(?<=\w)\?(?=\w)", "'", n) for n in [ag.get("obra")] + (ag.get("outros_nomes") or []) if n]
@@ -173,7 +197,7 @@ def descobrir(cache_ani, cache_yt, idx, now):
                          "meses": round((v["idade"] or 0) / 30.4, 1), "descricao": v["desc"][:700],
                          "palpites": nomes})
             continue
-        c["fonte"] = "YouTube"
+        c["fonte"] = "Descoberta (YouTube)"
         c["prova_yt"] = prova
         atual = cands.get(c["id"])
         if not atual or prova["views"] > atual["prova_yt"]["views"]:
@@ -184,12 +208,88 @@ def descobrir(cache_ani, cache_yt, idx, now):
     return list(cands.values())
 
 
+def novas_do_tracker(cache_ani, idx, now, limite=120):
+    """aba `Novas Obras Shonen` do tracker: obras que acabaram de entrar nos sites de scan. Entram as que já
+    têm capítulos para um vídeo e ainda não têm vídeo nos canais monitorados."""
+    try:
+        rows = C.ler_aba("Novas Obras Shonen")
+    except Exception as e:
+        log("   Novas Obras: erro", str(e)[:80])
+        return []
+    out = []
+    for r in rows[:limite]:
+        caps = C._int(r.get("Capítulos")) or 0
+        nome = (r.get("Obra") or "").strip()
+        if not nome or caps < C.MIN_CAPS or (r.get("Já tem vídeo") or "").strip() == "Sim" or idx.achar([nome]):
+            continue
+        m = C.ani_busca(nome, cache_ani)
+        if m:
+            if m.get("isAdult") or set(m.get("genres") or []) & set(C.GENEROS_FORA):
+                continue
+            c = C._cand_de_media(m, "Nova", now)
+        else:
+            cm = C.comick_busca(nome, cache_ani)
+            c = _cand_generico([nome], cm, {"link": r.get("Link") or ""}, now)
+            c["link"] = r.get("Link") or c["link"]
+            c["generos"] = [g.strip() for g in (r.get("Gêneros") or "").split(",") if g.strip()]
+        c["fonte"] = "Nova"
+        c["caps"] = max(c.get("caps") or 0, caps)
+        c["caps_est"] = False
+        out.append(c)
+    log(f"   {len(out)} obras novas do tracker (sites de scan) com {C.MIN_CAPS}+ capítulos e sem vídeo")
+    return out
+
+
+def extras(cache_ani, cache_yt, idx, now):
+    return descobrir(cache_ani, cache_yt, idx, now) + novas_do_tracker(cache_ani, idx, now)
+
+
 # ---------------------------------------------------------------- fases
 
+def escolher_para_dossie(vivos, dossies):
+    """cotas por aba e tipo (testada, descoberta, nova, clássica): a lista não fica só com o que os canais
+    monitorados já fizeram. Cada escolhida é conferida no YouTube antes; TOMADA não entra."""
+    cache_yt = C._cache("youtube")
+    monitorados = {normalize(r.get("canal", "")) for r in C.ler_aba("todos")}
+    escolhidas, checadas = [], 0
+
+    def ok(c):
+        nonlocal checadas
+        if "yt" not in c:
+            c["yt"] = C.cobertura(c["nomes"], cache_yt, monitorados)
+            C.pontuar(c)
+            checadas += 1
+        return c["yt"]["status"] not in ("TOMADA", "JÁ FIZEMOS") and not c.get("sem_nota")
+
+    for aba, cotas in COTAS.items():
+        da_aba = [c for c in vivos if C.aba_de(c) == aba and str(c["id"]) not in dossies]
+        pegas = []
+        for tipo, n in cotas.items():
+            tentou = 0
+            for c in da_aba:
+                if len([x for x in pegas if C.tipo_de(x) == tipo]) >= n or tentou >= 3 * n + 5:
+                    break
+                if C.tipo_de(c) != tipo or c in pegas:
+                    continue
+                tentou += 1
+                if ok(c):
+                    pegas.append(c)
+        sobra = sum(cotas.values()) - len(pegas)
+        for c in da_aba:
+            if sobra <= 0:
+                break
+            if c not in pegas and ok(c):
+                pegas.append(c)
+                sobra -= 1
+        log(f"   {aba}: {len(pegas)} para dossiê " + str({t: sum(1 for x in pegas if C.tipo_de(x) == t) for t in cotas}))
+        escolhidas += pegas
+    C._salva("youtube", cache_yt)
+    log(f"   ({checadas} conferidas no YouTube para as cotas)")
+    return escolhidas
+
+
 def fase(max_yt):
-    vivos = C.cacar(max_yt=max_yt, extras_fn=descobrir, sem_api=True)
-    ls = C.linhas(vivos)
-    C.salvar_local(ls)
+    vivos = C.cacar(max_yt=max_yt, extras_fn=extras, sem_api=True)
     # dossiê vale 7 dias: a rodada diária pesquisa as melhores que ainda não têm (ou cujo dossiê venceu)
     dossies, meta, agora = C._cache("dossies"), C._cache("dossies_meta"), time.time()
     for k in dossies:
@@ -199,10 +299,15 @@ def fase(max_yt):
         dossies.pop(k, None)
     C._salva("dossies_meta", meta)
     C._salva("dossies", dossies)
-    top = ([l for l in ls if l["youtube"] != "não checado" and str(l["id"]) not in dossies][:DOSSIES_POR_NOITE]
-           if max_yt else [])
-    C._salva("top_dossie", {"obras": [{k: l[k] for k in ("id", "obra", "nomes", "canal", "nota", "premissa", "caps",
-                                                           "youtube", "planilha", "nossos", "fonte", "link")}
+    escolhidas = escolher_para_dossie(vivos, dossies) if max_yt else []
+    vivos.sort(key=lambda c: -c.get("final", 0))
+    ls = C.linhas(vivos)
+    C.salvar_local(ls)
+    ids = {str(c["id"]) for c in escolhidas}
+    top = [l for l in ls if str(l["id"]) in ids]
+    C._salva("top_dossie", {"obras": [{k: l[k] for k in ("id", "obra", "nomes", "canal", "aba", "tipo", "nota",
+                                                           "premissa", "caps", "youtube", "planilha", "nossos",
+                                                           "fonte", "link")}
                                       for l in top]})
     log(f"{len(ls)} obras no ranking; top_dossie.json com {len(top)} (já com dossiê: {len(dossies)})")
     return ls

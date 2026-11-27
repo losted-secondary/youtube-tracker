@@ -55,9 +55,19 @@ GANCHOS_MD = Path(r"C:\Users\victo\Desktop\analytics-analyses\thumbs\plano\ganch
 TAGS_FORA = ["Boys' Love", "Yuri", "Shoujo", "Josei"]
 GENEROS_FORA = ["Romance", "Hentai"]
 # (país, ordem, páginas de 50)
-POOLS = [("KR", "TRENDING_DESC", 4), ("KR", "POPULARITY_DESC", 6),
-         ("CN", "TRENDING_DESC", 3), ("CN", "POPULARITY_DESC", 5),
-         ("JP", "TRENDING_DESC", 2), ("JP", "POPULARITY_DESC", 2)]
+# (país, ordem, páginas de 50, filtro de data de início, rótulo)
+POOLS = [("KR", "TRENDING_DESC", 4, None, "Em alta"), ("KR", "POPULARITY_DESC", 6, None, "Popular"),
+         ("CN", "TRENDING_DESC", 3, None, "Em alta"), ("CN", "POPULARITY_DESC", 5, None, "Popular"),
+         ("JP", "TRENDING_DESC", 4, None, "Em alta"), ("JP", "POPULARITY_DESC", 6, None, "Popular"),
+         # obra NOVA: começou de 2025 para cá e já tem público
+         ("KR", "POPULARITY_DESC", 3, ("depois", 20250101), "Nova"),
+         ("CN", "POPULARITY_DESC", 3, ("depois", 20250101), "Nova"),
+         ("JP", "POPULARITY_DESC", 3, ("depois", 20250101), "Nova"),
+         # obra CLÁSSICA: começou antes de 2020 (muita gente nunca viu recap)
+         ("KR", "POPULARITY_DESC", 4, ("antes", 20200101), "Clássica"),
+         ("CN", "POPULARITY_DESC", 3, ("antes", 20200101), "Clássica"),
+         ("JP", "POPULARITY_DESC", 4, ("antes", 20200101), "Clássica")]
+ABA_MANHWA, ABA_MANGA = "Manhwa e Manhua", "Mangá"
 
 
 def log(*a):
@@ -226,13 +236,18 @@ def _anilist(query, variables):
     raise RuntimeError("AniList não respondeu")
 
 
-def ani_pool(pais, ordem, pagina, cache):
-    k = f"pool|{pais}|{ordem}|{pagina}"
+def ani_pool(pais, ordem, pagina, cache, data=None):
+    k = f"pool|{pais}|{ordem}|{pagina}" + (f"|{data[0]}{data[1]}" if data else "")
     if _fresco(cache.get(k), 3):
         return cache[k]["media"]
-    q = f"""query($p:Int,$c:CountryCode,$s:[MediaSort],$g:[String],$t:[String]){{Page(page:$p,perPage:50){{
-      media(type:MANGA,countryOfOrigin:$c,sort:$s,genre_not_in:$g,tag_not_in:$t,isAdult:false){{{_ANI_CAMPOS}}}}}}}"""
-    media = _anilist(q, {"p": pagina, "c": pais, "s": [ordem], "g": GENEROS_FORA, "t": TAGS_FORA})["Page"]["media"]
+    filtro = {"depois": "startDate_greater:$d,", "antes": "startDate_lesser:$d,"}[data[0]] if data else ""
+    q = f"""query($p:Int,$c:CountryCode,$s:[MediaSort],$g:[String],$t:[String]{',$d:FuzzyDateInt' if data else ''}){{
+      Page(page:$p,perPage:50){{media(type:MANGA,countryOfOrigin:$c,sort:$s,genre_not_in:$g,tag_not_in:$t,
+      {filtro}isAdult:false){{{_ANI_CAMPOS}}}}}}}"""
+    var = {"p": pagina, "c": pais, "s": [ordem], "g": GENEROS_FORA, "t": TAGS_FORA}
+    if data:
+        var["d"] = data[1]
+    media = _anilist(q, var)["Page"]["media"]
     cache[k] = {"_t": time.time(), "media": media}
     return media
 
@@ -371,7 +386,9 @@ def yt_busca(q, sp=None):
             if "videoRenderer" in o:
                 v = o["videoRenderer"]
                 snip = " ".join(txt(s.get("snippetText")) for s in v.get("detailedMetadataSnippets", []))
+                dono = ((v.get("ownerText") or {}).get("runs") or [{}])[0]
                 out.append({"id": v.get("videoId"), "titulo": txt(v.get("title")), "canal": txt(v.get("ownerText")),
+                            "canal_id": dono.get("navigationEndpoint", {}).get("browseEndpoint", {}).get("browseId"),
                             "views": _views(txt(v.get("viewCountText"))), "idade": _idade_dias(txt(v.get("publishedTimeText"))),
                             "dur": _dur(txt(v.get("lengthText"))), "snip": snip})
                 return
@@ -382,6 +399,29 @@ def yt_busca(q, sp=None):
                 anda(x)
     anda(json.loads(m.group(1)))
     return out
+
+
+_INSCRITOS = re.compile(r'"([\d.,]+)\s*([KMB]?) subscribers"')
+
+
+def canal_inscritos(cid, cache):
+    """inscritos do canal (página do canal; cache de 15 dias). None se não der para ler."""
+    if not cid:
+        return None
+    k = "subs|" + cid
+    if _fresco(cache.get(k), 15):
+        return cache[k]["n"]
+    n = None
+    try:
+        r = requests.get(f"https://www.youtube.com/channel/{cid}", params={"hl": "en"},
+                         headers={"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"}, timeout=30)
+        m = _INSCRITOS.search(r.text)
+        if m:
+            n = int(float(m.group(1).replace(",", "")) * {"": 1, "K": 1e3, "M": 1e6, "B": 1e9}[m.group(2)])
+    except Exception:
+        pass
+    cache[k] = {"_t": time.time(), "n": n}
+    return n
 
 
 def _fala_da_obra(video, nomes):
@@ -626,6 +666,31 @@ def _cand_da_planilha(o, cache):
             "fonte": "Testada", "inicio": ""}
 
 
+def pontuar(c):
+    st = (c.get("yt") or {}).get("status")
+    pen = 4 if st == "TOMADA" else 6 if st == "JÁ FIZEMOS" else 1 if st == "MORNA" else 0
+    c["final"] = round(c.get("nota", 0) + _prova(c) + 0.5 * _demanda(c) - pen, 2)
+    return c["final"]
+
+
+def tipo_de(c):
+    """por que a obra está na lista: a prova manda; senão, de onde veio."""
+    if _prova_planilha(c) >= 1:
+        return "Testada"
+    if _prova_yt(c) >= 1:
+        return "Descoberta (YouTube)"
+    ano = c.get("inicio")
+    if c.get("fonte") == "Nova" or (isinstance(ano, int) and ano >= 2025):
+        return "Nova"
+    if c.get("fonte") == "Clássica" or (isinstance(ano, int) and ano < 2020):
+        return "Clássica"
+    return c.get("fonte") or "Popular"
+
+
+def aba_de(c):
+    return ABA_MANGA if (c.get("pais") == "JP" or str(c.get("canal", "")).startswith("Mangá")) else ABA_MANHWA
+
+
 def _demanda(c):
     yt = c.get("yt") or {}
     mv, pop = yt.get("max_views", 0), c["popularidade"]
@@ -641,8 +706,12 @@ def _prova(c):
 def _prova_yt(c):
     """vídeo de recap achado na busca do YouTube (canal fora da planilha): 50k -> +1, 100k -> +2,
     200k -> +3, 400k+ -> +4."""
-    v = (c.get("prova_yt") or {}).get("views", 0)
-    return min(4.0, math.log2(v / 25_000)) if v > 25_000 else 0.0
+    py = c.get("prova_yt") or {}
+    v, subs = py.get("views", 0), py.get("subs")
+    base = math.log2(v / 25_000) if v > 25_000 else 0.0
+    if base and subs and v / subs >= 3:          # vídeo fez 3x+ os inscritos do canal: a OBRA puxou
+        base += 1
+    return min(4.0, base)
 
 
 def _prova_planilha(c):
@@ -679,10 +748,10 @@ def cacar(max_yt=100, now=None, extras_fn=None, sem_api=False):
 
         log("Pool AniList…")
         cands = {}
-        for pais, ordem, paginas in POOLS:
+        for pais, ordem, paginas, data, rotulo in POOLS:
             for p in range(1, paginas + 1):
-                for m in ani_pool(pais, ordem, p, cache_ani):
-                    cands.setdefault(m["id"], _cand_de_media(m, "AniList " + ("tendência" if "TREND" in ordem else "popular"), now))
+                for m in ani_pool(pais, ordem, p, cache_ani, data):
+                    cands.setdefault(m["id"], _cand_de_media(m, rotulo, now))
             _salva("anilist", cache_ani)
         log(f"   {len(cands)} obras do AniList")
 
@@ -762,12 +831,10 @@ def cacar(max_yt=100, now=None, extras_fn=None, sem_api=False):
             c["sem_nota"] = not n
             if c["canal"] == "?" and n.get("origem") in CANAL_PAIS:
                 c["canal"] = CANAL_PAIS[n["origem"]] + " (chute)"
+                c["pais"] = c["pais"] or n["origem"]
 
         def pontua(c):
-            st = (c.get("yt") or {}).get("status")
-            pen = 4 if st == "TOMADA" else 6 if st == "JÁ FIZEMOS" else 1 if st == "MORNA" else 0
-            c["final"] = round(c["nota"] + _prova(c) + 0.5 * _demanda(c) - pen, 2)
-            return -c["final"]
+            return -pontuar(c)
 
         # checa o YouTube das melhores; quem cai (TOMADA) abre espaço e a próxima também é checada,
         # até as `max_yt` primeiras estarem todas conferidas
@@ -813,7 +880,8 @@ def _yt_txt(c):
 def _texto_prova(c):
     py = c.get("prova_yt")
     if py and _prova_yt(c) > _prova_planilha(c):
-        return (f"{py['views']:,} views no {py['canal']} há {py['idade'] / 30.4:.0f} meses (achado no YouTube)"
+        subs = f", canal com {py['subs']:,} inscritos" if py.get("subs") else ""
+        return (f"{py['views']:,} views no {py['canal']} há {py['idade'] / 30.4:.0f} meses{subs} (achado no YouTube)"
                 .replace(",", "."))
     return _ultimo_todos(c)
 
@@ -844,7 +912,8 @@ def linhas(vivos):
                     "premissa": c["premissa"], "ganchos": ", ".join(c["ganchos"]), "porque": c["porque"],
                     "risco": c["risco"], "caps": caps, "youtube": _yt_txt(c), "planilha": _texto_prova(c), "nossos": _texto_nossos(c),
                     "id": c["id"], "nomes": " | ".join(c["nomes"][:6]),
-                    "fonte": c["fonte"], "popularidade": c["popularidade"], "inicio": c["inicio"] or "",
+                    "fonte": c["fonte"], "tipo": tipo_de(c), "aba": aba_de(c),
+                    "popularidade": c["popularidade"], "inicio": c["inicio"] or "",
                     "capa": c["capa"], "link": c["link"],
                     "video_prova": (c.get("prova_yt") or {}).get("link") if _prova_yt(c) > _prova_planilha(c)
                     else ((c.get("todos") or {}).get("melhor") or {}).get("link", "")})
@@ -872,14 +941,24 @@ def salvar_local(ls, dossies=None):
         w.writerows(ls)
     cor = {"JÁ FIZEMOS": "#7c3aed", "LIVRE": "#16a34a", "ESFRIOU": "#2563eb", "MORNA": "#d97706", "TOMADA": "#dc2626"}
     cards = []
-    for i, l in enumerate(ls[:150], 1):
+    por_aba = {}
+    for l in ls:
+        por_aba.setdefault(l.get("aba") or ABA_MANHWA, []).append(l)
+    seq = []
+    for aba in (ABA_MANHWA, ABA_MANGA):
+        seq.append(("aba", aba))
+        seq += [(i, l) for i, l in enumerate(por_aba.get(aba, [])[:120], 1)]
+    for i, l in seq:
+        if i == "aba":
+            cards.append(f'<h2 id="{normalize(l)}">{html.escape(l)} · {len(por_aba.get(l, []))} obras</h2>')
+            continue
         st = l["youtube"].split(":")[0]
         cards.append(f"""<div class=c><img src="{html.escape(l['capa'])}" loading=lazy><div class=t>
 <div class=h><b>#{i} · {l['nota']:.1f}</b> <span class=k>{html.escape(l['canal'])}</span>
 <a href="{html.escape(l['link'])}" target=_blank>{html.escape(l['obra'])}</a></div>
 <div class=p>{html.escape(l['premissa'])}</div>
 <div class=m><span style="background:{cor.get(st, '#6b7280')}" class=s>{html.escape(l['youtube'])}</span>
-caps {html.escape(str(l['caps']))} · início {l['inicio']} · {html.escape(l['fonte'])} · ganchos: {html.escape(l['ganchos'])}</div>
+<b>{html.escape(l.get('tipo') or '')}</b> · caps {html.escape(str(l['caps']))} · início {l['inicio']} · ganchos: {html.escape(l['ganchos'])}</div>
 <div class=w>{html.escape(l['porque'])}{(' · <i>risco: ' + html.escape(l['risco']) + '</i>') if l['risco'] else ''}</div>
 {('<div class=tt>✅ TESTADA: ' + html.escape(l['planilha']) + '</div>') if l['planilha'] else ''}
 {('<div class=n>🟣 ' + html.escape(l['nossos']) + '</div>') if l.get('nossos') else ''}
@@ -891,22 +970,27 @@ caps {html.escape(str(l['caps']))} · início {l['inicio']} · {html.escape(l['f
 .h{{font-size:18px}}.h a{{color:#fff;text-decoration:none}}.k{{background:#374151;border-radius:4px;padding:1px 6px;font-size:13px}}
 .p{{margin:6px 0;font-size:16px}}.m{{color:#9ca3af;font-size:13px}}.s{{color:#fff;border-radius:4px;padding:1px 6px;margin-right:6px}}
 .w{{color:#cbd5e1;font-size:13px;margin-top:4px}}.c>.t{{flex:1}}img.v{{width:240px;height:135px;border-radius:6px;object-fit:cover}}.tt{{color:#4ade80;font-size:14px;margin-top:4px;font-weight:600}}.n{{color:#c4b5fd;font-size:13px;margin-top:3px}}.d{{background:#0b1220;border-left:3px solid #f59e0b;padding:8px 10px;margin-top:8px;font-size:14px;line-height:1.45;color:#e5e7eb}}</style><h1>Caçador de Obras · {datetime.now(BRT):%d/%m/%Y %H:%M}</h1>
+<p><a style="color:#93c5fd" href="#{normalize(ABA_MANHWA)}">{ABA_MANHWA}</a> · <a style="color:#93c5fd" href="#{normalize(ABA_MANGA)}">{ABA_MANGA}</a></p>
 {''.join(cards)}""", encoding="utf-8")
 
 
-HEADER_OUT = ["Peguei", "Capa", "Nota", "Veredito", "Obra", "Canal", "Premissa", "Dossiê", "Caps", "YouTube hoje",
-               "Testada (prova)", "Nossos canais", "Ganchos", "Fonte", "Link", "Vídeo que rendeu", "ID"]
+HEADER_OUT = ["Peguei", "Capa", "Nota", "Veredito", "Tipo", "Obra", "Canal", "Premissa", "Dossiê", "Caps",
+              "YouTube hoje", "Prova", "Nossos canais", "Ganchos", "Link", "Vídeo que rendeu", "ID"]
 MAX_LINHAS_OUT = 250
 SAIDA = Path(__file__).parent / "cacador_saida" / "recomendadas.json"   # o PC publica; o GitHub grava a aba
 
 
 def exportar(ls):
     """lista final (com veredito/dossiê) -> cacador_saida/recomendadas.json, que vai para o GitHub."""
-    campos = ["id", "nota", "veredito", "obra", "canal", "premissa", "dossie", "caps", "youtube", "planilha",
-              "nossos", "ganchos", "fonte", "link", "video_prova", "capa"]
+    campos = ["id", "nota", "veredito", "tipo", "obra", "canal", "premissa", "dossie", "caps", "youtube",
+              "planilha", "nossos", "ganchos", "fonte", "link", "video_prova", "capa"]
+    abas = {ABA_MANHWA: [], ABA_MANGA: []}
+    for l in ls:
+        lst = abas.setdefault(l.get("aba") or ABA_MANHWA, [])
+        if len(lst) < MAX_LINHAS_OUT:
+            lst.append({k: l.get(k, "") for k in campos})
     SAIDA.parent.mkdir(exist_ok=True)
-    SAIDA.write_text(json.dumps({"gerado": datetime.now(BRT).strftime("%d/%m/%Y %H:%M"),
-                                 "linhas": [{k: l.get(k, "") for k in campos} for l in ls[:MAX_LINHAS_OUT]]},
+    SAIDA.write_text(json.dumps({"gerado": datetime.now(BRT).strftime("%d/%m/%Y %H:%M"), "abas": abas},
                                 ensure_ascii=False, indent=0), encoding="utf-8")
     return SAIDA
 
@@ -926,7 +1010,7 @@ def _regras_out(sid):
                                        "properties": {"pixelSize": 110}, "fields": "pixelSize"}},
         {"setDataValidation": {"range": {**corpo, "startColumnIndex": 0, "endColumnIndex": 1},
                                "rule": {"condition": {"type": "BOOLEAN"}}}},
-        {"repeatCell": {"range": {**corpo, "startColumnIndex": 6, "endColumnIndex": 8},
+        {"repeatCell": {"range": {**corpo, "startColumnIndex": 7, "endColumnIndex": 9},
                         "cell": {"userEnteredFormat": {"wrapStrategy": "WRAP"}},
                         "fields": "userEnteredFormat.wrapStrategy"}},
         {"addConditionalFormatRule": {"index": 0, "rule": {
@@ -962,37 +1046,39 @@ def tirar_aba_do_tracker(gc):
         pass
 
 
-def gravar_planilha(ls, gerado="", gc=None):
-    """Planilha própria do caçador (id em cacador_saida/planilha.json), aba `Obras Recomendadas`.
-    O Peguei acompanha a obra pelo ID (a aba é reescrita e reordenada)."""
+def gravar_planilha(abas, gerado="", gc=None):
+    """Planilha própria do caçador (id em cacador_saida/planilha.json): uma aba por tipo de obra
+    (`Manhwa e Manhua`, `Mangá`). O Peguei acompanha a obra pelo ID (a aba é reescrita e reordenada)."""
     import gspread
     import novas_obras as NO
     gc = gc or _cliente_google()
-    sid = json.loads(PLANILHA_ARQ.read_text(encoding="utf-8"))["id"]
-    ss = gc.open_by_key(sid)
+    ss = gc.open_by_key(json.loads(PLANILHA_ARQ.read_text(encoding="utf-8"))["id"])
     peguei = {}
-    try:
-        for r in ss.worksheet(TAB_OUT).get_all_values()[1:]:
-            if len(r) >= len(HEADER_OUT) and r[-1]:
-                peguei[r[-1]] = r[0]
-    except gspread.WorksheetNotFound:
-        pass
-    ws = NO._ensure_tab(ss, TAB_OUT, HEADER_OUT, rows=MAX_LINHAS_OUT + 1,
-                        widths=[65, 80, 55, 95, 260, 110, 300, 420, 55, 300, 280, 170, 150, 90, 220, 220, 90],
-                        center_cols=(0, 1, 2, 3, 8), link_col=14, extra=_regras_out)
-    ws.batch_clear([f"A2:Q{MAX_LINHAS_OUT + 1}"])
-    linhas_ = [[peguei.get(str(l["id"]), "FALSE"), f'=IMAGE("{l["capa"]}")' if l.get("capa") else "",
-                l["nota"], l.get("veredito") or "", l["obra"], l["canal"], l["premissa"], l.get("dossie") or "",
-                str(l["caps"]), l["youtube"], l["planilha"], l.get("nossos") or "", l["ganchos"], l["fonte"],
-                l["link"], l.get("video_prova") or "", str(l["id"])] for l in ls[:MAX_LINHAS_OUT]]
-    if linhas_:
-        ws.update(linhas_, "A2", value_input_option="USER_ENTERED")
-    if gerado:
-        ws.update_note("A1", f"Caçador de Obras · gerado em {gerado}")
-    for outra in ss.worksheets():          # planilha nova vem com uma aba vazia ("Página1"/"Sheet1")
-        if outra.id != ws.id and not any(c for r in outra.get_values("A1:C3") for c in r):
+    for ws in ss.worksheets():             # Peguei de qualquer aba (inclusive da antiga `Obras Recomendadas`)
+        for r in ws.get_all_values()[1:]:
+            if r and r[-1] and r[0] == "TRUE":
+                peguei[r[-1]] = "TRUE"
+    total, feitas = 0, set()
+    for i, (titulo, ls) in enumerate(abas.items()):
+        ws = NO._ensure_tab(ss, titulo, HEADER_OUT, rows=MAX_LINHAS_OUT + 1, index=i,
+                            widths=[65, 80, 55, 95, 150, 260, 110, 300, 420, 55, 300, 280, 170, 150, 220, 220, 90],
+                            center_cols=(0, 1, 2, 3, 4, 9), link_col=14, extra=_regras_out)
+        ws.batch_clear([f"A2:Q{MAX_LINHAS_OUT + 1}"])
+        linhas_ = [[peguei.get(str(l["id"]), "FALSE"), f'=IMAGE("{l["capa"]}")' if l.get("capa") else "",
+                    l["nota"], l.get("veredito") or "", l.get("tipo") or l.get("fonte") or "", l["obra"], l["canal"],
+                    l["premissa"], l.get("dossie") or "", str(l["caps"]), l["youtube"], l["planilha"],
+                    l.get("nossos") or "", l["ganchos"], l["link"], l.get("video_prova") or "", str(l["id"])]
+                   for l in ls[:MAX_LINHAS_OUT]]
+        if linhas_:
+            ws.update(linhas_, "A2", value_input_option="USER_ENTERED")
+        if gerado:
+            ws.update_note("A1", f"Caçador de Obras · gerado em {gerado}")
+        total += len(linhas_)
+        feitas.add(ws.id)
+    for outra in ss.worksheets():          # aba vazia da planilha nova e a antiga `Obras Recomendadas` saem
+        if outra.id not in feitas and (outra.title == TAB_OUT or not any(c for r in outra.get_values("A1:C3") for c in r)):
             ss.del_worksheet(outra)
-    return len(linhas_)
+    return total
 
 
 if __name__ == "__main__":
@@ -1006,14 +1092,15 @@ if __name__ == "__main__":
             sys.exit()
         conta = json.loads(os.environ["GOOGLE_CREDENTIALS_JSON"]).get("client_email", "?")
         try:
-            n = gravar_planilha(d["linhas"], d.get("gerado", ""), gc)
+            abas = d.get("abas") or {TAB_OUT: d.get("linhas", [])}
+            n = gravar_planilha(abas, d.get("gerado", ""), gc)
         except Exception as e:
             # ::error:: vira anotação pública no GitHub: dá para ler o motivo sem abrir o log
             msg = f"{type(e).__name__}: {str(e)[:300]}".replace("\n", " ")
             print(f"::error::Planilha do caçador não gravada ({msg}). A planilha precisa estar compartilhada "
                   f"como Editor com {conta}")
             sys.exit(1)
-        print(f"::notice::Planilha do caçador gravada: {n} obras (lista de {d.get('gerado')}).")
+        print(f"::notice::Planilha do caçador gravada: {n} obras em {len(abas)} abas (lista de {d.get('gerado')}).")
         sys.exit()
     max_yt = int(sys.argv[sys.argv.index("--max-yt") + 1]) if "--max-yt" in sys.argv else 100
     vivos = cacar(max_yt=max_yt)
