@@ -1105,7 +1105,8 @@ def salvar_local(ls, dossies=None):
             l["caps"] = d["caps"]
     # quem o agente reprovou (TOMADA/descartar) desce para o fim
     ls.sort(key=lambda l: (1 if ((l.get("veredito") or "").upper().startswith(("DESCART", "TOMADA"))
-                                 or (l.get("yt_curto") or "").startswith("🔴")) else 0, -l["nota"]))
+                                 or (l.get("yt_curto") or "").startswith("🔴")
+                                 or 0 < (_int(l.get("caps")) or 99) < MIN_CAPS) else 0, -l["nota"]))
     with open(DIR / "recomendadas.csv", "w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(ls[0].keys()))
         w.writeheader()
