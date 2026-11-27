@@ -46,5 +46,7 @@ for ($i = 1; $i -le 3; $i++) {
 }
 Py "fase2" @("fase2", "80")
 Agente "B" "prompt_b.md"
+$sujo = & python -c "import json,re,pathlib as P;a=P.Path(r'$art');print(sum(len(re.findall(r'\w\?\w', (a/f).read_text(encoding='utf-8'))) for f in ['notas_agente.json','dossies.json'] if (a/f).exists()))"
+if ([int]$sujo -gt 0) { Log "$sujo acentos quebrados: agente de correção"; Agente "acentos" "prompt_acentos.md" }
 Py "html" @("html")
 Log "===== rodada noturna terminou: $art\recomendadas.html ====="

@@ -154,7 +154,7 @@ def descobrir(cache_ani, cache_yt, idx, now):
                  "link": f"https://youtu.be/{v['id']}", "titulo": v["titulo"]}
         ag = agente.get(v["id"])
         if ag is not None:
-            nomes = [n for n in [ag.get("obra")] + (ag.get("outros_nomes") or []) if n]
+            nomes = [re.sub(r"(?<=\w)\?(?=\w)", "'", n) for n in [ag.get("obra")] + (ag.get("outros_nomes") or []) if n]
             if not nomes:
                 continue            # o agente olhou e não achou
         else:
