@@ -1,13 +1,15 @@
 name: cacador-planilha
 
 # O Caçador de Obras roda no PC (Codex + gpt-6-astra pela assinatura) e publica
-# cacador_saida/recomendadas.json. Este workflow só grava a aba `Obras Recomendadas`
-# com a conta de serviço que já está nos Secrets (o PC não tem credencial do Google).
+# cacador_saida/recomendadas.json. Este workflow grava a aba `Obras Recomendadas` da PLANILHA
+# PRÓPRIA do caçador (id em cacador_saida/planilha.json), separada do tracker, com a conta de serviço que já está nos Secrets (o PC não tem credencial do Google).
 on:
   push:
     branches: [main]
     paths:
       - cacador_saida/recomendadas.json
+      - cacador_saida/planilha.json
+      - .github/workflows/cacador-planilha.yml
   workflow_dispatch:
 
 permissions:
@@ -27,7 +29,7 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install -r requirements.txt
-      - name: Gravar aba Obras Recomendadas
+      - name: Gravar a planilha do caçador (e tirar a aba antiga do tracker)
         env:
           GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
         run: python cacador.py --planilha-de cacador_saida/recomendadas.json

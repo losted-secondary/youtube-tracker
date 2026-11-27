@@ -940,14 +940,36 @@ def _regras_out(sid):
     ]
 
 
-def gravar_planilha(ls, gerado=""):
-    """Aba `Obras Recomendadas`. O Peguei acompanha a obra pelo ID (a aba é reescrita e reordenada)."""
+PLANILHA_ARQ = Path(__file__).parent / "cacador_saida" / "planilha.json"   # {"id": "<id da planilha do caçador>"}
+
+
+def _cliente_google():
     import gspread
     from google.oauth2.service_account import Credentials
-    import novas_obras as NO
     creds = Credentials.from_service_account_info(json.loads(os.environ["GOOGLE_CREDENTIALS_JSON"]),
                                                   scopes=["https://www.googleapis.com/auth/spreadsheets"])
-    ss = gspread.authorize(creds).open_by_key(SHEET_ID)
+    return gspread.authorize(creds)
+
+
+def tirar_aba_do_tracker(gc):
+    """o caçador tem planilha própria: a aba que ele criou no tracker (27/11/2026) sai de lá."""
+    import gspread
+    ss = gc.open_by_key(SHEET_ID)
+    try:
+        ss.del_worksheet(ss.worksheet(TAB_OUT))
+        log(f"Aba `{TAB_OUT}` removida da planilha do tracker.")
+    except gspread.WorksheetNotFound:
+        pass
+
+
+def gravar_planilha(ls, gerado="", gc=None):
+    """Planilha própria do caçador (id em cacador_saida/planilha.json), aba `Obras Recomendadas`.
+    O Peguei acompanha a obra pelo ID (a aba é reescrita e reordenada)."""
+    import gspread
+    import novas_obras as NO
+    gc = gc or _cliente_google()
+    sid = json.loads(PLANILHA_ARQ.read_text(encoding="utf-8"))["id"]
+    ss = gc.open_by_key(sid)
     peguei = {}
     try:
         for r in ss.worksheet(TAB_OUT).get_all_values()[1:]:
@@ -967,6 +989,9 @@ def gravar_planilha(ls, gerado=""):
         ws.update(linhas_, "A2", value_input_option="USER_ENTERED")
     if gerado:
         ws.update_note("A1", f"Caçador de Obras · gerado em {gerado}")
+    for outra in ss.worksheets():          # planilha nova vem com uma aba vazia ("Página1"/"Sheet1")
+        if outra.id != ws.id and not any(c for r in outra.get_values("A1:C3") for c in r):
+            ss.del_worksheet(outra)
     return len(linhas_)
 
 
@@ -974,8 +999,13 @@ if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
     if "--planilha-de" in sys.argv:        # GitHub Actions: grava a aba a partir do json que o PC publicou
         d = json.loads(Path(sys.argv[sys.argv.index("--planilha-de") + 1]).read_text(encoding="utf-8"))
-        n = gravar_planilha(d["linhas"], d.get("gerado", ""))
-        log(f"Aba `{TAB_OUT}` gravada com {n} obras (lista de {d.get('gerado')}).")
+        gc = _cliente_google()
+        tirar_aba_do_tracker(gc)
+        if not PLANILHA_ARQ.exists():
+            log("Sem planilha do caçador configurada (cacador_saida/planilha.json): nada gravado.")
+            sys.exit()
+        n = gravar_planilha(d["linhas"], d.get("gerado", ""), gc)
+        log(f"Planilha do caçador: aba `{TAB_OUT}` gravada com {n} obras (lista de {d.get('gerado')}).")
         sys.exit()
     max_yt = int(sys.argv[sys.argv.index("--max-yt") + 1]) if "--max-yt" in sys.argv else 100
     vivos = cacar(max_yt=max_yt)
