@@ -126,6 +126,14 @@ def desempenho(todos, now):
                      "views": _views(r.get("viewers")), "link": r.get("link", ""),
                      "nomes": [p for n in [r.get("obra", "")] + (r.get("nomes_variantes") or "").split(" | ")
                                for p in [n] + (n.split(" / ") if " / " in n else [])]})
+    # o mesmo link em duas linhas do tracker (ex.: Tobs e Manhwa Void com NWaw3KHneQ0, obras diferentes):
+    # uma das linhas está errada, então esse vídeo não serve de prova para ninguém (ainda conta como cobertura)
+    contagem = {}
+    for v in vids:
+        if v["link"]:
+            contagem[v["link"]] = contagem.get(v["link"], 0) + 1
+    for v in vids:
+        v["duvidoso"] = contagem.get(v["link"], 0) > 1
     por_canal = {}
     for v in vids:
         por_canal.setdefault(v["canal"], []).append(v)
@@ -133,7 +141,8 @@ def desempenho(todos, now):
         for v in lst:
             viz = [o["views"] for o in lst if abs((o["dt"] - v["dt"]).days) <= 45 and o is not v]
             med = statistics.median(viz) if len(viz) >= 4 else None
-            v["ratio"] = v["views"] / med if med and (now - v["dt"]).days >= 10 else None
+            v["ratio"] = (v["views"] / med if med and (now - v["dt"]).days >= 10 and not v["duvidoso"]
+                          else None)
     obras = {}
     for v in vids:
         if not v["obra"]:
@@ -367,13 +376,33 @@ def _dur(txt):
     return s
 
 
+_ULTIMO_YT = [0.0]
+
+
+def _yt_get(url, params):
+    """GET no YouTube com ritmo (1,2 s entre pedidos) e paciência quando ele bloqueia (429): espera 30/60/120 s."""
+    for espera in (0, 30, 60, 120):
+        if espera:
+            log(f"   YouTube pediu calma (429): esperando {espera}s")
+            time.sleep(espera)
+        falta = 1.2 - (time.time() - _ULTIMO_YT[0])
+        if falta > 0:
+            time.sleep(falta)
+        _ULTIMO_YT[0] = time.time()
+        r = requests.get(url, params=params, headers={"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"},
+                         timeout=30)
+        if r.status_code != 429 and "google.com/sorry" not in r.url:
+            r.raise_for_status()
+            return r
+    r.raise_for_status()
+    raise RuntimeError("YouTube bloqueou (429)")
+
+
 def yt_busca(q, sp=None):
     params = {"search_query": q, "hl": "en", "gl": "US"}
     if sp:
         params["sp"] = sp
-    r = requests.get("https://www.youtube.com/results", params=params,
-                     headers={"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"}, timeout=30)
-    r.raise_for_status()
+    r = _yt_get("https://www.youtube.com/results", params)
     m = re.search(r"var ytInitialData = (\{.*?\});</script>", r.text, re.S)
     if not m:
         return []
@@ -415,8 +444,7 @@ def canal_inscritos(cid, cache):
         return cache[k]["n"]
     n = None
     try:
-        r = requests.get(f"https://www.youtube.com/channel/{cid}", params={"hl": "en"},
-                         headers={"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"}, timeout=30)
+        r = _yt_get(f"https://www.youtube.com/channel/{cid}", {"hl": "en"})
         m = _INSCRITOS.search(r.text)
         if m:
             n = int(float(m.group(1).replace(",", "")) * {"": 1, "K": 1e3, "M": 1e6, "B": 1e9}[m.group(2)])
@@ -448,9 +476,7 @@ _PUB = re.compile(r'"publishDate":"([^"]+)"')
 
 def yt_video(vid):
     """descrição + data exata de um vídeo (página do vídeo)."""
-    r = requests.get("https://www.youtube.com/watch", params={"v": vid, "hl": "en"},
-                     headers={"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"}, timeout=30)
-    r.raise_for_status()
+    r = _yt_get("https://www.youtube.com/watch", {"v": vid, "hl": "en"})
     m, pd = _DESC.search(r.text), _PUB.search(r.text)
     desc = json.loads('"' + m.group(1) + '"') if m else ""
     return desc, (_dt_iso(pd.group(1)) if pd else None)
