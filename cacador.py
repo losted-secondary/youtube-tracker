@@ -37,6 +37,7 @@ from pathlib import Path
 
 import requests
 
+import comick
 from comick import normalize
 
 SHEET_ID = "1ordgWcnAmJpxAVD8qXy0dXjhgqu5Y_g2LkJFnzxA9f0"
@@ -134,6 +135,9 @@ def desempenho(todos, now):
         o["ratio"] = max(rs) if rs else None
         o["ultimo"] = max(v["dt"] for v in o["videos"])
         o["nossos"] = any(normalize(v["canal"]) in NOSSOS for v in o["videos"])
+        nv = [v for v in o["videos"] if normalize(v["canal"]) in NOSSOS]
+        o["nossos_ultimo"] = max(v["dt"] for v in nv) if nv else None
+        o["nossos_canais"] = sorted({v["canal"] for v in nv})
         o["canais"] = sorted({v["canal"] for v in o["videos"]})
         o["max_views"] = max(v["views"] for v in o["videos"])
         melhor = max(o["videos"], key=lambda v: (v["ratio"] or 0, v["views"]))
@@ -143,12 +147,56 @@ def desempenho(todos, now):
     return obras
 
 
-def indice_chaves(obras):
-    idx = {}
-    for o in obras.values():
-        for k in o["chaves"]:
-            idx[k] = o
-    return idx
+class Indice:
+    """acha a obra da planilha por QUALQUER nome, mesmo diferente: "The Magic Genius of the Marquis"
+    (Tobs) = "The Magic Genius of the Marquis House" (AniList). Bate se o nome é igual, se as palavras
+    de um estão todas no outro (3+ palavras) ou se 80% das palavras coincidem."""
+
+    def __init__(self, obras):
+        self.exato, self.tok, self.por_token = {}, {}, {}
+        for o in obras.values():
+            for k in o["chaves"]:
+                self.exato.setdefault(k, []).append(o)
+                ts = frozenset(_tokens(k))
+                if len(ts) >= 2:
+                    self.tok[k] = ts
+                    for t in ts:
+                        self.por_token.setdefault(t, set()).add(k)
+
+    def achar(self, nomes):
+        achou = {}
+        for n in nomes:
+            for o in self.exato.get(normalize(n), []):
+                achou[id(o)] = o
+            ts = set(_tokens(n))
+            if len(ts) < 2:
+                continue
+            perto = set()
+            for t in ts:
+                perto |= self.por_token.get(t, set())
+            for k in perto:
+                ct = self.tok[k]
+                inter, menor = len(ts & ct), min(len(ts), len(ct))
+                maior = max(len(ts), len(ct))
+                if (inter == menor and menor >= 3 and inter / maior >= 0.5) or inter / maior >= 0.8:
+                    for o in self.exato[k]:
+                        achou[id(o)] = o
+        return list(achou.values())
+
+
+def juntar(achadas):
+    """a mesma obra pode estar na planilha com nomes diferentes (um por canal): vira uma só."""
+    if not achadas:
+        return None
+    if len(achadas) == 1:
+        return achadas[0]
+    melhor = max(achadas, key=lambda o: ((o["melhor"]["ratio"] or 0), o["melhor"]["views"]))
+    return {**melhor, "ratio": max((o["ratio"] or 0) for o in achadas) or None,
+            "ultimo": max(o["ultimo"] for o in achadas), "nossos": any(o["nossos"] for o in achadas),
+            "canais": sorted({c for o in achadas for c in o["canais"]}),
+            "nomes": list(dict.fromkeys(n for o in achadas for n in o["nomes"])),
+            "nossos_ultimo": max((o["nossos_ultimo"] for o in achadas if o.get("nossos_ultimo")), default=None),
+            "nossos_canais": sorted({c for o in achadas for c in o.get("nossos_canais", [])})}
 
 
 # ---------------------------------------------------------------- AniList
@@ -209,10 +257,37 @@ def ani_busca(titulo, cache):
     return m
 
 
+ROMANIZADOS = set()      # título romanizado do AniList (Na Honjaman Level Up, Hujakgaui Mabeop Cheonjae)
+
+
 def nomes_de(m):
+    """inglês primeiro, depois sinônimos, o romanizado por último."""
     t = m.get("title") or {}
-    out = [t.get("english"), t.get("romaji")] + (m.get("synonyms") or [])
-    return [n for n in dict.fromkeys(out) if n and re.search(r"[A-Za-z]", n) and not re.search(r"[\u3040-\u30ff\u4e00-\u9fff\uac00-\ud7af]", n)]
+    if t.get("romaji") and t.get("romaji") != t.get("english"):
+        ROMANIZADOS.add(normalize(t["romaji"]))
+    out = [t.get("english")] + (m.get("synonyms") or []) + [t.get("romaji")]
+    return ordem_nomes([n for n in out if n and re.search(r"[A-Za-z]", n)
+                        and not re.search(r"[\u3040-\u30ff\u4e00-\u9fff\uac00-\ud7af\u0400-\u04ff]", n)])
+
+
+_INGLES = re.compile(r"\b(the|of|a|an|i|my|is|in|to|and|with|who|became|return|returns|level|system|player|god|king|son)\b", re.I)
+
+
+def eh_ingles(n):
+    return bool(_INGLES.search(n or "")) and all(ord(ch) < 0x250 or ch in "’‘" for ch in n)
+
+
+def nomes_busca(nomes):
+    """nomes para pesquisar no YouTube: sem o romanizado (ninguém usa); ele só entra se não houver outro."""
+    en = [n for n in nomes if normalize(n) not in ROMANIZADOS and all(ord(ch) < 0x250 or ch in "’‘—–…" for ch in n)]
+    return en or list(nomes)
+
+
+def ordem_nomes(nomes):
+    """nome em inglês primeiro (é o que os canais usam e o que a busca do YouTube acha); romanizado
+    (Hujakgaui Mabeop Cheonjae, Quanmin Zhuanzhi) por último."""
+    uniq = list(dict.fromkeys(n.strip() for n in nomes if n and n.strip()))
+    return sorted(uniq, key=lambda n: 1 if normalize(n) in ROMANIZADOS else 0)     # sort estável
 
 
 def titulo_de(m):
@@ -275,8 +350,11 @@ def _dur(txt):
     return s
 
 
-def yt_busca(q):
-    r = requests.get("https://www.youtube.com/results", params={"search_query": q, "hl": "en", "gl": "US"},
+def yt_busca(q, sp=None):
+    params = {"search_query": q, "hl": "en", "gl": "US"}
+    if sp:
+        params["sp"] = sp
+    r = requests.get("https://www.youtube.com/results", params=params,
                      headers={"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"}, timeout=30)
     r.raise_for_status()
     m = re.search(r"var ytInitialData = (\{.*?\});</script>", r.text, re.S)
@@ -347,7 +425,8 @@ def cobertura(nomes, cache, monitorados, now=None, max_desc=6):
     """-> {status, videos, n, ultimo_dias, max_views, nossa}. Recap = vídeo de 40+ min, em inglês, que
     fala da obra no título/trecho OU na descrição (canal grande põe só o gancho no título)."""
     now = now or datetime.now(timezone.utc)
-    chave = "yt2|" + normalize(nomes[0])
+    nomes = nomes_busca(nomes)
+    chave = "yt3|" + normalize(nomes[0])
     if _fresco(cache.get(chave), 3):
         return cache[chave]["c"]
     vistos, abertos, nossos_talvez = {}, 0, []
@@ -380,10 +459,10 @@ def cobertura(nomes, cache, monitorados, now=None, max_desc=6):
     vids = sorted(vistos.values(), key=lambda v: v["idade"] if v["idade"] is not None else 9e9)
     c = {"videos": vids[:6], "n": len(vids)}
     recentes = [v for v in vids if v["idade"] is not None and v["idade"] < ESFRIOU_DIAS]
-    c["nossa"] = [v["canal"] for v in vids if normalize(v["canal"]) in NOSSOS]
-    if c["nossa"] or nossos_talvez:
-        c["status"] = "JÁ FIZEMOS"
-        c["nossa"] = c["nossa"] or nossos_talvez
+    c["nossa"] = [v["canal"] for v in vids if normalize(v["canal"]) in NOSSOS] or nossos_talvez
+    c["busca"] = nomes[:2]
+    if any(normalize(v["canal"]) in NOSSOS for v in recentes):
+        c["status"] = "TOMADA"
     elif not vids:
         c["status"] = "LIVRE"
     elif any(v["views"] >= 10_000 or normalize(v["canal"]) in monitorados for v in recentes):
@@ -498,6 +577,55 @@ def _cand_de_media(m, fonte, now):
             "link": m.get("siteUrl", ""), "fonte": fonte, "inicio": (m.get("startDate") or {}).get("year")}
 
 
+def _yt_thumb(link):
+    m = re.search(r"(?:youtu\.be/|v=)([\w-]{11})", link or "")
+    return f"https://i.ytimg.com/vi/{m.group(1)}/hqdefault.jpg" if m else ""
+
+
+def comick_busca(titulo, cache):
+    k = "comick|" + normalize(titulo)
+    if _fresco(cache.get(k), 30):
+        return cache[k]["m"]
+    try:
+        res = comick.search(comick.clean_query(titulo), requests.Session()) or []
+        m = comick.best_match(titulo, res)
+    except Exception:
+        m = None
+    if m:
+        covers = m.get("md_covers") or []
+        m = {"titulo": m.get("title"), "nomes": comick.english_titles(m), "caps": _int(m.get("last_chapter")),
+             "pais": (m.get("country") or "").upper(), "slug": m.get("slug"),
+             "capa": f"https://meo.comick.pictures/{covers[0]['b2key']}" if covers else ""}
+    cache[k] = {"_t": time.time(), "m": m}
+    return m
+
+
+def _int(x):
+    try:
+        return int(float(x))
+    except (TypeError, ValueError):
+        return None
+
+
+def _cand_da_planilha(o, cache):
+    """obra testada que o AniList não conhece: Comick dá nome oficial, país, capítulos e capa;
+    sem Comick, a capa é a thumbnail do vídeo que rendeu."""
+    cid = "t" + normalize(o["obra"]).replace(" ", "_")[:60]
+    cm = None
+    for n in o["nomes"][:3]:
+        cm = comick_busca(n.split(" / ")[0], cache)
+        if cm:
+            break
+    pais = cm["pais"] if cm and cm["pais"] in CANAL_PAIS else None
+    return {"id": cid, "titulo": (cm or {}).get("titulo") or o["obra"],
+            "nomes": list(dict.fromkeys(((cm or {}).get("nomes") or []) + o["nomes"]))[:5],
+            "pais": pais, "canal": CANAL_PAIS.get(pais, "?"), "generos": [], "tags": [], "sinopse": "",
+            "caps": (cm or {}).get("caps"), "caps_est": False, "status_obra": "", "popularidade": 0,
+            "capa": (cm or {}).get("capa") or _yt_thumb(o["melhor"]["link"]),
+            "link": f"https://comick.dev/comic/{cm['slug']}" if cm and cm.get("slug") else o["melhor"]["link"],
+            "fonte": "Testada", "inicio": ""}
+
+
 def _demanda(c):
     yt = c.get("yt") or {}
     mv, pop = yt.get("max_views", 0), c["popularidade"]
@@ -507,6 +635,17 @@ def _demanda(c):
 
 
 def _prova(c):
+    return max(_prova_planilha(c), _prova_yt(c))
+
+
+def _prova_yt(c):
+    """vídeo de recap achado na busca do YouTube (canal fora da planilha): 50k -> +1, 100k -> +2,
+    200k -> +3, 400k+ -> +4."""
+    v = (c.get("prova_yt") or {}).get("views", 0)
+    return min(4.0, math.log2(v / 25_000)) if v > 25_000 else 0.0
+
+
+def _prova_planilha(c):
     """Já foi testada: rendeu no canal de outra pessoa (views ÷ mediana do canal). É o sinal mais
     forte que existe, vale mais que a nota da IA: 1.5x -> +1.2, 2x -> +2, 3x -> +3.2, 4x+ -> +4."""
     r = c.get("ratio_todos") or 0
@@ -517,14 +656,18 @@ def _prova(c):
     return min(4.0, 2 * math.log2(r)) * peso
 
 
-def cacar(max_yt=100, now=None):
+def cacar(max_yt=100, now=None, extras_fn=None, sem_api=False):
+    """extras_fn(cache_ani, cache_yt, idx, now) -> candidatas de outras fontes (descoberta no YouTube).
+    sem_api: não chama a OpenAI; obras sem nota vão para fila_notas.json (o agente noturno preenche
+    notas_agente.json, que tem prioridade sobre o cache)."""
     now = now or datetime.now(timezone.utc)
     cache_ani, cache_yt, cache_notas = _cache("anilist"), _cache("youtube"), _cache("notas")
+    cache_notas.update(_cache("notas_agente"))
     try:
         log("Lendo a aba todos…")
         todos = ler_aba("todos")
         obras = desempenho(todos, now)
-        idx = indice_chaves(obras)
+        idx = Indice(obras)
         monitorados = {normalize(r.get("canal", "")) for r in todos}
         log(f"   {len(todos)} vídeos, {len(obras)} obras, {sum(1 for o in obras.values() if o['ratio'])} com nota de desempenho")
 
@@ -546,36 +689,46 @@ def cacar(max_yt=100, now=None):
         log("Pool repostagem (renderam e o último vídeo tem 6+ meses)…")
         n_rep = 0
         for o in sorted(obras.values(), key=lambda o: -(o["ratio"] or 0)):
-            if not o["ratio"] or o["ratio"] < 1.3 or o["nossos"] or (now - o["ultimo"]).days < ESFRIOU_DIAS:
+            if not o["ratio"] or o["ratio"] < 1.3 or (now - o["ultimo"]).days < ESFRIOU_DIAS:
                 continue
             m = ani_busca(o["obra"].split(" / ")[0], cache_ani)
             if m and (m.get("isAdult") or set(m.get("genres") or []) & set(GENEROS_FORA)):
                 continue
             if m:
                 c = cands.setdefault(m["id"], _cand_de_media(m, "Testada", now))
-            else:   # o AniList não conhece: entra mesmo assim, com o que a planilha sabe
-                c = cands.setdefault("t" + normalize(o["obra"]).replace(" ", "_")[:60], {
-                    "id": "t" + normalize(o["obra"]).replace(" ", "_")[:60], "titulo": o["obra"],
-                    "nomes": o["nomes"][:4], "pais": None, "canal": "?", "generos": [], "tags": [],
-                    "sinopse": "", "caps": None, "caps_est": False, "status_obra": "", "popularidade": 0,
-                    "capa": "", "link": o["melhor"]["link"], "fonte": "Testada", "inicio": ""})
+            else:   # o AniList não conhece: tenta o Comick; senão, entra com o que a planilha sabe
+                c = cands.setdefault("t" + normalize(o["obra"]).replace(" ", "_")[:60], _cand_da_planilha(o, cache_ani))
             c["fonte"] = "Testada"
             n_rep += 1
         _salva("anilist", cache_ani)
         log(f"   {n_rep} obras para repostar")
+        if extras_fn:
+            n_ex = 0
+            for c in extras_fn(cache_ani, cache_yt, idx, now):
+                atual = cands.get(c["id"])
+                if atual:
+                    if c.get("prova_yt") and (c["prova_yt"]["views"] > (atual.get("prova_yt") or {}).get("views", 0)):
+                        atual["prova_yt"] = c["prova_yt"]
+                else:
+                    cands[c["id"]] = c
+                    n_ex += 1
+            _salva("anilist", cache_ani)
+            _salva("youtube", cache_yt)
+            log(f"   {n_ex} obras novas vindas da descoberta no YouTube")
 
         # filtro: capítulos, nossos canais, monitorado recente
-        fora = {"poucos caps": 0, "nossos canais": 0, "canal monitorado recente": 0, "fora do perfil": 0}
+        fora = {"poucos caps": 0, "canal monitorado recente": 0, "fora do perfil": 0}
         vivos, ja = [], set()
         for c in cands.values():
-            o = next((idx[normalize(n)] for n in c["nomes"] if normalize(n) in idx), None)
-            if o is not None:
-                if id(o) in ja:          # mesma obra da planilha por dois caminhos: fica a primeira
-                    continue
-                ja.add(id(o))
+            achadas = idx.achar(c["nomes"])
+            if any(id(a) in ja for a in achadas):     # mesma obra por dois caminhos: fica a primeira
+                continue
+            ja.update(id(a) for a in achadas)
+            o = juntar(achadas)
             if o:
                 c["todos"] = o
                 c["ratio_todos"] = o["ratio"] or 0
+                c["nomes"] = ordem_nomes([n for n in o["nomes"] if len(n) < 90] + c["nomes"])
             tags = set(c["tags"])
             if tags & set(TAGS_FORA) or set(c["generos"]) & set(GENEROS_FORA):
                 fora["fora do perfil"] += 1
@@ -583,10 +736,7 @@ def cacar(max_yt=100, now=None):
             if c["caps"] is not None and c["caps"] < MIN_CAPS:
                 fora["poucos caps"] += 1
                 continue
-            if o and o["nossos"]:
-                fora["nossos canais"] += 1
-                continue
-            if o and (now - o["ultimo"]).days < ESFRIOU_DIAS:
+            if o and (now - o["ultimo"]).days < ESFRIOU_DIAS:     # vale para os nossos canais também
                 fora["canal monitorado recente"] += 1
                 continue
             if o and (o["ratio"] or 0) >= 1.3:
@@ -594,13 +744,22 @@ def cacar(max_yt=100, now=None):
             vivos.append(c)
         log(f"Filtro: {len(vivos)} seguem | fora: {fora}")
 
-        dar_notas(vivos, instrucao, cache_notas)
-        _salva("notas", cache_notas)
+        if sem_api:
+            falta = [c for c in vivos if str(c["id"]) not in cache_notas]
+            (DIR / "instrucao_notas.md").write_text(instrucao, encoding="utf-8")
+            _salva("fila_notas", {"obras": [{"id": c["id"], "titulo": c["titulo"], "nomes": c["nomes"][:5],
+                                             "generos": c["generos"], "tags": c["tags"][:8], "sinopse": c["sinopse"],
+                                             "fonte": c["fonte"]} for c in falta]})
+            log(f"IA: {len(falta)} obras sem nota foram para fila_notas.json (sem API)")
+        else:
+            dar_notas(vivos, instrucao, cache_notas)
+            _salva("notas", cache_notas)
         for c in vivos:
             n = cache_notas.get(str(c["id"])) or {}
             c["nota"] = float(n.get("nota") or 0)
             c["premissa"], c["porque"], c["risco"] = n.get("premissa", ""), n.get("porque", ""), n.get("risco", "")
             c["ganchos"] = n.get("ganchos") or []
+            c["sem_nota"] = not n
             if c["canal"] == "?" and n.get("origem") in CANAL_PAIS:
                 c["canal"] = CANAL_PAIS[n["origem"]] + " (chute)"
 
@@ -651,6 +810,22 @@ def _yt_txt(c):
             f"o maior fez {yt['max_views']:,}").replace(",", ".")
 
 
+def _texto_prova(c):
+    py = c.get("prova_yt")
+    if py and _prova_yt(c) > _prova_planilha(c):
+        return (f"{py['views']:,} views no {py['canal']} há {py['idade'] / 30.4:.0f} meses (achado no YouTube)"
+                .replace(",", "."))
+    return _ultimo_todos(c)
+
+
+def _texto_nossos(c):
+    o = c.get("todos") or {}
+    if not o.get("nossos_ultimo"):
+        return ""
+    meses = (datetime.now(timezone.utc) - o["nossos_ultimo"]).days / 30.4
+    return f"{', '.join(o['nossos_canais'])} já fez há {meses:.0f} meses"
+
+
 def _ultimo_todos(c):
     o = c.get("todos")
     if not o:
@@ -667,14 +842,30 @@ def linhas(vivos):
         caps = "" if c["caps"] is None else (f"~{c['caps']}" if c["caps_est"] else str(c["caps"]))
         out.append({"nota": c["final"], "nota_ia": c["nota"], "obra": c["titulo"], "canal": c["canal"],
                     "premissa": c["premissa"], "ganchos": ", ".join(c["ganchos"]), "porque": c["porque"],
-                    "risco": c["risco"], "caps": caps, "youtube": _yt_txt(c), "planilha": _ultimo_todos(c),
+                    "risco": c["risco"], "caps": caps, "youtube": _yt_txt(c), "planilha": _texto_prova(c), "nossos": _texto_nossos(c),
+                    "id": c["id"], "nomes": " | ".join(c["nomes"][:6]),
                     "fonte": c["fonte"], "popularidade": c["popularidade"], "inicio": c["inicio"] or "",
-                    "capa": c["capa"], "link": c["link"]})
+                    "capa": c["capa"], "link": c["link"],
+                    "video_prova": (c.get("prova_yt") or {}).get("link") if _prova_yt(c) > _prova_planilha(c)
+                    else ((c.get("todos") or {}).get("melhor") or {}).get("link", "")})
     return out
 
 
-def salvar_local(ls):
+def salvar_local(ls, dossies=None):
     DIR.mkdir(parents=True, exist_ok=True)
+    dossies = dossies if dossies is not None else _cache("dossies")
+    _salva("ultimo", {"linhas": ls, "t": time.time()})
+    for l in ls:
+        d = dossies.get(str(l.get("id"))) or {}
+        l["dossie"], l["veredito"] = d.get("dossie", ""), d.get("veredito", "")
+        if d.get("nome_ingles") and normalize(d["nome_ingles"]) != normalize(l["obra"]):
+            l["obra"] = f"{d['nome_ingles']} ({l['obra']})"
+        if d.get("youtube"):
+            l["youtube"] = d["youtube"]
+        if d.get("caps"):
+            l["caps"] = d["caps"]
+    # quem o agente reprovou (TOMADA/descartar) desce para o fim
+    ls.sort(key=lambda l: (1 if (l.get("veredito") or "").upper().startswith(("DESCART", "TOMADA")) else 0, -l["nota"]))
     with open(DIR / "recomendadas.csv", "w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(ls[0].keys()))
         w.writeheader()
@@ -690,13 +881,16 @@ def salvar_local(ls):
 <div class=m><span style="background:{cor.get(st, '#6b7280')}" class=s>{html.escape(l['youtube'])}</span>
 caps {html.escape(str(l['caps']))} · início {l['inicio']} · {html.escape(l['fonte'])} · ganchos: {html.escape(l['ganchos'])}</div>
 <div class=w>{html.escape(l['porque'])}{(' · <i>risco: ' + html.escape(l['risco']) + '</i>') if l['risco'] else ''}</div>
-{('<div class=tt>✅ TESTADA: ' + html.escape(l['planilha']) + '</div>') if l['planilha'] else ''}</div></div>""")
+{('<div class=tt>✅ TESTADA: ' + html.escape(l['planilha']) + '</div>') if l['planilha'] else ''}
+{('<div class=n>🟣 ' + html.escape(l['nossos']) + '</div>') if l.get('nossos') else ''}
+{('<div class=d><b>🕵️ ' + html.escape(l.get('veredito') or 'Dossiê') + '</b><br>' + html.escape(l['dossie']).replace(chr(10), '<br>') + '</div>') if l.get('dossie') else ''}</div>
+{('<a href="' + html.escape(l['video_prova']) + '" target=_blank title="vídeo que rendeu"><img class=v src="' + _yt_thumb(l['video_prova']) + '"></a>') if l.get('video_prova') else ''}</div>""")
     (DIR / "recomendadas.html").write_text(f"""<!doctype html><meta charset=utf-8><title>Caçador de Obras</title>
 <style>body{{font:15px system-ui;background:#0f1115;color:#e5e7eb;margin:20px}}h1{{font-size:26px}}
 .c{{display:flex;gap:14px;background:#181b22;border-radius:10px;padding:12px;margin:10px 0}}img{{width:92px;height:130px;object-fit:cover;border-radius:6px}}
 .h{{font-size:18px}}.h a{{color:#fff;text-decoration:none}}.k{{background:#374151;border-radius:4px;padding:1px 6px;font-size:13px}}
 .p{{margin:6px 0;font-size:16px}}.m{{color:#9ca3af;font-size:13px}}.s{{color:#fff;border-radius:4px;padding:1px 6px;margin-right:6px}}
-.w{{color:#cbd5e1;font-size:13px;margin-top:4px}}.tt{{color:#4ade80;font-size:14px;margin-top:4px;font-weight:600}}</style><h1>Caçador de Obras · {datetime.now(BRT):%d/%m/%Y %H:%M}</h1>
+.w{{color:#cbd5e1;font-size:13px;margin-top:4px}}.c>.t{{flex:1}}img.v{{width:240px;height:135px;border-radius:6px;object-fit:cover}}.tt{{color:#4ade80;font-size:14px;margin-top:4px;font-weight:600}}.n{{color:#c4b5fd;font-size:13px;margin-top:3px}}.d{{background:#0b1220;border-left:3px solid #f59e0b;padding:8px 10px;margin-top:8px;font-size:14px;line-height:1.45;color:#e5e7eb}}</style><h1>Caçador de Obras · {datetime.now(BRT):%d/%m/%Y %H:%M}</h1>
 {''.join(cards)}""", encoding="utf-8")
 
 
