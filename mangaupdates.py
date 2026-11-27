@@ -133,7 +133,24 @@ _INGLES = re.compile(r"\b(the|of|a|an|i|my|is|in|to|and|with|who|became|return|r
 def _ordem(nomes):
     """inglês primeiro (o que os canais usam e o YouTube acha); romanizado por último."""
     uniq = list(dict.fromkeys(n.strip() for n in nomes if _so_latino(n)))
-    return sorted(uniq, key=lambda n: 0 if _INGLES.search(n) else 1)
+    def ingles(n):   # palavra em inglês e sem acento (italiano/espanhol "reincarnato" não conta)
+        return bool(_INGLES.search(n)) and all(ord(ch) < 128 or ch in "’‘—–…" for ch in n)
+    return sorted(uniq, key=lambda n: 0 if ingles(n) else 1)
+
+
+_FEMININA = re.compile(r"female (?:lead|protagonist)|villainess|otome|heroine|\bmaiden|reverse harem|shoujo|josei", re.I)
+
+
+_TITULO_FEM = re.compile(r"(?i)little girl|daughter|princess|young lady|saintess|\blady\b|\bmaid\b")
+
+
+def protagonista_feminina(det, rec=None):
+    """o público é masculino: obra com protagonista mulher fica de fora (o MU tem várias categorias para isso)."""
+    if any(_FEMININA.search(c) for c in det.get("categorias") or []):
+        return True
+    if rec and _TITULO_FEM.search(rec.get("title") or ""):
+        return True
+    return bool(_FEMININA.search(" ".join(det.get("generos") or [])))
 
 
 def candidata(rec, det, rotulo, now, CANAL_PAIS, MIN_CAPS):
@@ -174,6 +191,8 @@ def pools(cache, now, CANAL_PAIS, MIN_CAPS):
                     except Exception:
                         continue
                     if (det.get("caps") or 0) and det["caps"] < MIN_CAPS:
+                        continue
+                    if protagonista_feminina(det, rec):
                         continue
                     out.append(candidata(rec, det, f"MangaUpdates · {rotulo}", now, CANAL_PAIS, MIN_CAPS))
                 if len(recs) < 50:
