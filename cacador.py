@@ -739,7 +739,12 @@ def pontuar(c):
     st = (c.get("yt") or {}).get("status")
     pen = 4 if st == "TOMADA" else 6 if st == "JÁ FIZEMOS" else 1 if st == "MORNA" else 0
     c["bonus_arq"], c["arquetipo"] = arquetipo(c)
-    c["final"] = round(c.get("nota", 0) + _prova(c) + 0.5 * _demanda(c) + c["bonus_arq"] - pen, 2)
+    # Tipo de história (dono, 28/11/2026): o quanto os tipos da obra rendem no nicho multiplica a nota
+    # (efeito isolado do estudo de 2.976 vídeos; tipos_historia.py, aba `Ranking de tipos`).
+    import tipos_historia as TH
+    c["mult_tipo"], c["tipos_historia"] = TH.multiplicador(c)
+    base = c.get("nota", 0) + _prova(c) + 0.5 * _demanda(c) + c["bonus_arq"]
+    c["final"] = round(base * c["mult_tipo"] - pen, 2)
     return c["final"]
 
 
@@ -1075,6 +1080,7 @@ def linhas(vivos):
                     "capa": c["capa"], "link": c["link"],
                     "yt_curto": _yt_curto(c), "prova_curta": _prova_curta(c)[0], "video_views": _prova_curta(c)[2],
                     "arquetipo": c.get("arquetipo") or arquetipo(c)[1],
+                    "tipo_historia": __import__("tipos_historia").texto(c),
                     "video_prova": (c.get("prova_yt") or {}).get("link") if _prova_yt(c) > _prova_planilha(c)
                     else ((c.get("todos") or {}).get("melhor") or {}).get("link", "")})
     return out
@@ -1108,7 +1114,8 @@ def salvar_local(ls, dossies=None):
                                  or (l.get("yt_curto") or "").startswith("🔴")
                                  or 0 < (_int(l.get("caps")) or 99) < MIN_CAPS) else 0, -l["nota"]))
     with open(DIR / "recomendadas.csv", "w", encoding="utf-8-sig", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(ls[0].keys()))
+        # todas as colunas de todas as linhas (yt_conferido, por exemplo, só existe nas obras conferidas)
+        w = csv.DictWriter(f, fieldnames=list(dict.fromkeys(k for l in ls for k in l)), restval="")
         w.writeheader()
         w.writerows(ls)
     cor = {"JÁ FIZEMOS": "#7c3aed", "LIVRE": "#16a34a", "ESFRIOU": "#2563eb", "MORNA": "#d97706", "TOMADA": "#dc2626"}
@@ -1162,7 +1169,10 @@ def _pagina(aba, ls, por_aba, cor):
 
 
 HEADER_OUT = ["Peguei", "Capa", "Nota", "Obra", "Caps", "YouTube hoje", "Testada", "Dossiê", "Vídeo que rendeu",
-              "Link", "ID"]
+              "Link", "Tipo de história", "ID"]
+TAB_TIPOS = "Ranking de tipos"
+HEADER_TIPOS = ["#", "Tipo de história", "Rende (média do tipo)", "Multiplicador na nota (isolado)", "Faixa provável",
+                "Certeza", "Vídeos", "Obras", "Canais"]
 MAX_LINHAS_OUT = 250
 SAIDA = Path(__file__).parent / "cacador_saida" / "recomendadas.json"   # o PC publica; o GitHub grava a aba
 
@@ -1170,7 +1180,7 @@ SAIDA = Path(__file__).parent / "cacador_saida" / "recomendadas.json"   # o PC p
 def exportar(ls):
     """lista final (com veredito/dossiê) -> cacador_saida/recomendadas.json, que vai para o GitHub."""
     campos = ["id", "nota", "obra", "arquetipo", "caps", "yt_curto", "prova_curta", "dossie", "video_prova", "video_views",
-              "link", "capa"]
+              "link", "capa", "tipo_historia"]
     abas = {a: [] for a in ABAS}
     for l in ls:
         lst = abas.setdefault(l.get("aba") or ABA_MANHWA, [])
@@ -1258,14 +1268,14 @@ def gravar_planilha(abas, gerado="", gc=None):
     total, feitas = 0, set()
     for i, (titulo, ls) in enumerate(abas.items()):
         ws = NO._ensure_tab(ss, titulo, HEADER_OUT, rows=MAX_LINHAS_OUT + 1, index=i,
-                            widths=[70, 130, 70, 280, 70, 240, 260, 560, 150, 90, 60],
+                            widths=[70, 130, 70, 280, 70, 240, 260, 560, 150, 90, 300, 60],
                             center_cols=(0, 1, 2, 4, 8, 9), link_col=None, extra=_regras_out)
-        ws.batch_clear([f"A2:J{MAX_LINHAS_OUT + 1}"])
+        ws.batch_clear([f"A2:K{MAX_LINHAS_OUT + 1}"])
 
         linhas_ = [[peguei.get(str(l["id"]), "FALSE"), f'=IMAGE("{l["capa"]}")' if l.get("capa") else "",
                     l["nota"], ("⭐ " if l.get("arquetipo") else "") + l["obra"], str(l.get("caps") or ""),
                     l.get("yt_curto") or "—", l.get("prova_curta") or "—", dossie_curto(l.get("dossie")), "", "",
-                    str(l["id"])]
+                    l.get("tipo_historia") or "", str(l["id"])]
                    for l in ls[:MAX_LINHAS_OUT]]
 
         def celula_link(url, texto):   # link de verdade no texto (vale em qualquer idioma da planilha)
@@ -1284,10 +1294,32 @@ def gravar_planilha(abas, gerado="", gc=None):
             ws.update_note("A1", f"Caçador de Obras · gerado em {gerado}")
         total += len(linhas_)
         feitas.add(ws.id)
+    feitas.add(gravar_ranking_tipos(ss, len(abas)))
     for outra in ss.worksheets():          # aba vazia da planilha nova e a antiga `Obras Recomendadas` saem
         if outra.id not in feitas and (outra.title in ABAS_ANTIGAS or not any(c for r in outra.get_values("A1:C3") for c in r)):
             ss.del_worksheet(outra)
     return total
+
+
+def gravar_ranking_tipos(ss, index):
+    """Aba `Ranking de tipos` (dono, 28/11/2026): que tipo de história mais pega view no nicho, do 1º ao
+    último, e o multiplicador que cada um dá na nota. -> id da aba."""
+    import novas_obras as NO
+    import tipos_historia as TH
+    t = TH.tabela()
+    linhas_ = [[r["pos"], r["tipo"], f'{r["rende"]:.2f}×', f'{r["isolado"]:.2f}×', f'{r["lo"]:.2f}× a {r["hi"]:.2f}×',
+                {"acima": "✅ acima da média", "abaixo": "🔻 abaixo da média"}.get(r["certeza"], "≈ perto da média"),
+                r["videos"], r["obras"], r["canais"]] for r in t["ranking"]]
+    ws = NO._ensure_tab(ss, TAB_TIPOS, HEADER_TIPOS, rows=len(linhas_) + 1, index=index,
+                        widths=[45, 330, 150, 210, 170, 170, 70, 70, 70], center_cols=(0, 2, 3, 4, 5, 6, 7, 8),
+                        link_col=None)
+    ws.batch_clear([f"A2:I{len(linhas_) + 40}"])
+    if linhas_:
+        ws.update(linhas_, "A2", value_input_option="USER_ENTERED")
+    m = t.get("meta") or {}
+    ws.update_note("A1", f"Estudo de {m.get('gerado', '?')}: {m.get('videos', '?')} vídeos, {m.get('canais', '?')} canais, "
+                         f"{m.get('obras', '?')} obras. {m.get('metodo', '')}")
+    return ws.id
 
 
 if __name__ == "__main__":
