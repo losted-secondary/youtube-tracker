@@ -18,7 +18,7 @@ class TiposHistoriaTest(unittest.TestCase):
 
     def test_multiplicador_e_media_dos_tipos(self):
         bom = {"titulo": "The Noble Necromancer", "nomes": [], "tags": [], "generos": [], "sinopse": ""}
-        fraco = {"titulo": "Waiting", "nomes": [], "tags": ["Romance"], "generos": [], "sinopse": ""}
+        fraco = {"titulo": "Waiting", "nomes": [], "tags": ["Female Protagonist"], "generos": [], "sinopse": ""}
         nada = {"titulo": "Waiting", "nomes": [], "tags": [], "generos": [], "sinopse": ""}
         m_bom, tipos = TH.multiplicador(bom)
         self.assertGreater(m_bom, 1.1)
